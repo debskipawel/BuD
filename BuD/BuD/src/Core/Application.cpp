@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include "../Window/Win32Window.h"
+#include "../Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 
 namespace BuD
