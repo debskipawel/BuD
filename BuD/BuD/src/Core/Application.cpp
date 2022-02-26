@@ -15,9 +15,9 @@ namespace BuD
 
 	int Application::Run()
 	{
-        //m_clientApp = CreateClientApp();
+        m_clientApp = CreateClientApp();
 
-        auto window = std::make_shared<GLFWWindow>(ApplicationInfo());//m_clientApp->GetWindow();
+        auto window = m_clientApp->GetWindow();
 
         window->Show();
 

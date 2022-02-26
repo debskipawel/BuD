@@ -21,8 +21,6 @@ namespace BuD
 	private:
 		HWND m_hwnd;
 		MSG m_msg;
-
-		bool m_messageRead = false;
 	};
 }
 

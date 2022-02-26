@@ -28,19 +28,21 @@ namespace BuD
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(int xPos, int yPos) : m_xPos(xPos), m_yPos(yPos) {}
+		MouseMovedEvent(int xOffset, int yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
-		const int m_xPos, m_yPos;
+		const int m_xOffset, m_yOffset;
 	};
 
 	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent() {}
+		MouseScrolledEvent(int xPos, int yPos, int wheelDelta) : m_xPos(xPos), m_yPos(yPos), m_wheelDelta(wheelDelta) {}
 
 		virtual void Visit(IEventDispatchable&) override;
+
+		const int m_xPos, m_yPos, m_wheelDelta;
 	};
 
 	class MouseRawInputEvent : public Event

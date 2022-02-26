@@ -47,7 +47,7 @@ namespace BuD
 			
 			if (!e.m_handled)
 			{
-				//m_clientApp->OnEvent(e);
+				m_clientApp->OnEvent(e);
 			}
 		}
 	};

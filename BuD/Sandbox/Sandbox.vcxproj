@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3af35336-5ab5-4357-b2b3-a5ce0df91fca}</ProjectGuid>
-    <RootNamespace>BuD</RootNamespace>
+    <ProjectGuid>{cc46f4d4-954e-400c-b64f-3d98c8229366}</ProjectGuid>
+    <RootNamespace>Sandbox</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -116,13 +116,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,32 +140,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Application.cpp" />
-    <ClCompile Include="src\EntryPoint.h" />
-    <ClCompile Include="src\Event\EventEmitter.cpp" />
-    <ClCompile Include="src\Event\KeyboardEvents.cpp" />
-    <ClCompile Include="src\Event\MouseEvents.cpp" />
-    <ClCompile Include="src\Event\WindowEvents.cpp" />
-    <ClCompile Include="src\OpenGL\GLFWWindow.cpp" />
-    <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
-    <ClCompile Include="src\Win32\Win32Window.cpp" />
+    <ClInclude Include="SandboxApp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Application.h" />
-    <ClInclude Include="src\Core\ApplicationInfo.h" />
-    <ClInclude Include="src\Core\ClientApp.h" />
-    <ClInclude Include="src\Core\KeyboardKeys.h" />
-    <ClInclude Include="src\Core\MouseCode.h" />
-    <ClInclude Include="src\Event\Event.h" />
-    <ClInclude Include="src\Event\EventEmitter.h" />
-    <ClInclude Include="src\Event\IEventDispatchable.h" />
-    <ClInclude Include="src\Event\KeyboardEvents.h" />
-    <ClInclude Include="src\Event\MouseEvents.h" />
-    <ClInclude Include="src\Event\WindowEvents.h" />
-    <ClInclude Include="src\OpenGL\GLFWWindow.h" />
-    <ClInclude Include="src\Win32\Win32EventFactory.h" />
-    <ClInclude Include="src\Win32\Win32Window.h" />
-    <ClInclude Include="src\Core\Window.h" />
+    <ProjectReference Include="..\BuD\BuD.vcxproj">
+      <Project>{3af35336-5ab5-4357-b2b3-a5ce0df91fca}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SandboxApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

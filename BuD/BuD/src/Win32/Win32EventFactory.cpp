@@ -24,6 +24,8 @@ namespace BuD
 		MAP_INSERT(m_mouseCodeMap, WM_RBUTTONUP, MouseCode::RIGHT);
 	}
 
+	static int xPrev = -1, yPrev = -1;
+
 	std::unique_ptr<Event> Win32EventFactory::Construct(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		switch (message)
@@ -44,7 +46,13 @@ namespace BuD
 			}
 			case WM_MOUSEMOVE:
 			{
-				return std::make_unique<MouseMovedEvent>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				int dx = xPrev == -1 ? 0 : GET_X_LPARAM(lParam) - xPrev;
+				int dy = yPrev == -1 ? 0 : GET_Y_LPARAM(lParam) - xPrev;
+
+				xPrev = GET_X_LPARAM(lParam);
+				yPrev = GET_Y_LPARAM(lParam);
+
+				return std::make_unique<MouseMovedEvent>(dx, dy);
 			}
 			case WM_LBUTTONDOWN:
 			case WM_MBUTTONDOWN:
@@ -62,7 +70,7 @@ namespace BuD
 			}
 			case WM_MOUSEWHEEL:
 			{
-				return std::make_unique<MouseScrolledEvent>();
+				return std::make_unique<MouseScrolledEvent>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), GET_WHEEL_DELTA_WPARAM(wParam));
 			}
 			// ----- WINDOW EVENTS -----
 			case WM_ACTIVATEAPP:
