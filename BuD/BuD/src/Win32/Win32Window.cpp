@@ -3,6 +3,8 @@
 #include "Win32Window.h"
 #include "Win32EventFactory.h"
 
+#include "DirectX11/DX11Renderer.h"
+
 #include "../Event/EventEmitter.h"
 
 #include <Windows.h>
@@ -22,7 +24,7 @@ namespace BuD
 	}
 
 	Win32Window::Win32Window(const ApplicationInfo& appInfo)
-		: m_msg(), m_hwnd(NULL)
+		: m_hwnd(NULL)
 	{
 		// Register window class
 		WNDCLASSA wc =
@@ -63,6 +65,8 @@ namespace BuD
 			fprintf(stderr, "%s\n", "Failed to create Window");
 			return;
 		}
+
+		m_renderer = std::make_shared<DX11Renderer>(m_hwnd, m_width, m_height);
 	}
 	void Win32Window::Show()
 	{
@@ -71,10 +75,12 @@ namespace BuD
 
 	void Win32Window::ProcessEvents()
 	{
-		while (PeekMessage(&m_msg, nullptr, 0, 0, PM_REMOVE))
+		MSG msg = {};
+
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&m_msg);
-			DispatchMessage(&m_msg);
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 	}
 }

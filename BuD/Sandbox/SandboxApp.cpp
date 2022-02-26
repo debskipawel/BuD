@@ -11,6 +11,7 @@ SandboxApp::SandboxApp()
 void SandboxApp::OnUpdate()
 {
 	ProcessMovement();
+	GetWindow()->Draw();
 }
 
 std::shared_ptr<BuD::Window> SandboxApp::GetWindow()
