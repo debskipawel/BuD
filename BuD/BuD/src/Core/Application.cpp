@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "../Event/WindowEvents.h"
+
+#include "../OpenGL/GLFWWindow.h"
 #include "../Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 
@@ -14,20 +17,20 @@ namespace BuD
 	{
         //m_clientApp = CreateClientApp();
 
-        auto window = std::make_shared<Win32Window>(ApplicationInfo());//m_clientApp->GetWindow();
+        auto window = std::make_shared<GLFWWindow>(ApplicationInfo());//m_clientApp->GetWindow();
 
         window->Show();
 
-        while (m_shouldRun)
+        while (true)
         {
-            if (window->EventQueueNotEmpty())
+            window->ProcessEvents();
+
+            if (!m_shouldRun)
             {
-                window->HandleEvent();
+                break;
             }
-            else
-            {
-                this->OnUpdate();
-            }
+
+            this->OnUpdate();
         }
 
         return 0;
@@ -40,6 +43,7 @@ namespace BuD
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)
     {
+        e.m_handled = true;
         m_shouldRun = false;
     }
 }

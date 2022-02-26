@@ -2,38 +2,37 @@
 
 #include "Event.h"
 
+#include "../Core/KeyboardKeys.h"
+
 namespace BuD
 {
-	class KeyboardEvent : public Event
-	{
-	protected:
-		KeyboardEvent(int key) : m_key(key) {}
-
-	public:
-		const int m_key;
-	};
-
-	class KeyDownEvent : public KeyboardEvent
+	class KeyDownEvent : public Event
 	{
 	public:
-		KeyDownEvent(int key) : KeyboardEvent(key) {}
+		KeyDownEvent(KeyboardKeys key) : m_key(key) {}
 
 		virtual void Visit(IEventDispatchable&) override;
+
+		const KeyboardKeys m_key;
 	};
 
-	class KeyReleaseEvent : public KeyboardEvent
+	class KeyReleaseEvent : public Event
 	{
 	public:
-		KeyReleaseEvent(int key) : KeyboardEvent(key) {}
+		KeyReleaseEvent(KeyboardKeys key) : m_key(key) {}
 
 		virtual void Visit(IEventDispatchable&) override;
+
+		const KeyboardKeys m_key;
 	};
 
-	class KeyRepeatEvent : public KeyboardEvent
+	class KeyRepeatEvent : public Event
 	{
 	public:
-		KeyRepeatEvent(int key) : KeyboardEvent(key) {}
+		KeyRepeatEvent(KeyboardKeys key) : m_key(key) {}
 
 		virtual void Visit(IEventDispatchable&) override;
+
+		const KeyboardKeys m_key;
 	};
 }

@@ -1,36 +1,34 @@
 #pragma once
 
 #include "Event.h"
-
+#include "../Core/MouseCode.h"
 
 namespace BuD
 {
 	class MouseButtonDownEvent : public Event
 	{
 	public:
-		MouseButtonDownEvent(int button): m_button(button)
-		{
-		}
+		MouseButtonDownEvent(MouseCode button) : m_button(button) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
-		const int m_button;
+		const MouseCode m_button;
 	};
 
 	class MouseButtonReleasedEvent : public Event
 	{
 	public:
-		MouseButtonReleasedEvent(int button) : Event(), m_button(button) {}
+		MouseButtonReleasedEvent(MouseCode button) : m_button(button) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
-		const int m_button;
+		const MouseCode m_button;
 	};
 
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(int xPos, int yPos) : Event(), m_xPos(xPos), m_yPos(yPos) {}
+		MouseMovedEvent(int xPos, int yPos) : m_xPos(xPos), m_yPos(yPos) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
@@ -40,7 +38,7 @@ namespace BuD
 	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent() : Event() {}
+		MouseScrolledEvent() {}
 
 		virtual void Visit(IEventDispatchable&) override;
 	};
@@ -48,7 +46,7 @@ namespace BuD
 	class MouseRawInputEvent : public Event
 	{
 	public:
-		MouseRawInputEvent() : Event() {}
+		MouseRawInputEvent() {}
 
 		virtual void Visit(IEventDispatchable&) override;
 	};
@@ -56,7 +54,7 @@ namespace BuD
 	class MouseInitializedEvent : public Event
 	{
 	public:
-		MouseInitializedEvent() : Event() {}
+		MouseInitializedEvent() {}
 
 		virtual void Visit(IEventDispatchable&) override;
 	};

@@ -8,8 +8,7 @@ namespace BuD
 		virtual ~Window() = default;
 
 		virtual void Show() = 0;
-		virtual bool EventQueueNotEmpty() = 0;
-		virtual void HandleEvent() = 0;
+		virtual void ProcessEvents() = 0;
 
 	protected:
 		int m_width = 800, m_height = 600;

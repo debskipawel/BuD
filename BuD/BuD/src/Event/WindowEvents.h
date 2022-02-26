@@ -2,13 +2,12 @@
 
 #include "Event.h"
 
-
 namespace BuD
 {
 	class WindowResizedEvent : public Event
 	{
 	public:
-		WindowResizedEvent(int width, int height) : Event(), m_width(width), m_height(height) {}
+		WindowResizedEvent(int width, int height) : m_width(width), m_height(height) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
@@ -18,7 +17,7 @@ namespace BuD
 	class WindowMovedEvent : public Event
 	{
 	public:
-		WindowMovedEvent(int xPos, int yPos) : Event(), m_xPos(xPos), m_yPos(yPos) {}
+		WindowMovedEvent(int xPos, int yPos) : m_xPos(xPos), m_yPos(yPos) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
@@ -28,10 +27,7 @@ namespace BuD
 	class WindowClosedEvent : public Event
 	{
 	public:
-		WindowClosedEvent()
-			: Event()
-		{
-		}
+		WindowClosedEvent() = default;
 
 		virtual void Visit(IEventDispatchable&) override;
 	};
@@ -39,7 +35,7 @@ namespace BuD
 	class WindowEnterSizeMoveEvent : public Event
 	{
 	public:
-		WindowEnterSizeMoveEvent() : Event() {}
+		WindowEnterSizeMoveEvent() = default;
 
 		virtual void Visit(IEventDispatchable&) override;
 	};
@@ -47,7 +43,7 @@ namespace BuD
 	class WindowExitSizeMoveEvent : public Event
 	{
 	public:
-		WindowExitSizeMoveEvent() : Event() {}
+		WindowExitSizeMoveEvent() = default;
 
 		virtual void Visit(IEventDispatchable&) override;
 	};
@@ -55,7 +51,7 @@ namespace BuD
 	class ActivateAppEvent : public Event
 	{
 	public:
-		ActivateAppEvent(bool isActive) : Event(), m_isActive(isActive) {}
+		ActivateAppEvent(bool isActive) : m_isActive(isActive) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
@@ -65,7 +61,7 @@ namespace BuD
 	class ToggleFullscreenEvent : public Event
 	{
 	public:
-		ToggleFullscreenEvent() : Event() {}
+		ToggleFullscreenEvent() = default;
 
 		virtual void Visit(IEventDispatchable&) override;
 	};

@@ -10,11 +10,12 @@ namespace BuD
 	class Event
 	{
 	public:
-
 		virtual void Visit(IEventDispatchable&) = 0;
 		virtual ~Event() = default;
 
+		bool m_handled = false;
+
 	protected:
-		Event();
+		Event() = default;
 	};
 }

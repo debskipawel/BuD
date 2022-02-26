@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "../Window/Window.h"
+#include "Window.h"
 
 #include "../Event/IEventDispatchable.h"
 

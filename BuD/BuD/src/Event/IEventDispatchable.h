@@ -1,7 +1,5 @@
 #pragma once
 
-#include "EventHandler.h"
-
 #include "Event.h"
 
 namespace BuD
@@ -24,16 +22,9 @@ namespace BuD
 	class ToggleFullscreenEvent;
 
 
-	/// @brief An interface implementing actions for all Event instances
 	class IEventDispatchable
 	{
 	public:
-		/// @brief Method for getting the action on abstract Event
-		/// @return Struct containing Event handler lambda
-		inline EventHandlerInfo& GetEventHandlerInfo() noexcept { return m_eventHandlerInfo; }
-
-		/// @brief A method for dispatching events using visitor pattern
-		/// @param e An event reference
 		inline virtual void OnEvent(Event& e) { e.Visit(*this); }
 
 		virtual ~IEventDispatchable() = default;
@@ -59,9 +50,5 @@ namespace BuD
 		REGISTER_EVENT(WindowExitSizeMoveEvent);
 		REGISTER_EVENT(ActivateAppEvent);
 		REGISTER_EVENT(ToggleFullscreenEvent);
-
-
-	protected:
-		EventHandlerInfo m_eventHandlerInfo;
 	};
 }

@@ -116,10 +116,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,23 +144,30 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
     <ClCompile Include="src\Event\MouseEvents.cpp" />
     <ClCompile Include="src\Event\WindowEvents.cpp" />
-    <ClCompile Include="src\Window\Win32Window.cpp" />
+    <ClCompile Include="src\OpenGL\GLFWWindow.cpp" />
+    <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
+    <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\ClientApp.h" />
+    <ClInclude Include="src\Core\KeyboardKeys.h" />
+    <ClInclude Include="src\Core\MouseCode.h" />
     <ClInclude Include="src\Event\Event.h" />
-    <ClInclude Include="src\Event\EventHandler.h" />
+    <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />
     <ClInclude Include="src\Event\KeyboardEvents.h" />
     <ClInclude Include="src\Event\MouseEvents.h" />
     <ClInclude Include="src\Event\WindowEvents.h" />
-    <ClInclude Include="src\Window\Win32Window.h" />
-    <ClInclude Include="src\Window\Window.h" />
+    <ClInclude Include="src\OpenGL\GLFWWindow.h" />
+    <ClInclude Include="src\Win32\Win32EventFactory.h" />
+    <ClInclude Include="src\Win32\Win32Window.h" />
+    <ClInclude Include="src\Core\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

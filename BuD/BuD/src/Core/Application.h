@@ -16,6 +16,7 @@ namespace BuD
 		void OnUpdate();
 
 		void OnConcreteEvent(WindowClosedEvent& e) override;
+		void OnConcreteEvent(WindowResizedEvent& e) override;
 
 	private:
 		Application() = default;
@@ -39,6 +40,16 @@ namespace BuD
 			}
 
 			return s_app;
+		}
+
+		inline void OnEvent(Event& e) override
+		{
+			e.Visit(*this);
+			
+			if (!e.m_handled)
+			{
+				//m_clientApp->OnEvent(e);
+			}
 		}
 	};
 }
