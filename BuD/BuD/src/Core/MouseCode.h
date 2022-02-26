@@ -1,8 +1,11 @@
 #pragma once
 
-enum class MouseCode
+namespace BuD
 {
-    LEFT,
-    RIGHT,
-    MIDDLE,
-};
+    enum class MouseCode
+    {
+        LEFT,
+        RIGHT,
+        MIDDLE,
+    };
+}

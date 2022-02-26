@@ -38,7 +38,7 @@ namespace BuD
 
     void Application::OnUpdate()
     {
-
+        this->m_clientApp->OnUpdate();
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)
