@@ -16,7 +16,6 @@ namespace BuD
 		void OnUpdate();
 
 		void OnConcreteEvent(WindowClosedEvent& e) override;
-		void OnConcreteEvent(WindowResizedEvent& e) override;
 
 	private:
 		Application() = default;
