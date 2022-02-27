@@ -10,9 +10,10 @@
 #include "Event/MouseEvents.h"
 #include "Event/WindowEvents.h"
 
-#include "OpenGL/GLFWWindowFactory.h"
+#include "Geometry/Vector3D.h"
+#include "Geometry/Matrix3D.h"
 
-#include "gmtl/gmtl.h"
+#include "OpenGL/GLFWWindowFactory.h"
 
 #ifdef _WIN32
 

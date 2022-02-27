@@ -25,6 +25,11 @@ namespace BuD
 			return Matrix3D((matrix.m_matrix * other.m_matrix).getData());
 		}
 
+		inline float operator()(int i, int j)
+		{
+			return m_matrix(i, j);
+		}
+
 	private:
 		gmtl::Matrix44f m_matrix;
 	};
