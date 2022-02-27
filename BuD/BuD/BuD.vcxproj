@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$SolutionDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -114,7 +115,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -155,6 +156,7 @@
     <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BuD.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\ClientApp.h" />
@@ -167,6 +169,54 @@
     <ClInclude Include="src\Event\KeyboardEvents.h" />
     <ClInclude Include="src\Event\MouseEvents.h" />
     <ClInclude Include="src\Event\WindowEvents.h" />
+    <ClInclude Include="src\gmtl\AABox.h" />
+    <ClInclude Include="src\gmtl\AABoxOps.h" />
+    <ClInclude Include="src\gmtl\AxisAngle.h" />
+    <ClInclude Include="src\gmtl\AxisAngleOps.h" />
+    <ClInclude Include="src\gmtl\Comparitors.h" />
+    <ClInclude Include="src\gmtl\Config.h" />
+    <ClInclude Include="src\gmtl\Containment.h" />
+    <ClInclude Include="src\gmtl\Coord.h" />
+    <ClInclude Include="src\gmtl\CoordOps.h" />
+    <ClInclude Include="src\gmtl\Defines.h" />
+    <ClInclude Include="src\gmtl\EulerAngle.h" />
+    <ClInclude Include="src\gmtl\EulerAngleOps.h" />
+    <ClInclude Include="src\gmtl\Frustum.h" />
+    <ClInclude Include="src\gmtl\FrustumOps.h" />
+    <ClInclude Include="src\gmtl\Generate.h" />
+    <ClInclude Include="src\gmtl\gmtl.h" />
+    <ClInclude Include="src\gmtl\Helpers.h" />
+    <ClInclude Include="src\gmtl\Intersection.h" />
+    <ClInclude Include="src\gmtl\LineSeg.h" />
+    <ClInclude Include="src\gmtl\LineSegOps.h" />
+    <ClInclude Include="src\gmtl\Math.h" />
+    <ClInclude Include="src\gmtl\Matrix.h" />
+    <ClInclude Include="src\gmtl\MatrixOps.h" />
+    <ClInclude Include="src\gmtl\Numerics\Eigen.h" />
+    <ClInclude Include="src\gmtl\OOBox.h" />
+    <ClInclude Include="src\gmtl\Output.h" />
+    <ClInclude Include="src\gmtl\ParametricCurve.h" />
+    <ClInclude Include="src\gmtl\Plane.h" />
+    <ClInclude Include="src\gmtl\PlaneOps.h" />
+    <ClInclude Include="src\gmtl\Point.h" />
+    <ClInclude Include="src\gmtl\Quat.h" />
+    <ClInclude Include="src\gmtl\QuatOps.h" />
+    <ClInclude Include="src\gmtl\Ray.h" />
+    <ClInclude Include="src\gmtl\RayOps.h" />
+    <ClInclude Include="src\gmtl\Sphere.h" />
+    <ClInclude Include="src\gmtl\SphereOps.h" />
+    <ClInclude Include="src\gmtl\Tri.h" />
+    <ClInclude Include="src\gmtl\TriOps.h" />
+    <ClInclude Include="src\gmtl\Util\Assert.h" />
+    <ClInclude Include="src\gmtl\Util\Meta.h" />
+    <ClInclude Include="src\gmtl\Util\StaticAssert.h" />
+    <ClInclude Include="src\gmtl\Vec.h" />
+    <ClInclude Include="src\gmtl\VecBase.h" />
+    <ClInclude Include="src\gmtl\VecExprMeta.h" />
+    <ClInclude Include="src\gmtl\VecOps.h" />
+    <ClInclude Include="src\gmtl\VecOpsMeta.h" />
+    <ClInclude Include="src\gmtl\Version.h" />
+    <ClInclude Include="src\gmtl\Xforms.h" />
     <ClInclude Include="src\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\OpenGL\GLFWWindowFactory.h" />
     <ClInclude Include="src\Win32\DirectX11\DX11Renderer.h" />

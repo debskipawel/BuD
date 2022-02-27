@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Window.h"
+#include "Renderer.h"
 
 #include "../Event/IEventDispatchable.h"
 
@@ -14,6 +15,7 @@ namespace BuD
 		virtual void OnUpdate() = 0;
 
 		virtual std::shared_ptr<Window> GetWindow() = 0;
+		virtual std::shared_ptr<Renderer> GetRenderer() = 0;
 
 	protected:
 		ClientApp() = default;

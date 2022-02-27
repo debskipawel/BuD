@@ -2,13 +2,13 @@
 
 #include "DX11Renderer.h"
 
-BuD::DX11Renderer::DX11Renderer(HWND hwnd, int width, int height)
+BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
 {
 	DXGI_MODE_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));
 
-	bufferDesc.Width = width;
-	bufferDesc.Height = height;
+	bufferDesc.Width = window->Width();
+	bufferDesc.Height = window->Height();
 	bufferDesc.RefreshRate.Numerator = 60;
 	bufferDesc.RefreshRate.Denominator = 1;
 	bufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -24,7 +24,7 @@ BuD::DX11Renderer::DX11Renderer(HWND hwnd, int width, int height)
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount = 1;
-	swapChainDesc.OutputWindow = hwnd;
+	swapChainDesc.OutputWindow = window->m_hwnd;
 	swapChainDesc.Windowed = TRUE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
@@ -71,7 +71,7 @@ void BuD::DX11Renderer::Cleanup()
 
 void BuD::DX11Renderer::UpdateBufferSize(int width, int height)
 {
-	Cleanup();
+	m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 }
 
 void BuD::DX11Renderer::Draw()

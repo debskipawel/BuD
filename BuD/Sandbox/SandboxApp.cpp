@@ -1,17 +1,17 @@
 #include "SandboxApp.h"
-#include "Win32/Win32Window.h"
 
-#include "EntryPoint.h"
+#include <EntryPoint.h>
 
 SandboxApp::SandboxApp()
 {
 	m_window = std::make_shared<BuD::Win32Window>(BuD::ApplicationInfo());
+	m_renderer = std::make_shared<BuD::DX11Renderer>(m_window);
 }
 
 void SandboxApp::OnUpdate()
 {
 	ProcessMovement();
-	GetWindow()->Draw();
+	m_renderer->Draw();
 }
 
 std::shared_ptr<BuD::Window> SandboxApp::GetWindow()
@@ -19,8 +19,9 @@ std::shared_ptr<BuD::Window> SandboxApp::GetWindow()
 	return m_window;
 }
 
-void SandboxApp::OnConcreteEvent(BuD::WindowResizedEvent& e)
+std::shared_ptr<BuD::Renderer> SandboxApp::GetRenderer()
 {
+	return m_renderer;
 }
 
 void SandboxApp::OnConcreteEvent(BuD::MouseButtonDownEvent& e)

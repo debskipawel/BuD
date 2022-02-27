@@ -3,6 +3,7 @@
 #ifdef _WIN32
 
 #include "../../Core/Renderer.h"
+#include "../Win32Window.h"
 
 #include <Windows.h>
 #include <d3d11_1.h>
@@ -16,7 +17,7 @@ namespace BuD
 		virtual void UpdateBufferSize(int width, int height) override;
 		virtual void Draw() override;
 
-		DX11Renderer(HWND hwnd, int width, int height);
+		DX11Renderer(std::shared_ptr<Win32Window> window);
 		~DX11Renderer();
 
 	private:
