@@ -10,12 +10,9 @@
 #include "Event/MouseEvents.h"
 #include "Event/WindowEvents.h"
 
-#include "Geometry/Vector3D.h"
-#include "Geometry/Matrix3D.h"
-
 #ifdef _WIN32
 
 #include "Win32/Win32Window.h"
-#include "Win32/DirectX11/DX11Renderer.h"
+#include "DirectX11/DX11Renderer.h"
 
 #endif
