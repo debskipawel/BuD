@@ -26,37 +26,28 @@ namespace BuD
 	Win32Window::Win32Window(const ApplicationInfo& appInfo)
 		: m_hwnd(NULL)
 	{
-		// Register window class
-		WNDCLASSA wc =
-		{
-			0, WndProc, 0, 0, 0,
-			LoadIcon(NULL, IDI_APPLICATION),
-			LoadCursor(NULL, IDC_ARROW),
-			reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)), // background color == black
-			NULL, // no menu
-			"ExampleWindowClass"
-		};
+		WNDCLASSEXW wcex = {};
+		wcex.cbSize = sizeof(WNDCLASSEXW);
+		wcex.style = CS_HREDRAW | CS_VREDRAW;
+		wcex.lpfnWndProc = WndProc;
+		wcex.hInstance = nullptr;
+		wcex.hIcon = LoadIconW(nullptr, L"IDI_ICON");
+		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+		wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+		wcex.lpszClassName = reinterpret_cast<LPCWSTR>(appInfo.name.c_str());
+		wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
 
-		ATOM wClass = RegisterClassA(&wc);
+		ATOM wClass = RegisterClassExW(&wcex);
 		if (!wClass)
 		{
 			fprintf(stderr, "%s\n", "Couldn’t create Window Class");
 			return;
 		}
 
-		// Create the window
-		m_hwnd = CreateWindowW(
-			MAKEINTATOM(wClass),
-			appInfo.windowTitle.c_str(),     // window title
-			WS_OVERLAPPEDWINDOW, // title bar, thick borders, etc.
-			CW_USEDEFAULT, 
-			CW_USEDEFAULT, 
-			m_width,
-			m_height,
-			NULL, // no parent window
-			NULL, // no menu
-			GetModuleHandle(NULL),  // EXE's HINSTANCE
-			NULL  // no magic user data
+		m_hwnd = CreateWindowExW(
+			0, reinterpret_cast<LPCWSTR>(appInfo.name.c_str()), reinterpret_cast<LPCWSTR>(appInfo.windowTitle.c_str()),
+			WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
+			m_width, m_height, nullptr, nullptr, GetModuleHandle(NULL), nullptr
 		);
 
 		if (!m_hwnd)
