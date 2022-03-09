@@ -2,8 +2,8 @@
 
 #ifdef _WIN32
 
-#include "Core/Renderer.h"
-#include "Win32/Win32Window.h"
+#include "../Core/Renderer.h"
+#include "../Win32/Win32Window.h"
 
 #include <Windows.h>
 #include <d3d11_1.h>

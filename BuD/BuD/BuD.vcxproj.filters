@@ -39,7 +39,7 @@
     <ClCompile Include="src\Event\EventEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Win32\DirectX11\DX11Renderer.cpp">
+    <ClCompile Include="src\DirectX11\DX11Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera\AbstractCamera.cpp">
@@ -98,7 +98,7 @@
     <ClInclude Include="src\Core\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Win32\DirectX11\DX11Renderer.h">
+    <ClInclude Include="src\DirectX11\DX11Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BuD.h">

@@ -1,79 +1,66 @@
 #include "AbstractCamera.h"
 
-BuD::AbstractCamera::AbstractCamera(const dx::XMFLOAT3& position, const dx::XMFLOAT3& front, const dx::XMFLOAT3& worldUp, float ratio)
+BuD::AbstractCamera::AbstractCamera(const dxm::Vector3& position, const dxm::Vector3& front, const dxm::Vector3& worldUp, float ratio)
 	: m_position(position), m_front(), m_worldUp(),
 	m_viewMatrix(),
 	m_projectionMatrix(),
 	m_projLeft(-ratio),
 	m_projRight(ratio)
 {
-	dx::XMStoreFloat3(
-		&m_front,
-		dx::XMVector3Normalize(dx::XMLoadFloat3(&front))
-	);
-
-	dx::XMStoreFloat3(
-		&m_worldUp,
-		dx::XMVector3Normalize(dx::XMLoadFloat3(&worldUp))
-	);
+	front.Normalize(m_front);
+	worldUp.Normalize(m_worldUp);
 
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
 }
 
-void BuD::AbstractCamera::LookAt(const dx::XMFLOAT3& target)
+void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
 {
-	dx::XMStoreFloat3(
-		&m_front,
-		dx::XMVector3Normalize(
-			dx::XMVectorSubtract(dx::XMLoadFloat3(&target), dx::XMLoadFloat3(&m_position))
-		)
-	);
+	m_front = target - m_position;
+	m_front.Normalize();
 
-	dx::XMStoreFloat3(
-		&m_right,
-		dx::XMVector3Cross(dx::XMLoadFloat3(&m_front), dx::XMLoadFloat3(&m_worldUp))
-	);
+	m_front.Cross(m_worldUp, m_right);
 
-	dx::XMStoreFloat3(
-		&m_up,
-		dx::XMVector3Cross(dx::XMLoadFloat3(&m_right), dx::XMLoadFloat3(&m_front))
-	);
+	m_right.Cross(m_front, m_up);
 
 	UpdateViewMatrix();
 
-	m_pitch = 90.0f - dx::XMConvertToDegrees(acosf(dx::XMVector3Dot(dx::XMLoadFloat3(&m_worldUp), dx::XMLoadFloat3(&m_front)).m128_f32[0]));
+	m_pitch = 90.0f - dx::XMConvertToDegrees(acosf(m_worldUp.Dot(m_front)));
 	m_yaw = dx::XMConvertToDegrees(atan2f(m_front.z, m_front.x));
 }
 
-dx::XMMATRIX BuD::AbstractCamera::GetViewMatrix()
+dxm::Matrix BuD::AbstractCamera::GetViewMatrix()
 {
 	return m_viewMatrix;
 }
 
-dx::XMMATRIX BuD::AbstractCamera::GetProjectionMatrix()
+dxm::Matrix BuD::AbstractCamera::GetProjectionMatrix()
 {
 	return m_projectionMatrix;
 }
 
-void BuD::AbstractCamera::Move(const dx::XMFLOAT3& difference)
+void BuD::AbstractCamera::Move(const dxm::Vector3& difference)
 {
-	dx::XMStoreFloat3(
-		&m_position,
-		dx::XMVectorAdd(dx::XMLoadFloat3(&m_position), dx::XMLoadFloat3(&difference))
-	);
+	m_position += difference;
 }
 
-void BuD::AbstractCamera::MoveTo(const dx::XMFLOAT3& position)
+void BuD::AbstractCamera::MoveTo(const dxm::Vector3& position)
 {
 	m_position = position;
 }
 
 void BuD::AbstractCamera::UpdateViewMatrix()
 {
-	m_viewMatrix = dx::XMMatrixLookAtRH(
-		dx::XMLoadFloat3(&m_position),
-		dx::XMVectorAdd(dx::XMLoadFloat3(&m_position), dx::XMLoadFloat3(&m_front)),
-		dx::XMLoadFloat3(&m_up)
+	dx::XMFLOAT4X4 viewMatrix;
+
+	dx::XMStoreFloat4x4(
+		&viewMatrix,
+		dx::XMMatrixLookAtRH(
+			dx::XMLoadFloat3(&m_position),
+			dx::XMVectorAdd(dx::XMLoadFloat3(&m_position), dx::XMLoadFloat3(&m_front)),
+			dx::XMLoadFloat3(&m_up)
+		)
 	);
+
+	m_viewMatrix = dxm::Matrix(viewMatrix);
 }

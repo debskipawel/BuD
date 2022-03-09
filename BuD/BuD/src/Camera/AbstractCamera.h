@@ -1,21 +1,22 @@
 #pragma once
 
-#include <DirectXMath.h>
+#include "SimpleMath.h"
 
 namespace dx = DirectX;
+namespace dxm = DirectX::SimpleMath;
 
 namespace BuD
 {
 	class AbstractCamera
 	{
 	public:
-		void LookAt(const dx::XMFLOAT3& target);
+		void LookAt(const dxm::Vector3& target);
 
-		dx::XMMATRIX GetViewMatrix();
-		dx::XMMATRIX GetProjectionMatrix();
+		dxm::Matrix GetViewMatrix();
+		dxm::Matrix GetProjectionMatrix();
 
-		void Move(const dx::XMFLOAT3& difference);
-		void MoveTo(const dx::XMFLOAT3& position);
+		void Move(const dxm::Vector3& difference);
+		void MoveTo(const dxm::Vector3& position);
 
 		inline void UpdateAspectRatio(float ratio)
 		{
@@ -26,19 +27,19 @@ namespace BuD
 		}
 
 	protected:
-		AbstractCamera(const dx::XMFLOAT3& position, const dx::XMFLOAT3& front, const dx::XMFLOAT3& worldUp = { 0.0f, 1.0f, 0.0f }, float ratio = 1.0f);
+		AbstractCamera(const dxm::Vector3& position, const dxm::Vector3& front, const dxm::Vector3& worldUp = { 0.0f, 1.0f, 0.0f }, float ratio = 1.0f);
 
 		void UpdateViewMatrix();
 		virtual void UpdateProjectionMatrix() = 0;
 
-		dx::XMMATRIX m_viewMatrix;
-		dx::XMMATRIX m_projectionMatrix;
+		dxm::Matrix m_viewMatrix;
+		dxm::Matrix m_projectionMatrix;
 
-		dx::XMFLOAT3 m_position;
-		dx::XMFLOAT3 m_front;
-		dx::XMFLOAT3 m_right;
-		dx::XMFLOAT3 m_up;
-		dx::XMFLOAT3 m_worldUp;
+		dxm::Vector3 m_position;
+		dxm::Vector3 m_front;
+		dxm::Vector3 m_right;
+		dxm::Vector3 m_up;
+		dxm::Vector3 m_worldUp;
 
 		const float m_projFar = -1.0f;
 		const float m_projNear = 0.0f;

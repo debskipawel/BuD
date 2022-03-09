@@ -3,7 +3,7 @@
 #include "Win32Window.h"
 #include "Win32EventFactory.h"
 
-#include "DirectX11/DX11Renderer.h"
+#include "../DirectX11/DX11Renderer.h"
 
 #include "../Event/EventEmitter.h"
 
