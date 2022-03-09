@@ -33,9 +33,6 @@
     <ClCompile Include="src\Win32\Win32Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGL\GLFWWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Win32\Win32EventFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,9 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Win32\DirectX11\DX11Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OpenGL\GLFWWindowFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera\AbstractCamera.cpp">
@@ -89,9 +83,6 @@
     <ClInclude Include="src\Win32\Win32Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OpenGL\GLFWWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Win32\Win32EventFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,9 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Win32\DirectX11\DX11Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OpenGL\GLFWWindowFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BuD.h">

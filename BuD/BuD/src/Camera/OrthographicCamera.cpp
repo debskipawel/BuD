@@ -1,6 +1,6 @@
 #include "OrthographicCamera.h"
 
-BuD::OrthographicCamera::OrthographicCamera(gmtl::Vec3f position, gmtl::Vec3f front, gmtl::Vec3f worldUp, float ratio)
+BuD::OrthographicCamera::OrthographicCamera(const Vector3D& position, const Vector3D& front, const Vector3D& worldUp, float ratio)
 	: AbstractCamera(position, front, worldUp, ratio)
 {
 }
@@ -14,5 +14,5 @@ void BuD::OrthographicCamera::UpdateProjectionMatrix()
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
 
-	m_projectionMatrix.set(data);
+	m_projectionMatrix = Matrix3D(data);
 }
