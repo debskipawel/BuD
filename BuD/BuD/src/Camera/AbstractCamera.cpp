@@ -1,57 +1,66 @@
 #include "AbstractCamera.h"
 
-#include "../gmtl/gmtl.h"
-
-BuD::AbstractCamera::AbstractCamera(const Vector3D& position, const Vector3D& front, const Vector3D& worldUp, float ratio)
-	: m_position(position),
-	m_front(front),
-	m_worldUp(worldUp.Normalized()),
+BuD::AbstractCamera::AbstractCamera(const dxm::Vector3& position, const dxm::Vector3& front, const dxm::Vector3& worldUp, float ratio)
+	: m_position(position), m_front(), m_worldUp(),
 	m_viewMatrix(),
 	m_projectionMatrix(),
 	m_projLeft(-ratio),
 	m_projRight(ratio)
 {
+	front.Normalize(m_front);
+	worldUp.Normalize(m_worldUp);
+
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
 }
 
-void BuD::AbstractCamera::LookAt(const Vector3D& target)
+void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
 {
-	m_front = (target - m_position).Normalized();
-	m_right = m_front.CrossProduct(m_worldUp);
-	m_up = m_right.CrossProduct(m_front);
+	m_front = target - m_position;
+	m_front.Normalize();
+
+	m_front.Cross(m_worldUp, m_right);
+
+	m_right.Cross(m_front, m_up);
 
 	UpdateViewMatrix();
+
+	m_pitch = 90.0f - dx::XMConvertToDegrees(acosf(m_worldUp.Dot(m_front)));
+	m_yaw = dx::XMConvertToDegrees(atan2f(m_front.z, m_front.x));
 }
 
-BuD::Matrix3D BuD::AbstractCamera::GetViewMatrix()
+dxm::Matrix BuD::AbstractCamera::GetViewMatrix()
 {
 	return m_viewMatrix;
 }
 
-BuD::Matrix3D BuD::AbstractCamera::GetProjectionMatrix()
+dxm::Matrix BuD::AbstractCamera::GetProjectionMatrix()
 {
 	return m_projectionMatrix;
 }
 
-void BuD::AbstractCamera::Move(const Vector3D& difference)
+void BuD::AbstractCamera::Move(const dxm::Vector3& difference)
 {
 	m_position += difference;
 }
 
-void BuD::AbstractCamera::MoveTo(const Vector3D& position)
+void BuD::AbstractCamera::MoveTo(const dxm::Vector3& position)
 {
 	m_position = position;
 }
 
 void BuD::AbstractCamera::UpdateViewMatrix()
 {
-	float data[] = {
-		m_right[0], m_up[0], m_front[0], m_position[0],
-		m_right[1], m_up[1], m_front[1], m_position[1],
-		m_right[2], m_up[2], m_front[2], m_position[2],
-		0.0f, 0.0f, 0.0f, 1.0f
-	};
+	dx::XMFLOAT4X4 viewMatrix;
 
-	m_viewMatrix = Matrix3D(data);
+	dx::XMStoreFloat4x4(
+		&viewMatrix,
+		dx::XMMatrixLookAtRH(
+			dx::XMLoadFloat3(&m_position),
+			dx::XMVectorAdd(dx::XMLoadFloat3(&m_position), dx::XMLoadFloat3(&m_front)),
+			dx::XMLoadFloat3(&m_up)
+		)
+	);
+
+	m_viewMatrix = dxm::Matrix(viewMatrix);
 }

@@ -5,7 +5,6 @@
 
 #include "../Event/WindowEvents.h"
 
-#include "../OpenGL/GLFWWindow.h"
 #include "../Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 
