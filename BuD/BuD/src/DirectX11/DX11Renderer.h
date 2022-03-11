@@ -5,6 +5,8 @@
 #include "../Core/Renderer.h"
 #include "../Win32/Win32Window.h"
 
+#include "DX11Device.h"
+
 #include <Windows.h>
 #include <d3d11_1.h>
 #include <memory>
@@ -15,7 +17,10 @@ namespace BuD
 	{
 	public:
 		virtual void UpdateBufferSize(int width, int height) override;
-		virtual void Draw() override;
+		
+		virtual void Begin() override;
+		virtual void Draw(const RenderableSceneEntity& entity) override;
+		virtual void End() override;
 
 		DX11Renderer(std::shared_ptr<Win32Window> window);
 		~DX11Renderer();
@@ -24,9 +29,7 @@ namespace BuD
 
 		void Cleanup();
 
-		IDXGISwapChain* m_swapChain;
-		ID3D11Device* m_device;
-		ID3D11DeviceContext* m_deviceContext;
+		DX11Device m_device;
 		ID3D11RenderTargetView* m_rtv;
 
 		float red = 0.0f;

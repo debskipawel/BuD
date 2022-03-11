@@ -2,96 +2,66 @@
 
 #include "DX11Renderer.h"
 
-BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
+namespace BuD
 {
-	DXGI_MODE_DESC bufferDesc;
-	ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));
-
-	bufferDesc.Width = window->Width();
-	bufferDesc.Height = window->Height();
-	bufferDesc.RefreshRate.Numerator = 60;
-	bufferDesc.RefreshRate.Denominator = 1;
-	bufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-	DXGI_SWAP_CHAIN_DESC swapChainDesc;
-
-	ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-
-	swapChainDesc.BufferDesc = bufferDesc;
-	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.SampleDesc.Quality = 0;
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 1;
-	swapChainDesc.OutputWindow = window->m_hwnd;
-	swapChainDesc.Windowed = TRUE;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-	D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL,
-		D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
-
-	ID3D11Texture2D* backBuffer;
-
-	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-	m_device->CreateRenderTargetView(backBuffer, NULL, &m_rtv);
-
-	backBuffer->Release();
-
-	m_deviceContext->OMSetRenderTargets(1, &m_rtv, NULL);
-}
-
-BuD::DX11Renderer::~DX11Renderer()
-{
-	Cleanup();
-}
-
-void BuD::DX11Renderer::Cleanup()
-{
-	if (m_device)
+	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
+		: m_device(window)
 	{
-		m_device->Release();
+		ID3D11Texture2D* backBuffer;
+
+		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
+		m_device->CreateRenderTargetView(backBuffer, NULL, &m_rtv);
+
+		backBuffer->Release();
+
+		m_device.Context()->OMSetRenderTargets(1, &m_rtv, NULL);
 	}
 
-	if (m_swapChain)
+	BuD::DX11Renderer::~DX11Renderer()
 	{
-		m_swapChain->Release();
+		Cleanup();
 	}
 
-	if (m_deviceContext)
+	void BuD::DX11Renderer::Cleanup()
 	{
-		m_deviceContext->Release();
+		if (m_rtv)
+		{
+			m_rtv->Release();
+		}
 	}
 
-	if (m_rtv)
+	void BuD::DX11Renderer::UpdateBufferSize(int width, int height)
 	{
-		m_rtv->Release();
 	}
-}
 
-void BuD::DX11Renderer::UpdateBufferSize(int width, int height)
-{
-	m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-}
+	void DX11Renderer::Begin()
+	{
+		FLOAT color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		m_device.Context()->ClearRenderTargetView(m_rtv, color);
+	}
 
-void BuD::DX11Renderer::Draw()
-{
-	red += colormodr * 0.00005f;
-	green += colormodg * 0.00002f;
-	blue += colormodb * 0.00001f;
+	void BuD::DX11Renderer::Draw(const RenderableSceneEntity& entity)
+	{
+		m_device.Context()->VSSetShader(entity.m_vertexShader->Shader(), nullptr, 0);
+		m_device.Context()->PSSetShader(entity.m_pixelShader->Shader(), nullptr, 0);
 
-	if (red >= 1.0f || red <= 0.0f)
-		colormodr *= -1;
-	if (green >= 1.0f || green <= 0.0f)
-		colormodg *= -1;
-	if (blue >= 1.0f || blue <= 0.0f)
-		colormodb *= -1;
+		if (auto count = entity.m_vertexShader->ConstantBuffersCount())
+		{
+			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_vertexShader->RawConstantBuffers());
+		}
 
-	FLOAT color[] = { red, green, blue, 1.0f };
+		if (auto count = entity.m_pixelShader->ConstantBuffersCount())
+		{
+			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_pixelShader->RawConstantBuffers());
+		}
 
-	m_deviceContext->ClearRenderTargetView(m_rtv, color);
+		m_device.Context()->IASetInputLayout(entity.m_vertexShader->Layout());
+	}
 
-	m_swapChain->Present(0, 0);
+	void DX11Renderer::End()
+	{
+		m_device.SwapChain()->Present(0, 0);
+	}
 }
 
 #endif

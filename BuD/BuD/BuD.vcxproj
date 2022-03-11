@@ -162,12 +162,21 @@
     <ClCompile Include="src\Camera\CameraFactory.cpp" />
     <ClCompile Include="src\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
+    <ClCompile Include="src\DirectX11\Buffers\DX11ConstantBuffer.cpp" />
+    <ClCompile Include="src\DirectX11\Buffers\DX11VertexBuffer.cpp" />
+    <ClCompile Include="src\DirectX11\DX11Device.cpp" />
+    <ClCompile Include="src\DirectX11\DX11Structures.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11PixelShader.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
     <ClCompile Include="src\EntryPoint.h" />
     <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
     <ClCompile Include="src\Event\MouseEvents.cpp" />
     <ClCompile Include="src\Event\WindowEvents.cpp" />
     <ClCompile Include="src\DirectX11\DX11Renderer.cpp" />
+    <ClCompile Include="src\Scene\SceneEntity.cpp" />
     <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
     <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
@@ -182,6 +191,14 @@
     <ClInclude Include="src\Core\KeyboardKeys.h" />
     <ClInclude Include="src\Core\MouseCode.h" />
     <ClInclude Include="src\Core\Renderer.h" />
+    <ClInclude Include="src\DirectX11\Buffers\DX11Buffer.h" />
+    <ClInclude Include="src\DirectX11\Buffers\DX11ConstantBuffer.h" />
+    <ClInclude Include="src\DirectX11\Buffers\DX11VertexBuffer.h" />
+    <ClInclude Include="src\DirectX11\DX11Device.h" />
+    <ClInclude Include="src\DirectX11\DX11Structures.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11PixelShader.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />
@@ -189,6 +206,8 @@
     <ClInclude Include="src\Event\MouseEvents.h" />
     <ClInclude Include="src\Event\WindowEvents.h" />
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
+    <ClInclude Include="src\Scene\RenderableSceneEntity.h" />
+    <ClInclude Include="src\Scene\SceneEntity.h" />
     <ClInclude Include="src\Win32\Win32EventFactory.h" />
     <ClInclude Include="src\Win32\Win32Window.h" />
     <ClInclude Include="src\Core\Window.h" />

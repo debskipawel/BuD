@@ -30,6 +30,7 @@ namespace BuD
             }
 
             this->OnUpdate();
+            this->Render();
         }
 
         return 0;
@@ -38,6 +39,14 @@ namespace BuD
     void Application::OnUpdate()
     {
         this->m_clientApp->OnUpdate();
+    }
+
+    void Application::Render()
+    {
+        auto renderer = m_clientApp->GetRenderer();
+
+        renderer->Begin();
+        renderer->End();
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

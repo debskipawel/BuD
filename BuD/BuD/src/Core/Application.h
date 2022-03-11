@@ -14,6 +14,7 @@ namespace BuD
 		int Run();
 
 		void OnUpdate();
+		void Render();
 
 		void OnConcreteEvent(WindowClosedEvent& e) override;
 

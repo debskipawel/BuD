@@ -18,7 +18,7 @@ namespace BuD
 		virtual void Show() override;
 		virtual void ProcessEvents() override;
 
-		friend class DX11Renderer;
+		inline HWND Handle() { return m_hwnd; }
 
 	private:
 		HWND m_hwnd;
