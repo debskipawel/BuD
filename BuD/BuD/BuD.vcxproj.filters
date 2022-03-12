@@ -78,6 +78,15 @@
     <ClCompile Include="src\DirectX11\Buffers\DX11VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DirectX11\Buffers\DX11IndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\RenderableSceneEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -170,5 +179,15 @@
     <ClInclude Include="src\DirectX11\Buffers\DX11VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\DirectX11\Buffers\DX11IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\pos_normal_vs.hlsl" />
+    <FxCompile Include="shaders\solid_white_ps.hlsl" />
   </ItemGroup>
 </Project>

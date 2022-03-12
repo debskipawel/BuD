@@ -14,9 +14,6 @@ namespace BuD
 	public:
 		virtual void OnUpdate() = 0;
 
-		virtual std::shared_ptr<Window> GetWindow() = 0;
-		virtual std::shared_ptr<Renderer> GetRenderer() = 0;
-
 	protected:
 		ClientApp() = default;
 		virtual ~ClientApp() = default;

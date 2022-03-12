@@ -10,7 +10,7 @@ namespace BuD
 	class DX11Shader
 	{
 	public:
-		inline size_t ConstantBuffersCount() { return m_constantBuffers.size(); }
+		inline const auto& ConstantBuffers() const { return m_constantBuffers; }
 		ID3D11Buffer** RawConstantBuffers();
 
 	protected:

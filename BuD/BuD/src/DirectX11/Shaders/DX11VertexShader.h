@@ -13,7 +13,7 @@ namespace BuD
 	class DX11VertexShader : public DX11Shader
 	{
 	public:
-		explicit DX11VertexShader(ID3D11Device* device, const std::vector<BYTE>& code, const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputDesc);
+		explicit DX11VertexShader(ID3D11Device* device, void* code, size_t size, const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputDesc);
 
 		inline ID3D11VertexShader* Shader() { return m_shader.Get(); }
 		inline ID3D11InputLayout* Layout() { return m_layout.Get(); }

@@ -16,6 +16,8 @@ namespace BuD
 	class DX11Renderer : public Renderer
 	{
 	public:
+		inline const DX11Device& Device() const { return m_device; }
+
 		virtual void UpdateBufferSize(int width, int height) override;
 		
 		virtual void Begin() override;

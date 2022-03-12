@@ -2,11 +2,11 @@
 
 namespace BuD
 {
-	DX11PixelShader::DX11PixelShader(ID3D11Device* device, const std::vector<BYTE>& code)
+	DX11PixelShader::DX11PixelShader(ID3D11Device* device, void* code, size_t size)
 	{
 		ID3D11PixelShader* shader = nullptr;
 
-		device->CreatePixelShader(code.data(), code.size(), nullptr, &shader);
+		device->CreatePixelShader(code, size, nullptr, &shader);
 		m_shader.Attach(shader);
 	}
 }

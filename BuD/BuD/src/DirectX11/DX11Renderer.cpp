@@ -45,17 +45,36 @@ namespace BuD
 		m_device.Context()->VSSetShader(entity.m_vertexShader->Shader(), nullptr, 0);
 		m_device.Context()->PSSetShader(entity.m_pixelShader->Shader(), nullptr, 0);
 
-		if (auto count = entity.m_vertexShader->ConstantBuffersCount())
+		m_device.Context()->IASetInputLayout(entity.m_vertexShader->Layout());
+		m_device.Context()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		ID3D11Buffer* buffers[] = { entity.m_vertexBuffer->Buffer() };
+		UINT strides[] = { entity.m_vertexBuffer->Stride() };
+		UINT offsets[] = { entity.m_vertexBuffer->Offset() };
+
+		m_device.Context()->IASetVertexBuffers(0, 1, buffers, strides, offsets);
+		m_device.Context()->IASetIndexBuffer(entity.m_indexBuffer->Buffer(), entity.m_indexBuffer->Format(), 0);
+
+		if (auto count = entity.m_vertexShader->ConstantBuffers().size())
 		{
 			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_vertexShader->RawConstantBuffers());
 		}
 
-		if (auto count = entity.m_pixelShader->ConstantBuffersCount())
+		if (auto count = entity.m_pixelShader->ConstantBuffers().size())
 		{
 			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_pixelShader->RawConstantBuffers());
 		}
 
-		m_device.Context()->IASetInputLayout(entity.m_vertexShader->Layout());
+		D3D11_RASTERIZER_DESC wfdesc;
+		ID3D11RasterizerState* rastState = nullptr;
+
+		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
+		wfdesc.FillMode = D3D11_FILL_SOLID;
+		wfdesc.CullMode = D3D11_CULL_NONE;
+		m_device->CreateRasterizerState(&wfdesc, &rastState);
+		m_device.Context()->RSSetState(rastState);
+
+		m_device.Context()->DrawIndexed(entity.m_indexBuffer->Count(), 0, 0);
 	}
 
 	void DX11Renderer::End()

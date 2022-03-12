@@ -8,6 +8,8 @@
 #include "../Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 
+#include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
+
 namespace BuD
 {
     std::shared_ptr<Application> Application::s_app = nullptr;
@@ -15,14 +17,14 @@ namespace BuD
 	int Application::Run()
 	{
         m_clientApp = CreateClientApp();
+        m_window = std::make_shared<Win32Window>(ApplicationInfo());
+        m_renderer = std::make_shared<DX11Renderer>(m_window);
 
-        auto window = m_clientApp->GetWindow();
-
-        window->Show();
+        m_window->Show();
 
         while (true)
         {
-            window->ProcessEvents();
+            m_window->ProcessEvents();
 
             if (!m_shouldRun)
             {
@@ -43,10 +45,11 @@ namespace BuD
 
     void Application::Render()
     {
-        auto renderer = m_clientApp->GetRenderer();
+        auto cube = RenderableSceneEntity::Cube(m_renderer->Device().Raw());
 
-        renderer->Begin();
-        renderer->End();
+        m_renderer->Begin();
+        m_renderer->Draw(cube);
+        m_renderer->End();
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

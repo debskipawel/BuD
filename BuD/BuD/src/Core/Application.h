@@ -5,6 +5,8 @@
 #include "ClientApp.h"
 
 #include "../Event/IEventDispatchable.h"
+#include "DirectX11/DX11Renderer.h"
+#include "Win32/Win32Window.h"
 
 namespace BuD
 {
@@ -26,6 +28,10 @@ namespace BuD
 		static std::shared_ptr<Application> s_app;
 
 		std::shared_ptr<ClientApp> m_clientApp;
+		std::shared_ptr<DX11Renderer> m_renderer;
+		std::shared_ptr<Win32Window> m_window;
+
+		std::unique_ptr<RenderableSceneEntity> entity;
 
 		bool m_shouldRun = true;
 

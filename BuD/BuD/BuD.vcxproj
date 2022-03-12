@@ -104,6 +104,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)*.cso" "$(ProjectDir)shaders"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -122,6 +125,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)*.cso" "$(ProjectDir)shaders"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,6 +144,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)*.cso" "$(ProjectDir)shaders"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,6 +165,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)*.cso" "$(ProjectDir)shaders"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera\AbstractCamera.cpp" />
@@ -164,18 +176,21 @@
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11ConstantBuffer.cpp" />
+    <ClCompile Include="src\DirectX11\Buffers\DX11IndexBuffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11VertexBuffer.cpp" />
     <ClCompile Include="src\DirectX11\DX11Device.cpp" />
     <ClCompile Include="src\DirectX11\DX11Structures.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11PixelShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.cpp" />
     <ClCompile Include="src\EntryPoint.h" />
     <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
     <ClCompile Include="src\Event\MouseEvents.cpp" />
     <ClCompile Include="src\Event\WindowEvents.cpp" />
     <ClCompile Include="src\DirectX11\DX11Renderer.cpp" />
+    <ClCompile Include="src\Scene\RenderableSceneEntity.cpp" />
     <ClCompile Include="src\Scene\SceneEntity.cpp" />
     <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
     <ClCompile Include="src\Win32\Win32Window.cpp" />
@@ -193,12 +208,14 @@
     <ClInclude Include="src\Core\Renderer.h" />
     <ClInclude Include="src\DirectX11\Buffers\DX11Buffer.h" />
     <ClInclude Include="src\DirectX11\Buffers\DX11ConstantBuffer.h" />
+    <ClInclude Include="src\DirectX11\Buffers\DX11IndexBuffer.h" />
     <ClInclude Include="src\DirectX11\Buffers\DX11VertexBuffer.h" />
     <ClInclude Include="src\DirectX11\DX11Device.h" />
     <ClInclude Include="src\DirectX11\DX11Structures.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11PixelShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
+    <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />
@@ -216,6 +233,22 @@
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
       <Project>{6d79829e-a19e-456c-a4be-0ad5f55bf220}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\pos_normal_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shaders\solid_white_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

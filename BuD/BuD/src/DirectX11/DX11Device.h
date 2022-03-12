@@ -14,7 +14,8 @@ namespace BuD
 	public:
 		explicit DX11Device(std::shared_ptr<Win32Window> window);
 
-		inline ID3D11Device* operator->() const { return m_device.Get(); }
+		inline ID3D11Device* Raw() const { return m_device.Get(); }
+		inline ID3D11Device* operator->() const { return Raw(); }
 		inline const ComPtr<ID3D11DeviceContext>& Context() const { return m_context; }
 		inline const ComPtr<IDXGISwapChain>& SwapChain() const { return m_swapchain; }
 		

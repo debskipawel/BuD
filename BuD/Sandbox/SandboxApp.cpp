@@ -4,23 +4,11 @@
 
 SandboxApp::SandboxApp()
 {
-	m_window = std::make_shared<BuD::Win32Window>(BuD::ApplicationInfo());
-	m_renderer = std::make_shared<BuD::DX11Renderer>(m_window);
 }
 
 void SandboxApp::OnUpdate()
 {
 	ProcessMovement();
-}
-
-std::shared_ptr<BuD::Window> SandboxApp::GetWindow()
-{
-	return m_window;
-}
-
-std::shared_ptr<BuD::Renderer> SandboxApp::GetRenderer()
-{
-	return m_renderer;
 }
 
 void SandboxApp::OnConcreteEvent(BuD::MouseButtonDownEvent& e)
