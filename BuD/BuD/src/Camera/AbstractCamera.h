@@ -12,8 +12,8 @@ namespace BuD
 	public:
 		void LookAt(const dxm::Vector3& target);
 
-		dxm::Matrix GetViewMatrix();
-		dxm::Matrix GetProjectionMatrix();
+		const dxm::Matrix& GetViewMatrix() const;
+		const dxm::Matrix& GetProjectionMatrix() const;
 
 		void Move(const dxm::Vector3& difference);
 		void MoveTo(const dxm::Vector3& position);

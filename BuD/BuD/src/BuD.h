@@ -6,6 +6,8 @@
 #include "Core/MouseCode.h"
 #include "Core/KeyboardKeys.h"
 
+#include "Camera/CameraFactory.h"
+
 #include "Event/KeyboardEvents.h"
 #include "Event/MouseEvents.h"
 #include "Event/WindowEvents.h"

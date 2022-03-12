@@ -2,8 +2,11 @@
 
 #include <EntryPoint.h>
 
+using namespace DirectX::SimpleMath;
+
 SandboxApp::SandboxApp()
 {
+	m_camera = BuD::CameraFactory::MakeOrthographic(Vector3(0.0f, 0.0f, 5.0f), Vector3(0.0f, 0.0f, -1.0f));
 }
 
 void SandboxApp::OnUpdate()

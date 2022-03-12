@@ -10,8 +10,7 @@ BuD::AbstractCamera::AbstractCamera(const dxm::Vector3& position, const dxm::Vec
 	front.Normalize(m_front);
 	worldUp.Normalize(m_worldUp);
 
-	UpdateViewMatrix();
-	UpdateProjectionMatrix();
+	LookAt(position + front);
 }
 
 void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
@@ -29,12 +28,12 @@ void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
 	m_yaw = dx::XMConvertToDegrees(atan2f(m_front.z, m_front.x));
 }
 
-dxm::Matrix BuD::AbstractCamera::GetViewMatrix()
+const dxm::Matrix& BuD::AbstractCamera::GetViewMatrix() const
 {
 	return m_viewMatrix;
 }
 
-dxm::Matrix BuD::AbstractCamera::GetProjectionMatrix()
+const dxm::Matrix& BuD::AbstractCamera::GetProjectionMatrix() const
 {
 	return m_projectionMatrix;
 }

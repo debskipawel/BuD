@@ -5,7 +5,8 @@
 #include "Window.h"
 #include "Renderer.h"
 
-#include "../Event/IEventDispatchable.h"
+#include "Camera/AbstractCamera.h"
+#include "Event/IEventDispatchable.h"
 
 namespace BuD
 {
@@ -13,6 +14,7 @@ namespace BuD
 	{
 	public:
 		virtual void OnUpdate() = 0;
+		virtual std::shared_ptr<AbstractCamera> GetCamera() = 0;
 
 	protected:
 		ClientApp() = default;

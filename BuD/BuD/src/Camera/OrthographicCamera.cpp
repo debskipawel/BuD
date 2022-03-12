@@ -3,6 +3,7 @@
 BuD::OrthographicCamera::OrthographicCamera(const dxm::Vector3& position, const dxm::Vector3& front, const dxm::Vector3& worldUp, float ratio)
 	: AbstractCamera(position, front, worldUp, ratio)
 {
+	UpdateProjectionMatrix();
 }
 
 void BuD::OrthographicCamera::UpdateProjectionMatrix()

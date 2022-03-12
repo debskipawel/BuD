@@ -5,19 +5,9 @@
 namespace BuD
 {
 	DX11Buffer::DX11Buffer(ID3D11Device* device, const void* data, DX11BufferDesc desc)
-		: m_bufferSize(desc.ByteWidth)
+		: m_bufferSize(desc.ByteWidth), m_bindFlags(desc.BindFlags)
 	{
-		D3D11_SUBRESOURCE_DATA sdata;
-		ZeroMemory(&sdata, sizeof sdata);
-		sdata.pSysMem = data;
-
-        ID3D11Buffer* temp;
-        if (FAILED(device->CreateBuffer(&desc, data ? &sdata : nullptr, &temp)))
-        {
-            printf("Error while creating a buffer\n");
-        }
-
-		m_buffer.Attach(temp);
+        CreateBuffer(device, data, desc.ByteWidth);
 	}
 	
 	void DX11Buffer::Update(ID3D11DeviceContext* context, const void* data, size_t size)
@@ -29,8 +19,35 @@ namespace BuD
 			context->Map(m_buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
 			memcpy(res.pData, &data, size);
 			context->Unmap(m_buffer.Get(), 0);
+
+            return;
 		}
+
+        m_bufferSize = size;
+
+        ID3D11Device* device = nullptr;
+        m_buffer->GetDevice(&device);
+        m_buffer->Release();
+
+        CreateBuffer(device, data, size);
 	}
+
+    void DX11Buffer::CreateBuffer(ID3D11Device* device, const void* data, size_t size)
+    {
+        DX11BufferDesc desc{ m_bindFlags, size };
+
+        D3D11_SUBRESOURCE_DATA sdata;
+        ZeroMemory(&sdata, sizeof sdata);
+        sdata.pSysMem = data;
+
+        ID3D11Buffer* temp;
+        if (FAILED(device->CreateBuffer(&desc, data ? &sdata : nullptr, &temp)))
+        {
+            printf("Error while creating a buffer\n");
+        }
+
+        m_buffer.Attach(temp);
+    }
 
     size_t BitsPerPixel(DXGI_FORMAT fmt)
     {

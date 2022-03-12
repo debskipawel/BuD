@@ -173,6 +173,7 @@
     <ClCompile Include="src\Camera\AbstractCamera.cpp" />
     <ClCompile Include="src\Camera\CameraFactory.cpp" />
     <ClCompile Include="src\Camera\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11ConstantBuffer.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\Camera\AbstractCamera.h" />
     <ClInclude Include="src\Camera\CameraFactory.h" />
     <ClInclude Include="src\Camera\OrthographicCamera.h" />
+    <ClInclude Include="src\Camera\PerspectiveCamera.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\ClientApp.h" />
