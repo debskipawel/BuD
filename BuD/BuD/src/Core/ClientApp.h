@@ -7,6 +7,7 @@
 
 #include "Camera/AbstractCamera.h"
 #include "Event/IEventDispatchable.h"
+#include "Scene/RenderableSceneEntity.h"
 
 namespace BuD
 {
@@ -15,6 +16,7 @@ namespace BuD
 	public:
 		virtual void OnUpdate() = 0;
 		virtual std::shared_ptr<AbstractCamera> GetCamera() = 0;
+		virtual const std::vector<std::shared_ptr<RenderableSceneEntity>>& GetModels() = 0;
 
 	protected:
 		ClientApp() = default;

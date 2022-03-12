@@ -9,6 +9,11 @@ SandboxApp::SandboxApp()
 	m_camera = BuD::CameraFactory::MakeOrthographic(Vector3(0.0f, 0.0f, 5.0f), Vector3(0.0f, 0.0f, -1.0f));
 }
 
+std::vector<std::shared_ptr<BuD::RenderableSceneEntity>> SandboxApp::GetModels()
+{
+	throw new std::exception("GetModels method not implemented");
+}
+
 void SandboxApp::OnUpdate()
 {
 	ProcessMovement();

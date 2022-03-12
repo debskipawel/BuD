@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <windows.h>
+#include <algorithm>
 
 namespace BuD
 {
@@ -40,6 +41,8 @@ namespace BuD
 
     void Application::OnUpdate()
     {
+        // this is where all models' constant buffers should be updated 
+        // (or should it? what if few models want to use the same constant buffer?)
         this->m_clientApp->OnUpdate();
     }
 
@@ -48,6 +51,8 @@ namespace BuD
         m_renderer->Begin();
 
         // draw all models
+        auto& models = m_clientApp->GetModels();
+        std::for_each(models.begin(), models.end(), [this](std::shared_ptr<RenderableSceneEntity> entity) { m_renderer->Draw(*entity.get()); });
 
         m_renderer->End();
     }

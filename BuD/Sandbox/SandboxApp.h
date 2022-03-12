@@ -11,6 +11,7 @@ public:
 	SandboxApp();
 
 	inline virtual std::shared_ptr<BuD::AbstractCamera> GetCamera() override { return m_camera; }
+	virtual const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& GetModels() override;
 
 	virtual void OnUpdate() override;
 
