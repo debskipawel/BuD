@@ -12,7 +12,7 @@ namespace BuD
 	class Win32Window : public Window
 	{
 	public: 
-		Win32Window(const ApplicationInfo& appInfo);
+		Win32Window(const ApplicationInfo& appInfo, HINSTANCE hInstance);
 		virtual ~Win32Window() = default;
 
 		virtual void Show() override;
@@ -22,6 +22,7 @@ namespace BuD
 
 	private:
 		HWND m_hwnd;
+		HINSTANCE m_hInstance;
 	};
 }
 

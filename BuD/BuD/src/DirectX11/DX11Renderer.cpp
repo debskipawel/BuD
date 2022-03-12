@@ -2,42 +2,76 @@
 
 #include "DX11Renderer.h"
 
+#include "DX11Structures.h"
+
+#include <algorithm>
+
 namespace BuD
 {
 	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
 		: m_device(window)
 	{
+		//UpdateBuffersSize(window->Width(), window->Height());
+
 		ID3D11Texture2D* backBuffer;
-
+		ComPtr<ID3D11Texture2D> backTexture;
 		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-		m_device->CreateRenderTargetView(backBuffer, NULL, &m_rtv);
 
-		backBuffer->Release();
+		backTexture.Attach(backBuffer);
 
-		m_device.Context()->OMSetRenderTargets(1, &m_rtv, NULL);
-	}
-
-	BuD::DX11Renderer::~DX11Renderer()
-	{
-		Cleanup();
-	}
-
-	void BuD::DX11Renderer::Cleanup()
-	{
-		if (m_rtv)
+		if (m_backBuffer)
 		{
-			m_rtv->Release();
+			m_backBuffer->Release();
 		}
+
+		if (m_depthBuffer)
+		{
+			m_depthBuffer->Release();
+		}
+
+		m_backBuffer = m_device.CreateRenderTargetView(backTexture);
+		m_depthBuffer = m_device.CreateDepthStencilBuffer(window->Width(), window->Height());
+
+		auto rtv = m_backBuffer.Get();
+		m_device.Context()->OMSetRenderTargets(1, &rtv, m_depthBuffer.Get());
+
+		DX11Viewport viewport{ {window->Width(), window->Height()} };
+		m_device.Context()->RSSetViewports(1, &viewport);
 	}
 
-	void BuD::DX11Renderer::UpdateBufferSize(int width, int height)
+	void DX11Renderer::UpdateBuffersSize(int width, int height)
 	{
+		//ID3D11Texture2D* backBuffer;
+		//ComPtr<ID3D11Texture2D> backTexture;
+		//m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
+
+		//backTexture.Attach(backBuffer);
+
+		//if (m_backBuffer)
+		//{
+		//	m_backBuffer->Release();
+		//}
+		//
+		//if (m_depthBuffer)
+		//{
+		//	m_depthBuffer->Release();
+		//}
+
+		//m_backBuffer = m_device.CreateRenderTargetView(backTexture);
+		//m_depthBuffer = m_device.CreateDepthStencilBuffer(width, height);
+
+		//auto rtv = m_backBuffer.Get();
+		//m_device.Context()->OMSetRenderTargets(1, &rtv, m_depthBuffer.Get());
+
+		//DX11Viewport viewport{ {width, height} };
+		//m_device.Context()->RSSetViewports(1, &viewport);
 	}
 
 	void DX11Renderer::Begin()
 	{
 		FLOAT color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		m_device.Context()->ClearRenderTargetView(m_rtv, color);
+		m_device.Context()->ClearRenderTargetView(m_backBuffer.Get(), color);
+		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
 	void BuD::DX11Renderer::Draw(const RenderableSceneEntity& entity)
@@ -55,21 +89,11 @@ namespace BuD
 		m_device.Context()->IASetVertexBuffers(0, 1, buffers, strides, offsets);
 		m_device.Context()->IASetIndexBuffer(entity.m_indexBuffer->Buffer(), entity.m_indexBuffer->Format(), 0);
 
-		if (auto count = entity.m_vertexShader->ConstantBuffers().size())
-		{
-			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_vertexShader->RawConstantBuffers());
-		}
-
-		if (auto count = entity.m_pixelShader->ConstantBuffers().size())
-		{
-			m_device.Context()->VSSetConstantBuffers(0, count, entity.m_pixelShader->RawConstantBuffers());
-		}
-
 		D3D11_RASTERIZER_DESC wfdesc;
 		ID3D11RasterizerState* rastState = nullptr;
 
 		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-		wfdesc.FillMode = D3D11_FILL_SOLID;
+		wfdesc.FillMode = D3D11_FILL_WIREFRAME;
 		wfdesc.CullMode = D3D11_CULL_NONE;
 		m_device->CreateRasterizerState(&wfdesc, &rastState);
 		m_device.Context()->RSSetState(rastState);

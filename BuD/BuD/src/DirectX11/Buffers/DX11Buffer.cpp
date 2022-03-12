@@ -4,15 +4,18 @@
 
 namespace BuD
 {
-	DX11Buffer::DX11Buffer(ID3D11Device* device, size_t size, const void* data, DX11BufferDesc desc)
-		: m_bufferSize(size)
+	DX11Buffer::DX11Buffer(ID3D11Device* device, const void* data, DX11BufferDesc desc)
+		: m_bufferSize(desc.ByteWidth)
 	{
 		D3D11_SUBRESOURCE_DATA sdata;
 		ZeroMemory(&sdata, sizeof sdata);
 		sdata.pSysMem = data;
 
-		ID3D11Buffer* temp;
-		auto hr = device->CreateBuffer(&desc, data ? &sdata : nullptr, &temp);
+        ID3D11Buffer* temp;
+        if (FAILED(device->CreateBuffer(&desc, data ? &sdata : nullptr, &temp)))
+        {
+            printf("Error while creating a buffer\n");
+        }
 
 		m_buffer.Attach(temp);
 	}

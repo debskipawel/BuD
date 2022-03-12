@@ -30,6 +30,22 @@ namespace BuD
 		return byteCode;
 	}
 
+	bool SaveToFile(const void* data, size_t size, const std::wstring& path)
+	{
+		try
+		{
+			std::ofstream sOut(path, std::ios::out | std::ios::binary);
+			sOut.write(reinterpret_cast<const char*>(data), size);
+			sOut.close();
+
+			return true;
+		}
+		catch (std::exception)
+		{
+			return false;
+		}
+	}
+
 	HRESULT CompileShader(_In_ LPCWSTR srcFile, _In_ LPCSTR entryPoint, _In_ LPCSTR profile, _Outptr_ ID3DBlob** blob)
 	{
 		if (!srcFile || !entryPoint || !profile || !blob)
@@ -81,15 +97,33 @@ namespace BuD
 
 		if (shaderPath.ends_with(L".cso"))
 		{
-			// try to load byte code if exists
+			auto bytecode = LoadByteCode(shaderPath);
+			return std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
 		}
+
+		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
+		auto compiledShaderName = shaderName + L".cso";
+
+		try
+		{
+			auto bytecode = LoadByteCode(compiledShaderName);
+			auto shader = std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
+			
+			m_vertexShaders.insert(std::make_pair(shaderPath, shader));
+
+			return shader;
+		}
+		catch (std::exception e) {}
 
 		ID3DBlob* vsBlob = nullptr;
 		auto hr = CompileShader(shaderPath.c_str(), "main", "vs_4_0_level_9_1", &vsBlob);
 
 		auto shader = std::make_shared<DX11VertexShader>(device, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), layout);
+		m_vertexShaders.insert(std::make_pair(shaderPath, shader));
 
 		vsBlob->Release();
+
+		SaveToFile(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), compiledShaderName);
 
 		return shader;
 	}
@@ -104,12 +138,32 @@ namespace BuD
 		if (shaderPath.ends_with(L".cso"))
 		{
 			// try to load byte code if exists
+			auto bytecode = LoadByteCode(shaderPath);
+			return std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
 		}
+
+		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
+		auto compiledShaderName = shaderName + L".cso";
+
+		try
+		{
+			// try loading compiled shader if exists
+			auto bytecode = LoadByteCode(compiledShaderName);
+			auto shader = std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
+
+			m_pixelShaders.insert(std::make_pair(shaderPath, shader));
+
+			return shader;
+		}
+		catch (std::exception e) {}
 
 		ID3DBlob* psBlob = nullptr;
 		auto hr = CompileShader(shaderPath.c_str(), "main", "ps_4_0_level_9_1", &psBlob);
-
+		
 		auto shader = std::make_shared<DX11PixelShader>(device, psBlob->GetBufferPointer(), psBlob->GetBufferSize());
+		m_pixelShaders.insert(std::make_pair(shaderPath, shader));
+
+		SaveToFile(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), compiledShaderName);
 
 		psBlob->Release();
 

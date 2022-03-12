@@ -14,11 +14,13 @@ namespace BuD
 {
     std::shared_ptr<Application> Application::s_app = nullptr;
 
-	int Application::Run()
+	int Application::Run(HINSTANCE hInstance)
 	{
         m_clientApp = CreateClientApp();
-        m_window = std::make_shared<Win32Window>(ApplicationInfo());
+        m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_renderer = std::make_shared<DX11Renderer>(m_window);
+
+        entity = RenderableSceneEntity::Cube(m_renderer->Device().Raw());
 
         m_window->Show();
 
@@ -45,11 +47,14 @@ namespace BuD
 
     void Application::Render()
     {
-        auto cube = RenderableSceneEntity::Cube(m_renderer->Device().Raw());
-
         m_renderer->Begin();
-        m_renderer->Draw(cube);
+        m_renderer->Draw(*entity.get());
         m_renderer->End();
+    }
+
+    void Application::OnConcreteEvent(WindowResizedEvent& e)
+    {
+        m_renderer->UpdateBuffersSize(e.m_width, e.m_height);
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

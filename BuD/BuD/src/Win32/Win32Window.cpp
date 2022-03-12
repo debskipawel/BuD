@@ -23,14 +23,14 @@ namespace BuD
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
-	Win32Window::Win32Window(const ApplicationInfo& appInfo)
-		: m_hwnd(NULL)
+	Win32Window::Win32Window(const ApplicationInfo& appInfo, HINSTANCE hInstance)
+		: m_hwnd(NULL), m_hInstance(hInstance)
 	{
 		WNDCLASSEXW wcex = {};
 		wcex.cbSize = sizeof(WNDCLASSEXW);
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
 		wcex.lpfnWndProc = WndProc;
-		wcex.hInstance = nullptr;
+		wcex.hInstance = hInstance;
 		wcex.hIcon = LoadIconW(nullptr, L"IDI_ICON");
 		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
 		wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
@@ -44,10 +44,13 @@ namespace BuD
 			return;
 		}
 
+		RECT rect = { 0, 0, m_width, m_height };
+		DWORD style = WS_OVERLAPPEDWINDOW;
+
 		m_hwnd = CreateWindowExW(
 			0, reinterpret_cast<LPCWSTR>(appInfo.name.c_str()), reinterpret_cast<LPCWSTR>(appInfo.windowTitle.c_str()),
-			WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
-			m_width, m_height, nullptr, nullptr, GetModuleHandle(NULL), nullptr
+			style, CW_USEDEFAULT, CW_USEDEFAULT, 
+			rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr
 		);
 
 		if (!m_hwnd)

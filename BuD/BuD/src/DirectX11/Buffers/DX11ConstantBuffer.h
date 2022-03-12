@@ -8,7 +8,7 @@ namespace BuD
 	{
 	public:
 		explicit DX11ConstantBuffer(ID3D11Device* device, size_t size, const void* data = nullptr)
-			: DX11Buffer(device, size, data, GetBufferDesc(size)) {}
+			: DX11Buffer(device, data, GetBufferDesc(size)) {}
 
 	protected:
 		virtual DX11BufferDesc GetBufferDesc(size_t byteWidth) const override;

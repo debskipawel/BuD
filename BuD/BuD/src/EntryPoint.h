@@ -1,7 +1,7 @@
 #include "Core/Application.h"
 
-int main()
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
 {
 	auto app = BuD::Application::Get();
-	return app->Run();
+	return app->Run(hInstance);
 }

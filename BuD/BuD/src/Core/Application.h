@@ -13,12 +13,13 @@ namespace BuD
 	class Application : public IEventDispatchable
 	{
 	public:
-		int Run();
+		int Run(HINSTANCE hInstance);
 
 		void OnUpdate();
 		void Render();
 
 		void OnConcreteEvent(WindowClosedEvent& e) override;
+		void OnConcreteEvent(WindowResizedEvent& e) override;
 
 	private:
 		Application() = default;
@@ -31,7 +32,7 @@ namespace BuD
 		std::shared_ptr<DX11Renderer> m_renderer;
 		std::shared_ptr<Win32Window> m_window;
 
-		std::unique_ptr<RenderableSceneEntity> entity;
+		std::shared_ptr<RenderableSceneEntity> entity;
 
 		bool m_shouldRun = true;
 

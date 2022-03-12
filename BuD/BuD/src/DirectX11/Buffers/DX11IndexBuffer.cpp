@@ -3,9 +3,10 @@
 namespace BuD
 {
 	DX11IndexBuffer::DX11IndexBuffer(ID3D11Device* device, DXGI_FORMAT format, size_t size, const void* data)
-		: DX11Buffer(device, size, data, GetBufferDesc(size)), m_format(format)
+		: DX11Buffer(device, data, GetBufferDesc(size)), m_format(format)
 	{
-        m_indicesCount = size / BitsPerPixel(format);
+        auto bpp = BitsPerPixel(format);
+        m_indicesCount = size / (bpp / 8);
 	}
 
     DX11BufferDesc DX11IndexBuffer::GetBufferDesc(size_t byteWidth) const

@@ -6,7 +6,11 @@ namespace BuD
 	{
 		ID3D11PixelShader* shader = nullptr;
 
-		device->CreatePixelShader(code, size, nullptr, &shader);
+		if (FAILED(device->CreatePixelShader(code, size, nullptr, &shader)))
+		{
+			printf("Error while creating pixel shader\n");
+		}
+
 		m_shader.Attach(shader);
 	}
 }

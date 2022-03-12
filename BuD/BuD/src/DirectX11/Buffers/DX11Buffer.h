@@ -13,7 +13,7 @@ namespace BuD
 	class DX11Buffer
 	{
 	public:
-		DX11Buffer(ID3D11Device* device, size_t size, const void* data, DX11BufferDesc desc);
+		DX11Buffer(ID3D11Device* device, const void* data, DX11BufferDesc desc);
 		virtual ~DX11Buffer() = default;
 
 		inline ID3D11Buffer* Buffer() const { return m_buffer.Get(); }

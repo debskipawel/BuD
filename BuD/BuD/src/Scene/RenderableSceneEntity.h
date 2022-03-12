@@ -15,7 +15,7 @@ namespace BuD
 	public:
 		friend class DX11Renderer;
 
-		static RenderableSceneEntity Cube(ID3D11Device* device);
+		static std::shared_ptr<RenderableSceneEntity> Cube(ID3D11Device* device);
 	protected:
 		RenderableSceneEntity() = default;
 

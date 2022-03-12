@@ -32,7 +32,7 @@ namespace BuD
 			return m_pixelShaders.find(shaderPath) != m_pixelShaders.end();
 		}
 
-		std::shared_ptr<DX11VertexShader> VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector< D3D11_INPUT_ELEMENT_DESC>& layout);
+		std::shared_ptr<DX11VertexShader> VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout);
 		std::shared_ptr<DX11PixelShader> PSLoad(ID3D11Device* device, std::wstring shaderPath);
 
 	protected:

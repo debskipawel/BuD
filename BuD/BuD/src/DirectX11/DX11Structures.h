@@ -9,6 +9,18 @@ namespace BuD
 		DX11SwapchainDesc(HWND wndHwnd, UINT width, UINT height);
 	};
 
+	struct DX11Texture2DDesc : D3D11_TEXTURE2D_DESC
+	{
+		DX11Texture2DDesc(UINT width, UINT height);
+
+		static DX11Texture2DDesc DepthStencilDescription(UINT width, UINT height);
+	};
+
+	struct DX11Viewport : D3D11_VIEWPORT
+	{
+		explicit DX11Viewport(SIZE size);
+	};
+
 	struct DX11BufferDesc : D3D11_BUFFER_DESC
 	{
 		DX11BufferDesc(UINT bindFlags, size_t byteWidth);

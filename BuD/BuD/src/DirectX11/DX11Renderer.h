@@ -18,28 +18,18 @@ namespace BuD
 	public:
 		inline const DX11Device& Device() const { return m_device; }
 
-		virtual void UpdateBufferSize(int width, int height) override;
+		virtual void UpdateBuffersSize(int width, int height) override;
 		
 		virtual void Begin() override;
 		virtual void Draw(const RenderableSceneEntity& entity) override;
 		virtual void End() override;
 
 		DX11Renderer(std::shared_ptr<Win32Window> window);
-		~DX11Renderer();
 
 	private:
-
-		void Cleanup();
-
 		DX11Device m_device;
-		ID3D11RenderTargetView* m_rtv;
-
-		float red = 0.0f;
-		float green = 0.0f;
-		float blue = 0.0f;
-		int colormodr = 1;
-		int colormodg = 1;
-		int colormodb = 1;
+		ComPtr<ID3D11RenderTargetView> m_backBuffer;
+		ComPtr<ID3D11DepthStencilView> m_depthBuffer;
 	};
 }
 
