@@ -1,14 +1,14 @@
 #include "Application.h"
 
-#include <stdio.h>
-#include <windows.h>
+#include "Event/WindowEvents.h"
 
-#include "../Event/WindowEvents.h"
-
-#include "../Win32/Win32Window.h"
+#include "Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
+
+#include <stdio.h>
+#include <windows.h>
 
 namespace BuD
 {
@@ -19,8 +19,6 @@ namespace BuD
         m_clientApp = CreateClientApp();
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_renderer = std::make_shared<DX11Renderer>(m_window);
-
-        entity = RenderableSceneEntity::Cube(m_renderer->Device().Raw());
 
         m_window->Show();
 
@@ -48,7 +46,9 @@ namespace BuD
     void Application::Render()
     {
         m_renderer->Begin();
-        m_renderer->Draw(*entity.get());
+
+        // draw all models
+
         m_renderer->End();
     }
 

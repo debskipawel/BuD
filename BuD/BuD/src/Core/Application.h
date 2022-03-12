@@ -32,8 +32,6 @@ namespace BuD
 		std::shared_ptr<DX11Renderer> m_renderer;
 		std::shared_ptr<Win32Window> m_window;
 
-		std::shared_ptr<RenderableSceneEntity> entity;
-
 		bool m_shouldRun = true;
 
 		friend class ClientApp;
