@@ -18,6 +18,8 @@ namespace BuD
 		void Move(const dxm::Vector3& difference);
 		void MoveTo(const dxm::Vector3& position);
 
+		void ProcessMouseMovement(int xOffset, int yOffset);
+
 		inline void UpdateAspectRatio(float ratio)
 		{
 			m_projRight = ratio;

@@ -17,6 +17,7 @@ public:
 
 	virtual void OnConcreteEvent(BuD::MouseButtonDownEvent& e) override;
 	virtual void OnConcreteEvent(BuD::MouseButtonReleasedEvent& e) override;
+	virtual void OnConcreteEvent(BuD::MouseMovedEvent& e) override;
 
 	virtual void OnConcreteEvent(BuD::KeyDownEvent& e) override;
 	virtual void OnConcreteEvent(BuD::KeyReleaseEvent& e) override;

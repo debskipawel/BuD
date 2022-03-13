@@ -40,7 +40,7 @@ const dxm::Matrix& BuD::AbstractCamera::GetProjectionMatrix() const
 
 void BuD::AbstractCamera::Move(const dxm::Vector3& difference)
 {
-	m_position += difference;
+	m_position += (difference.x * m_right + difference.y * m_up + difference.z * m_front);
 
 	UpdateViewMatrix();
 }
@@ -54,18 +54,33 @@ void BuD::AbstractCamera::MoveTo(const dxm::Vector3& position)
 
 void BuD::AbstractCamera::UpdateViewMatrix()
 {
-	//dx::XMFLOAT4X4 viewMatrix;
-
-	//dx::XMStoreFloat4x4(
-	//	&viewMatrix,
-	//	dx::XMMatrixLookAtRH(
-	//		dx::XMLoadFloat3(&m_position),
-	//		dx::XMVectorAdd(dx::XMLoadFloat3(&m_position), dx::XMLoadFloat3(&m_front)),
-	//		dx::XMLoadFloat3(&m_up)
-	//	)
-	//);
-
-	//m_viewMatrix = dxm::Matrix(viewMatrix);
-
 	m_viewMatrix = dxm::Matrix::CreateLookAt(m_position, m_position + m_front, m_up);
+}
+
+void BuD::AbstractCamera::ProcessMouseMovement(int xOffset, int yOffset)
+{
+	m_yaw += xOffset * 0.1f;
+	m_pitch -= yOffset * 0.1f;
+
+	if (m_pitch > 89.0f)
+	{
+		m_pitch = 89.0f;
+	}
+
+	if (m_pitch < -89.0f)
+	{
+		m_pitch = -89.0f;
+	}
+
+	dxm::Vector3 front;
+
+	front.x = cos(dx::XMConvertToRadians(m_yaw)) * cos(dx::XMConvertToRadians(m_pitch));
+	front.y = sin(dx::XMConvertToRadians(m_pitch));
+	front.z = sin(dx::XMConvertToRadians(m_yaw)) * cos(dx::XMConvertToRadians(m_pitch));
+	front.Normalize(m_front);
+
+	m_right = m_front.Cross(m_worldUp);
+	m_up = m_right.Cross(m_front);
+
+	UpdateViewMatrix();
 }

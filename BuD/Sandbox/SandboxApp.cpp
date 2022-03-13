@@ -7,7 +7,7 @@
 using namespace DirectX::SimpleMath;
 
 SandboxApp::SandboxApp(const BuD::DX11Device& device)
-	: m_models(), m_torus(3.0f, 0.5f)
+	: m_models(), m_torus(3.0f, 1.0f)
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
@@ -47,6 +47,14 @@ void SandboxApp::OnConcreteEvent(BuD::MouseButtonReleasedEvent& e)
 	}
 }
 
+void SandboxApp::OnConcreteEvent(BuD::MouseMovedEvent& e)
+{
+	if (m_isMoving)
+	{
+		m_camera->ProcessMouseMovement(e.m_xOffset, e.m_yOffset);
+	}
+}
+
 void SandboxApp::OnConcreteEvent(BuD::KeyDownEvent& e)
 {
 	m_keyMap[e.m_key] = true;
@@ -68,36 +76,34 @@ void SandboxApp::ProcessMovement()
 
 	if (m_keyMap[BuD::KeyboardKeys::W])
 	{
-		// forward
-		dz -= 0.01f;
+		dz += 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::S])
 	{
-		// backwards
-		dz += 0.01f;
+		dz -= 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::A])
 	{
-		// left
 		dx -= 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::D])
 	{
-		// right
 		dx += 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::Q])
 	{
 		// up
+		dy += 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::E])
 	{
 		// down
+		dy -= 0.01f;
 	}
 
 	m_camera->Move({ dx, dy, dz });

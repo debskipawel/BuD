@@ -47,7 +47,7 @@ namespace BuD
 			case WM_MOUSEMOVE:
 			{
 				int dx = xPrev == -1 ? 0 : GET_X_LPARAM(lParam) - xPrev;
-				int dy = yPrev == -1 ? 0 : GET_Y_LPARAM(lParam) - xPrev;
+				int dy = yPrev == -1 ? 0 : GET_Y_LPARAM(lParam) - yPrev;
 
 				xPrev = GET_X_LPARAM(lParam);
 				yPrev = GET_Y_LPARAM(lParam);
