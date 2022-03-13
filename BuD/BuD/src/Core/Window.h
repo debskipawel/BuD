@@ -16,7 +16,7 @@ namespace BuD
 		inline int Height() { return m_height; }
 
 	protected:
-		int m_width = 800, m_height = 600;
+		int m_width = 1200, m_height = 800;
 		bool m_fullscreen = false;
 	};
 }
