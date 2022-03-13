@@ -11,23 +11,11 @@ namespace BuD
 	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
 		: m_device(window)
 	{
-		//UpdateBuffersSize(window->Width(), window->Height());
-
 		ID3D11Texture2D* backBuffer;
 		ComPtr<ID3D11Texture2D> backTexture;
 		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
 
 		backTexture.Attach(backBuffer);
-
-		if (m_backBuffer)
-		{
-			m_backBuffer->Release();
-		}
-
-		if (m_depthBuffer)
-		{
-			m_depthBuffer->Release();
-		}
 
 		m_backBuffer = m_device.CreateRenderTargetView(backTexture);
 		m_depthBuffer = m_device.CreateDepthStencilBuffer(window->Width(), window->Height());

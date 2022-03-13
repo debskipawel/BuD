@@ -21,6 +21,8 @@ namespace BuD
         m_renderer = std::make_shared<DX11Renderer>(m_window);
         m_clientApp = CreateClientApp(m_renderer->Device());
 
+        m_guiLayer = std::make_unique<GuiLayer>(m_renderer->Device(), m_window);
+
         m_window->Show();
 
         while (true)
@@ -60,6 +62,9 @@ namespace BuD
         );
 
         m_renderer->End();
+
+        m_guiLayer->BeginFrame();
+        m_guiLayer->EndFrame();
     }
 
     void Application::OnConcreteEvent(WindowResizedEvent& e)
