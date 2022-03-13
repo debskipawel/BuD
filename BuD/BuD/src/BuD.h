@@ -21,6 +21,8 @@
 
 #include "Scene/RenderableSceneEntity.h"
 
+#include "imgui.h"
+
 #ifdef _WIN32
 
 #include "Win32/Win32Window.h"

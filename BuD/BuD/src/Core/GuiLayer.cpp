@@ -6,7 +6,8 @@
 
 namespace BuD
 {
-	GuiLayer::GuiLayer(const DX11Device& device, std::shared_ptr<Win32Window> window)
+	GuiLayer::GuiLayer(std::shared_ptr<DX11Renderer> renderer, std::shared_ptr<Win32Window> window)
+		: m_renderer(renderer)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -15,7 +16,7 @@ namespace BuD
 		ImGui::StyleColorsDark();
 
 		ImGui_ImplWin32_Init(window->Handle());
-		ImGui_ImplDX11_Init(device.Raw(), device.Context().Get());
+		ImGui_ImplDX11_Init(renderer->Device().Raw(), renderer->Device().Context().Get());
 	}
 
 	GuiLayer::~GuiLayer()
@@ -34,6 +35,7 @@ namespace BuD
 	
 	void GuiLayer::EndFrame()
 	{
+		m_renderer->DisableDepthBuffer();
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}

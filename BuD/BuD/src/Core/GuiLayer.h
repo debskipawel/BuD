@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DirectX11/DX11Device.h"
+#include "DirectX11/DX11Renderer.h"
 #include "Win32/Win32Window.h"
 
 namespace BuD
@@ -8,10 +8,13 @@ namespace BuD
 	class GuiLayer
 	{
 	public:
-		GuiLayer(const DX11Device& device, std::shared_ptr<Win32Window> window);
+		GuiLayer(std::shared_ptr<DX11Renderer> renderer, std::shared_ptr<Win32Window> window);
 		~GuiLayer();
 
 		void BeginFrame();
 		void EndFrame();
+
+	private:
+		std::shared_ptr<DX11Renderer> m_renderer;
 	};
 }

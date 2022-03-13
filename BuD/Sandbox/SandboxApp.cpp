@@ -29,6 +29,12 @@ void SandboxApp::OnUpdate()
 	ProcessMovement();
 }
 
+void SandboxApp::OnGuiRender()
+{
+	static bool show_demo_window = true;
+	ImGui::ShowDemoWindow(&show_demo_window);
+}
+
 void SandboxApp::OnConcreteEvent(BuD::MouseButtonDownEvent& e)
 {
 	if (e.m_button == BuD::MouseCode::RIGHT)

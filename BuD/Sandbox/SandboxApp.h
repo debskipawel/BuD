@@ -14,6 +14,7 @@ public:
 	virtual const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& GetModels() override;
 
 	virtual void OnUpdate() override;
+	virtual void OnGuiRender() override;
 
 	virtual void OnConcreteEvent(BuD::MouseButtonDownEvent& e) override;
 	virtual void OnConcreteEvent(BuD::MouseButtonReleasedEvent& e) override;

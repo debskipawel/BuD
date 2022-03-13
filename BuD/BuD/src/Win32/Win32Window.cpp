@@ -3,17 +3,25 @@
 #include "Win32Window.h"
 #include "Win32EventFactory.h"
 
-#include "../DirectX11/DX11Renderer.h"
+#include "DirectX11/DX11Renderer.h"
 
-#include "../Event/EventEmitter.h"
+#include "Event/EventEmitter.h"
 
 #include <Windows.h>
 #include <stdio.h>
+
+#include "imgui.h"
+#include "backends/imgui_impl_win32.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace BuD
 {
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
+		if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
+			return true;
+
 		if (auto e = Win32EventFactory::Get().Construct(hwnd, msg, wParam, lParam))
 		{
 			EventEmitter::Emit(*e);

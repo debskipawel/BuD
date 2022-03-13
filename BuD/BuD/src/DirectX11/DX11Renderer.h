@@ -20,6 +20,9 @@ namespace BuD
 
 		virtual void UpdateBuffersSize(int width, int height) override;
 		
+		void EnableDepthBuffer();
+		void DisableDepthBuffer();
+
 		virtual void Begin() override;
 		virtual void Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera) override;
 		virtual void End() override;

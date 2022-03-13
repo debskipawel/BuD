@@ -55,9 +55,20 @@ namespace BuD
 		//m_device.Context()->RSSetViewports(1, &viewport);
 	}
 
+	void DX11Renderer::EnableDepthBuffer()
+	{
+		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
+	}
+
+	void DX11Renderer::DisableDepthBuffer()
+	{
+		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), nullptr);
+	}
+
 	void DX11Renderer::Begin()
 	{
 		FLOAT color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		EnableDepthBuffer();
 		m_device.Context()->ClearRenderTargetView(m_backBuffer.Get(), color);
 		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
