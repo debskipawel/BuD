@@ -22,7 +22,8 @@ namespace BuD
 
 		inline void UpdateAspectRatio(float ratio)
 		{
-			m_projRight = ratio;
+			m_projLeft = -ratio / 2;
+			m_projRight = ratio / 2;
 
 			UpdateProjectionMatrix();
 		}
@@ -44,7 +45,7 @@ namespace BuD
 
 		const float m_projFar = 100.0f;
 		const float m_projNear = 0.01f;
-		float m_projTop = 5.0f;
+		float m_projTop = 1.0f;
 		float m_projBottom = 0.0f;
 		float m_projLeft = -1.0f;
 		float m_projRight = 1.0f;

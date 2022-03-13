@@ -22,6 +22,8 @@ public:
 	virtual void OnConcreteEvent(BuD::KeyDownEvent& e) override;
 	virtual void OnConcreteEvent(BuD::KeyReleaseEvent& e) override;
 
+	virtual void OnConcreteEvent(BuD::WindowResizedEvent& e) override;
+
 private:
 
 	void ProcessMovement();

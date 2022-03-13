@@ -65,6 +65,11 @@ void SandboxApp::OnConcreteEvent(BuD::KeyReleaseEvent& e)
 	m_keyMap[e.m_key] = false;
 }
 
+void SandboxApp::OnConcreteEvent(BuD::WindowResizedEvent& e)
+{
+	m_camera->UpdateAspectRatio(static_cast<float>(e.m_width) / e.m_height);
+}
+
 void SandboxApp::ProcessMovement()
 {
 	if (!m_isMoving)
