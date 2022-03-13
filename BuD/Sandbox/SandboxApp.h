@@ -8,7 +8,7 @@
 class SandboxApp : public BuD::ClientApp
 {
 public:
-	SandboxApp();
+	SandboxApp(const BuD::DX11Device& device);
 
 	inline virtual std::shared_ptr<BuD::AbstractCamera> GetCamera() override { return m_camera; }
 	virtual const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& GetModels() override;
@@ -28,10 +28,14 @@ private:
 	std::map<BuD::KeyboardKeys, bool> m_keyMap;
 	std::shared_ptr<BuD::AbstractCamera> m_camera;
 
+	BuD::Torus m_torus;
+
+	std::vector<std::shared_ptr<BuD::RenderableSceneEntity>> m_models;
+
 	bool m_isMoving = false;
 };
 
-std::shared_ptr<BuD::ClientApp> BuD::CreateClientApp()
+std::shared_ptr<BuD::ClientApp> BuD::CreateClientApp(const BuD::DX11Device& device)
 {
-	return std::make_shared<SandboxApp>();
+	return std::make_shared<SandboxApp>(device);
 }

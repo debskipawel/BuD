@@ -6,6 +6,7 @@
 #include "Renderer.h"
 
 #include "Camera/AbstractCamera.h"
+#include "DirectX11/DX11Device.h"
 #include "Event/IEventDispatchable.h"
 #include "Scene/RenderableSceneEntity.h"
 
@@ -23,5 +24,5 @@ namespace BuD
 		virtual ~ClientApp() = default;
 	};
 
-	extern std::shared_ptr<ClientApp> CreateClientApp();
+	extern std::shared_ptr<ClientApp> CreateClientApp(const DX11Device& device);
 }

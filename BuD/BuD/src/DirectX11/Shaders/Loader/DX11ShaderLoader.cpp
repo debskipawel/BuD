@@ -95,7 +95,7 @@ namespace BuD
 			return m_vertexShaders.find(shaderPath)->second;
 		}
 
-		if (shaderPath.ends_with(L".cso"))
+		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
 		{
 			auto bytecode = LoadByteCode(shaderPath);
 			return std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
@@ -135,7 +135,7 @@ namespace BuD
 			return m_pixelShaders.find(shaderPath)->second;
 		}
 
-		if (shaderPath.ends_with(L".cso"))
+		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
 		{
 			// try to load byte code if exists
 			auto bytecode = LoadByteCode(shaderPath);

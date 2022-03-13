@@ -15,6 +15,11 @@ namespace BuD
 			m_constantBuffers[bufferIndex]->Update(context, data, size);
 		}
 
+		inline void AddConstantBuffer(std::shared_ptr<DX11ConstantBuffer> constantBuffer)
+		{
+			m_constantBuffers.push_back(constantBuffer);
+		}
+
 		inline const auto& ConstantBuffers() const { return m_constantBuffers; }
 		ID3D11Buffer** RawConstantBuffers();
 

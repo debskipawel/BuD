@@ -1,17 +1,27 @@
 #include "SandboxApp.h"
 
+#include "Cube.h"
+
 #include <EntryPoint.h>
 
 using namespace DirectX::SimpleMath;
 
-SandboxApp::SandboxApp()
+SandboxApp::SandboxApp(const BuD::DX11Device& device)
+	: m_models(), m_torus(3.0f, 0.5f)
 {
-	m_camera = BuD::CameraFactory::MakeOrthographic(Vector3(0.0f, 0.0f, 5.0f), Vector3(0.0f, 0.0f, -1.0f));
+	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
+
+	m_torus.UpdateModel(device);
+
+	m_models.reserve(1);
+	m_models.push_back(
+		m_torus.GetModel()
+	);
 }
 
-std::vector<std::shared_ptr<BuD::RenderableSceneEntity>> SandboxApp::GetModels()
+const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& SandboxApp::GetModels()
 {
-	throw new std::exception("GetModels method not implemented");
+	return m_models;
 }
 
 void SandboxApp::OnUpdate()
@@ -54,24 +64,30 @@ void SandboxApp::ProcessMovement()
 		return;
 	}
 
+	float dx = 0.0f, dy = 0.0f, dz = 0.0f;
+
 	if (m_keyMap[BuD::KeyboardKeys::W])
 	{
 		// forward
+		dz -= 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::S])
 	{
 		// backwards
+		dz += 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::A])
 	{
 		// left
+		dx -= 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::D])
 	{
 		// right
+		dx += 0.01f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::Q])
@@ -83,4 +99,6 @@ void SandboxApp::ProcessMovement()
 	{
 		// down
 	}
+
+	m_camera->Move({ dx, dy, dz });
 }

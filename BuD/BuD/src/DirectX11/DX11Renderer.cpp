@@ -74,20 +74,34 @@ namespace BuD
 		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
-	void BuD::DX11Renderer::Draw(const RenderableSceneEntity& entity)
+	void BuD::DX11Renderer::Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera)
 	{
-		m_device.Context()->VSSetShader(entity.m_vertexShader->Shader(), nullptr, 0);
-		m_device.Context()->PSSetShader(entity.m_pixelShader->Shader(), nullptr, 0);
+		m_device.Context()->VSSetShader(entity->m_vertexShader->Shader(), nullptr, 0);
+		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);
 
-		m_device.Context()->IASetInputLayout(entity.m_vertexShader->Layout());
+		m_device.Context()->IASetInputLayout(entity->m_vertexShader->Layout());
 		m_device.Context()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		ID3D11Buffer* buffers[] = { entity.m_vertexBuffer->Buffer() };
-		UINT strides[] = { entity.m_vertexBuffer->Stride() };
-		UINT offsets[] = { entity.m_vertexBuffer->Offset() };
+		if (auto count = entity->m_vertexShader->ConstantBuffers().size())
+		{
+			auto rawBuffers = entity->m_vertexShader->RawConstantBuffers();
+			m_device.Context()->VSSetConstantBuffers(0, count, rawBuffers);
+		}
+
+		if (auto count = entity->m_pixelShader->ConstantBuffers().size())
+		{
+			auto rawBuffers = entity->m_pixelShader->RawConstantBuffers();
+			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
+		}
+
+		entity->UpdateConstantBuffers(camera);
+
+		ID3D11Buffer* buffers[] = { entity->m_vertexBuffer->Buffer() };
+		UINT strides[] = { entity->m_vertexBuffer->Stride() };
+		UINT offsets[] = { entity->m_vertexBuffer->Offset() };
 
 		m_device.Context()->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-		m_device.Context()->IASetIndexBuffer(entity.m_indexBuffer->Buffer(), entity.m_indexBuffer->Format(), 0);
+		m_device.Context()->IASetIndexBuffer(entity->m_indexBuffer->Buffer(), entity->m_indexBuffer->Format(), 0);
 
 		D3D11_RASTERIZER_DESC wfdesc;
 		ID3D11RasterizerState* rastState = nullptr;
@@ -98,7 +112,7 @@ namespace BuD
 		m_device->CreateRasterizerState(&wfdesc, &rastState);
 		m_device.Context()->RSSetState(rastState);
 
-		m_device.Context()->DrawIndexed(entity.m_indexBuffer->Count(), 0, 0);
+		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
 	}
 
 	void DX11Renderer::End()

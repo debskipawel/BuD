@@ -8,7 +8,7 @@ namespace BuD
 	{
 	public:
 		virtual void Begin() = 0;
-		virtual void Draw(const RenderableSceneEntity& entity) = 0;
+		virtual void Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera) = 0;
 		virtual void End() = 0;
 		
 		virtual void UpdateBuffersSize(int width, int height) = 0;

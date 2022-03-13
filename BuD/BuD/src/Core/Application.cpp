@@ -17,9 +17,9 @@ namespace BuD
 
 	int Application::Run(HINSTANCE hInstance)
 	{
-        m_clientApp = CreateClientApp();
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_renderer = std::make_shared<DX11Renderer>(m_window);
+        m_clientApp = CreateClientApp(m_renderer->Device());
 
         m_window->Show();
 
@@ -41,8 +41,6 @@ namespace BuD
 
     void Application::OnUpdate()
     {
-        // this is where all models' constant buffers should be updated 
-        // (or should it? what if few models want to use the same constant buffer?)
         this->m_clientApp->OnUpdate();
     }
 
@@ -50,9 +48,16 @@ namespace BuD
     {
         m_renderer->Begin();
 
-        // draw all models
+        auto camera = m_clientApp->GetCamera();
         auto& models = m_clientApp->GetModels();
-        std::for_each(models.begin(), models.end(), [this](std::shared_ptr<RenderableSceneEntity> entity) { m_renderer->Draw(*entity.get()); });
+
+        std::for_each(
+            models.begin(), models.end(), 
+            [this, camera](std::shared_ptr<RenderableSceneEntity> entity)
+            {
+                m_renderer->Draw(entity, camera);
+            }
+        );
 
         m_renderer->End();
     }

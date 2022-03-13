@@ -5,37 +5,35 @@
 namespace BuD
 {
 	DX11Buffer::DX11Buffer(ID3D11Device* device, const void* data, DX11BufferDesc desc)
-		: m_bufferSize(desc.ByteWidth), m_bindFlags(desc.BindFlags)
+		: m_desc(desc)
 	{
-        CreateBuffer(device, data, desc.ByteWidth);
+        CreateBuffer(device, data, m_desc);
 	}
 	
 	void DX11Buffer::Update(ID3D11DeviceContext* context, const void* data, size_t size)
 	{
-		if (size == m_bufferSize)
+		if (size == m_desc.ByteWidth)
 		{
 			D3D11_MAPPED_SUBRESOURCE res;
 
-			context->Map(m_buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
-			memcpy(res.pData, &data, size);
+			auto hr = context->Map(m_buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+			memcpy(res.pData, data, size);
 			context->Unmap(m_buffer.Get(), 0);
 
             return;
 		}
 
-        m_bufferSize = size;
+        m_desc.ByteWidth = size;
 
         ID3D11Device* device = nullptr;
         m_buffer->GetDevice(&device);
         m_buffer->Release();
 
-        CreateBuffer(device, data, size);
+        CreateBuffer(device, data, m_desc);
 	}
 
-    void DX11Buffer::CreateBuffer(ID3D11Device* device, const void* data, size_t size)
+    void DX11Buffer::CreateBuffer(ID3D11Device* device, const void* data, const DX11BufferDesc& desc)
     {
-        DX11BufferDesc desc{ m_bindFlags, size };
-
         D3D11_SUBRESOURCE_DATA sdata;
         ZeroMemory(&sdata, sizeof sdata);
         sdata.pSysMem = data;

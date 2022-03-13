@@ -23,10 +23,9 @@ namespace BuD
 	protected:
 		virtual DX11BufferDesc GetBufferDesc(size_t byteWidth) const = 0;
 
-		virtual void CreateBuffer(ID3D11Device* device, const void* data, size_t size);
+		virtual void CreateBuffer(ID3D11Device* device, const void* data, const DX11BufferDesc& desc);
 
-		size_t m_bufferSize;
-		UINT m_bindFlags;
+		DX11BufferDesc m_desc;
 		ComPtr<ID3D11Buffer> m_buffer;
 	};
 

@@ -98,7 +98,7 @@
       <PreprocessorDefinitions>WIN32,WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,7 +117,7 @@
       <PreprocessorDefinitions>WIN32,WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,7 +157,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,6 +191,8 @@
     <ClCompile Include="src\Event\MouseEvents.cpp" />
     <ClCompile Include="src\Event\WindowEvents.cpp" />
     <ClCompile Include="src\DirectX11\DX11Renderer.cpp" />
+    <ClCompile Include="src\Geometry\Parameterized2DEntity.cpp" />
+    <ClCompile Include="src\Geometry\Torus.cpp" />
     <ClCompile Include="src\Scene\RenderableSceneEntity.cpp" />
     <ClCompile Include="src\Scene\SceneEntity.cpp" />
     <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
@@ -225,6 +227,9 @@
     <ClInclude Include="src\Event\MouseEvents.h" />
     <ClInclude Include="src\Event\WindowEvents.h" />
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
+    <ClInclude Include="src\Geometry\Parameterized2DEntity.h" />
+    <ClInclude Include="src\Geometry\ParameterizedObject.h" />
+    <ClInclude Include="src\Geometry\Torus.h" />
     <ClInclude Include="src\Scene\RenderableSceneEntity.h" />
     <ClInclude Include="src\Scene\SceneEntity.h" />
     <ClInclude Include="src\Win32\Win32EventFactory.h" />
@@ -243,6 +248,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shaders\pos_transf_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="shaders\solid_white_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

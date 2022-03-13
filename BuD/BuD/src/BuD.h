@@ -8,9 +8,18 @@
 
 #include "Camera/CameraFactory.h"
 
+#include "DirectX11/Buffers/DX11ConstantBuffer.h"
+#include "DirectX11/Buffers/DX11VertexBuffer.h"
+#include "DirectX11/Buffers/DX11IndexBuffer.h"
+#include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
+
 #include "Event/KeyboardEvents.h"
 #include "Event/MouseEvents.h"
 #include "Event/WindowEvents.h"
+
+#include "Geometry/Torus.h"
+
+#include "Scene/RenderableSceneEntity.h"
 
 #ifdef _WIN32
 
