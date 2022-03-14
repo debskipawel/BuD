@@ -18,7 +18,7 @@ namespace BuD
 	public:
 		inline const DX11Device& Device() const { return m_device; }
 
-		virtual void UpdateBuffersSize(int width, int height) override;
+		virtual void UpdateBuffersSize(int width, int height, int topX, int topY) override;
 		
 		void EnableDepthBuffer();
 		void DisableDepthBuffer();

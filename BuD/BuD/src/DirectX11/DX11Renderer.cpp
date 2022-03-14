@@ -27,29 +27,25 @@ namespace BuD
 		m_device.Context()->RSSetViewports(1, &viewport);
 	}
 
-	void DX11Renderer::UpdateBuffersSize(int width, int height)
+	void DX11Renderer::UpdateBuffersSize(int width, int height, int topX, int topY)
 	{
+		//if (m_backBuffer)
+		//{
+		//	m_backBuffer.Reset();
+		//}
+
+		//m_device.SwapChain()->ResizeBuffers(1, width, height, DXGI_FORMAT_UNKNOWN, 0);
+
 		//ID3D11Texture2D* backBuffer;
 		//ComPtr<ID3D11Texture2D> backTexture;
 		//m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-
 		//backTexture.Attach(backBuffer);
 
-		//if (m_backBuffer)
-		//{
-		//	m_backBuffer->Release();
-		//}
-		//
-		//if (m_depthBuffer)
-		//{
-		//	m_depthBuffer->Release();
-		//}
-
 		//m_backBuffer = m_device.CreateRenderTargetView(backTexture);
-		//m_depthBuffer = m_device.CreateDepthStencilBuffer(width, height);
 
-		//auto rtv = m_backBuffer.Get();
-		//m_device.Context()->OMSetRenderTargets(1, &rtv, m_depthBuffer.Get());
+		//backTexture->Release();
+
+		//m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), nullptr);
 
 		//DX11Viewport viewport{ {width, height} };
 		//m_device.Context()->RSSetViewports(1, &viewport);

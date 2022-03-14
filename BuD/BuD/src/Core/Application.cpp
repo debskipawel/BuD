@@ -70,7 +70,7 @@ namespace BuD
 
     void Application::OnConcreteEvent(WindowResizedEvent& e)
     {
-        m_renderer->UpdateBuffersSize(e.m_width, e.m_height);
+        m_renderer->UpdateBuffersSize(e.m_width, e.m_height, e.m_topX, e.m_topY);
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

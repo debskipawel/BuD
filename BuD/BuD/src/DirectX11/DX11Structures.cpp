@@ -11,7 +11,7 @@ namespace BuD
 		BufferDesc.RefreshRate.Denominator = 1;
 		BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		//BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //0
-		//BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; //0
+		BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
 		SampleDesc.Quality = 0;
 		SampleDesc.Count = 1;
 		BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;

@@ -7,15 +7,19 @@
 using namespace DirectX::SimpleMath;
 
 SandboxApp::SandboxApp(const BuD::DX11Device& device)
-	: m_models(), m_torus(3.0f, 1.0f)
+	: m_models(), m_torus(std::make_shared<BuD::Torus>(3.0f, 1.0f))
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
-	m_torus.UpdateModel(device);
+	m_torus->UpdateModel(device);
+
+	std::vector<std::shared_ptr<BuD::Parameterized2DEntity>> entities;
+	entities.push_back(m_torus);
+	m_gui = std::make_unique<SceneEditor>(entities);
 
 	m_models.reserve(1);
 	m_models.push_back(
-		m_torus.GetModel()
+		m_torus->GetModel()
 	);
 }
 
@@ -31,8 +35,7 @@ void SandboxApp::OnUpdate()
 
 void SandboxApp::OnGuiRender()
 {
-	static bool show_demo_window = true;
-	ImGui::ShowDemoWindow(&show_demo_window);
+	m_gui->RenderGui();
 }
 
 void SandboxApp::OnConcreteEvent(BuD::MouseButtonDownEvent& e)

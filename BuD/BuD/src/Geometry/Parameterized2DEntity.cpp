@@ -37,11 +37,6 @@ namespace BuD
 
 				auto point = GetPoint({ x, y });
 
-				if (point.Length() < 0.1f)
-				{
-					printf("dupa");
-				}
-
 				m_vertices.push_back(point);
 
 				int t = (i * ySplits + j) % verticesCount;
