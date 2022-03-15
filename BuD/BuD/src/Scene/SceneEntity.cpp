@@ -32,6 +32,6 @@ namespace BuD
 
 		auto scale = dxm::Matrix::CreateScale(m_scale);
 
-		return trans * rot * scale;
+		return scale * rot * trans;
 	}
 }

@@ -41,7 +41,6 @@ void SandboxApp::OnConcreteEvent(BuD::MouseButtonDownEvent& e)
 	if (e.m_button == BuD::MouseCode::RIGHT)
 	{
 		m_isMoving = true;
-		printf("Start moving\n");
 	}
 }
 
@@ -50,7 +49,6 @@ void SandboxApp::OnConcreteEvent(BuD::MouseButtonReleasedEvent& e)
 	if (e.m_button == BuD::MouseCode::RIGHT)
 	{
 		m_isMoving = false;
-		printf("Stop moving\n");
 	}
 }
 
