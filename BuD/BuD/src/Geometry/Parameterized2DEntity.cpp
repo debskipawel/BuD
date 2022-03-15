@@ -70,7 +70,7 @@ namespace BuD
 				m_vertices.push_back(point);
 
 				int t = (i * ySplits + j) % verticesCount;
-				int u = ((i + 1) * ySplits + j + 1) % verticesCount;
+				int u = ((i + 1) * ySplits + (j + 1) % ySplits) % verticesCount;
 				int v = ((i + 1) * ySplits + j) % verticesCount;
 
 				m_indices.push_back(t);
