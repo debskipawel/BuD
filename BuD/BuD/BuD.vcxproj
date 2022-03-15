@@ -135,7 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -156,7 +156,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -175,6 +175,7 @@
     <ClCompile Include="src\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="src\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\GuiLayer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11ConstantBuffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11IndexBuffer.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.cpp" />
+    <ClCompile Include="src\Editors\IEditable.cpp" />
     <ClCompile Include="src\EntryPoint.h" />
     <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
@@ -207,6 +209,7 @@
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\ClientApp.h" />
+    <ClInclude Include="src\Core\GuiLayer.h" />
     <ClInclude Include="src\Core\KeyboardKeys.h" />
     <ClInclude Include="src\Core\MouseCode.h" />
     <ClInclude Include="src\Core\Renderer.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h" />
+    <ClInclude Include="src\Editors\IEditable.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />
@@ -239,6 +243,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
       <Project>{6d79829e-a19e-456c-a4be-0ad5f55bf220}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\ImGui\ImGui.vcxproj">
+      <Project>{16388acb-0f41-4ff6-9345-3faf941dcf4d}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

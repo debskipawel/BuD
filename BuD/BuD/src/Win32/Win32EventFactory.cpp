@@ -98,10 +98,10 @@ namespace BuD
 			}
 			case WM_SIZE:
 			{
-				UINT width = LOWORD(lParam);
-				UINT height = HIWORD(lParam);
+				RECT rect;
+				GetClientRect(hWnd, &rect);
 
-				return std::make_unique<WindowResizedEvent>(width, height);
+				return std::make_unique<WindowResizedEvent>(rect.right - rect.left, rect.bottom - rect.top, wParam & SIZE_MINIMIZED);
 			}
 			case WM_SYSKEYDOWN:
 			{

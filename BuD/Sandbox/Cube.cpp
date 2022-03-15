@@ -70,7 +70,7 @@ std::shared_ptr<BuD::DX11IndexBuffer> Cube::s_indexBuffer = nullptr;
 
 std::shared_ptr<BuD::RenderableSceneEntity> Cube::GetEntity(const BuD::DX11Device& device)
 {
-	auto constantBuffer = std::make_shared<BuD::DX11ConstantBuffer>(device.Raw(), sizeof(DirectX::SimpleMath::Matrix));
+	auto constantBuffer = std::make_shared<BuD::DX11ConstantBuffer>(device, sizeof(DirectX::SimpleMath::Matrix));
 
 	auto vertexShader = BuD::DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_normal_vs.hlsl", elements);
 	auto pixelShader = BuD::DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_white_ps.hlsl");
@@ -84,7 +84,7 @@ std::shared_ptr<BuD::RenderableSceneEntity> Cube::GetEntity(const BuD::DX11Devic
 		{
 			auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
 
-			entity->VertexShader()->UpdateConstantBuffer(device.Context().Get(), 0, &matrix, sizeof(DirectX::SimpleMath::Matrix));
+			entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(DirectX::SimpleMath::Matrix));
 		}
 	);
 }
@@ -94,7 +94,7 @@ std::shared_ptr<BuD::DX11VertexBuffer> Cube::GetVB(const BuD::DX11Device& device
 	if (!s_vertexBuffer)
 	{
 		s_vertexBuffer = std::make_shared<BuD::DX11VertexBuffer>(
-			device.Raw(),
+			device,
 			vertices.size() * sizeof(PositionNormal),
 			elements,
 			vertices.data()
@@ -109,7 +109,7 @@ std::shared_ptr<BuD::DX11IndexBuffer> Cube::GetIB(const BuD::DX11Device& device)
 	if (!s_indexBuffer)
 	{
 		s_indexBuffer = std::make_shared<BuD::DX11IndexBuffer>(
-			device.Raw(),
+			device,
 			DXGI_FORMAT_R16_UINT,
 			indices.size() * sizeof(unsigned short),
 			indices.data()

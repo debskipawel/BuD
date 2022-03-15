@@ -16,6 +16,8 @@ namespace BuD
 	{
 	public:
 		virtual void OnUpdate() = 0;
+		virtual void OnGuiRender() = 0;
+
 		virtual std::shared_ptr<AbstractCamera> GetCamera() = 0;
 		virtual const std::vector<std::shared_ptr<RenderableSceneEntity>>& GetModels() = 0;
 

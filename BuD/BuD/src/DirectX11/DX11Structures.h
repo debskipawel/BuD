@@ -18,7 +18,7 @@ namespace BuD
 
 	struct DX11Viewport : D3D11_VIEWPORT
 	{
-		explicit DX11Viewport(SIZE size);
+		explicit DX11Viewport(UINT width, UINT height);
 	};
 
 	struct DX11BufferDesc : D3D11_BUFFER_DESC

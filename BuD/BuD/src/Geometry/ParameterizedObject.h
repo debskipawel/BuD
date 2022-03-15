@@ -18,18 +18,23 @@ namespace BuD
 			: m_min(minDomain), m_max(maxDomain), m_function(objectFunction)
 		{
 		}
-
-		virtual void SampleBy(Dom interval) = 0;
-		virtual void UpdateModel(const DX11Device& device) = 0;
+		
+		virtual void UpdateRenderableModel() = 0;
 
 		inline std::shared_ptr<RenderableSceneEntity> GetModel() { return m_model; }
 		inline Vector3 GetPoint(Dom parameter) { return m_function(parameter); }
 
 	protected:
+		virtual void Sample() = 0;
+
 		std::shared_ptr<RenderableSceneEntity> m_model;
 
 		Dom m_min;
 		Dom m_max;
+		Dom m_prevInterval;
+
+		std::vector<Vector3> m_vertices;
+		std::vector<unsigned short> m_indices;
 
 		std::function<Vector3(Dom)> m_function;
 	};

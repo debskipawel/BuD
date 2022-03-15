@@ -22,9 +22,8 @@ namespace BuD
 
 	ComPtr<ID3D11RenderTargetView> DX11Device::CreateRenderTargetView(const ComPtr<ID3D11Texture2D>& texture)
 	{
-		ID3D11RenderTargetView* temp;
-		auto hr = m_device->CreateRenderTargetView(texture.Get(), nullptr, &temp);
-		ComPtr<ID3D11RenderTargetView> result(temp);
+		ComPtr<ID3D11RenderTargetView> result;
+		auto hr = m_device->CreateRenderTargetView(texture.Get(), nullptr, result.GetAddressOf());
 		
 		if (FAILED(hr))
 		{
@@ -39,9 +38,9 @@ namespace BuD
 		auto desc = DX11Texture2DDesc::DepthStencilDescription(width, height);
 		auto tex = CreateTexture(desc);
 
-		ID3D11DepthStencilView* temp;
-		auto hr = m_device->CreateDepthStencilView(tex.Get(), nullptr, &temp);
-		ComPtr<ID3D11DepthStencilView> result(temp);
+		ComPtr<ID3D11DepthStencilView> result;
+		auto hr = m_device->CreateDepthStencilView(tex.Get(), nullptr, result.GetAddressOf());
+		tex.Reset();
 		
 		if (FAILED(hr))
 		{
@@ -52,9 +51,8 @@ namespace BuD
 	}
 	ComPtr<ID3D11Texture2D> DX11Device::CreateTexture(const D3D11_TEXTURE2D_DESC& desc) const
 	{
-		ID3D11Texture2D* temp;
-		auto hr = m_device->CreateTexture2D(&desc, nullptr, &temp);
-		ComPtr<ID3D11Texture2D> result(temp);
+		ComPtr<ID3D11Texture2D> result;
+		auto hr = m_device->CreateTexture2D(&desc, nullptr, result.GetAddressOf());
 		
 		if (FAILED(hr))
 		{

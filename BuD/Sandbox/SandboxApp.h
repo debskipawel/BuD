@@ -5,6 +5,8 @@
 
 #include <BuD.h>
 
+#include "Gui/SceneEditor.h"
+
 class SandboxApp : public BuD::ClientApp
 {
 public:
@@ -14,6 +16,7 @@ public:
 	virtual const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& GetModels() override;
 
 	virtual void OnUpdate() override;
+	virtual void OnGuiRender() override;
 
 	virtual void OnConcreteEvent(BuD::MouseButtonDownEvent& e) override;
 	virtual void OnConcreteEvent(BuD::MouseButtonReleasedEvent& e) override;
@@ -28,10 +31,12 @@ private:
 
 	void ProcessMovement();
 
+	std::unique_ptr<SceneEditor> m_gui;
+
 	std::map<BuD::KeyboardKeys, bool> m_keyMap;
 	std::shared_ptr<BuD::AbstractCamera> m_camera;
 
-	BuD::Torus m_torus;
+	std::shared_ptr<BuD::Torus> m_torus;
 
 	std::vector<std::shared_ptr<BuD::RenderableSceneEntity>> m_models;
 

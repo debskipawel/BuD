@@ -7,11 +7,12 @@ namespace BuD
 	class WindowResizedEvent : public Event
 	{
 	public:
-		WindowResizedEvent(int width, int height) : m_width(width), m_height(height) {}
+		WindowResizedEvent(int width, int height, bool minimized) : m_width(width), m_height(height), m_minimized(minimized) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
 		const int m_width, m_height;
+		const bool m_minimized;
 	};
 
 	class WindowMovedEvent : public Event

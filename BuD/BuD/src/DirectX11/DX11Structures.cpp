@@ -5,13 +5,13 @@ namespace BuD
 	DX11SwapchainDesc::DX11SwapchainDesc(HWND wndHwnd, UINT width, UINT height)
 	{
 		ZeroMemory(this, sizeof(DX11SwapchainDesc));
-		BufferDesc.Width = width;
-		BufferDesc.Height = height;
+		BufferDesc.Width = 0;
+		BufferDesc.Height = 0;
 		BufferDesc.RefreshRate.Numerator = 120;
 		BufferDesc.RefreshRate.Denominator = 1;
 		BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		//BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //0
-		//BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; //0
+		BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
 		SampleDesc.Quality = 0;
 		SampleDesc.Count = 1;
 		BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -60,12 +60,12 @@ namespace BuD
 		return res;
 	}
 
-	DX11Viewport::DX11Viewport(SIZE size)
+	DX11Viewport::DX11Viewport(UINT width, UINT height)
 	{
 		TopLeftX = 0.0f;
 		TopLeftY = 0.0f;
-		Width = static_cast<FLOAT>(size.cx);
-		Height = static_cast<FLOAT>(size.cy);
+		Width = static_cast<FLOAT>(width);
+		Height = static_cast<FLOAT>(height);
 		MinDepth = 0.0f;
 		MaxDepth = 1.0f;
 	}
