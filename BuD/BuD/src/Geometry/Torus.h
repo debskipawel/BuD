@@ -7,31 +7,29 @@ namespace BuD
 	class Torus : public Parameterized2DEntity
 	{
 	public:
-		Torus(float largeRadius, float smallRadius)
-			: Parameterized2DEntity({ 0.0f, 0.0f }, { 6.28318f, 6.28318f }, TorusEquation(largeRadius, smallRadius)),
-			  m_largeRadius(largeRadius), m_smallRadius(smallRadius)
-		{
-			SampleBy({ 0.1963f, 0.1963f });
-		}
+		Torus(const DX11Device& device, float largeRadius, float smallRadius);
 
-		virtual void UpdateModel(const DX11Device& device) override;
+		virtual void DrawGui() override;
+		virtual void UpdateRenderableModel() override;
 
 	protected:
 		float m_largeRadius, m_smallRadius;
 
-		inline static std::function<Vector3(Vector2)> TorusEquation(float largeRadius, float smallRadius)
+		inline std::function<Vector3(Vector2)> TorusEquation()
 		{
-			return [largeRadius, smallRadius](Vector2 par) {
+			return [this](Vector2 par) {
 				return Vector3
 				{
-					(largeRadius + smallRadius * cosf(par.y)) * cosf(par.x),
-					(largeRadius + smallRadius * cosf(par.y)) * sinf(par.x),
-					smallRadius * sinf(par.y)
+					(m_largeRadius + m_smallRadius * cosf(par.y)) * cosf(par.x),
+					(m_largeRadius + m_smallRadius * cosf(par.y)) * sinf(par.x),
+					m_smallRadius * sinf(par.y)
 				};
 			};
 		}
 
-		static std::shared_ptr<DX11ConstantBuffer> ConstantBuffer(ID3D11Device* device);
+		bool UpdateRadius(float largeRadius, float smallRadius);
+
+		static std::shared_ptr<DX11ConstantBuffer> ConstantBuffer(const DX11Device& device);
 		static std::shared_ptr<DX11ConstantBuffer> s_constantBuffer;
 	};
 }

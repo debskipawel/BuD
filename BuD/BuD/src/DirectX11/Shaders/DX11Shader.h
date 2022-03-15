@@ -10,9 +10,9 @@ namespace BuD
 	class DX11Shader
 	{
 	public:
-		inline void UpdateConstantBuffer(ID3D11DeviceContext* context, UINT bufferIndex, const void* data, size_t size)
+		inline void UpdateConstantBuffer(UINT bufferIndex, const void* data, size_t size)
 		{
-			m_constantBuffers[bufferIndex]->Update(context, data, size);
+			m_constantBuffers[bufferIndex]->Update(data, size);
 		}
 
 		inline void AddConstantBuffer(std::shared_ptr<DX11ConstantBuffer> constantBuffer)

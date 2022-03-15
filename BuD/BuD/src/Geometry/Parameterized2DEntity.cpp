@@ -1,23 +1,53 @@
 #include "Parameterized2DEntity.h"
 
+#include <imgui.h>
+
 namespace BuD
 {
 	Parameterized2DEntity::Parameterized2DEntity(Vector2 minDomain, Vector2 maxDomain, std::function<Vector3(Vector2)> objectFunction)
-		: ParameterizedObject<Vector2>(objectFunction, minDomain, maxDomain)
+		: ParameterizedObject<Vector2>(objectFunction, minDomain, maxDomain), m_samplesU(0), m_samplesV(0)
 	{
 	}
 
-	void Parameterized2DEntity::SampleBy(Vector2 interval)
+	bool Parameterized2DEntity::UpdateSampleIntervals(UINT samplesU, UINT samplesV)
 	{
-		if (m_prevInterval == interval)
+		if (samplesU == m_samplesU && samplesV == m_samplesV)
 		{
-			return;
+			return false;
 		}
 
-		m_prevInterval = interval;
+		m_samplesU = samplesU;
+		m_samplesV = samplesV;
 
-		UINT xSplits = (m_max.x - m_min.x) / interval.x;
-		UINT ySplits = (m_max.y - m_min.y) / interval.y;
+		auto domain = m_max - m_min;
+		m_prevInterval = { domain.x / samplesU, domain.y / samplesV };
+
+		Sample();
+
+		return true;
+	}
+
+	void Parameterized2DEntity::DrawGui()
+	{
+		m_model->DrawGui();
+
+		int samplesU = m_samplesU;
+		int samplesV = m_samplesV;
+
+		ImGui::Text("Samples count");
+		ImGui::DragInt("U", &samplesU, 1.0f, 1);
+		ImGui::DragInt("V", &samplesV, 1.0f, 1);
+
+		if (UpdateSampleIntervals(samplesU, samplesV))
+		{
+			UpdateRenderableModel();
+		}
+	}
+
+	void Parameterized2DEntity::Sample()
+	{
+		UINT xSplits = (m_max.x - m_min.x) / m_prevInterval.x;
+		UINT ySplits = (m_max.y - m_min.y) / m_prevInterval.y;
 
 		UINT verticesCount = xSplits * ySplits;
 
@@ -29,11 +59,11 @@ namespace BuD
 
 		for (int i = 0; i < xSplits; i++)
 		{
-			float x = m_min.x + i * interval.x;
+			float x = m_min.x + i * m_prevInterval.x;
 
 			for (int j = 0; j < ySplits; j++)
 			{
-				float y = m_min.y + j * interval.y;
+				float y = m_min.y + j * m_prevInterval.y;
 
 				auto point = GetPoint({ x, y });
 

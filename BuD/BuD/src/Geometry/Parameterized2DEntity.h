@@ -2,21 +2,24 @@
 
 #include "ParameterizedObject.h"
 
+#include <Editors/IEditable.h>
+
 namespace BuD
 {
-	class Parameterized2DEntity : public ParameterizedObject<Vector2>
+	class Parameterized2DEntity : public ParameterizedObject<Vector2>, public IEditable
 	{
 	public:
 		Parameterized2DEntity(Vector2 minDomain, Vector2 maxDomain, std::function<Vector3(Vector2)> objectFunction);
 
-		virtual void SampleBy(Vector2 interval) override;
+		virtual void UpdateRenderableModel() = 0;
 
-		virtual void UpdateModel(const DX11Device& device) = 0;
+		virtual void DrawGui() override;
 
 	protected:
-		Vector2 m_prevInterval;
+		virtual void Sample() override;
+		bool UpdateSampleIntervals(UINT samplesU, UINT samplesV);
 
-		std::vector<Vector3> m_vertices;
-		std::vector<unsigned short> m_indices;
+		UINT m_samplesU;
+		UINT m_samplesV;
 	};
 }

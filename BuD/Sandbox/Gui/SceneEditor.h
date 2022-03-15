@@ -11,6 +11,7 @@ public:
 
 	void RenderGui();
 protected:
+
 	std::vector<BuD::Parameterized2DEntity*> m_entities;
 	BuD::Parameterized2DEntity* m_selectedEntity;
 

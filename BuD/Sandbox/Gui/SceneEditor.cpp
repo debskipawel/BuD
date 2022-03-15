@@ -25,22 +25,13 @@ void SceneEditor::RenderGui()
 
 	if (selected != -1)
 	{
+		ImGui::BeginChild("Modify selected");
+
 		m_selectedEntity = m_entities[selected];
 
-		ImGui::Text("Position:");
-		ImGui::DragFloat("x: ", &m_selectedEntity->GetModel()->m_position.x, 0.01f);
-		ImGui::DragFloat("y: ", &m_selectedEntity->GetModel()->m_position.y, 0.01f);
-		ImGui::DragFloat("z: ", &m_selectedEntity->GetModel()->m_position.z, 0.01f);
+		m_selectedEntity->DrawGui();
 
-		ImGui::Text("Rotation:");
-		ImGui::DragFloat("rot x: ", &m_selectedEntity->GetModel()->m_rotation.x, 0.1f);
-		ImGui::DragFloat("rot y: ", &m_selectedEntity->GetModel()->m_rotation.y, 0.1f);
-		ImGui::DragFloat("rot z: ", &m_selectedEntity->GetModel()->m_rotation.z, 0.1f);
-
-		ImGui::Text("Scale:");
-		ImGui::DragFloat("scale x: ", &m_selectedEntity->GetModel()->m_scale.x, 0.01f);
-		ImGui::DragFloat("scale y: ", &m_selectedEntity->GetModel()->m_scale.y, 0.01f);
-		ImGui::DragFloat("scale z: ", &m_selectedEntity->GetModel()->m_scale.z, 0.01f);
+		ImGui::EndChild();
 	}
 
 	ImGui::End();

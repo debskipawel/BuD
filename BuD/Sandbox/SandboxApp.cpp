@@ -7,11 +7,9 @@
 using namespace DirectX::SimpleMath;
 
 SandboxApp::SandboxApp(const BuD::DX11Device& device)
-	: m_models(), m_torus(std::make_shared<BuD::Torus>(3.0f, 1.0f))
+	: m_models(), m_torus(std::make_shared<BuD::Torus>(device, 3.0f, 1.0f))
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
-
-	m_torus->UpdateModel(device);
 
 	std::vector<std::shared_ptr<BuD::Parameterized2DEntity>> entities;
 	entities.push_back(m_torus);

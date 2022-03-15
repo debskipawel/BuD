@@ -186,6 +186,7 @@
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.cpp" />
+    <ClCompile Include="src\Editors\IEditable.cpp" />
     <ClCompile Include="src\EntryPoint.h" />
     <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h" />
+    <ClInclude Include="src\Editors\IEditable.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />

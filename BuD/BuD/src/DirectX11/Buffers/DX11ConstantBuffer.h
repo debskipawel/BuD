@@ -7,7 +7,7 @@ namespace BuD
 	class DX11ConstantBuffer : public DX11Buffer
 	{
 	public:
-		explicit DX11ConstantBuffer(ID3D11Device* device, size_t size, const void* data = nullptr)
+		explicit DX11ConstantBuffer(const DX11Device& device, size_t size, const void* data = nullptr)
 			: DX11Buffer(device, data, GetBufferDesc(size)) {}
 
 	protected:
