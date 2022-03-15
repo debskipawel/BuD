@@ -18,6 +18,11 @@ namespace BuD
 		virtual void Show() override;
 		virtual void ProcessEvents() override;
 
+		virtual int Width() override;
+		virtual int Height() override;
+
+		virtual void ToggleFullscreen() override;
+
 		inline HWND Handle() { return m_hwnd; }
 
 	private:

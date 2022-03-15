@@ -11,9 +11,7 @@ SandboxApp::SandboxApp(const BuD::DX11Device& device)
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
-	std::vector<std::shared_ptr<BuD::Parameterized2DEntity>> entities;
-	entities.push_back(m_torus);
-	m_gui = std::make_unique<SceneEditor>(entities);
+	m_gui = std::make_unique<SceneEditor>(m_torus);
 
 	m_models.reserve(1);
 	m_models.push_back(

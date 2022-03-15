@@ -12,11 +12,12 @@ namespace BuD
 		virtual void Show() = 0;
 		virtual void ProcessEvents() = 0;
 
-		inline int Width() { return m_width; }
-		inline int Height() { return m_height; }
+		virtual int Width() = 0;
+		virtual int Height() = 0;
+
+		virtual void ToggleFullscreen() = 0;
 
 	protected:
-		int m_width = 1200, m_height = 800;
 		bool m_fullscreen = false;
 	};
 }

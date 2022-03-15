@@ -18,10 +18,7 @@ namespace BuD
 	public:
 		inline const DX11Device& Device() const { return m_device; }
 
-		virtual void UpdateBuffersSize(int width, int height, int topX, int topY) override;
-		
-		void EnableDepthBuffer();
-		void DisableDepthBuffer();
+		virtual void UpdateBuffersSize(int width, int height) override;
 
 		virtual void Begin() override;
 		virtual void Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera) override;

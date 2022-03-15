@@ -35,8 +35,8 @@ namespace BuD
 		int samplesV = m_samplesV;
 
 		ImGui::Text("Samples count");
-		ImGui::DragInt("U", &samplesU, 1.0f, 1);
-		ImGui::DragInt("V", &samplesV, 1.0f, 1);
+		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
+		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
 
 		if (UpdateSampleIntervals(samplesU, samplesV))
 		{

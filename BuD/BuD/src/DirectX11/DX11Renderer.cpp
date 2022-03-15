@@ -11,60 +11,53 @@ namespace BuD
 	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
 		: m_device(window)
 	{
-		ID3D11Texture2D* backBuffer;
 		ComPtr<ID3D11Texture2D> backTexture;
-		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
+		auto hr = m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backTexture.GetAddressOf());
 
-		backTexture.Attach(backBuffer);
+		auto width = window->Width();
+		auto height = window->Height();
 
 		m_backBuffer = m_device.CreateRenderTargetView(backTexture);
-		m_depthBuffer = m_device.CreateDepthStencilBuffer(window->Width(), window->Height());
+		m_depthBuffer = m_device.CreateDepthStencilBuffer(width, height);
+		backTexture.Reset();
 
-		auto rtv = m_backBuffer.Get();
-		m_device.Context()->OMSetRenderTargets(1, &rtv, m_depthBuffer.Get());
+		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
 
-		DX11Viewport viewport{ {window->Width(), window->Height()} };
+		DX11Viewport viewport{ (UINT)width, (UINT)height };
 		m_device.Context()->RSSetViewports(1, &viewport);
 	}
 
-	void DX11Renderer::UpdateBuffersSize(int width, int height, int topX, int topY)
+	void DX11Renderer::UpdateBuffersSize(int width, int height)
 	{
-		//if (m_backBuffer)
-		//{
-		//	m_backBuffer.Reset();
-		//}
+		m_device.Context()->OMSetRenderTargets(0, nullptr, nullptr);
 
-		//m_device.SwapChain()->ResizeBuffers(1, width, height, DXGI_FORMAT_UNKNOWN, 0);
+		m_backBuffer.Reset();
+		m_depthBuffer.Reset();
 
-		//ID3D11Texture2D* backBuffer;
-		//ComPtr<ID3D11Texture2D> backTexture;
-		//m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-		//backTexture.Attach(backBuffer);
+		m_device.Context()->Flush();
 
-		//m_backBuffer = m_device.CreateRenderTargetView(backTexture);
+		auto hr = m_device.SwapChain()->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
 
-		//backTexture->Release();
+		ComPtr<ID3D11Texture2D> backTexture;
+		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backTexture.GetAddressOf());
 
-		//m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), nullptr);
+		m_backBuffer = m_device.CreateRenderTargetView(backTexture);
+		m_depthBuffer = m_device.CreateDepthStencilBuffer(width, height);
 
-		//DX11Viewport viewport{ {width, height} };
-		//m_device.Context()->RSSetViewports(1, &viewport);
-	}
-
-	void DX11Renderer::EnableDepthBuffer()
-	{
 		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
-	}
 
-	void DX11Renderer::DisableDepthBuffer()
-	{
-		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), nullptr);
+		D3D11_TEXTURE2D_DESC backBufferDesc = { 0 };
+		backTexture->GetDesc(&backBufferDesc);
+
+		DX11Viewport viewport{ backBufferDesc.Width, backBufferDesc.Height };
+		m_device.Context()->RSSetViewports(1, &viewport);
+		
+		backTexture.Reset();
 	}
 
 	void DX11Renderer::Begin()
 	{
 		FLOAT color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		EnableDepthBuffer();
 		m_device.Context()->ClearRenderTargetView(m_backBuffer.Get(), color);
 		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}

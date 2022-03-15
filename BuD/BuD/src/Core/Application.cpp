@@ -70,7 +70,41 @@ namespace BuD
 
     void Application::OnConcreteEvent(WindowResizedEvent& e)
     {
-        m_renderer->UpdateBuffersSize(e.m_width, e.m_height, e.m_topX, e.m_topY);
+        if (e.m_minimized)
+        {
+            if (!m_minimized)
+            {
+                m_minimized = true;
+            }
+        }
+        else if (m_minimized)
+        {
+            m_minimized = false;
+        }
+
+        if (!m_in_sizemove)
+        {
+            m_renderer->UpdateBuffersSize(e.m_width, e.m_height);
+        }
+
+        m_clientApp->GetCamera()->UpdateAspectRatio(static_cast<float>(e.m_width) / e.m_height);
+    }
+
+    void Application::OnConcreteEvent(WindowEnterSizeMoveEvent& e)
+    {
+        m_in_sizemove = true;
+    }
+
+    void Application::OnConcreteEvent(WindowExitSizeMoveEvent& e)
+    {
+        m_in_sizemove = false;
+
+        m_renderer->UpdateBuffersSize(m_window->Width(), m_window->Height());
+    }
+
+    void Application::OnConcreteEvent(ToggleFullscreenEvent& e)
+    {
+        m_window->ToggleFullscreen();
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

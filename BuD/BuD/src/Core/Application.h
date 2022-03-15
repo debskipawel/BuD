@@ -21,6 +21,10 @@ namespace BuD
 
 		void OnConcreteEvent(WindowClosedEvent& e) override;
 		void OnConcreteEvent(WindowResizedEvent& e) override;
+		void OnConcreteEvent(WindowEnterSizeMoveEvent& e) override;
+		void OnConcreteEvent(WindowExitSizeMoveEvent& e) override;
+
+		void OnConcreteEvent(ToggleFullscreenEvent& e) override;
 
 	private:
 		Application() = default;
@@ -38,7 +42,8 @@ namespace BuD
 
 		bool m_shouldRun = true;
 
-		friend class ClientApp;
+		bool m_in_sizemove = false;
+		bool m_minimized = false;
 
 	public:
 		inline static std::shared_ptr<Application> Get()

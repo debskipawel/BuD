@@ -17,6 +17,9 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace BuD
 {
+	constexpr UINT baseWidth = 1200;
+	constexpr UINT baseHeight = 800;
+
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
@@ -52,7 +55,7 @@ namespace BuD
 			return;
 		}
 
-		RECT rect = { 0, 0, m_width, m_height };
+		RECT rect = { 0, 0, baseWidth, baseHeight };
 		DWORD style = WS_OVERLAPPEDWINDOW;
 
 		m_hwnd = CreateWindowExW(
@@ -68,6 +71,7 @@ namespace BuD
 			return;
 		}
 	}
+
 	void Win32Window::Show()
 	{
 		ShowWindow(m_hwnd, SW_SHOWNORMAL);
@@ -82,6 +86,46 @@ namespace BuD
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+	}
+	
+	int Win32Window::Width()
+	{
+		RECT r;
+		GetClientRect(m_hwnd, &r);
+
+		return r.right - r.left;
+	}
+
+	int Win32Window::Height()
+	{
+		RECT r;
+		GetClientRect(m_hwnd, &r);
+
+		return r.bottom - r.top;
+	}
+	
+	void Win32Window::ToggleFullscreen()
+	{
+		if (m_fullscreen)
+		{
+			SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, 0);
+
+			ShowWindow(m_hwnd, SW_SHOWNORMAL);
+
+			SetWindowPos(m_hwnd, HWND_TOP, 0, 0, baseWidth, baseHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+		}
+		else
+		{
+			SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_POPUP);
+			SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+
+			SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+			ShowWindow(m_hwnd, SW_SHOWMAXIMIZED);
+		}
+
+		m_fullscreen = !m_fullscreen;
 	}
 }
 
