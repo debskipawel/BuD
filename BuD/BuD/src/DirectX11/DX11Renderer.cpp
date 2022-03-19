@@ -62,7 +62,7 @@ namespace BuD
 		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
-	void BuD::DX11Renderer::Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera)
+	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera)
 	{
 		m_device.Context()->VSSetShader(entity->m_vertexShader->Shader(), nullptr, 0);
 		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);

@@ -18,8 +18,9 @@
 #include "Event/WindowEvents.h"
 
 #include "Geometry/Torus.h"
+#include "Geometry/Point.h"
 
-#include "Scene/RenderableSceneEntity.h"
+#include "Scene/Mesh.h"
 
 #include "imgui.h"
 

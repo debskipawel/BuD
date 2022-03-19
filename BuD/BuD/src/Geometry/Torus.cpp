@@ -28,8 +28,8 @@ namespace BuD
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
 
-		m_model = std::make_shared<RenderableSceneEntity>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
-			[](std::shared_ptr<AbstractCamera> camera, RenderableSceneEntity* entity)
+		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
+			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
 

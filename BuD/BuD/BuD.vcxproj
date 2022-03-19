@@ -186,7 +186,6 @@
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.cpp" />
-    <ClCompile Include="src\Editors\IEditable.cpp" />
     <ClCompile Include="src\EntryPoint.h" />
     <ClCompile Include="src\Event\EventEmitter.cpp" />
     <ClCompile Include="src\Event\KeyboardEvents.cpp" />
@@ -194,9 +193,10 @@
     <ClCompile Include="src\Event\WindowEvents.cpp" />
     <ClCompile Include="src\DirectX11\DX11Renderer.cpp" />
     <ClCompile Include="src\Geometry\Parameterized2DEntity.cpp" />
+    <ClCompile Include="src\Geometry\Point.cpp" />
+    <ClCompile Include="src\Geometry\SceneObject.cpp" />
     <ClCompile Include="src\Geometry\Torus.cpp" />
-    <ClCompile Include="src\Scene\RenderableSceneEntity.cpp" />
-    <ClCompile Include="src\Scene\SceneEntity.cpp" />
+    <ClCompile Include="src\Scene\Mesh.cpp" />
     <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
     <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
@@ -223,7 +223,6 @@
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h" />
-    <ClInclude Include="src\Editors\IEditable.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />
     <ClInclude Include="src\Event\IEventDispatchable.h" />
@@ -233,9 +232,10 @@
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
     <ClInclude Include="src\Geometry\Parameterized2DEntity.h" />
     <ClInclude Include="src\Geometry\ParameterizedObject.h" />
+    <ClInclude Include="src\Geometry\Point.h" />
+    <ClInclude Include="src\Geometry\SceneObject.h" />
     <ClInclude Include="src\Geometry\Torus.h" />
-    <ClInclude Include="src\Scene\RenderableSceneEntity.h" />
-    <ClInclude Include="src\Scene\SceneEntity.h" />
+    <ClInclude Include="src\Scene\Mesh.h" />
     <ClInclude Include="src\Win32\Win32EventFactory.h" />
     <ClInclude Include="src\Win32\Win32Window.h" />
     <ClInclude Include="src\Core\Window.h" />

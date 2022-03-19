@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Cube.h" />
     <ClInclude Include="Gui\SceneEditor.h" />
     <ClInclude Include="SandboxApp.h" />
   </ItemGroup>
@@ -160,7 +159,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Gui\SceneEditor.cpp" />
     <ClCompile Include="SandboxApp.cpp" />
   </ItemGroup>

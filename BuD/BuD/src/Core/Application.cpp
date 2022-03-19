@@ -55,7 +55,7 @@ namespace BuD
 
         std::for_each(
             models.begin(), models.end(), 
-            [this, camera](std::shared_ptr<RenderableSceneEntity> entity)
+            [this, camera](std::shared_ptr<Mesh> entity)
             {
                 m_renderer->Draw(entity, camera);
             }

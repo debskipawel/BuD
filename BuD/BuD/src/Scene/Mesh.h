@@ -1,7 +1,5 @@
 #pragma once
 
-#include "SceneEntity.h"
-
 #include "Camera/AbstractCamera.h"
 
 #include "DirectX11/Shaders/DX11VertexShader.h"
@@ -13,49 +11,39 @@
 
 namespace BuD
 {
-	class RenderableSceneEntity : public SceneEntity
+	class Mesh
 	{
 	public:
-		RenderableSceneEntity(
+		Mesh(
 			std::shared_ptr<DX11VertexShader> vertexShader,
 			std::shared_ptr<DX11PixelShader>  pixelShader,
 			std::shared_ptr<DX11VertexBuffer> vertexBuffer,
 			std::shared_ptr<DX11IndexBuffer>  indexBuffer,
-			std::function<void(std::shared_ptr<AbstractCamera>, RenderableSceneEntity*)> updateFunc = [](std::shared_ptr<AbstractCamera>, RenderableSceneEntity*) {}
+			std::function<void(std::shared_ptr<AbstractCamera>, Mesh*)> updateFunc = [](std::shared_ptr<AbstractCamera>, Mesh*) {}
 		);
 
-		inline std::shared_ptr<DX11VertexShader> VertexShader() const
-		{
-			return m_vertexShader;
-		}
+		inline std::shared_ptr<DX11VertexShader> VertexShader() const { return m_vertexShader; }
+		inline std::shared_ptr<DX11PixelShader> PixelShader() const { return m_pixelShader; }
+		inline std::shared_ptr<DX11VertexBuffer> VertexBuffer() const { return m_vertexBuffer; }
+		inline std::shared_ptr<DX11IndexBuffer> IndexBuffer() const { return m_indexBuffer; }
 
-		inline std::shared_ptr<DX11PixelShader> PixelShader() const
-		{
-			return m_pixelShader;
-		}
+		virtual dxm::Matrix GetModelMatrix();
 
-		inline std::shared_ptr<DX11VertexBuffer> VertexBuffer() const
-		{
-			return m_vertexBuffer;
-		}
-
-		inline std::shared_ptr<DX11IndexBuffer> IndexBuffer() const
-		{
-			return m_indexBuffer;
-		}
+		dxm::Vector3 m_position = { 0.0f, 0.0f, 0.0f };
+		dxm::Vector3 m_rotation = { 0.0f, 0.0f, 0.0f };
+		dxm::Vector3 m_scale = { 1.0f, 1.0f, 1.0f };
 
 	protected:
-		RenderableSceneEntity() = default;
+		Mesh() = default;
 
 		void UpdateConstantBuffers(std::shared_ptr<AbstractCamera> camera);
 
 		std::shared_ptr<DX11VertexShader> m_vertexShader;
 		std::shared_ptr<DX11PixelShader> m_pixelShader;
-
 		std::shared_ptr<DX11VertexBuffer> m_vertexBuffer;
 		std::shared_ptr<DX11IndexBuffer> m_indexBuffer;
 
-		std::function<void(std::shared_ptr<AbstractCamera>, RenderableSceneEntity*)> m_updateFunc;
+		std::function<void(std::shared_ptr<AbstractCamera>, Mesh*)> m_updateFunc;
 
 		friend class DX11Renderer;
 	};

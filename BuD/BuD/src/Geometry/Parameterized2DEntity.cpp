@@ -29,8 +29,6 @@ namespace BuD
 
 	void Parameterized2DEntity::DrawGui()
 	{
-		m_model->DrawGui();
-
 		int samplesU = m_samplesU;
 		int samplesV = m_samplesV;
 

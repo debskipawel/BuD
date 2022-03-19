@@ -21,7 +21,7 @@ namespace BuD
 		virtual void UpdateBuffersSize(int width, int height) override;
 
 		virtual void Begin() override;
-		virtual void Draw(std::shared_ptr<RenderableSceneEntity> entity, std::shared_ptr<AbstractCamera> camera) override;
+		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera) override;
 		virtual void End() override;
 
 		DX11Renderer(std::shared_ptr<Win32Window> window);
