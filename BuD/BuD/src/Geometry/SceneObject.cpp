@@ -12,6 +12,11 @@ namespace BuD
 		return s_objectMap[id];
 	}
 
+	const std::unordered_map<uint32_t, SceneObject*>& SceneObject::GetAll()
+	{
+		return s_objectMap;
+	}
+
 	void SceneObject::InsertObject()
 	{
 		uint32_t id = {};

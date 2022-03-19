@@ -5,27 +5,17 @@
 using namespace DirectX::SimpleMath;
 
 SandboxApp::SandboxApp(const BuD::DX11Device& device)
-	: m_models(), m_points(), m_torus(std::make_shared<BuD::Torus>(device, 3.0f, 1.0f))
+	: m_points(), m_torus(std::make_shared<BuD::Torus>(device, 3.0f, 1.0f))
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
-	m_gui = std::make_unique<SceneEditor>(m_torus);
+	m_gui = std::make_unique<SceneEditor>();
 
-	m_points.emplace_back(Vector3{ 2.0f, 3.0f, 1.0f }, device);
-	m_points.emplace_back(Vector3{ 5.0f, -1.0f, 1.0f }, device);
-	m_points.emplace_back(Vector3{ 7.0f, 4.0f, 1.0f }, device);
-
-	m_models.reserve(4);
-	m_models.push_back(m_torus->GetModel());
-	m_models.push_back(m_points[0].GetModel());
-	m_models.push_back(m_points[1].GetModel());
-	m_models.push_back(m_points[2].GetModel());
+	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 2.0f, 3.0f, 1.0f }, device));
+	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 5.0f, -1.0f, 1.0f }, device));
+	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 7.0f, 4.0f, 1.0f }, device));
 }
 
-const std::vector<std::shared_ptr<BuD::Mesh>>& SandboxApp::GetModels()
-{
-	return m_models;
-}
 
 void SandboxApp::OnUpdate()
 {

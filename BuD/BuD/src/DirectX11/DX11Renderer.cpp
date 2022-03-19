@@ -68,7 +68,7 @@ namespace BuD
 		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);
 
 		m_device.Context()->IASetInputLayout(entity->m_vertexShader->Layout());
-		m_device.Context()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_device.Context()->IASetPrimitiveTopology(entity->IndexBuffer()->Topology());
 
 		if (auto count = entity->m_vertexShader->ConstantBuffers().size())
 		{

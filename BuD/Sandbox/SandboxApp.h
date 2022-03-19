@@ -13,7 +13,6 @@ public:
 	SandboxApp(const BuD::DX11Device& device);
 
 	inline virtual std::shared_ptr<BuD::AbstractCamera> GetCamera() override { return m_camera; }
-	virtual const std::vector<std::shared_ptr<BuD::Mesh>>& GetModels() override;
 
 	virtual void OnUpdate() override;
 	virtual void OnGuiRender() override;
@@ -37,9 +36,7 @@ private:
 	std::shared_ptr<BuD::AbstractCamera> m_camera;
 
 	std::shared_ptr<BuD::Torus> m_torus;
-	std::vector<BuD::Point> m_points;
-
-	std::vector<std::shared_ptr<BuD::Mesh>> m_models;
+	std::vector<std::shared_ptr<BuD::Point>> m_points;
 
 	bool m_isMoving = false;
 };

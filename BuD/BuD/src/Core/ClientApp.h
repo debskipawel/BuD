@@ -19,7 +19,6 @@ namespace BuD
 		virtual void OnGuiRender() = 0;
 
 		virtual std::shared_ptr<AbstractCamera> GetCamera() = 0;
-		virtual const std::vector<std::shared_ptr<Mesh>>& GetModels() = 0;
 
 	protected:
 		ClientApp() = default;

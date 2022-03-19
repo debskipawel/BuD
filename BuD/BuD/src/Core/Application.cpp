@@ -4,6 +4,7 @@
 
 #include "Win32/Win32Window.h"
 #include "ApplicationInfo.h"
+#include "Geometry/SceneObject.h"
 
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
 
@@ -51,15 +52,11 @@ namespace BuD
         m_renderer->Begin();
 
         auto camera = m_clientApp->GetCamera();
-        auto& models = m_clientApp->GetModels();
 
-        std::for_each(
-            models.begin(), models.end(), 
-            [this, camera](std::shared_ptr<Mesh> entity)
-            {
-                m_renderer->Draw(entity, camera);
-            }
-        );
+        for (auto& [id, entity] : SceneObject::GetAll())
+        {
+            m_renderer->Draw(entity->GetModel(), camera);
+        }
 
         m_guiLayer->BeginFrame();
         m_clientApp->OnGuiRender();

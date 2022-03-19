@@ -14,6 +14,7 @@ namespace BuD
 		SceneObject();
 
 		static SceneObject* Get(uint32_t id);
+		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();
 		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
 
 		virtual void DrawGui() = 0;
@@ -22,6 +23,7 @@ namespace BuD
 		void InsertObject();
 
 		uint32_t m_id;
+		std::string m_tag = "Unnamed object";
 		std::shared_ptr<Mesh> m_model;
 
 		static uint32_t s_nextId;
