@@ -23,7 +23,7 @@ void SceneEditor::RenderGui()
 	sceneObjects.reserve(objects.size());
 	names.reserve(objects.size());
 
-	std::for_each(objects.begin(), objects.end(), [&sceneObjects, &names](std::pair<uint32_t, BuD::SceneObject*> pair) 
+	std::for_each(objects.begin(), objects.end(), [&sceneObjects, &names](std::pair<uint32_t, BuD::SceneObject*> pair)
 		{ 
 			names.push_back(pair.second->Name());
 			sceneObjects.push_back(pair.first); 

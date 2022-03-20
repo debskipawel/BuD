@@ -12,6 +12,7 @@ namespace BuD
 	{
 	public:
 		SceneObject();
+		~SceneObject();
 
 		static SceneObject* Get(uint32_t id);
 		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();
@@ -26,6 +27,7 @@ namespace BuD
 
 	protected:
 		void InsertObject();
+		void RemoveObject();
 
 		uint32_t m_id;
 		std::string m_tag = "Unnamed object";

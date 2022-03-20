@@ -7,6 +7,11 @@ namespace BuD
 		InsertObject();
 	}
 
+	SceneObject::~SceneObject()
+	{
+		RemoveObject();
+	}
+
 	SceneObject* SceneObject::Get(uint32_t id)
 	{
 		return s_objectMap[id];
@@ -34,6 +39,11 @@ namespace BuD
 		m_id = id;
 
 		s_objectMap[id] = this;
+	}
+
+	void SceneObject::RemoveObject()
+	{
+		s_objectMap.erase(m_id);
 	}
 
 	uint32_t SceneObject::s_nextId = 1;

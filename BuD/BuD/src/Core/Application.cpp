@@ -13,6 +13,8 @@
 #include <windows.h>
 #include <algorithm>
 
+#include <imgui.h>
+
 namespace BuD
 {
     std::shared_ptr<Application> Application::s_app = nullptr;
@@ -70,6 +72,15 @@ namespace BuD
         m_renderer->Draw(Cursor::GetCursorAt(m_cursorPosition, m_renderer->Device())->GetModel(), camera);
 
         m_guiLayer->BeginFrame();
+
+        ImGui::Begin("Main settings");
+        ImGui::DragFloat("x", &m_cursorPosition.x);
+        ImGui::DragFloat("y", &m_cursorPosition.y);
+        ImGui::DragFloat("z", &m_cursorPosition.z);
+
+
+        ImGui::End();
+
         m_clientApp->OnGuiRender();
         m_guiLayer->EndFrame();
 

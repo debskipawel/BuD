@@ -8,7 +8,8 @@ namespace BuD
 {
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::s_vertexBuffer = nullptr;
 	std::shared_ptr<BuD::DX11IndexBuffer> Point::s_indexBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Point::s_constantBuffer = nullptr;
+	std::shared_ptr<DX11ConstantBuffer> Point::s_vsConstantBuffer = nullptr;
+	std::shared_ptr<DX11ConstantBuffer> Point::s_psConstantBuffer = nullptr;
 	
 	static std::vector<Vector3> vertices =
 	{
@@ -65,16 +66,18 @@ namespace BuD
 		: SceneObject()
 	{
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_white_ps.hlsl");
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
 
-		vertexShader->AddConstantBuffer(ConstantBuffer(device));
+		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
+		vertexShader->AddConstantBuffer(PSConstantBuffer(device));
 
 		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
-			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
+				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
 			}
 		);
 
@@ -89,14 +92,24 @@ namespace BuD
 		ImGui::DragFloat("p(z)", &m_model->m_position.z);
 	}
 
-	std::shared_ptr<DX11ConstantBuffer> Point::ConstantBuffer(const DX11Device& device)
+	std::shared_ptr<DX11ConstantBuffer> Point::VSConstantBuffer(const DX11Device& device)
 	{
-		if (!s_constantBuffer)
+		if (!s_vsConstantBuffer)
 		{
-			s_constantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
+			s_vsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
 		}
 
-		return s_constantBuffer;
+		return s_vsConstantBuffer;
+	}
+
+	std::shared_ptr<DX11ConstantBuffer> Point::PSConstantBuffer(const DX11Device& device)
+	{
+		if (!s_psConstantBuffer)
+		{
+			s_psConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Vector4));
+		}
+
+		return s_psConstantBuffer;
 	}
 
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::GetVB(const BuD::DX11Device& device)

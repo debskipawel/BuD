@@ -13,9 +13,7 @@ SandboxApp::SandboxApp(const BuD::DX11Device& device)
 
 	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 2.0f, 3.0f, 1.0f }, device));
 	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 5.0f, -1.0f, 1.0f }, device));
-	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 7.0f, 4.0f, 1.0f }, device));
 }
-
 
 void SandboxApp::OnUpdate(float deltaTime)
 {

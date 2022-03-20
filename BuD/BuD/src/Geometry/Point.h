@@ -18,7 +18,12 @@ namespace BuD
 
 		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
 
+		virtual void Select() override { m_color = { 0.7f, 0.5f, 0.0f }; }
+		virtual void Unselect() { m_color = { 1.0f, 1.0f, 1.0f }; }
+
 	private:
+
+		Vector3 m_color = { 1.0f, 1.0f, 1.0f };
 
 		static std::shared_ptr<BuD::DX11VertexBuffer> GetVB(const BuD::DX11Device& device);
 		static std::shared_ptr<BuD::DX11IndexBuffer> GetIB(const BuD::DX11Device& device);
@@ -26,7 +31,9 @@ namespace BuD
 		static std::shared_ptr<BuD::DX11VertexBuffer> s_vertexBuffer;
 		static std::shared_ptr<BuD::DX11IndexBuffer> s_indexBuffer;
 
-		static std::shared_ptr<DX11ConstantBuffer> ConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_constantBuffer;
+		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
+		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
+		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
+		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }
