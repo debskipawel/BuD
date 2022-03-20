@@ -1,5 +1,7 @@
 #include "SceneObject.h"
 
+#include "ObjectsCollection.h"
+
 namespace BuD
 {
 	SceneObject::SceneObject()
@@ -20,6 +22,29 @@ namespace BuD
 	const std::unordered_map<uint32_t, SceneObject*>& SceneObject::GetAll()
 	{
 		return s_objectMap;
+	}
+
+	void SceneObject::DeleteObject(uint32_t id)
+	{
+		auto res = s_objectMap.find(id);
+
+		if (res == s_objectMap.end())
+		{
+			return;
+		}
+
+		s_selected.Remove(res->second);
+		s_objectMap.erase(id);
+	}
+
+	void SceneObject::Select()
+	{
+		s_selected.Add(this);
+	}
+
+	void SceneObject::Unselect()
+	{
+		s_selected.Remove(this);
 	}
 
 	void SceneObject::InsertObject()
@@ -49,4 +74,5 @@ namespace BuD
 	uint32_t SceneObject::s_nextId = 1;
 	std::stack<uint32_t> SceneObject::s_availableIds = std::stack<uint32_t>();
 	std::unordered_map<uint32_t, SceneObject*> SceneObject::s_objectMap = std::unordered_map<uint32_t, SceneObject*>();
+	ObjectsCollection SceneObject::s_selected = ObjectsCollection();
 }

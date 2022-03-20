@@ -18,8 +18,17 @@ namespace BuD
 
 		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
 
-		virtual void Select() override { m_color = { 0.7f, 0.5f, 0.0f }; }
-		virtual void Unselect() { m_color = { 1.0f, 1.0f, 1.0f }; }
+		virtual void Select() override 
+		{ 
+			SceneObject::Select();
+			m_color = { 0.7f, 0.5f, 0.0f }; 
+		}
+		
+		virtual void Unselect() 
+		{ 
+			SceneObject::Unselect();
+			m_color = { 1.0f, 1.0f, 1.0f }; 
+		}
 
 	private:
 
