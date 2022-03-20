@@ -102,6 +102,9 @@
     <ClCompile Include="src\Geometry\SceneObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -218,10 +221,16 @@
     <ClInclude Include="src\Geometry\SceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene\Cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\pos_normal_vs.hlsl" />
     <FxCompile Include="shaders\solid_white_ps.hlsl" />
     <FxCompile Include="shaders\pos_transf_vs.hlsl" />
+    <FxCompile Include="shaders\pos_color_cursor_vs.hlsl" />
+    <FxCompile Include="shaders\pos_color_cursor_ps.hlsl" />
+    <FxCompile Include="shaders\solid_color_ps.hlsl" />
   </ItemGroup>
 </Project>

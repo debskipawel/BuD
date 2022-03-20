@@ -14,7 +14,7 @@ public:
 
 	inline virtual std::shared_ptr<BuD::AbstractCamera> GetCamera() override { return m_camera; }
 
-	virtual void OnUpdate() override;
+	virtual void OnUpdate(float deltaTime) override;
 	virtual void OnGuiRender() override;
 
 	virtual void OnConcreteEvent(BuD::MouseButtonDownEvent& e) override;
@@ -28,7 +28,7 @@ public:
 
 private:
 
-	void ProcessMovement();
+	void ProcessMovement(float deltaTime);
 
 	std::unique_ptr<SceneEditor> m_gui;
 

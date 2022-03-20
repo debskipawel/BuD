@@ -17,9 +17,9 @@ SandboxApp::SandboxApp(const BuD::DX11Device& device)
 }
 
 
-void SandboxApp::OnUpdate()
+void SandboxApp::OnUpdate(float deltaTime)
 {
-	ProcessMovement();
+	ProcessMovement(deltaTime);
 }
 
 void SandboxApp::OnGuiRender()
@@ -66,7 +66,7 @@ void SandboxApp::OnConcreteEvent(BuD::WindowResizedEvent& e)
 	m_camera->UpdateAspectRatio(static_cast<float>(e.m_width) / e.m_height);
 }
 
-void SandboxApp::ProcessMovement()
+void SandboxApp::ProcessMovement(float deltaTime)
 {
 	if (!m_isMoving)
 	{
@@ -77,35 +77,35 @@ void SandboxApp::ProcessMovement()
 
 	if (m_keyMap[BuD::KeyboardKeys::W])
 	{
-		dz += 0.01f;
+		dz += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::S])
 	{
-		dz -= 0.01f;
+		dz -= 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::A])
 	{
-		dx -= 0.01f;
+		dx -= 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::D])
 	{
-		dx += 0.01f;
+		dx += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::Q])
 	{
 		// up
-		dy += 0.01f;
+		dy += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::E])
 	{
 		// down
-		dy -= 0.01f;
+		dy -= 1.0f;
 	}
 
-	m_camera->Move({ dx, dy, dz });
+	m_camera->Move(Vector3{ dx, dy, dz } * 3.0f * deltaTime);
 }

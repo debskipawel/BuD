@@ -40,6 +40,10 @@ namespace BuD
 
 		std::unique_ptr<GuiLayer> m_guiLayer;
 
+		dxm::Vector3 m_cursorPosition = { 0.0f, 0.0f, 0.0f };
+
+		LARGE_INTEGER m_counterStart, m_freq;
+
 		bool m_shouldRun = true;
 
 		bool m_in_sizemove = false;

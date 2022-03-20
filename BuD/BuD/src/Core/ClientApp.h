@@ -15,7 +15,7 @@ namespace BuD
 	class ClientApp : public IEventDispatchable
 	{
 	public:
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate(float deltaTime) = 0;
 		virtual void OnGuiRender() = 0;
 
 		virtual std::shared_ptr<AbstractCamera> GetCamera() = 0;

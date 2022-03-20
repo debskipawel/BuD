@@ -5,6 +5,7 @@
 #include "Win32/Win32Window.h"
 #include "ApplicationInfo.h"
 #include "Geometry/SceneObject.h"
+#include "Scene/Cursor.h"
 
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
 
@@ -23,6 +24,9 @@ namespace BuD
         m_clientApp = CreateClientApp(m_renderer->Device());
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
+
+        QueryPerformanceCounter(&m_counterStart);
+        QueryPerformanceFrequency(&m_freq);
 
         m_window->Show();
 
@@ -44,7 +48,12 @@ namespace BuD
 
     void Application::OnUpdate()
     {
-        this->m_clientApp->OnUpdate();
+        LARGE_INTEGER a;
+        QueryPerformanceCounter(&a);
+        float deltaTime = static_cast<float>(a.QuadPart - m_counterStart.QuadPart) / m_freq.QuadPart;
+        m_counterStart = a;
+
+        this->m_clientApp->OnUpdate(deltaTime);
     }
 
     void Application::Render()
@@ -57,6 +66,8 @@ namespace BuD
         {
             m_renderer->Draw(entity->GetModel(), camera);
         }
+
+        m_renderer->Draw(Cursor::GetCursorAt(m_cursorPosition, m_renderer->Device())->GetModel(), camera);
 
         m_guiLayer->BeginFrame();
         m_clientApp->OnGuiRender();

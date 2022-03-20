@@ -12,6 +12,9 @@ namespace BuD
 		virtual void DrawGui() override;
 		virtual void UpdateRenderableModel() override;
 
+		virtual void Select() override { m_color = { 0.5f, 0.5f, 0.0f }; }
+		virtual void Unselect() { m_color = { 1.0f, 1.0f, 1.0f }; }
+
 	protected:
 		float m_largeRadius, m_smallRadius;
 
@@ -29,7 +32,11 @@ namespace BuD
 
 		bool UpdateRadius(float largeRadius, float smallRadius);
 
-		static std::shared_ptr<DX11ConstantBuffer> ConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_constantBuffer;
+		Vector3 m_color;
+
+		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
+		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
+		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
+		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }

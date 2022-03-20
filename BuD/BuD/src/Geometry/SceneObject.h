@@ -17,7 +17,12 @@ namespace BuD
 		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();
 		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
 
+		inline std::string* Name() { return &m_tag; }
+
 		virtual void DrawGui() = 0;
+
+		virtual void Select() {}
+		virtual void Unselect() {}
 
 	protected:
 		void InsertObject();
