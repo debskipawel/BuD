@@ -39,11 +39,13 @@ namespace BuD
 
 	void SceneObject::Select()
 	{
+		m_selected = true;
 		s_selected.Add(this);
 	}
 
 	void SceneObject::Unselect()
 	{
+		m_selected = false;
 		s_selected.Remove(this);
 	}
 

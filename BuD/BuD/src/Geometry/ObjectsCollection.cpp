@@ -2,16 +2,12 @@
 
 #include "SceneObject.h"
 
+#include <numeric>
+
 namespace BuD
 {
 	void ObjectsCollection::Add(SceneObject* object)
 	{
-		if (m_objects.size() == 0)
-		{
-			m_centroid = { 0.0f, 0.0f, 0.0f };
-		}
-
-		m_centroid = (static_cast<float>(m_objects.size()) * m_centroid + object->GetModel()->m_position) / static_cast<float>(m_objects.size() + 1);
 		m_objects.push_back(object);
 	}
 	
@@ -24,12 +20,14 @@ namespace BuD
 			return;
 		}
 
-		m_centroid = (static_cast<float>(m_objects.size()) * m_centroid - object->GetModel()->m_position) / static_cast<float>(m_objects.size() - 1);
 		m_objects.erase(res);
 	}
 	
 	Vector3 ObjectsCollection::Centroid() const
 	{
-		return m_centroid;
+		auto centroid = std::accumulate(m_objects.begin(), m_objects.end(), Vector3{ 0.0f, 0.0f, 0.0f }, 
+			[](Vector3 a, SceneObject* obj) { return a + obj->GetModel()->m_position; });
+		
+		return centroid / static_cast<float>(m_objects.size());
 	}
 }

@@ -43,65 +43,60 @@ namespace BuD
 
 		ImGui::End();
 
-		ImGui::Begin("Scene objects");
-
-		static int picked = -1;
 		auto& objects = SceneObject::GetAll();
 
-		std::vector<uint32_t> sceneObjects;
-		std::vector<std::string*> names;
-
-		sceneObjects.reserve(objects.size());
-		names.reserve(objects.size());
-
-		std::for_each(objects.begin(), objects.end(), [&sceneObjects, &names](std::pair<uint32_t, BuD::SceneObject*> pair)
+		ImGui::Begin("Scene objects");
+		if (ImGui::BeginListBox("Objects"))
+		{
+			for (auto& [id, object] : objects)
 			{
-				names.push_back(pair.second->Name());
-				sceneObjects.push_back(pair.first);
+				bool selected = object->IsSelected();
+				bool copySelected = selected;
+
+				std::string name = std::to_string(id) + ": " + *object->Name();
+
+				auto res = ImGui::Selectable(name.c_str(), &copySelected);
+
+				if (copySelected != selected)
+				{
+					copySelected ? object->Select() : object->Unselect();
+				}
 			}
-		);
 
-		ImGui::ListBox("Items", &picked,
-			[](void* vec, int idx, const char** out_text) {
-				std::vector<std::string*>* vector = reinterpret_cast<std::vector<std::string*>*>(vec);
-
-				if (idx < 0 || idx >= vector->size())
-					return false;
-
-				*out_text = vector->at(idx)->c_str();
-				return true;
-			}, reinterpret_cast<void*>(&names), names.size());
+			ImGui::EndListBox();
+		}
 
 		ImGui::End();
 
-		if (picked != -1)
+		auto& selected = SceneObject::GetSelected();
+		
+		if (selected.Count() == 1)
 		{
-			if (m_selectedObject)
-			{
-				m_selectedObject->Unselect();
-			}
+			// draw GUI for a single object
+			auto object = selected.Objects()[0];
 
-			m_selectedObject = SceneObject::Get(sceneObjects[picked]);
-			m_selectedObject->Select();
-			
 			ImGui::Begin("Selected");
-			m_selectedObject->DrawGui();
+
+			// TODO: update centroid on position modification
+			object->DrawGui();
 			
 			ImGui::NewLine();
 			ImGui::Text("Name");
-			ImGui::InputText("#n", names[picked]);
+			ImGui::InputText("#n", object->Name());
 
 			ImGui::NewLine();
 
 			if (ImGui::Button("Delete"))
 			{
-				SceneObject::DeleteObject(sceneObjects[picked]);
-
-				picked = -1;
-				m_selectedObject = nullptr;
+				object->Unselect();
+				SceneObject::DeleteObject(object->Id());
 			}
-			
+
 			ImGui::End();
+		}
+		else
+		{
+			// draw GUI for many objects
 		}
 	}
 }

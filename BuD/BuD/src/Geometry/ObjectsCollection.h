@@ -17,10 +17,11 @@ namespace BuD
 		void Add(SceneObject* object);
 		void Remove(SceneObject* object);
 
+		inline const std::vector<SceneObject*>& Objects() const { return m_objects; }
+
 		Vector3 Centroid() const;
 
 	protected:
 		std::vector<SceneObject*> m_objects;
-		Vector3 m_centroid{ 0.0f, 0.0f, 0.0f };
 	};
 }

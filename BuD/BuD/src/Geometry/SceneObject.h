@@ -23,11 +23,13 @@ namespace BuD
 
 		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
 
+		inline uint32_t Id() const { return m_id; }
 		inline std::string* Name() { return &m_tag; }
 
 		virtual void DrawGui() = 0;
 
 		virtual void Select();
+		inline virtual bool IsSelected() { return m_selected; }
 		virtual void Unselect();
 
 	protected:
