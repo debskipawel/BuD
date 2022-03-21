@@ -23,7 +23,34 @@ namespace BuD
 		D3D11_MAPPED_SUBRESOURCE subr;
 		ZeroMemory(&subr, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-		return uint32_t();
+		ComPtr<ID3D11Texture2D> stagingTexture;
+		DX11Texture2DDesc texDesc(m_width, m_height);
+		texDesc.Usage = D3D11_USAGE_STAGING;
+		texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+		texDesc.BindFlags = 0;
+
+		m_device->CreateTexture2D(&texDesc, nullptr, stagingTexture.GetAddressOf());
+
+		ID3D11Resource* res = nullptr;
+		m_idTexture->GetResource(&res);
+		
+		m_device.Context()->CopyResource(stagingTexture.Get(), res);
+		m_device.Context()->Map(stagingTexture.Get(), 0, D3D11_MAP_READ, 0, &subr);
+
+		auto rowPitch = subr.RowPitch / sizeof(int);
+		int* data = static_cast<int*>(subr.pData);
+		data += y * rowPitch + x;
+		
+		int result = *data;
+
+		m_device.Context()->Unmap(stagingTexture.Get(), 0);
+		stagingTexture.Reset();
+
+		BYTE r = (result & 0x000000ff);
+		BYTE g = (result & 0x0000ff00) >> 8;
+		BYTE b = (result & 0x00ff0000) >> 16;
+
+		return b + 256 * (g + 256 * r);
 	}
 
 	void DX11Renderer::UpdateBuffersSize(int width, int height)
@@ -44,6 +71,9 @@ namespace BuD
 
 	void DX11Renderer::InitializeBuffers(int width, int height)
 	{
+		m_width = width;
+		m_height = height;
+
 		ComPtr<ID3D11Texture2D> backTexture;
 		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backTexture.GetAddressOf());
 
@@ -81,7 +111,7 @@ namespace BuD
 		m_device.Context()->ClearDepthStencilView(m_idDepthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
-	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera)
+	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id)
 	{
 		// draw to the backbuffer
 		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
@@ -128,7 +158,16 @@ namespace BuD
 		m_device.Context()->OMSetRenderTargets(1, m_idTexture.GetAddressOf(), m_idDepthBuffer.Get());
 
 		// set pixel shader to something containing id as constant buffer
-		m_device.Context()->PSSetShader(GetIdShader(m_device)->Shader(), nullptr, 0);
+		auto pixelShader = GetIdShader(m_device);
+		pixelShader->UpdateConstantBuffer(0, &id, sizeof(uint32_t));
+		
+		m_device.Context()->PSSetShader(pixelShader->Shader(), nullptr, 0);
+
+		if (auto count = pixelShader->ConstantBuffers().size())
+		{
+			auto rawBuffers = pixelShader->RawConstantBuffers();
+			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
+		}
 
 		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
 		wfdesc.FillMode = D3D11_FILL_SOLID;

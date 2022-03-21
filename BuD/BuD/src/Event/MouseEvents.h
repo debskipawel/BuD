@@ -8,21 +8,23 @@ namespace BuD
 	class MouseButtonDownEvent : public Event
 	{
 	public:
-		MouseButtonDownEvent(MouseCode button) : m_button(button) {}
+		MouseButtonDownEvent(MouseCode button, int xPos, int yPos) : m_button(button), m_xPos(xPos), m_yPos(yPos) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
 		const MouseCode m_button;
+		const int m_xPos, m_yPos;
 	};
 
 	class MouseButtonReleasedEvent : public Event
 	{
 	public:
-		MouseButtonReleasedEvent(MouseCode button) : m_button(button) {}
+		MouseButtonReleasedEvent(MouseCode button, int xPos, int yPos) : m_button(button), m_xPos(xPos), m_yPos(yPos) {}
 
 		virtual void Visit(IEventDispatchable&) override;
 
 		const MouseCode m_button;
+		const int m_xPos, m_yPos;
 	};
 
 	class MouseMovedEvent : public Event

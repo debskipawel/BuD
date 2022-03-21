@@ -58,15 +58,21 @@ namespace BuD
 			case WM_MBUTTONDOWN:
 			case WM_RBUTTONDOWN:
 			{
+				int x = GET_X_LPARAM(lParam);
+				int y = GET_Y_LPARAM(lParam);
 				auto key = (*m_mouseCodeMap.find(message)).second;
-				return std::make_unique<MouseButtonDownEvent>(key);
+				
+				return std::make_unique<MouseButtonDownEvent>(key, x, y);
 			}
 			case WM_LBUTTONUP:
 			case WM_MBUTTONUP:
 			case WM_RBUTTONUP:
 			{
+				int x = GET_X_LPARAM(lParam);
+				int y = GET_Y_LPARAM(lParam);
 				auto key = (*m_mouseCodeMap.find(message)).second;
-				return std::make_unique<MouseButtonReleasedEvent>(key);
+				
+				return std::make_unique<MouseButtonReleasedEvent>(key, x, y);
 			}
 			case WM_MOUSEWHEEL:
 			{

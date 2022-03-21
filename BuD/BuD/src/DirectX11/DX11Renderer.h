@@ -25,7 +25,7 @@ namespace BuD
 		virtual void UpdateBuffersSize(int width, int height) override;
 
 		virtual void Begin() override;
-		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera) override;
+		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id = 0) override;
 		virtual void End() override;
 
 		uint32_t GetObjectFrom(int x, int y);
@@ -33,6 +33,8 @@ namespace BuD
 	private:
 		void InitializeBuffers(int width, int height);
 		
+		int m_width, m_height;
+
 		DX11Device m_device;
 		ComPtr<ID3D11RenderTargetView> m_backBuffer;
 		ComPtr<ID3D11RenderTargetView> m_idTexture;

@@ -72,7 +72,7 @@ namespace BuD
 
         for (auto& [id, entity] : SceneObject::GetAll())
         {
-            m_renderer->Draw(entity->GetModel(), m_camera);
+            m_renderer->Draw(entity->GetModel(), m_camera, id);
         }
 
         m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetModel(), m_camera);
@@ -139,6 +139,19 @@ namespace BuD
         if (e.m_button == MouseCode::RIGHT)
         {
             m_cameraMoving = true;
+        }
+        else if (e.m_button == MouseCode::LEFT)
+        {
+            auto r = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
+            
+            auto object = SceneObject::Get(r);
+
+            if (!object)
+            {
+                return;
+            }
+
+            object->IsSelected() ? object->Unselect() : object->Select();
         }
     }
 

@@ -16,7 +16,14 @@ namespace BuD
 
 	SceneObject* SceneObject::Get(uint32_t id)
 	{
-		return s_objectMap[id];
+		auto res = s_objectMap.find(id);
+
+		if (res == s_objectMap.end())
+		{
+			return nullptr;
+		}
+
+		return res->second;
 	}
 
 	const std::unordered_map<uint32_t, SceneObject*>& SceneObject::GetAll()
