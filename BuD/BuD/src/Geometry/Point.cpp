@@ -69,7 +69,7 @@ namespace BuD
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
 
 		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		vertexShader->AddConstantBuffer(PSConstantBuffer(device));
+		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
 
 		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)

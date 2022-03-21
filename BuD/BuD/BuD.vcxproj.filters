@@ -241,5 +241,6 @@
     <FxCompile Include="shaders\pos_color_cursor_vs.hlsl" />
     <FxCompile Include="shaders\pos_color_cursor_ps.hlsl" />
     <FxCompile Include="shaders\solid_color_ps.hlsl" />
+    <FxCompile Include="shaders\render_id_ps.hlsl" />
   </ItemGroup>
 </Project>
