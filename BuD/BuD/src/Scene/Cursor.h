@@ -22,10 +22,10 @@ namespace BuD
 
 		static std::shared_ptr<Cursor> GetCursorAt(Vector3 position, const DX11Device& device);
 
-		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
+		inline std::shared_ptr<Mesh> GetMesh() { return m_mesh; }
 
 	private:
-		std::shared_ptr<Mesh> m_model;
+		std::shared_ptr<Mesh> m_mesh;
 
 		static std::shared_ptr<Cursor> s_cursor;
 	};

@@ -32,9 +32,15 @@ namespace BuD
 		int samplesU = m_samplesU;
 		int samplesV = m_samplesV;
 
+		const int samplesMinU = 3;
+		const int samplesMinV = 3;
+
 		ImGui::Text("Samples count");
 		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
 		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
+
+		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
+		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
 
 		if (UpdateSampleIntervals(samplesU, samplesV))
 		{

@@ -29,7 +29,7 @@ namespace BuD
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
 
-		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
+		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
@@ -60,19 +60,21 @@ namespace BuD
 	void Torus::DrawGui()
 	{
 		ImGui::Text("Rotation");
-		ImGui::DragFloat("r(x)", &m_model->m_rotation.x, 1.0f);
-		ImGui::DragFloat("r(y)", &m_model->m_rotation.y, 1.0f);
-		ImGui::DragFloat("r(z)", &m_model->m_rotation.z, 1.0f);
+		ImGui::DragFloat("r(x)", &m_mesh->m_rotation.x, 1.0f);
+		ImGui::DragFloat("r(y)", &m_mesh->m_rotation.y, 1.0f);
+		ImGui::DragFloat("r(z)", &m_mesh->m_rotation.z, 1.0f);
 		ImGui::NewLine();
+		
 		ImGui::Text("Scale");
-		ImGui::DragFloat("s(x)", &m_model->m_scale.x, 0.1f);
-		ImGui::DragFloat("s(y)", &m_model->m_scale.y, 0.1f);
-		ImGui::DragFloat("s(z)", &m_model->m_scale.z, 0.1f);
+		ImGui::DragFloat("s(x)", &m_mesh->m_scale.x, 0.1f);
+		ImGui::DragFloat("s(y)", &m_mesh->m_scale.y, 0.1f);
+		ImGui::DragFloat("s(z)", &m_mesh->m_scale.z, 0.1f);
 		ImGui::NewLine();
+		
 		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &m_model->m_position.x, 0.5f);
-		ImGui::DragFloat("p(y)", &m_model->m_position.y, 0.5f);
-		ImGui::DragFloat("p(z)", &m_model->m_position.z, 0.5f);
+		ImGui::DragFloat("p(x)", &m_mesh->m_position.x, 0.5f);
+		ImGui::DragFloat("p(y)", &m_mesh->m_position.y, 0.5f);
+		ImGui::DragFloat("p(z)", &m_mesh->m_position.z, 0.5f);
 		ImGui::NewLine();
 
 		Parameterized2DEntity::DrawGui();
@@ -80,9 +82,17 @@ namespace BuD
 		float r = m_smallRadius;
 		float R = m_largeRadius;
 
+		const float minSmallRadius = 0.001f;
+		const float minLargeRadius = 0.001f;
+		const float maxSmallRadius = m_largeRadius;
+
 		ImGui::Text("Torus radius");
 		ImGui::DragFloat("Large", &R, 0.1f, 0.001f);
 		ImGui::DragFloat("Small", &r, 0.1f, 0.001f, R);
+
+		R = R < minLargeRadius ? minLargeRadius : R;
+		r = r < minSmallRadius ? minSmallRadius : r;
+		r = r > maxSmallRadius ? maxSmallRadius : r;
 
 		if (UpdateRadius(R, r))
 		{
@@ -92,8 +102,8 @@ namespace BuD
 
 	void Torus::UpdateRenderableModel()
 	{
-		m_model->VertexBuffer()->Update(m_vertices.data(), m_vertices.size() * sizeof(Vector3));
-		m_model->IndexBuffer()->Update(m_indices.data(), m_indices.size() * sizeof(unsigned short));
+		m_mesh->VertexBuffer()->Update(m_vertices.data(), m_vertices.size() * sizeof(Vector3));
+		m_mesh->IndexBuffer()->Update(m_indices.data(), m_indices.size() * sizeof(unsigned short));
 
 		return;
 	}

@@ -21,6 +21,10 @@ namespace BuD
 
 		Vector3 Centroid() const;
 
+		void RotateAroundCentroid(Vector3 rotation) const;
+		void ScaleAroundCentroid(Vector3 scale) const;
+		void MoveAll(Vector3 translation) const;
+
 	protected:
 		std::vector<SceneObject*> m_objects;
 	};

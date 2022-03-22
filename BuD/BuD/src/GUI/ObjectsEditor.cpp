@@ -29,7 +29,7 @@ namespace BuD
 		if (ImGui::Button("Add torus"))
 		{
 			auto torus = std::make_shared<Torus>(device, 3.0f, 1.0f);
-			torus->GetModel()->m_position = m_cursorPosition;
+			torus->GetMesh()->m_position = m_cursorPosition;
 
 			m_objects.push_back(torus);
 		}
@@ -40,6 +40,8 @@ namespace BuD
 				std::make_shared<Point>(m_cursorPosition, device)
 			);
 		}
+
+		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		ImGui::End();
 
@@ -59,6 +61,7 @@ namespace BuD
 
 				if (copySelected != selected)
 				{
+					SelectionChanged();
 					copySelected ? object->Select() : object->Unselect();
 				}
 			}
@@ -69,13 +72,18 @@ namespace BuD
 		ImGui::End();
 
 		auto& selected = SceneObject::GetSelected();
-		
+
+		if (selected.Count() == 0)
+		{
+			return;
+		}
+
+		ImGui::Begin("Selected");
+
 		if (selected.Count() == 1)
 		{
 			// draw GUI for a single object
 			auto object = selected.Objects()[0];
-
-			ImGui::Begin("Selected");
 
 			// TODO: update centroid on position modification
 			object->DrawGui();
@@ -91,12 +99,50 @@ namespace BuD
 				object->Unselect();
 				SceneObject::DeleteObject(object->Id());
 			}
-
-			ImGui::End();
 		}
 		else
 		{
+			Vector3 currPosition = m_beginPosition;
+			Vector3 currRotation = m_beginRotation;
+			Vector3 currScale = m_beginScale;
+
 			// draw GUI for many objects
+			ImGui::Text("Translation");
+			ImGui::DragFloat("t(x)", &m_beginPosition.x, 0.1f);
+			ImGui::DragFloat("t(y)", &m_beginPosition.y, 0.1f);
+			ImGui::DragFloat("t(z)", &m_beginPosition.z, 0.1f);
+
+			ImGui::Text("Rotation");
+			ImGui::DragFloat("r(x)", &m_beginRotation.x, 1.0f);
+			ImGui::DragFloat("r(y)", &m_beginRotation.y, 1.0f);
+			ImGui::DragFloat("r(z)", &m_beginRotation.z, 1.0f);
+			
+			ImGui::Text("Scale");
+			ImGui::DragFloat("s(x)", &m_beginScale.x, 0.1f);
+			ImGui::DragFloat("s(y)", &m_beginScale.y, 0.1f);
+			ImGui::DragFloat("s(z)", &m_beginScale.z, 0.1f);
+
+			Vector3 translate = m_beginPosition - currPosition;
+			Vector3 rotate = m_beginRotation - currRotation;
+			Vector3 scale = m_beginScale / currScale;
+
+			if (translate != Vector3{ 0.0f })
+				SceneObject::GetSelected().MoveAll(translate);
+			
+			if (rotate != Vector3{ 0.0f })
+				SceneObject::GetSelected().RotateAroundCentroid(rotate);
+
+			if (scale != Vector3{ 1.0f })
+				SceneObject::GetSelected().ScaleAroundCentroid(scale);
 		}
+
+		ImGui::End();
+	}
+	
+	void ObjectsEditor::SelectionChanged()
+	{
+		m_beginPosition = { 0.0f, 0.0f, 0.0f };
+		m_beginRotation = { 0.0f, 0.0f, 0.0f };
+		m_beginScale = { 1.0f, 1.0f, 1.0f };
 	}
 }

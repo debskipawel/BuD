@@ -71,7 +71,7 @@ namespace BuD
 		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
 		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
 
-		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
+		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
@@ -81,15 +81,15 @@ namespace BuD
 			}
 		);
 
-		m_model->m_position = position;
+		m_mesh->m_position = position;
 	}
 
 	void Point::DrawGui()
 	{
 		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &m_model->m_position.x);
-		ImGui::DragFloat("p(y)", &m_model->m_position.y);
-		ImGui::DragFloat("p(z)", &m_model->m_position.z);
+		ImGui::DragFloat("p(x)", &m_mesh->m_position.x);
+		ImGui::DragFloat("p(y)", &m_mesh->m_position.y);
+		ImGui::DragFloat("p(z)", &m_mesh->m_position.z);
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> Point::VSConstantBuffer(const DX11Device& device)

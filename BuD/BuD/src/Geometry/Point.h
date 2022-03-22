@@ -16,7 +16,7 @@ namespace BuD
 
 		virtual void DrawGui() override;
 
-		inline std::shared_ptr<Mesh> GetModel() { return m_model; }
+		inline std::shared_ptr<Mesh> GetMesh() { return m_mesh; }
 
 		virtual void Select() override 
 		{ 
@@ -29,6 +29,11 @@ namespace BuD
 			SceneObject::Unselect();
 			m_color = { 1.0f, 1.0f, 1.0f }; 
 		}
+
+		inline virtual void RotateTo(const Vector3& rotation) override { }
+		inline virtual void RotateBy(const Vector3& difference) override { }
+		inline virtual void ScaleTo(const Vector3& scale) override { }
+		inline virtual void ScaleBy(const Vector3& difference) override { }
 
 	private:
 

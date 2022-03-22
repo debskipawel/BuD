@@ -72,15 +72,15 @@ namespace BuD
 
         for (auto& [id, entity] : SceneObject::GetAll())
         {
-            m_renderer->Draw(entity->GetModel(), m_camera, id);
+            m_renderer->Draw(entity->GetMesh(), m_camera, id);
         }
 
-        m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetModel(), m_camera);
+        m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), m_camera);
 
         if (SceneObject::GetSelected().Count() > 0)
         {
             auto cursor = Cursor::GetCursorAt(SceneObject::GetSelected().Centroid(), m_renderer->Device());
-            m_renderer->Draw(cursor->GetModel(), m_camera);
+            m_renderer->Draw(cursor->GetMesh(), m_camera);
         }
 
         m_guiLayer->BeginFrame();
@@ -152,6 +152,8 @@ namespace BuD
             }
 
             object->IsSelected() ? object->Unselect() : object->Select();
+
+            m_guiEditor->SelectionChanged();
         }
     }
 

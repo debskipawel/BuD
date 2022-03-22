@@ -50,7 +50,7 @@ namespace BuD
 		auto vb = std::make_shared<BuD::DX11VertexBuffer>(device, vertices.size() * sizeof(Vertex), elements, vertices.data());
 		auto ib = std::make_shared<BuD::DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, indices.size() * sizeof(unsigned short), indices.data(), D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
-		m_model = std::make_shared<Mesh>(vertexShader, pixelShader, vb, ib,
+		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vb, ib,
 			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto dist = entity->m_position - camera->Position();
@@ -64,15 +64,15 @@ namespace BuD
 			}
 		);
 
-		m_model->m_position = position;
+		m_mesh->m_position = position;
 	}
 	
 	void Cursor::DrawGui()
 	{
 		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &m_model->m_position.x, 0.01f);
-		ImGui::DragFloat("p(y)", &m_model->m_position.y, 0.01f);
-		ImGui::DragFloat("p(z)", &m_model->m_position.z, 0.01f);
+		ImGui::DragFloat("p(x)", &m_mesh->m_position.x, 0.01f);
+		ImGui::DragFloat("p(y)", &m_mesh->m_position.y, 0.01f);
+		ImGui::DragFloat("p(z)", &m_mesh->m_position.z, 0.01f);
 	}
 
 	std::shared_ptr<Cursor> Cursor::GetCursorAt(Vector3 position, const DX11Device& device)
@@ -82,7 +82,7 @@ namespace BuD
 			s_cursor = std::shared_ptr<Cursor>(new Cursor(position, device));
 		}
 
-		s_cursor->m_model->m_position = position;
+		s_cursor->m_mesh->m_position = position;
 
 		return s_cursor;
 	}
