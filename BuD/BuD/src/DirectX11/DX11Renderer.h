@@ -41,6 +41,10 @@ namespace BuD
 		ComPtr<ID3D11DepthStencilView> m_depthBuffer;
 		ComPtr<ID3D11DepthStencilView> m_idDepthBuffer;
 
+		ComPtr<ID3D11RasterizerState> m_backCullWireframeState;
+		ComPtr<ID3D11RasterizerState> m_noCullWireframeState;
+		ComPtr<ID3D11RasterizerState> m_backCullSolidState;
+
 		static std::shared_ptr<DX11PixelShader> GetIdShader(const DX11Device&);
 		static std::shared_ptr<DX11PixelShader> s_idShader;
 	};

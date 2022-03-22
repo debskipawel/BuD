@@ -16,6 +16,19 @@ namespace BuD
 		auto height = window->Height();
 
 		InitializeBuffers(width, height);
+
+		D3D11_RASTERIZER_DESC wfdesc;
+
+		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
+		wfdesc.FillMode = D3D11_FILL_WIREFRAME;
+		wfdesc.CullMode = D3D11_CULL_NONE;
+		m_device->CreateRasterizerState(&wfdesc, m_noCullWireframeState.GetAddressOf());
+
+		wfdesc.CullMode = D3D11_CULL_BACK;
+		m_device->CreateRasterizerState(&wfdesc, m_backCullWireframeState.GetAddressOf());
+
+		wfdesc.FillMode = D3D11_FILL_SOLID;
+		m_device->CreateRasterizerState(&wfdesc, m_backCullSolidState.GetAddressOf());
 	}
 
 	uint32_t DX11Renderer::GetObjectFrom(int x, int y)
@@ -143,15 +156,7 @@ namespace BuD
 		m_device.Context()->IASetVertexBuffers(0, 1, buffers, strides, offsets);
 		m_device.Context()->IASetIndexBuffer(entity->m_indexBuffer->Buffer(), entity->m_indexBuffer->Format(), 0);
 
-		D3D11_RASTERIZER_DESC wfdesc;
-		ID3D11RasterizerState* rastState = nullptr;
-
-		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-		wfdesc.FillMode = D3D11_FILL_WIREFRAME;
-		wfdesc.CullMode = D3D11_CULL_NONE;
-		m_device->CreateRasterizerState(&wfdesc, &rastState);
-		m_device.Context()->RSSetState(rastState);
-
+		m_device.Context()->RSSetState(m_noCullWireframeState.Get());
 		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
 
 		// draw to the texture contatining id
@@ -169,12 +174,7 @@ namespace BuD
 			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
 		}
 
-		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-		wfdesc.FillMode = D3D11_FILL_SOLID;
-		wfdesc.CullMode = D3D11_CULL_NONE;
-		m_device->CreateRasterizerState(&wfdesc, &rastState);
-		m_device.Context()->RSSetState(rastState);
-
+		m_device.Context()->RSSetState(m_backCullSolidState.Get());
 		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
 
 		// return to backbuffer for gui render
