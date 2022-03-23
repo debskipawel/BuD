@@ -18,8 +18,8 @@ namespace BuD
 
 		static SceneObject* Get(uint32_t id);
 		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();
-		inline static const ObjectsCollection& GetSelected() { return s_selected; }
 		static void DeleteObject(uint32_t id);
+		inline static const ObjectsCollection& GetSelected() { return s_selected; }
 
 		inline std::shared_ptr<Mesh> GetMesh() { return m_mesh; }
 		inline uint32_t Id() const { return m_id; }
@@ -28,19 +28,18 @@ namespace BuD
 
 		virtual void DrawGui() = 0;
 
-		inline virtual void MoveTo(const Vector3& position) { m_mesh->m_position = position; }
-		inline virtual void MoveBy(const Vector3& difference) { m_mesh->m_position += difference; }
-		inline virtual void RotateTo(const Vector3& rotation) { m_mesh->m_rotation = rotation; }
+		inline virtual void MoveTo(const Vector3& position)		{ m_mesh->m_position = position; }
+		inline virtual void MoveBy(const Vector3& difference)	{ m_mesh->m_position += difference; }
+		inline virtual void RotateTo(const Vector3& rotation)	{ m_mesh->m_rotation = rotation; }
 		inline virtual void RotateBy(const Vector3& difference) { m_mesh->m_rotation += difference; }
-		inline virtual void ScaleTo(const Vector3& scale) { m_mesh->m_scale = scale; }
-		inline virtual void ScaleBy(const Vector3& difference) { m_mesh->m_scale += difference; }
+		inline virtual void ScaleTo(const Vector3& scale)		{ m_mesh->m_scale = scale; }
+		inline virtual void ScaleBy(const Vector3& difference)	{ m_mesh->m_scale += difference; }
 
 		virtual void Select();
 		virtual void Unselect();
 
 	protected:
 		void InsertObject();
-		void RemoveObject();
 
 		bool m_selected = false;
 

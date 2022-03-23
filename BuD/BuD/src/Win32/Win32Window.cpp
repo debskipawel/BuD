@@ -25,6 +25,9 @@ namespace BuD
 		if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
 			return true;
 
+		if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)
+			return true;
+
 		if (auto e = Win32EventFactory::Get().Construct(hwnd, msg, wParam, lParam))
 		{
 			EventEmitter::Emit(*e);

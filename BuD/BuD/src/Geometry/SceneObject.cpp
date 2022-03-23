@@ -11,7 +11,7 @@ namespace BuD
 
 	SceneObject::~SceneObject()
 	{
-		RemoveObject();
+		DeleteObject(m_id);
 	}
 
 	SceneObject* SceneObject::Get(uint32_t id)
@@ -42,6 +42,7 @@ namespace BuD
 
 		s_selected.Remove(res->second);
 		s_objectMap.erase(id);
+		s_availableIds.push(id);
 	}
 
 	void SceneObject::Select()
@@ -73,11 +74,6 @@ namespace BuD
 		m_id = id;
 
 		s_objectMap[id] = this;
-	}
-
-	void SceneObject::RemoveObject()
-	{
-		s_objectMap.erase(m_id);
 	}
 
 	uint32_t SceneObject::s_nextId = 1;

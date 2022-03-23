@@ -33,7 +33,7 @@ namespace BuD
         m_camera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
-        m_guiEditor = std::make_unique<ObjectsEditor>(collection);
+        m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_camera, m_window);
 
         QueryPerformanceCounter(&m_counterStart);
         QueryPerformanceFrequency(&m_freq);
@@ -127,6 +127,38 @@ namespace BuD
     void Application::OnConcreteEvent(KeyDownEvent& e)
     {
         m_keyMap[e.m_key] = true;
+
+        switch (e.m_key)
+        {
+            case KeyboardKeys::Delete:
+            {
+                auto& objects = SceneObject::GetSelected().Objects();
+                std::vector<uint32_t> selectedIds(objects.size());
+
+                std::transform(objects.begin(), objects.end(), selectedIds.begin(), [](SceneObject* obj) { return obj->Id(); });
+
+                for (auto id : selectedIds)
+                {
+                    SceneObject::DeleteObject(id);
+                }
+
+                break;
+            }
+            case KeyboardKeys::Escape:
+            {
+                auto& objects = SceneObject::GetSelected().Objects();
+                std::vector<uint32_t> selectedIds(objects.size());
+
+                std::transform(objects.begin(), objects.end(), selectedIds.begin(), [](SceneObject* obj) { return obj->Id(); });
+
+                for (auto id : selectedIds)
+                {
+                    SceneObject::Get(id)->Unselect();
+                }
+
+                break;
+            }
+        }
     }
 
     void Application::OnConcreteEvent(KeyReleaseEvent& e)
@@ -146,14 +178,16 @@ namespace BuD
             
             auto object = SceneObject::Get(r);
 
-            if (!object)
+            if (object)
             {
-                return;
+                object->IsSelected() ? object->Unselect() : object->Select();
+
+                m_guiEditor->SelectionChanged();
             }
-
-            object->IsSelected() ? object->Unselect() : object->Select();
-
-            m_guiEditor->SelectionChanged();
+            else
+            {
+                m_guiEditor->SetCursorTo(e.m_xPos, e.m_yPos);
+            }
         }
     }
 
