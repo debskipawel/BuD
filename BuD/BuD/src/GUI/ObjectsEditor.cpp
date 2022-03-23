@@ -31,8 +31,9 @@ namespace BuD
 		float mappedY = static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f;
 
 		Vector3 worldPosition{};
-		Vector3::Transform(Vector3{ mappedX, mappedY, (m_cursorPosition - m_camera->Position()).Length() }, viewMatrix.Invert(), worldPosition);
-		m_cursorPosition = worldPosition;
+		auto front = m_camera->Front() * (m_cursorPosition - m_camera->Position()).Length();
+		Vector3::Transform(Vector3{ mappedX, -mappedY, 0.0f }, viewMatrix.Invert(), worldPosition);
+		m_cursorPosition = worldPosition + front;
 	}
 	
 	void ObjectsEditor::SelectionChanged()

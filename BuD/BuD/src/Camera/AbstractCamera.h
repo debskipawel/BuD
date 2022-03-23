@@ -13,6 +13,7 @@ namespace BuD
 		void LookAt(const dxm::Vector3& target);
 
 		inline dxm::Vector3 Position() const { return m_position; }
+		inline dxm::Vector3 Front() const { return m_front; }
 
 		const dxm::Matrix& GetViewMatrix() const;
 		const dxm::Matrix& GetProjectionMatrix() const;
