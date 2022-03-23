@@ -74,6 +74,9 @@ namespace BuD
 		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
+				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
+				entity->m_scale = Vector3{ max(logf(dist), 1.0f) };
+
 				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));

@@ -28,11 +28,11 @@ namespace BuD
 		auto& viewMatrix = m_camera->GetViewMatrix();
 
 		float mappedX = static_cast<float>(pixelX) / m_window->Width() * 2.0f - 1.0f;
-		float mappedY = static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f;
+		float mappedY = -(static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f);
 
-		Vector3 worldPosition{};
-		auto front = m_camera->Front() * (m_cursorPosition - m_camera->Position()).Length();
-		Vector3::Transform(Vector3{ mappedX, -mappedY, 0.0f }, viewMatrix.Invert(), worldPosition);
+		auto front = m_camera->Front() + m_camera->Right() * mappedX + m_camera->Up() * mappedY;
+
+		Vector3 worldPosition = Vector3::Transform(Vector3{ 0.9f * mappedX, 0.15f * mappedY, 0.0f }, viewMatrix.Invert());
 		m_cursorPosition = worldPosition + front;
 	}
 	
@@ -165,21 +165,21 @@ namespace BuD
 			ImGui::DragFloat("r(y)", &m_beginRotation.y, 1.0f);
 			ImGui::DragFloat("r(z)", &m_beginRotation.z, 1.0f);
 
-			constexpr float minScale = 0.01f;
+			constexpr float minScale = 0.1f;
 
 			ImGui::Text("Scale");
-			ImGui::DragFloat("s(x)", &m_beginScale.x, 0.1f, minScale);
-			ImGui::DragFloat("s(y)", &m_beginScale.y, 0.1f, minScale);
-			ImGui::DragFloat("s(z)", &m_beginScale.z, 0.1f, minScale);
+			ImGui::DragFloat("s(x)", &m_beginScale.x, 0.1f);
+			ImGui::DragFloat("s(y)", &m_beginScale.y, 0.1f);
+			ImGui::DragFloat("s(z)", &m_beginScale.z, 0.1f);
 
 			Vector3 translate = m_beginPosition - currPosition;
 			Vector3 rotate = m_beginRotation - currRotation;
 
-			currScale = Vector3
+			m_beginScale = Vector3
 			{
-				currScale.x < minScale ? minScale : currScale.x,
-				currScale.y < minScale ? minScale : currScale.y,
-				currScale.z < minScale ? minScale : currScale.z,
+				std::abs(m_beginScale.x) < minScale ? minScale : m_beginScale.x,
+				std::abs(m_beginScale.y) < minScale ? minScale : m_beginScale.y,
+				std::abs(m_beginScale.z) < minScale ? minScale : m_beginScale.z,
 			};
 
 			Vector3 scale = m_beginScale / currScale;
