@@ -28,10 +28,12 @@ namespace BuD
 		inline std::shared_ptr<DX11IndexBuffer> IndexBuffer() const { return m_indexBuffer; }
 
 		virtual dxm::Matrix GetModelMatrix();
+		virtual void UpdateRotation();
 
 		dxm::Vector3 m_position = { 0.0f, 0.0f, 0.0f };
 		dxm::Vector3 m_rotation = { 0.0f, 0.0f, 0.0f };
 		dxm::Vector3 m_scale = { 1.0f, 1.0f, 1.0f };
+		dxm::Quaternion m_quatRotation;
 
 	protected:
 		Mesh() = default;

@@ -30,10 +30,27 @@ namespace BuD
 
 		inline virtual void MoveTo(const Vector3& position)		{ m_mesh->m_position = position; }
 		inline virtual void MoveBy(const Vector3& difference)	{ m_mesh->m_position += difference; }
-		inline virtual void RotateTo(const Vector3& rotation)	{ m_mesh->m_rotation = rotation; }
-		inline virtual void RotateBy(const Vector3& difference) { m_mesh->m_rotation += difference; }
-		inline virtual void ScaleTo(const Vector3& scale)		{ m_mesh->m_scale = scale; }
-		inline virtual void ScaleBy(const Vector3& difference)	{ m_mesh->m_scale += difference; }
+		inline virtual void ScaleTo(const Vector3& scale) { m_mesh->m_scale = scale; }
+		
+		inline virtual void RotateTo(const Quaternion& quaternion)
+		{
+			m_mesh->m_quatRotation = quaternion;
+			auto eulerRadian = quaternion.ToEuler();
+
+			m_mesh->m_rotation =
+			{
+				DirectX::XMConvertToDegrees(eulerRadian.x),
+				DirectX::XMConvertToDegrees(eulerRadian.y),
+				DirectX::XMConvertToDegrees(eulerRadian.z),
+			};
+		}
+
+		inline virtual void RotateTo(const Vector3& rotation)	
+		{ 
+			auto rotate = dxm::Matrix::CreateRotationX(rotation.x) * dxm::Matrix::CreateRotationY(rotation.y) * dxm::Matrix::CreateRotationZ(rotation.z);
+			m_mesh->m_rotation = rotation; 
+			m_mesh->m_quatRotation = dxm::Quaternion::CreateFromRotationMatrix(rotate);
+		}
 
 		virtual void Select();
 		virtual void Unselect();

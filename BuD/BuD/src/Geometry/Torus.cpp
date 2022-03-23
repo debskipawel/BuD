@@ -59,10 +59,16 @@ namespace BuD
 
 	void Torus::DrawGui()
 	{
+		Vector3 currRot = m_mesh->m_rotation;
+
 		ImGui::Text("Rotation");
 		ImGui::DragFloat("r(x)", &m_mesh->m_rotation.x, 1.0f);
 		ImGui::DragFloat("r(y)", &m_mesh->m_rotation.y, 1.0f);
 		ImGui::DragFloat("r(z)", &m_mesh->m_rotation.z, 1.0f);
+		
+		if ((currRot - m_mesh->m_rotation).LengthSquared())
+			m_mesh->UpdateRotation();
+		
 		ImGui::NewLine();
 		
 		ImGui::Text("Scale");
