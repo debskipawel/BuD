@@ -21,15 +21,19 @@ namespace BuD
 
 	dxm::Matrix Mesh::GetModelMatrix()
 	{
-		auto rot = dxm::Matrix::CreateRotationX(dx::XMConvertToRadians(m_rotation.x))
-			* dxm::Matrix::CreateRotationY(dx::XMConvertToRadians(m_rotation.y))
-			* dxm::Matrix::CreateRotationZ(dx::XMConvertToRadians(m_rotation.z));
-
+		auto rot = dxm::Matrix::CreateFromQuaternion(m_quatRotation);
 		auto trans = dxm::Matrix::CreateTranslation(m_position);
-
 		auto scale = dxm::Matrix::CreateScale(m_scale);
 
 		return scale * rot * trans;
+	}
+
+	void Mesh::UpdateRotation()
+	{
+		auto rotate = dxm::Matrix::CreateRotationX(dx::XMConvertToRadians(m_rotation.x)) 
+			* dxm::Matrix::CreateRotationY(dx::XMConvertToRadians(m_rotation.y))
+			* dxm::Matrix::CreateRotationZ(dx::XMConvertToRadians(m_rotation.z));
+		m_quatRotation = dxm::Quaternion::CreateFromRotationMatrix(rotate);
 	}
 
 	void Mesh::UpdateConstantBuffers(std::shared_ptr<AbstractCamera> camera)

@@ -26,14 +26,29 @@ namespace BuD
 	void ObjectsEditor::SetCursorTo(int pixelX, int pixelY)
 	{
 		auto& viewMatrix = m_camera->GetViewMatrix();
+		auto& perspMatrix = m_camera->GetProjectionMatrix();
+		auto perspInverted = perspMatrix.Invert();
+		auto viewInverted = viewMatrix.Invert();
+
+		Vector4 currPosition = { m_cursorPosition.x, m_cursorPosition.y, m_cursorPosition.z, 1.0f };
+		auto cameraPosition = Vector4::Transform(currPosition, viewMatrix);
+		auto currPerspectivePosition = Vector4::Transform(cameraPosition, perspMatrix);
+
+		float w = currPerspectivePosition.z;
+		float z = cameraPosition.z;
+		currPerspectivePosition /= currPerspectivePosition.w;
 
 		float mappedX = static_cast<float>(pixelX) / m_window->Width() * 2.0f - 1.0f;
 		float mappedY = -(static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f);
 
-		auto front = m_camera->Front() + m_camera->Right() * mappedX + m_camera->Up() * mappedY;
+		Vector4 newPerspectivePosition = { mappedX, mappedY, 1.0f, 1.0f };
+		newPerspectivePosition *= w;
 
-		Vector3 worldPosition = Vector3::Transform(Vector3{ 0.9f * mappedX, 0.15f * mappedY, 0.0f }, viewMatrix.Invert());
-		m_cursorPosition = worldPosition + front;
+		auto newCameraPosition = Vector4::Transform(newPerspectivePosition, perspInverted);
+		newCameraPosition.w = 1.0f;
+		auto newWorldPosition = Vector4::Transform(newCameraPosition, viewInverted);
+
+		m_cursorPosition = { newWorldPosition.x, newWorldPosition.y, newWorldPosition.z };
 	}
 	
 	void ObjectsEditor::SelectionChanged()
@@ -65,9 +80,12 @@ namespace BuD
 		int pixelX = 0.5f * (screenPosition.x + 1.0f) * m_window->Width();
 		int pixelY = 0.5f * (screenPosition.y + 1.0f) * m_window->Height();
 
-		ImGui::Text("Screen coords");
-		ImGui::Text("x: %d, y: %d", pixelX, pixelY);
-		ImGui::NewLine();
+		if (pixelX >= 0 && pixelX <= m_window->Width() && pixelY >= 0 && pixelY <= m_window->Height())
+		{
+			ImGui::Text("Screen coords");
+			ImGui::Text("x: %d, y: %d", pixelX, pixelY);
+			ImGui::NewLine();
+		}
 
 		if (ImGui::Button("Add torus"))
 		{
@@ -165,7 +183,7 @@ namespace BuD
 			ImGui::DragFloat("r(y)", &m_beginRotation.y, 1.0f);
 			ImGui::DragFloat("r(z)", &m_beginRotation.z, 1.0f);
 
-			constexpr float minScale = 0.1f;
+			constexpr float minScale = 0.01f;
 
 			ImGui::Text("Scale");
 			ImGui::DragFloat("s(x)", &m_beginScale.x, 0.1f);
@@ -177,9 +195,9 @@ namespace BuD
 
 			m_beginScale = Vector3
 			{
-				std::abs(m_beginScale.x) < minScale ? minScale : m_beginScale.x,
-				std::abs(m_beginScale.y) < minScale ? minScale : m_beginScale.y,
-				std::abs(m_beginScale.z) < minScale ? minScale : m_beginScale.z,
+				m_beginScale.x < minScale ? minScale : m_beginScale.x,
+				m_beginScale.y < minScale ? minScale : m_beginScale.y,
+				m_beginScale.z < minScale ? minScale : m_beginScale.z,
 			};
 
 			Vector3 scale = m_beginScale / currScale;
@@ -190,7 +208,7 @@ namespace BuD
 			if (rotate != Vector3{ 0.0f })
 				SceneObject::GetSelected().RotateAroundCentroid(rotate);
 
-			if (scale != Vector3{ 1.0f })
+			if (scale != Vector3{ 1.0f } && scale != Vector3{ 0.0f })
 				SceneObject::GetSelected().ScaleAroundCentroid(scale);
 		}
 

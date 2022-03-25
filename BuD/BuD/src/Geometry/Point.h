@@ -31,9 +31,8 @@ namespace BuD
 		}
 
 		inline virtual void RotateTo(const Vector3& rotation) override { }
-		inline virtual void RotateBy(const Vector3& difference) override { }
+		inline virtual void RotateTo(const Quaternion& rotation) override { }
 		inline virtual void ScaleTo(const Vector3& scale) override { }
-		inline virtual void ScaleBy(const Vector3& difference) override { }
 
 	private:
 

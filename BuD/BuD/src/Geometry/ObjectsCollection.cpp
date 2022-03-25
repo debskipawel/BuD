@@ -51,15 +51,9 @@ namespace BuD
 				Vector3 position, scale;
 				Quaternion rotQuat;
 				matrix.Decompose(scale, rotQuat, position);
-				Vector3 rotation = rotQuat.ToEuler();
 
 				object->MoveTo(position);
-				object->RotateTo(
-					{
-						DirectX::XMConvertToDegrees(rotation.x),
-						DirectX::XMConvertToDegrees(rotation.y),
-						DirectX::XMConvertToDegrees(rotation.z)
-					});
+				object->RotateTo(rotQuat);
 				object->ScaleTo(scale);
 			});
 	}
@@ -80,15 +74,8 @@ namespace BuD
 				Vector3 position, scale;
 				Quaternion rotQuat;
 				matrix.Decompose(scale, rotQuat, position);
-				Vector3 rotation = rotQuat.ToEuler();
 
 				object->MoveTo(position);
-				object->RotateTo(
-					{
-						DirectX::XMConvertToDegrees(rotation.x),
-						DirectX::XMConvertToDegrees(rotation.y),
-						DirectX::XMConvertToDegrees(rotation.z)
-					});
 				object->ScaleTo(scale);
 			});
 	}
