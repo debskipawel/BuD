@@ -111,6 +111,9 @@
     <ClCompile Include="src\Geometry\ObjectsCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DirectX11\Shaders\DX11GeometryShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -231,6 +234,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\ObjectsCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectX11\Shaders\DX11GeometryShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -183,6 +183,7 @@
     <ClCompile Include="src\DirectX11\Buffers\DX11VertexBuffer.cpp" />
     <ClCompile Include="src\DirectX11\DX11Device.cpp" />
     <ClCompile Include="src\DirectX11\DX11Structures.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11GeometryShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11PixelShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="src\DirectX11\Shaders\DX11PixelShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11GeometryShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\Loader\DX11ShaderLoader.h" />
     <ClInclude Include="src\Event\Event.h" />
     <ClInclude Include="src\Event\EventEmitter.h" />

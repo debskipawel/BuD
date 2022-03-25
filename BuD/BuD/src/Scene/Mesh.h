@@ -3,7 +3,9 @@
 #include "Camera/AbstractCamera.h"
 
 #include "DirectX11/Shaders/DX11VertexShader.h"
+#include "DirectX11/Shaders/DX11GeometryShader.h"
 #include "DirectX11/Shaders/DX11PixelShader.h"
+
 #include "DirectX11/Buffers/DX11VertexBuffer.h"
 #include "DirectX11/Buffers/DX11IndexBuffer.h"
 
@@ -24,6 +26,7 @@ namespace BuD
 
 		inline std::shared_ptr<DX11VertexShader> VertexShader() const { return m_vertexShader; }
 		inline std::shared_ptr<DX11PixelShader> PixelShader() const { return m_pixelShader; }
+		
 		inline std::shared_ptr<DX11VertexBuffer> VertexBuffer() const { return m_vertexBuffer; }
 		inline std::shared_ptr<DX11IndexBuffer> IndexBuffer() const { return m_indexBuffer; }
 
@@ -40,8 +43,10 @@ namespace BuD
 
 		void UpdateConstantBuffers(std::shared_ptr<AbstractCamera> camera);
 
-		std::shared_ptr<DX11VertexShader> m_vertexShader;
-		std::shared_ptr<DX11PixelShader> m_pixelShader;
+		std::shared_ptr<DX11VertexShader> m_vertexShader = nullptr;
+		std::shared_ptr<DX11GeometryShader> m_geometryShader = nullptr;
+		std::shared_ptr<DX11PixelShader> m_pixelShader = nullptr;
+		
 		std::shared_ptr<DX11VertexBuffer> m_vertexBuffer;
 		std::shared_ptr<DX11IndexBuffer> m_indexBuffer;
 

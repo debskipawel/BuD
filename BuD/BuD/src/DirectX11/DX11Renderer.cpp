@@ -147,6 +147,14 @@ namespace BuD
 			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
 		}
 
+		if (auto& gs = entity->m_geometryShader)
+		{
+			m_device.Context()->GSSetShader(gs->Shader(), nullptr, 0);
+
+			auto count = gs->ConstantBuffers().size();
+			m_device.Context()->GSSetConstantBuffers(0, count, gs->RawConstantBuffers());
+		}
+
 		entity->UpdateConstantBuffers(camera);
 
 		ID3D11Buffer* buffers[] = { entity->m_vertexBuffer->Buffer() };

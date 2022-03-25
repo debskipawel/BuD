@@ -2,6 +2,7 @@
 
 #include "DirectX11/Shaders/DX11VertexShader.h"
 #include "DirectX11/Shaders/DX11PixelShader.h"
+#include "DirectX11/Shaders/DX11GeometryShader.h"
 
 #include <map>
 #include <string>
@@ -22,18 +23,9 @@ namespace BuD
 			return s_instance;
 		}
 
-		inline bool VSLoaded(std::wstring shaderPath)
-		{
-			return m_vertexShaders.find(shaderPath) != m_vertexShaders.end();
-		}
-
-		inline bool PSLoaded(std::wstring shaderPath)
-		{
-			return m_pixelShaders.find(shaderPath) != m_pixelShaders.end();
-		}
-
-		std::shared_ptr<DX11VertexShader> VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout);
-		std::shared_ptr<DX11PixelShader> PSLoad(ID3D11Device* device, std::wstring shaderPath);
+		std::shared_ptr<DX11VertexShader> VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, std::string mainFunName = "main");
+		std::shared_ptr<DX11PixelShader> GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName = "main");
+		std::shared_ptr<DX11PixelShader> PSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName = "main");
 
 	protected:
 		DX11ShaderLoader() = default;
@@ -44,5 +36,6 @@ namespace BuD
 
 		std::map<std::wstring, std::shared_ptr<DX11VertexShader>> m_vertexShaders;
 		std::map<std::wstring, std::shared_ptr<DX11PixelShader>> m_pixelShaders;
+		std::map<std::wstring, std::shared_ptr<DX11GeometryShader>> m_geometryShaders;
 	};
 }
