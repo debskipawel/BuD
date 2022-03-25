@@ -2,17 +2,14 @@
 
 #include "ParameterizedObject.h"
 
-#include <Editors/IEditable.h>
-
 namespace BuD
 {
-	class Parameterized2DEntity : public ParameterizedObject<Vector2>, public IEditable
+	class Parameterized2DEntity : public ParameterizedObject<Vector2>
 	{
 	public:
 		Parameterized2DEntity(Vector2 minDomain, Vector2 maxDomain, std::function<Vector3(Vector2)> objectFunction);
 
 		virtual void UpdateRenderableModel() = 0;
-
 		virtual void DrawGui() override;
 
 	protected:

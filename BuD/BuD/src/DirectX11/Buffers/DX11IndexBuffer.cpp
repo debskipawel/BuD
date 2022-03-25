@@ -2,8 +2,8 @@
 
 namespace BuD
 {
-	DX11IndexBuffer::DX11IndexBuffer(const DX11Device& device, DXGI_FORMAT format, size_t size, const void* data)
-		: DX11Buffer(device, data, GetBufferDesc(size)), m_format(format)
+	DX11IndexBuffer::DX11IndexBuffer(const DX11Device& device, DXGI_FORMAT format, size_t size, const void* data, D3D_PRIMITIVE_TOPOLOGY topology)
+		: DX11Buffer(device, data, GetBufferDesc(size)), m_format(format), m_topology(topology)
 	{
         auto bpp = BitsPerPixel(format);
         m_indicesCount = size / (bpp / 8);

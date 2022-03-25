@@ -13,9 +13,8 @@ public:
 	SandboxApp(const BuD::DX11Device& device);
 
 	inline virtual std::shared_ptr<BuD::AbstractCamera> GetCamera() override { return m_camera; }
-	virtual const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& GetModels() override;
 
-	virtual void OnUpdate() override;
+	virtual void OnUpdate(float deltaTime) override;
 	virtual void OnGuiRender() override;
 
 	virtual void OnConcreteEvent(BuD::MouseButtonDownEvent& e) override;
@@ -29,7 +28,7 @@ public:
 
 private:
 
-	void ProcessMovement();
+	void ProcessMovement(float deltaTime);
 
 	std::unique_ptr<SceneEditor> m_gui;
 
@@ -37,8 +36,7 @@ private:
 	std::shared_ptr<BuD::AbstractCamera> m_camera;
 
 	std::shared_ptr<BuD::Torus> m_torus;
-
-	std::vector<std::shared_ptr<BuD::RenderableSceneEntity>> m_models;
+	std::vector<std::shared_ptr<BuD::Point>> m_points;
 
 	bool m_isMoving = false;
 };

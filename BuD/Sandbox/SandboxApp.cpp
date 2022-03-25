@@ -1,32 +1,23 @@
 #include "SandboxApp.h"
 
-#include "Cube.h"
-
 #include <EntryPoint.h>
 
 using namespace DirectX::SimpleMath;
 
 SandboxApp::SandboxApp(const BuD::DX11Device& device)
-	: m_models(), m_torus(std::make_shared<BuD::Torus>(device, 3.0f, 1.0f))
+	: m_points(), m_torus(std::make_shared<BuD::Torus>(device, 3.0f, 1.0f))
 {
 	m_camera = BuD::CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
-	m_gui = std::make_unique<SceneEditor>(m_torus);
+	m_gui = std::make_unique<SceneEditor>();
 
-	m_models.reserve(1);
-	m_models.push_back(
-		m_torus->GetModel()
-	);
+	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 2.0f, 3.0f, 1.0f }, device));
+	m_points.push_back(std::make_shared<BuD::Point>(Vector3{ 5.0f, -1.0f, 1.0f }, device));
 }
 
-const std::vector<std::shared_ptr<BuD::RenderableSceneEntity>>& SandboxApp::GetModels()
+void SandboxApp::OnUpdate(float deltaTime)
 {
-	return m_models;
-}
-
-void SandboxApp::OnUpdate()
-{
-	ProcessMovement();
+	ProcessMovement(deltaTime);
 }
 
 void SandboxApp::OnGuiRender()
@@ -73,7 +64,7 @@ void SandboxApp::OnConcreteEvent(BuD::WindowResizedEvent& e)
 	m_camera->UpdateAspectRatio(static_cast<float>(e.m_width) / e.m_height);
 }
 
-void SandboxApp::ProcessMovement()
+void SandboxApp::ProcessMovement(float deltaTime)
 {
 	if (!m_isMoving)
 	{
@@ -84,35 +75,35 @@ void SandboxApp::ProcessMovement()
 
 	if (m_keyMap[BuD::KeyboardKeys::W])
 	{
-		dz += 0.01f;
+		dz += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::S])
 	{
-		dz -= 0.01f;
+		dz -= 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::A])
 	{
-		dx -= 0.01f;
+		dx -= 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::D])
 	{
-		dx += 0.01f;
+		dx += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::Q])
 	{
 		// up
-		dy += 0.01f;
+		dy += 1.0f;
 	}
 
 	if (m_keyMap[BuD::KeyboardKeys::E])
 	{
 		// down
-		dy -= 0.01f;
+		dy -= 1.0f;
 	}
 
-	m_camera->Move({ dx, dy, dz });
+	m_camera->Move(Vector3{ dx, dy, dz } * 3.0f * deltaTime);
 }

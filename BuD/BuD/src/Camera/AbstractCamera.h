@@ -12,6 +12,11 @@ namespace BuD
 	public:
 		void LookAt(const dxm::Vector3& target);
 
+		inline dxm::Vector3 Position() const { return m_position; }
+		inline dxm::Vector3 Front() const { return m_front; }
+		inline dxm::Vector3 Up() const { return m_up; }
+		inline dxm::Vector3 Right() const { return m_right; }
+
 		const dxm::Matrix& GetViewMatrix() const;
 		const dxm::Matrix& GetProjectionMatrix() const;
 

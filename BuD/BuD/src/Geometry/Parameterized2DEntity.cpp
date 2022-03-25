@@ -29,14 +29,18 @@ namespace BuD
 
 	void Parameterized2DEntity::DrawGui()
 	{
-		m_model->DrawGui();
-
 		int samplesU = m_samplesU;
 		int samplesV = m_samplesV;
+
+		const int samplesMinU = 3;
+		const int samplesMinV = 3;
 
 		ImGui::Text("Samples count");
 		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
 		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
+
+		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
+		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
 
 		if (UpdateSampleIntervals(samplesU, samplesV))
 		{
@@ -55,7 +59,7 @@ namespace BuD
 		m_indices.clear();
 
 		m_vertices.reserve(verticesCount);
-		m_indices.reserve(3 * verticesCount);
+		m_indices.reserve(6 * verticesCount);
 
 		for (int i = 0; i < xSplits; i++)
 		{
@@ -70,12 +74,16 @@ namespace BuD
 				m_vertices.push_back(point);
 
 				int t = (i * ySplits + j) % verticesCount;
-				int u = ((i + 1) * ySplits + (j + 1) % ySplits) % verticesCount;
-				int v = ((i + 1) * ySplits + j) % verticesCount;
+				int u = (i * ySplits + (j + 1) % ySplits) % verticesCount;
+				int v = ((i + 1) * ySplits + (j + 1) % ySplits) % verticesCount;
+				int w = ((i + 1) * ySplits + j) % verticesCount;
 
 				m_indices.push_back(t);
 				m_indices.push_back(u);
 				m_indices.push_back(v);
+				m_indices.push_back(t);
+				m_indices.push_back(v);
+				m_indices.push_back(w);
 			}
 		}
 	}
