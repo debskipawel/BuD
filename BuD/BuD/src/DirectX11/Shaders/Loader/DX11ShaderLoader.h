@@ -24,7 +24,7 @@ namespace BuD
 		}
 
 		std::shared_ptr<DX11VertexShader> VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, std::string mainFunName = "main");
-		std::shared_ptr<DX11PixelShader> GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName = "main");
+		std::shared_ptr<DX11GeometryShader> GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName = "main");
 		std::shared_ptr<DX11PixelShader> PSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName = "main");
 
 	protected:

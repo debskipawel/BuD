@@ -129,10 +129,10 @@ namespace BuD
 		return shader;
 	}
 
-	std::shared_ptr<DX11PixelShader> DX11ShaderLoader::GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName)
+	std::shared_ptr<DX11GeometryShader> DX11ShaderLoader::GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName)
 	{
-		auto result = m_pixelShaders.find(shaderPath);
-		if (result != m_pixelShaders.end())
+		auto result = m_geometryShaders.find(shaderPath);
+		if (result != m_geometryShaders.end())
 		{
 			return result->second;
 		}
@@ -140,7 +140,7 @@ namespace BuD
 		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
 		{
 			auto bytecode = LoadByteCode(shaderPath);
-			return std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
+			return std::make_shared<DX11GeometryShader>(device, bytecode.data(), bytecode.size());
 		}
 
 		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
@@ -150,9 +150,9 @@ namespace BuD
 		{
 			// try loading compiled shader if exists
 			auto bytecode = LoadByteCode(compiledShaderName);
-			auto shader = std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
+			auto shader = std::make_shared<DX11GeometryShader>(device, bytecode.data(), bytecode.size());
 
-			m_pixelShaders.insert(std::make_pair(shaderPath, shader));
+			m_geometryShaders.insert(std::make_pair(shaderPath, shader));
 
 			return shader;
 		}
@@ -161,8 +161,8 @@ namespace BuD
 		ID3DBlob* psBlob = nullptr;
 		auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), "gs_4_0_level_9_1", &psBlob);
 
-		auto shader = std::make_shared<DX11PixelShader>(device, psBlob->GetBufferPointer(), psBlob->GetBufferSize());
-		m_pixelShaders.insert(std::make_pair(shaderPath, shader));
+		auto shader = std::make_shared<DX11GeometryShader>(device, psBlob->GetBufferPointer(), psBlob->GetBufferSize());
+		m_geometryShaders.insert(std::make_pair(shaderPath, shader));
 
 		SaveToFile(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), compiledShaderName);
 

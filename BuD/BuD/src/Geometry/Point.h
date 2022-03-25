@@ -22,7 +22,7 @@ namespace BuD
 			m_color = { 0.7f, 0.5f, 0.0f }; 
 		}
 		
-		virtual void Unselect() 
+		virtual void Unselect() override
 		{ 
 			SceneObject::Unselect();
 			m_color = { 1.0f, 1.0f, 1.0f }; 

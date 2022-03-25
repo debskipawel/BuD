@@ -14,6 +14,8 @@
 #include "Scene/Cursor.h"
 #include "Win32/Win32Window.h"
 
+#include "Geometry/BezierCurveC0.h"
+
 #include <stdio.h>
 #include <windows.h>
 #include <algorithm>
@@ -37,6 +39,8 @@ namespace BuD
 
         QueryPerformanceCounter(&m_counterStart);
         QueryPerformanceFrequency(&m_freq);
+
+        collection.push_back(std::make_shared<BezierCurveC0>(m_renderer->Device()));
 
         m_window->Show();
 

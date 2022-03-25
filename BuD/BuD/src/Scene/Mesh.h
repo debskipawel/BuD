@@ -24,6 +24,8 @@ namespace BuD
 			std::function<void(std::shared_ptr<AbstractCamera>, Mesh*)> updateFunc = [](std::shared_ptr<AbstractCamera>, Mesh*) {}
 		);
 
+		inline void SetGS(std::shared_ptr<DX11GeometryShader> shader) { m_geometryShader = shader; }
+
 		inline std::shared_ptr<DX11VertexShader> VertexShader() const { return m_vertexShader; }
 		inline std::shared_ptr<DX11PixelShader> PixelShader() const { return m_pixelShader; }
 		

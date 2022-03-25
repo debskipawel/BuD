@@ -154,6 +154,10 @@ namespace BuD
 			auto count = gs->ConstantBuffers().size();
 			m_device.Context()->GSSetConstantBuffers(0, count, gs->RawConstantBuffers());
 		}
+		else
+		{
+			m_device.Context()->GSSetShader(nullptr, nullptr, 0);
+		}
 
 		entity->UpdateConstantBuffers(camera);
 
