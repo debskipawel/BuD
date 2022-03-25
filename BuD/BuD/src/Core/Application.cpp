@@ -72,7 +72,10 @@ namespace BuD
 
         for (auto& [id, entity] : SceneObject::GetAll())
         {
-            m_renderer->Draw(entity->GetMesh(), m_camera, id);
+            for (uint32_t index = 0; index < entity->MeshesCount(); index++)
+            {
+                m_renderer->Draw(entity->GetMesh(index), m_camera, id);
+            }
         }
 
         m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), m_camera);

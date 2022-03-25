@@ -90,7 +90,7 @@ namespace BuD
 		if (ImGui::Button("Add torus"))
 		{
 			auto torus = std::make_shared<Torus>(device, 3.0f, 1.0f);
-			torus->GetMesh()->m_position = m_cursorPosition;
+			torus->MoveTo(m_cursorPosition);
 
 			m_objects.push_back(torus);
 		}

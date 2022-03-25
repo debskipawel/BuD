@@ -45,6 +45,66 @@ namespace BuD
 		s_availableIds.push(id);
 	}
 
+	void SceneObject::MoveTo(const Vector3& position)
+	{
+		for (auto& mesh : m_meshes)
+		{
+			mesh->m_position = position;
+		}
+	}
+
+	void SceneObject::MoveBy(const Vector3& difference)
+	{
+		for (auto& mesh : m_meshes)
+		{
+			mesh->m_position += difference;
+		}
+	}
+
+	void SceneObject::ScaleTo(const Vector3& scale)
+	{
+		for (auto& mesh : m_meshes)
+		{
+			mesh->m_scale = scale;
+		}
+	}
+
+	void SceneObject::RotateTo(const Quaternion& quaternion)
+	{
+		auto eulerRadian = quaternion.ToEuler();
+		Vector3 rotation = 
+		{
+			DirectX::XMConvertToDegrees(eulerRadian.x),
+			DirectX::XMConvertToDegrees(eulerRadian.y),
+			DirectX::XMConvertToDegrees(eulerRadian.z),
+		};
+
+		for (auto& mesh : m_meshes)
+		{
+			mesh->m_quatRotation = quaternion;
+			mesh->m_rotation = rotation;
+		}
+	}
+
+	void SceneObject::RotateTo(const Vector3& rotation)
+	{
+		Vector3 radianRot =
+		{
+			DirectX::XMConvertToRadians(rotation.x),
+			DirectX::XMConvertToRadians(rotation.y),
+			DirectX::XMConvertToRadians(rotation.z),
+		};
+
+		auto rotate = Matrix::CreateRotationX(radianRot.x) * dxm::Matrix::CreateRotationY(radianRot.y) * dxm::Matrix::CreateRotationZ(radianRot.z);
+		auto quatRotation = Quaternion::CreateFromRotationMatrix(rotate);
+
+		for (auto& mesh : m_meshes)
+		{
+			mesh->m_rotation = rotation;
+			mesh->m_quatRotation = quatRotation;
+		}
+	}
+
 	void SceneObject::Select()
 	{
 		m_selected = true;

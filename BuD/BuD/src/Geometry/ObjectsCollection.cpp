@@ -28,7 +28,7 @@ namespace BuD
 	Vector3 ObjectsCollection::Centroid() const
 	{
 		auto centroid = std::accumulate(m_objects.begin(), m_objects.end(), Vector3{ 0.0f, 0.0f, 0.0f }, 
-			[](Vector3 a, SceneObject* obj) { return a + obj->GetMesh()->m_position; });
+			[](Vector3 a, SceneObject* obj) { return a + obj->GetMesh(0)->m_position; });
 		
 		return centroid / static_cast<float>(m_objects.size());
 	}
@@ -45,7 +45,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[&model](SceneObject* object) 
 			{ 
-				auto mesh = object->GetMesh();
+				auto mesh = object->GetMesh(0);
 				auto matrix = mesh->GetModelMatrix() * model;
 
 				Vector3 position, scale;
@@ -54,7 +54,6 @@ namespace BuD
 
 				object->MoveTo(position);
 				object->RotateTo(rotQuat);
-				object->ScaleTo(scale);
 			});
 	}
 
@@ -68,7 +67,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[&model](SceneObject* object)
 			{
-				auto mesh = object->GetMesh();
+				auto mesh = object->GetMesh(0);
 				auto matrix = mesh->GetModelMatrix() * model;
 
 				Vector3 position, scale;
@@ -85,7 +84,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[translation](SceneObject* object)
 			{
-				object->GetMesh()->m_position += translation;
+				object->MoveBy(translation);
 			});
 	}
 }

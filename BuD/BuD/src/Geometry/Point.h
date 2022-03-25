@@ -16,8 +16,6 @@ namespace BuD
 
 		virtual void DrawGui() override;
 
-		inline std::shared_ptr<Mesh> GetMesh() { return m_mesh; }
-
 		virtual void Select() override 
 		{ 
 			SceneObject::Select();
