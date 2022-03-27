@@ -40,8 +40,6 @@ namespace BuD
         QueryPerformanceCounter(&m_counterStart);
         QueryPerformanceFrequency(&m_freq);
 
-        collection.push_back(std::make_shared<BezierCurveC0>(m_renderer->Device()));
-
         m_window->Show();
 
         while (true)

@@ -1,6 +1,7 @@
 cbuffer parameters : register(b0)
 {
 	uint samples;
+    uint drawBezierPolygon;
 }
 
 struct GSOutput
@@ -39,10 +40,10 @@ void main(
 	inout LineStream<GSOutput> lineOutput
 )
 {
-	int esamples = 16;
+	int esamples = 32;
 	float dt = 1.0 / esamples;
 
-	for (float t = 0.0; t < 1.0; t += dt)
+	for (float t = 0.0; t <= 1.0; t += dt)
 	{
 		GSOutput value = (GSOutput) 0;
 
@@ -53,4 +54,9 @@ void main(
 	}
 
 	lineOutput.RestartStrip();
+
+    if (drawBezierPolygon)
+    {
+		// add edges between control points
+    }
 }

@@ -10,7 +10,7 @@ namespace BuD
 {
 	void ObjectsCollection::Add(SceneObject* object)
 	{
-		m_objects.push_back(object);
+		m_objects.insert(object);
 	}
 	
 	void ObjectsCollection::Remove(SceneObject* object)

@@ -2,6 +2,8 @@
 
 #include <SimpleMath.h>
 
+#include <set>
+
 using namespace DirectX::SimpleMath;
 
 namespace BuD
@@ -17,7 +19,7 @@ namespace BuD
 		void Add(SceneObject* object);
 		void Remove(SceneObject* object);
 
-		inline const std::vector<SceneObject*>& Objects() const { return m_objects; }
+		inline const std::set<SceneObject*>& Objects() const { return m_objects; }
 
 		Vector3 Centroid() const;
 
@@ -26,6 +28,6 @@ namespace BuD
 		void MoveAll(Vector3 translation) const;
 
 	protected:
-		std::vector<SceneObject*> m_objects;
+		std::set<SceneObject*> m_objects;
 	};
 }

@@ -151,7 +151,7 @@ namespace BuD
 		if (selected.Count() == 1)
 		{
 			// draw GUI for a single object
-			auto object = selected.Objects()[0];
+			auto object = *selected.Objects().begin();
 			object->DrawGui();
 
 			ImGui::NewLine();
