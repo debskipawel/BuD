@@ -237,6 +237,7 @@
     <ClInclude Include="src\Event\WindowEvents.h" />
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
     <ClInclude Include="src\Geometry\BezierCurveC0.h" />
+    <ClInclude Include="src\Geometry\GeometryType.h" />
     <ClInclude Include="src\Geometry\ObjectsCollection.h" />
     <ClInclude Include="src\GUI\ObjectsEditor.h" />
     <ClInclude Include="src\Scene\Cursor.h" />

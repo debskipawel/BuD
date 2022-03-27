@@ -2,6 +2,8 @@
 
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
 
+#include <imgui.h>
+
 namespace BuD
 {
 	static std::vector<D3D11_INPUT_ELEMENT_DESC> elements
@@ -12,7 +14,7 @@ namespace BuD
 		}
 	};
 
-	BezierCurveC0::BezierCurveC0(const DX11Device& device, std::vector<std::shared_ptr<Point>> controlPoints)
+	BezierCurveC0::BezierCurveC0(const DX11Device& device, std::vector<SceneObject*> controlPoints)
 		: m_color(1.0f, 1.0f, 1.0f), m_controlPoints(controlPoints)
 	{
 		m_tag = "Bezier C0";
@@ -32,14 +34,28 @@ namespace BuD
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
-				std::vector<Vector3> controlPoints(m_controlPoints.size());
-				std::vector<unsigned short> controlPointsIndices(m_controlPoints.size());
+				std::vector<Vector3> controlPoints;
+				std::vector<unsigned short> controlPointsIndices;
+				controlPoints.reserve(m_controlPoints.size());
+				controlPointsIndices.reserve((m_controlPoints.size() + 3) / 4 * 4);
 
 				for (int i = 0; i < m_controlPoints.size(); i++)
 				{
 					auto& point = m_controlPoints[i];
-					controlPoints[i] = point->GetMesh(0)->m_position;
-					controlPointsIndices[i] = i;
+					controlPoints.push_back(point->GetMesh(0)->m_position);
+					controlPointsIndices.push_back(i);
+
+					if ((i + 1) % 4 == 0)
+					{
+						controlPointsIndices.push_back(i);
+					}
+				}
+
+				auto extraIndices = (m_controlPoints.size() + 3) / 4 * 4 - controlPointsIndices.size();
+
+				for (int i = 0; i < extraIndices; i++)
+				{
+					controlPointsIndices.push_back(m_controlPoints.size() - 1);
 				}
 
 				entity->VertexBuffer()->Update(controlPoints.data(), controlPoints.size() * sizeof(Vector3));
@@ -55,6 +71,30 @@ namespace BuD
 		mesh->SetGS(geometryShader);
 
 		m_meshes.push_back(mesh);
+	}
+
+	void BezierCurveC0::DrawGui()
+	{
+		ImGui::Text("Control points");
+		if (ImGui::BeginListBox("#cp"))
+		{
+			for (auto& controlPoint : m_controlPoints)
+			{
+				bool selected = false;
+
+				std::string name = std::to_string(controlPoint->Id()) + ": " + *controlPoint->Name();
+
+				auto res = ImGui::Selectable(name.c_str(), &selected);
+
+				if (selected)
+				{
+					auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), controlPoint);
+					m_controlPoints.erase(res);
+				}
+			}
+
+			ImGui::EndListBox();
+		}
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC0::VSConstantBuffer(const DX11Device& device)

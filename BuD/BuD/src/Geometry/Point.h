@@ -16,6 +16,8 @@ namespace BuD
 
 		virtual void DrawGui() override;
 
+		virtual GeometryType GetType() override { return GeometryType::POINT; }
+
 		virtual void Select() override 
 		{ 
 			SceneObject::Select();

@@ -10,7 +10,21 @@ namespace BuD
 {
 	void ObjectsCollection::Add(SceneObject* object)
 	{
-		m_objects.insert(object);
+		if (std::find(m_objects.begin(), m_objects.end(), object) != m_objects.end())
+		{
+			return;
+		}
+
+		if (m_objectsType == GeometryType::EMPTY)
+		{
+			m_objectsType = object->GetType();
+		}
+		else if ((static_cast<unsigned int>(m_objectsType) | static_cast<unsigned int>(object->GetType())) != static_cast<unsigned int>(m_objectsType))
+		{
+			m_objectsType = GeometryType::MIXED;
+		}
+
+		m_objects.push_back(object);
 	}
 	
 	void ObjectsCollection::Remove(SceneObject* object)
@@ -23,6 +37,20 @@ namespace BuD
 		}
 
 		m_objects.erase(res);
+
+		m_objectsType = GeometryType::EMPTY;
+
+		for (auto& obj : m_objects)
+		{
+			if (m_objectsType == GeometryType::EMPTY)
+			{
+				m_objectsType = obj->GetType();
+			}
+			else if ((static_cast<unsigned int>(m_objectsType) | static_cast<unsigned int>(object->GetType())) != static_cast<unsigned int>(m_objectsType))
+			{
+				m_objectsType = GeometryType::MIXED;
+			}
+		}
 	}
 	
 	Vector3 ObjectsCollection::Centroid() const

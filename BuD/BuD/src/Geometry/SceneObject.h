@@ -24,6 +24,8 @@ namespace BuD
 		virtual void RotateTo(const Quaternion& quaternion);
 		virtual void RotateTo(const Vector3& rotation);
 
+		virtual GeometryType GetType() = 0;
+
 		virtual void Select();
 		virtual void Unselect();
 

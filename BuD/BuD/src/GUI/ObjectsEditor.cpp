@@ -5,6 +5,7 @@
 
 #include "Geometry/Point.h"
 #include "Geometry/Torus.h"
+#include "Geometry/BezierCurveC0.h"
 
 #include <algorithm>
 
@@ -113,7 +114,8 @@ namespace BuD
 		auto& objects = SceneObject::GetAll();
 
 		ImGui::Begin("Scene objects", nullptr, io.WantCaptureMouse);
-		if (ImGui::BeginListBox("Objects"))
+		ImGui::Text("Objects");
+		if (ImGui::BeginListBox("#ob"))
 		{
 			for (auto& [id, object] : objects)
 			{
@@ -203,13 +205,33 @@ namespace BuD
 			Vector3 scale = m_beginScale / currScale;
 
 			if (translate != Vector3{ 0.0f })
-				SceneObject::GetSelected().MoveAll(translate);
+				selected.MoveAll(translate);
 
 			if (rotate != Vector3{ 0.0f })
-				SceneObject::GetSelected().RotateAroundCentroid(rotate);
+				selected.RotateAroundCentroid(rotate);
 
 			if (scale != Vector3{ 1.0f } && scale != Vector3{ 0.0f })
-				SceneObject::GetSelected().ScaleAroundCentroid(scale);
+				selected.ScaleAroundCentroid(scale);
+		}
+
+		if (selected.GetType() == GeometryType::POINT)
+		{
+			ImGui::NewLine();
+
+			if (ImGui::Button("Add Bezier C0"))
+			{
+				std::vector<SceneObject*> controlPoints;
+				controlPoints.reserve(selected.Count());
+
+				for (auto& obj : selected.Objects())
+				{
+					controlPoints.push_back(obj);
+				}
+
+				auto bezier = std::make_shared<BezierCurveC0>(device, controlPoints);
+
+				m_objects.push_back(bezier);
+			}
 		}
 
 		ImGui::End();

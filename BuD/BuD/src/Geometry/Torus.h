@@ -12,6 +12,8 @@ namespace BuD
 		virtual void DrawGui() override;
 		virtual void UpdateRenderableModel() override;
 
+		virtual GeometryType GetType() override { return GeometryType::TORUS; }
+
 		virtual void Select() override 
 		{
 			SceneObject::Select();
