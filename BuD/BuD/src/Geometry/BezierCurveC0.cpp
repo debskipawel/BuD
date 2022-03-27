@@ -3,6 +3,7 @@
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
 
 #include <imgui.h>
+#include <algorithm>
 
 namespace BuD
 {
@@ -34,6 +35,8 @@ namespace BuD
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
+				std::copy_if(m_controlPoints.begin(), m_controlPoints.end(), m_controlPoints.begin(), [](SceneObject* obj) { return !obj->ShouldBeDeleted(); });
+
 				std::vector<Vector3> controlPoints;
 				std::vector<unsigned short> controlPointsIndices;
 				controlPoints.reserve(m_controlPoints.size());
@@ -51,7 +54,7 @@ namespace BuD
 					}
 				}
 
-				auto extraIndices = (m_controlPoints.size() + 3) / 4 * 4 - controlPointsIndices.size();
+				auto extraIndices = max(0, (static_cast<int>(m_controlPoints.size()) + 3) / 4 * 4 - static_cast<int>(controlPointsIndices.size()));
 
 				for (int i = 0; i < extraIndices; i++)
 				{

@@ -36,6 +36,7 @@ namespace BuD
 		
 		inline std::string* Name() { return &m_tag; }
 		inline virtual bool IsSelected() { return m_selected; }
+		inline virtual bool ShouldBeDeleted() { return m_shouldBeDeleted; }
 
 		static SceneObject* Get(uint32_t id);
 		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();
@@ -46,6 +47,7 @@ namespace BuD
 		void InsertObject();
 
 		bool m_selected = false;
+		bool m_shouldBeDeleted = false;
 
 		uint32_t m_id;
 		std::string m_tag = "Unnamed object";

@@ -40,6 +40,7 @@ namespace BuD
 			return;
 		}
 
+		res->second->m_shouldBeDeleted = true;
 		s_selected.Remove(res->second);
 		s_objectMap.erase(id);
 		s_availableIds.push(id);
