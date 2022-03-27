@@ -98,9 +98,19 @@ namespace BuD
 
 		if (ImGui::Button("Add point"))
 		{
-			m_objects.push_back(
-				std::make_shared<Point>(m_cursorPosition, device)
-			);
+			auto point = std::make_shared<Point>(m_cursorPosition, device);
+
+			m_objects.push_back(point);
+
+			auto& selected = SceneObject::GetSelected();
+
+			if (selected.GetType() == GeometryType::BEZIER_C0)
+			{
+				for (auto& obj : selected.Objects())
+				{
+					reinterpret_cast<BezierCurveC0*>(obj)->AddControlPoint(point.get());
+				}
+			}
 		}
 
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

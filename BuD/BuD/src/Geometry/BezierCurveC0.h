@@ -19,6 +19,9 @@ namespace BuD
 
 		virtual GeometryType GetType() override { return GeometryType::BEZIER_C0; }
 
+		virtual void AddControlPoint(SceneObject* obj);
+		virtual void RemoveControlPoint(SceneObject* obj);
+
 		virtual void Select() override
 		{
 			SceneObject::Select();

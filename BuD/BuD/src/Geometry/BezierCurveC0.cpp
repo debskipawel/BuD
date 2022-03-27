@@ -64,7 +64,7 @@ namespace BuD
 				entity->VertexBuffer()->Update(controlPoints.data(), controlPoints.size() * sizeof(Vector3));
 				entity->IndexBuffer()->Update(controlPointsIndices.data(), controlPointsIndices.size() * sizeof(unsigned short));
 
-				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
@@ -79,24 +79,39 @@ namespace BuD
 	void BezierCurveC0::DrawGui()
 	{
 		ImGui::Text("Control points");
-		if (ImGui::BeginListBox("#cp"))
+		for (auto& controlPoint : m_controlPoints)
 		{
-			for (auto& controlPoint : m_controlPoints)
+			std::string name = "Point " + std::to_string(controlPoint->Id());
+
+			if (ImGui::TreeNode(name.c_str()))
 			{
-				bool selected = false;
+				controlPoint->DrawGui();
 
-				std::string name = std::to_string(controlPoint->Id()) + ": " + *controlPoint->Name();
+				auto removeName = "Remove CP " + std::to_string(controlPoint->Id());
 
-				auto res = ImGui::Selectable(name.c_str(), &selected);
-
-				if (selected)
+				if (ImGui::Button(removeName.c_str()))
 				{
-					auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), controlPoint);
-					m_controlPoints.erase(res);
+					RemoveControlPoint(controlPoint);
 				}
-			}
 
-			ImGui::EndListBox();
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+		}
+	}
+
+	void BezierCurveC0::AddControlPoint(SceneObject* obj)
+	{
+		m_controlPoints.push_back(obj);
+	}
+
+	void BezierCurveC0::RemoveControlPoint(SceneObject* obj)
+	{
+		auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), obj);
+		
+		if (res != m_controlPoints.end())
+		{
+			m_controlPoints.erase(res);
 		}
 	}
 

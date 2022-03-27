@@ -98,9 +98,9 @@ namespace BuD
 		auto positionCopy = position;
 
 		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &position.x);
-		ImGui::DragFloat("p(y)", &position.y);
-		ImGui::DragFloat("p(z)", &position.z);
+		ImGui::DragFloat("p(x)", &position.x, 0.1f);
+		ImGui::DragFloat("p(y)", &position.y, 0.1f);
+		ImGui::DragFloat("p(z)", &position.z, 0.1f);
 
 		MoveBy(position - positionCopy);
 	}
