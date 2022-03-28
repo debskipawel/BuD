@@ -5,7 +5,8 @@
 
 #include "Geometry/Point.h"
 #include "Geometry/Torus.h"
-#include "Geometry/BezierCurveC0.h"
+#include "Geometry/Bezier/BezierCurve.h"
+#include "Geometry/Bezier/BezierCurveC0.h"
 
 #include <algorithm>
 
@@ -104,11 +105,11 @@ namespace BuD
 
 			auto& selected = SceneObject::GetSelected();
 
-			if (selected.GetType() == GeometryType::BEZIER_C0)
+			for (auto& obj : selected.Objects())
 			{
-				for (auto& obj : selected.Objects())
+				if (static_cast<int>(selected.GetType()) & static_cast<int>(GeometryType::BEZIER))
 				{
-					reinterpret_cast<BezierCurveC0*>(obj)->AddControlPoint(point.get());
+					reinterpret_cast<BezierCurve*>(obj)->AddControlPoint(point.get());
 				}
 			}
 		}

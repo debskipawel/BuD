@@ -1,14 +1,12 @@
 #pragma once
 
-#include "SceneObject.h"
+#include "../SceneObject.h"
 
 namespace BuD
 {
-	class BezierCurveC0 : public SceneObject
+	class BezierCurve : public SceneObject
 	{
 	public:
-		BezierCurveC0(const DX11Device& device, std::vector<SceneObject*> controlPoints);
-
 		virtual void DrawGui() override;
 
 		virtual void MoveTo(const Vector3& position) override {}
@@ -16,9 +14,7 @@ namespace BuD
 		virtual void ScaleTo(const Vector3& scale) override {}
 		virtual void RotateTo(const Quaternion& quaternion) override {}
 		virtual void RotateTo(const Vector3& rotation) override {}
-
-		virtual GeometryType GetType() override { return GeometryType::BEZIER_C0; }
-
+		
 		virtual void AddControlPoint(SceneObject* obj);
 		virtual void RemoveControlPoint(SceneObject* obj);
 
@@ -37,15 +33,10 @@ namespace BuD
 		}
 
 	protected:
+		BezierCurve(std::vector<SceneObject*> controlPoints);
+
 		Vector3 m_color;
 
 		std::vector<SceneObject*> m_controlPoints;
-
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> GSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_gsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }

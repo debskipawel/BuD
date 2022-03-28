@@ -14,8 +14,6 @@
 #include "Scene/Cursor.h"
 #include "Win32/Win32Window.h"
 
-#include "Geometry/BezierCurveC0.h"
-
 #include <stdio.h>
 #include <windows.h>
 #include <algorithm>

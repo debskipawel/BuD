@@ -16,7 +16,7 @@ namespace BuD
 	};
 
 	BezierCurveC0::BezierCurveC0(const DX11Device& device, std::vector<SceneObject*> controlPoints)
-		: m_color(1.0f, 1.0f, 1.0f), m_controlPoints(controlPoints)
+		: BezierCurve(controlPoints)
 	{
 		m_tag = "Bezier C0";
 		m_controlPoints.reserve(16);
@@ -37,24 +37,27 @@ namespace BuD
 			{
 				std::copy_if(m_controlPoints.begin(), m_controlPoints.end(), m_controlPoints.begin(), [](SceneObject* obj) { return !obj->ShouldBeDeleted(); });
 
+				int controlPointsCount = m_controlPoints.size();
+
 				std::vector<Vector3> controlPoints;
 				std::vector<unsigned short> controlPointsIndices;
-				controlPoints.reserve(m_controlPoints.size());
-				controlPointsIndices.reserve((m_controlPoints.size() + 3) / 4 * 4);
+				
+				controlPoints.reserve(controlPointsCount);
+				controlPointsIndices.reserve(2 * controlPointsCount);
 
-				for (int i = 0; i < m_controlPoints.size(); i++)
+				for (int i = 0; i < controlPointsCount; i++)
 				{
 					auto& point = m_controlPoints[i];
 					controlPoints.push_back(point->GetMesh(0)->m_position);
 					controlPointsIndices.push_back(i);
 
-					if ((i + 1) % 4 == 0)
+					if (i && i % 3 == 0)
 					{
 						controlPointsIndices.push_back(i);
 					}
 				}
 
-				auto extraIndices = max(0, (static_cast<int>(m_controlPoints.size()) + 3) / 4 * 4 - static_cast<int>(controlPointsIndices.size()));
+				auto extraIndices = controlPointsIndices.size() % 4 ? 4 - controlPointsIndices.size() % 4 : 0;
 
 				for (int i = 0; i < extraIndices; i++)
 				{
@@ -76,45 +79,6 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
-	void BezierCurveC0::DrawGui()
-	{
-		ImGui::Text("Control points");
-		for (auto& controlPoint : m_controlPoints)
-		{
-			std::string name = "Point " + std::to_string(controlPoint->Id());
-
-			if (ImGui::TreeNode(name.c_str()))
-			{
-				controlPoint->DrawGui();
-
-				auto removeName = "Remove CP " + std::to_string(controlPoint->Id());
-
-				if (ImGui::Button(removeName.c_str()))
-				{
-					RemoveControlPoint(controlPoint);
-				}
-
-				ImGui::TreePop();
-				ImGui::Separator();
-			}
-		}
-	}
-
-	void BezierCurveC0::AddControlPoint(SceneObject* obj)
-	{
-		m_controlPoints.push_back(obj);
-	}
-
-	void BezierCurveC0::RemoveControlPoint(SceneObject* obj)
-	{
-		auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), obj);
-		
-		if (res != m_controlPoints.end())
-		{
-			m_controlPoints.erase(res);
-		}
-	}
-
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC0::VSConstantBuffer(const DX11Device& device)
 	{
 		if (!s_vsConstantBuffer)
@@ -133,6 +97,11 @@ namespace BuD
 		}
 
 		return s_gsConstantBuffer;
+	}
+
+	GeometryType BezierCurveC0::GetType()
+	{
+		return GeometryType::BEZIER_C0;
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC0::PSConstantBuffer(const DX11Device& device)

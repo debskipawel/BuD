@@ -114,7 +114,10 @@
     <ClCompile Include="src\DirectX11\Shaders\DX11GeometryShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Geometry\BezierCurveC0.cpp">
+    <ClCompile Include="src\Geometry\Bezier\BezierCurveC0.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Geometry\Bezier\BezierCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,10 +245,13 @@
     <ClInclude Include="src\DirectX11\Shaders\DX11GeometryShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Geometry\BezierCurveC0.h">
+    <ClInclude Include="src\Geometry\Bezier\BezierCurveC0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\GeometryType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Geometry\Bezier\BezierCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
