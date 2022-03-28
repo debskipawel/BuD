@@ -4,6 +4,7 @@
 
 #include <imgui.h>
 #include <algorithm>
+#include <iterator>
 
 namespace BuD
 {
@@ -35,8 +36,12 @@ namespace BuD
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
-				std::copy_if(m_controlPoints.begin(), m_controlPoints.end(), m_controlPoints.begin(), [](SceneObject* obj) { return !obj->ShouldBeDeleted(); });
+				std::vector<SceneObject*> filteredControlPoints;
+				filteredControlPoints.reserve(m_controlPoints.size());
 
+				std::copy_if(m_controlPoints.begin(), m_controlPoints.end(), std::back_inserter(filteredControlPoints), [](SceneObject* obj) { return !obj->ShouldBeDeleted(); });
+				m_controlPoints = filteredControlPoints;
+				
 				int controlPointsCount = m_controlPoints.size();
 
 				std::vector<Vector3> controlPoints;

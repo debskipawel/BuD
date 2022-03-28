@@ -6,6 +6,8 @@ namespace BuD
 {
 	void BezierCurve::DrawGui()
 	{
+		auto& objects = SceneObject::GetAll();
+
 		ImGui::Text("Control points");
 		for (auto& controlPoint : m_controlPoints)
 		{
@@ -23,7 +25,27 @@ namespace BuD
 				}
 
 				ImGui::TreePop();
-				ImGui::Separator();
+			}
+			ImGui::Separator();
+		}
+
+		ImGui::NewLine();
+
+		if (ImGui::CollapsingHeader("Add control points"))
+		{
+			for (auto& [id, obj] : objects)
+			{
+				if (obj->GetType() == GeometryType::POINT)
+				{
+					std::string name = "Add " + *obj->Name() + std::to_string(id);
+					bool selected = false;
+					ImGui::Selectable(name.c_str(), &selected);
+
+					if (selected)
+					{
+						AddControlPoint(obj);
+					}
+				}
 			}
 		}
 	}
