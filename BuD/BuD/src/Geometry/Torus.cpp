@@ -64,6 +64,17 @@ namespace BuD
 
 	void Torus::DrawGui()
 	{
+		Vector3 currPos = m_meshes[0]->m_position;
+		Vector3 currPosCopy = currPos;
+
+		ImGui::Text("Translation");
+		ImGui::DragFloat("t(x)", &currPos.x, 0.5f);
+		ImGui::DragFloat("t(y)", &currPos.y, 0.5f);
+		ImGui::DragFloat("t(z)", &currPos.z, 0.5f);
+		ImGui::NewLine();
+
+		this->MoveTo(currPos);
+
 		Vector3 currRot = m_meshes[0]->m_rotation;
 		Vector3 currRotCopy = currRot;
 
@@ -89,17 +100,6 @@ namespace BuD
 		ImGui::NewLine();
 		
 		this->ScaleTo(currScale);
-
-		Vector3 currPos = m_meshes[0]->m_position;
-		Vector3 currPosCopy = currPos;
-
-		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &currPos.x, 0.5f);
-		ImGui::DragFloat("p(y)", &currPos.y, 0.5f);
-		ImGui::DragFloat("p(z)", &currPos.z, 0.5f);
-		ImGui::NewLine();
-
-		this->MoveTo(currPos);
 
 		Parameterized2DEntity::DrawGui();
 

@@ -48,6 +48,11 @@ namespace BuD
 				}
 			}
 		}
+
+		ImGui::NewLine();
+		ImGui::Text("Draw Bezier polygon:");
+		ImGui::SameLine();
+		ImGui::Checkbox("##bp", &m_drawPolygon);
 	}
 
 	void BezierCurve::AddControlPoint(SceneObject* obj)

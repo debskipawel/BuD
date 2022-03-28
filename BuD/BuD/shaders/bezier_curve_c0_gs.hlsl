@@ -1,12 +1,13 @@
 cbuffer parameters : register(b0)
 {
 	uint samples;
-    uint drawBezierPolygon;
+    int bezierPolygonVisible;
 }
 
 struct GSOutput
 {
 	float4 pos : SV_POSITION;
+    float polygon : POLYGON_FLAG;
 };
 
 float4 DeCasteljau3(int n, float t)
@@ -34,7 +35,7 @@ float4 DeCasteljau3(int n, float t)
 	return float4(bernsteinBasis[n][0], bernsteinBasis[n][1], bernsteinBasis[n][2], bernsteinBasis[n][3]);
 }
 
-[maxvertexcount(256)]
+[maxvertexcount(200)]
 void main(
 	lineadj float4 input[4] : SV_POSITION,
 	inout LineStream<GSOutput> lineOutput
@@ -55,8 +56,19 @@ void main(
 
 	lineOutput.RestartStrip();
 
-    if (drawBezierPolygon)
+    if (!bezierPolygonVisible)
     {
-		// add edges between control points
+        return;
     }
+
+    for (int i = 0; i < 4; i++)
+    {
+        GSOutput value = (GSOutput) 0;
+        value.pos = input[i];
+        value.polygon = 1.0f;
+
+        lineOutput.Append(value);
+    }
+
+    lineOutput.RestartStrip();
 }

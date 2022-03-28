@@ -97,10 +97,10 @@ namespace BuD
 		auto position = m_meshes[0]->m_position;
 		auto positionCopy = position;
 
-		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &position.x, 0.1f);
-		ImGui::DragFloat("p(y)", &position.y, 0.1f);
-		ImGui::DragFloat("p(z)", &position.z, 0.1f);
+		ImGui::Text("Translation");
+		ImGui::DragFloat("t(x)", &position.x, 0.1f);
+		ImGui::DragFloat("t(y)", &position.y, 0.1f);
+		ImGui::DragFloat("t(z)", &position.z, 0.1f);
 
 		MoveBy(position - positionCopy);
 	}

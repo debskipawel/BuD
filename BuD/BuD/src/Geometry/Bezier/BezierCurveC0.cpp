@@ -25,9 +25,10 @@ namespace BuD
 
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
 		auto geometryShader = DX11ShaderLoader::Get()->GSLoad(device.Raw(), L"../BuD/shaders/bezier_curve_c0_gs.hlsl");
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/bezier_with_polygon_ps.hlsl");
 
 		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
+		geometryShader->AddConstantBuffer(GSConstantBuffer(device));
 		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
@@ -76,6 +77,15 @@ namespace BuD
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
+
+				struct GSResource
+				{
+					uint32_t samples;
+					uint32_t drawPolygon;
+				};
+
+				GSResource resource = { 0, m_drawPolygon };
+				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
 			}
 		);
 

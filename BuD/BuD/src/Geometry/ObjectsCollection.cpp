@@ -42,11 +42,17 @@ namespace BuD
 
 		for (auto& obj : m_objects)
 		{
+			auto type = obj->GetType();
+
 			if (m_objectsType == GeometryType::EMPTY)
 			{
-				m_objectsType = obj->GetType();
+				m_objectsType = type;
 			}
-			else if ((static_cast<unsigned int>(m_objectsType) | static_cast<unsigned int>(object->GetType())) != static_cast<unsigned int>(m_objectsType))
+			else if (static_cast<int>(m_objectsType) == static_cast<int>(type))
+			{
+				m_objectsType = type;
+			}
+			else
 			{
 				m_objectsType = GeometryType::MIXED;
 			}

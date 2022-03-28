@@ -9,11 +9,6 @@ namespace BuD
 		InsertObject();
 	}
 
-	SceneObject::~SceneObject()
-	{
-		DeleteObject(m_id);
-	}
-
 	SceneObject* SceneObject::Get(uint32_t id)
 	{
 		auto res = s_objectMap.find(id);
@@ -40,10 +35,13 @@ namespace BuD
 			return;
 		}
 
-		res->second->m_shouldBeDeleted = true;
-		s_selected.Remove(res->second);
+		auto& obj = res->second;
+
+		s_selected.Remove(obj);
 		s_objectMap.erase(id);
 		s_availableIds.push(id);
+
+		obj->m_shouldBeDeleted = true;
 	}
 
 	void SceneObject::MoveTo(const Vector3& position)

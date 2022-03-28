@@ -32,11 +32,15 @@ namespace BuD
 			m_color = { 1.0f, 1.0f, 1.0f };
 		}
 
+		inline virtual void DrawPolygon(bool draw) { m_drawPolygon = draw; }
+		inline virtual bool ShouldDrawPolygon() { return m_drawPolygon; }
+
 	protected:
 		BezierCurve(std::vector<SceneObject*> controlPoints);
 
 		Vector3 m_color;
 
 		std::vector<SceneObject*> m_controlPoints;
+		bool m_drawPolygon = false;
 	};
 }

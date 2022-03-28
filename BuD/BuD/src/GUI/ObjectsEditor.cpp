@@ -126,7 +126,7 @@ namespace BuD
 
 		ImGui::Begin("Scene objects", nullptr, io.WantCaptureMouse);
 		ImGui::Text("Objects");
-		if (ImGui::BeginListBox("#ob"))
+		if (ImGui::BeginListBox("##ob"))
 		{
 			for (auto& [id, object] : objects)
 			{
@@ -169,7 +169,7 @@ namespace BuD
 
 			ImGui::NewLine();
 			ImGui::Text("Name");
-			ImGui::InputText("#n", object->Name());
+			ImGui::InputText("##n", object->Name());
 
 			ImGui::NewLine();
 

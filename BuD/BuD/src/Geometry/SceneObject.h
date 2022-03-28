@@ -14,7 +14,6 @@ namespace BuD
 	{
 	public:
 		SceneObject();
-		~SceneObject();
 
 		virtual void DrawGui() = 0;
 
