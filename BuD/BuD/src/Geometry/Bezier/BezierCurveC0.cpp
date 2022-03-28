@@ -84,6 +84,7 @@ namespace BuD
 					uint32_t drawPolygon;
 				};
 
+				// TODO: calculate sampleCount and send it through to the GS
 				GSResource resource = { 0, m_drawPolygon };
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
 			}
