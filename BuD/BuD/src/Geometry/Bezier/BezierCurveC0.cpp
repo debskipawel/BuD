@@ -35,7 +35,7 @@ namespace BuD
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
-			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				std::vector<SceneObject*> filteredControlPoints;
 				filteredControlPoints.reserve(m_controlPoints.size());
@@ -84,8 +84,29 @@ namespace BuD
 					uint32_t drawPolygon;
 				};
 
+				UINT minX = device.BufferWidth(), maxX = 0;
+				UINT minY = device.BufferHeight(), maxY = 0;
+
+				for (auto& cp : m_controlPoints)
+				{
+					auto position = cp->GetMesh(0)->m_position;
+					auto trPosition = Vector4{ position.x, position.y, position.z, 1.0f };
+					DirectX::XMStoreFloat4(&trPosition, DirectX::XMVector4Transform(DirectX::XMLoadFloat4(&trPosition), DirectX::XMLoadFloat4x4(&matrix)));
+					trPosition /= trPosition.w;
+
+					int xPos = device.BufferWidth() * (std::clamp(trPosition.x, -1.0f, 1.0f) + 1.0f) / 2.0f;
+					int yPos = device.BufferHeight() * (std::clamp(trPosition.y, -1.0f, 1.0f) + 1.0f) / 2.0f;
+
+					maxX = max(xPos, maxX);
+					minX = min(xPos, minX);
+					maxY = max(yPos, maxY);
+					minY = min(yPos, minY);
+				}
+
+				auto longSide = max(maxX - minX, maxY - minY);
+
 				// TODO: calculate sampleCount and send it through to the GS
-				GSResource resource = { 0, m_drawPolygon };
+				GSResource resource = { longSide / 10, m_drawPolygon };
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
 			}
 		);

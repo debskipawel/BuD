@@ -36,12 +36,11 @@ namespace BuD
 		}
 
 		auto& obj = res->second;
+		obj->m_shouldBeDeleted = true;
 
 		s_selected.Remove(obj);
 		s_objectMap.erase(id);
 		s_availableIds.push(id);
-
-		obj->m_shouldBeDeleted = true;
 	}
 
 	void SceneObject::MoveTo(const Vector3& position)
