@@ -105,7 +105,6 @@ namespace BuD
 
 				auto longSide = max(maxX - minX, maxY - minY);
 
-				// TODO: calculate sampleCount and send it through to the GS
 				GSResource resource = { longSide / 10, m_drawPolygon };
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
 			}

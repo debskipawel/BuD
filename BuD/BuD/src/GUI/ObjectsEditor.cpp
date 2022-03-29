@@ -50,7 +50,15 @@ namespace BuD
 		newCameraPosition.w = 1.0f;
 		auto newWorldPosition = Vector4::Transform(newCameraPosition, viewInverted);
 
-		m_cursorPosition = { newWorldPosition.x, newWorldPosition.y, newWorldPosition.z };
+		Vector3 worldPosition3 = Vector3(newWorldPosition);
+		auto cameraToCursor = worldPosition3 - m_camera->Position();
+
+		if (cameraToCursor.Dot(m_camera->Front()) < 0.0f)
+		{
+			worldPosition3 = m_camera->Position() - cameraToCursor;
+		}
+
+		m_cursorPosition = worldPosition3;
 	}
 	
 	void ObjectsEditor::SelectionChanged()
