@@ -38,6 +38,10 @@ namespace BuD
 	protected:
 		BezierCurve(std::vector<SceneObject*> controlPoints);
 
+		virtual void FilterControlPoints();
+		virtual void UpdateCentroid();
+		virtual RECT GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height);
+
 		Vector3 m_color;
 
 		std::vector<SceneObject*> m_controlPoints;

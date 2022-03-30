@@ -37,11 +37,8 @@ namespace BuD
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
-				std::vector<SceneObject*> filteredControlPoints;
-				filteredControlPoints.reserve(m_controlPoints.size());
-
-				std::copy_if(m_controlPoints.begin(), m_controlPoints.end(), std::back_inserter(filteredControlPoints), [](SceneObject* obj) { return !obj->ShouldBeDeleted(); });
-				m_controlPoints = filteredControlPoints;
+				FilterControlPoints();
+				UpdateCentroid();
 				
 				int controlPointsCount = m_controlPoints.size();
 
@@ -84,26 +81,8 @@ namespace BuD
 					uint32_t drawPolygon;
 				};
 
-				UINT minX = device.BufferWidth(), maxX = 0;
-				UINT minY = device.BufferHeight(), maxY = 0;
-
-				for (auto& cp : m_controlPoints)
-				{
-					auto position = cp->GetMesh(0)->m_position;
-					auto trPosition = Vector4{ position.x, position.y, position.z, 1.0f };
-					DirectX::XMStoreFloat4(&trPosition, DirectX::XMVector4Transform(DirectX::XMLoadFloat4(&trPosition), DirectX::XMLoadFloat4x4(&matrix)));
-					trPosition /= trPosition.w;
-
-					int xPos = device.BufferWidth() * (std::clamp(trPosition.x, -1.0f, 1.0f) + 1.0f) / 2.0f;
-					int yPos = device.BufferHeight() * (std::clamp(trPosition.y, -1.0f, 1.0f) + 1.0f) / 2.0f;
-
-					maxX = max(xPos, maxX);
-					minX = min(xPos, minX);
-					maxY = max(yPos, maxY);
-					minY = min(yPos, minY);
-				}
-
-				auto longSide = max(maxX - minX, maxY - minY);
+				auto rect = GetSurroundingRectangle(camera, device.BufferWidth(), device.BufferHeight());
+				auto longSide = max(rect.right - rect.left, rect.bottom - rect.top);
 
 				GSResource resource = { longSide / 10, m_drawPolygon };
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
