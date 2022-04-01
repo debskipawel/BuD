@@ -7,6 +7,7 @@
 #include "Geometry/Torus.h"
 #include "Geometry/Bezier/BezierCurve.h"
 #include "Geometry/Bezier/BezierCurveC0.h"
+#include "Geometry/Bezier/BezierCurveC2.h"
 
 #include <algorithm>
 
@@ -248,6 +249,21 @@ namespace BuD
 				}
 
 				auto bezier = std::make_shared<BezierCurveC0>(device, controlPoints);
+
+				m_objects.push_back(bezier);
+			}
+
+			if (ImGui::Button("Add Bezier C2"))
+			{
+				std::vector<SceneObject*> controlPoints;
+				controlPoints.reserve(selected.Count());
+
+				for (auto& obj : selected.Objects())
+				{
+					controlPoints.push_back(obj);
+				}
+
+				auto bezier = std::make_shared<BezierCurveC2>(device, controlPoints);
 
 				m_objects.push_back(bezier);
 			}

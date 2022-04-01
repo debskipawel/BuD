@@ -196,6 +196,7 @@
     <ClCompile Include="src\DirectX11\DX11Renderer.cpp" />
     <ClCompile Include="src\Geometry\Bezier\BezierCurve.cpp" />
     <ClCompile Include="src\Geometry\Bezier\BezierCurveC0.cpp" />
+    <ClCompile Include="src\Geometry\Bezier\BezierCurveC2.cpp" />
     <ClCompile Include="src\Geometry\ObjectsCollection.cpp" />
     <ClCompile Include="src\GUI\ObjectsEditor.cpp" />
     <ClCompile Include="src\Scene\Cursor.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
     <ClInclude Include="src\Geometry\Bezier\BezierCurve.h" />
     <ClInclude Include="src\Geometry\Bezier\BezierCurveC0.h" />
+    <ClInclude Include="src\Geometry\Bezier\BezierCurveC2.h" />
     <ClInclude Include="src\Geometry\GeometryType.h" />
     <ClInclude Include="src\Geometry\ObjectsCollection.h" />
     <ClInclude Include="src\GUI\ObjectsEditor.h" />
