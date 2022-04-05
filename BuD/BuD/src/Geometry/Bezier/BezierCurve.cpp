@@ -9,8 +9,6 @@ namespace BuD
 {
 	void BezierCurve::DrawGui()
 	{
-		auto& objects = SceneObject::GetAll();
-
 		ImGui::Text("Control points");
 		for (auto& controlPoint : m_controlPoints)
 		{
@@ -36,6 +34,8 @@ namespace BuD
 
 		if (ImGui::CollapsingHeader("Add control points"))
 		{
+			auto& objects = SceneObject::GetAll();
+
 			for (auto& [id, obj] : objects)
 			{
 				if (obj->GetType() == GeometryType::POINT)

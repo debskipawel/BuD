@@ -94,6 +94,11 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
+	GeometryType BezierCurveC0::GetType()
+	{
+		return GeometryType::BEZIER_C0;
+	}
+
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC0::VSConstantBuffer(const DX11Device& device)
 	{
 		if (!s_vsConstantBuffer)
@@ -112,11 +117,6 @@ namespace BuD
 		}
 
 		return s_gsConstantBuffer;
-	}
-
-	GeometryType BezierCurveC0::GetType()
-	{
-		return GeometryType::BEZIER_C0;
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC0::PSConstantBuffer(const DX11Device& device)

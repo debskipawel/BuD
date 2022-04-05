@@ -84,3 +84,39 @@ void BuD::AbstractCamera::ProcessMouseMovement(int xOffset, int yOffset)
 
 	UpdateViewMatrix();
 }
+
+dxm::Vector3 BuD::AbstractCamera::MoveWorldPointToPixels(dxm::Vector3 point, int x, int y)
+{
+	auto& viewMatrix = GetViewMatrix();
+	auto& perspMatrix = GetProjectionMatrix();
+	auto perspInverted = perspMatrix.Invert();
+	auto viewInverted = viewMatrix.Invert();
+
+	dxm::Vector4 currPosition = { point.x, point.y, point.z, 1.0f };
+	auto cameraPosition = dxm::Vector4::Transform(currPosition, viewMatrix);
+	auto currPerspectivePosition = dxm::Vector4::Transform(cameraPosition, perspMatrix);
+
+	float w = currPerspectivePosition.z;
+	float z = cameraPosition.z;
+	currPerspectivePosition /= currPerspectivePosition.w;
+
+	float mappedX = static_cast<float>(x) / m_width * 2.0f - 1.0f;
+	float mappedY = -(static_cast<float>(y) / m_height * 2.0f - 1.0f);
+
+	auto newPerspectivePosition = dxm::Vector4{ mappedX, mappedY, 1.0f, 1.0f };
+	newPerspectivePosition *= w;
+
+	auto newCameraPosition = dxm::Vector4::Transform(newPerspectivePosition, perspInverted);
+	newCameraPosition.w = 1.0f;
+	auto newWorldPosition = dxm::Vector4::Transform(newCameraPosition, viewInverted);
+
+	auto worldPosition3 = dxm::Vector3(newWorldPosition);
+	auto cameraToCursor = worldPosition3 - m_position;
+
+	if (cameraToCursor.Dot(m_front) < 0.0f)
+	{
+		worldPosition3 = m_position - cameraToCursor;
+	}
+
+	return worldPosition3;
+}

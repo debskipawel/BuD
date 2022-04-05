@@ -112,7 +112,7 @@ namespace BuD
             m_renderer->UpdateBuffersSize(e.m_width, e.m_height);
         }
 
-        m_camera->UpdateAspectRatio(static_cast<float>(e.m_width) / e.m_height);
+        m_camera->UpdateViewport(e.m_width, e.m_height);
     }
 
     void Application::OnConcreteEvent(WindowEnterSizeMoveEvent& e)

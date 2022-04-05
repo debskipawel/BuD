@@ -44,7 +44,9 @@ void main(
     uint sampleCount = min(200, samples);
 	float dt = 1.0 / sampleCount;
 
-	for (float t = 0.0; t <= 1.0; t += dt)
+    float eps = 0.0001;
+	
+	for (float t = 0.0; t <= 1.0 + eps; t += dt)
 	{
 		GSOutput value = (GSOutput) 0;
 

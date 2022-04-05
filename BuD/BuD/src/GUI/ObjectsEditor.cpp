@@ -28,38 +28,7 @@ namespace BuD
 
 	void ObjectsEditor::SetCursorTo(int pixelX, int pixelY)
 	{
-		auto& viewMatrix = m_camera->GetViewMatrix();
-		auto& perspMatrix = m_camera->GetProjectionMatrix();
-		auto perspInverted = perspMatrix.Invert();
-		auto viewInverted = viewMatrix.Invert();
-
-		Vector4 currPosition = { m_cursorPosition.x, m_cursorPosition.y, m_cursorPosition.z, 1.0f };
-		auto cameraPosition = Vector4::Transform(currPosition, viewMatrix);
-		auto currPerspectivePosition = Vector4::Transform(cameraPosition, perspMatrix);
-
-		float w = currPerspectivePosition.z;
-		float z = cameraPosition.z;
-		currPerspectivePosition /= currPerspectivePosition.w;
-
-		float mappedX = static_cast<float>(pixelX) / m_window->Width() * 2.0f - 1.0f;
-		float mappedY = -(static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f);
-
-		Vector4 newPerspectivePosition = { mappedX, mappedY, 1.0f, 1.0f };
-		newPerspectivePosition *= w;
-
-		auto newCameraPosition = Vector4::Transform(newPerspectivePosition, perspInverted);
-		newCameraPosition.w = 1.0f;
-		auto newWorldPosition = Vector4::Transform(newCameraPosition, viewInverted);
-
-		Vector3 worldPosition3 = Vector3(newWorldPosition);
-		auto cameraToCursor = worldPosition3 - m_camera->Position();
-
-		if (cameraToCursor.Dot(m_camera->Front()) < 0.0f)
-		{
-			worldPosition3 = m_camera->Position() - cameraToCursor;
-		}
-
-		m_cursorPosition = worldPosition3;
+		m_cursorPosition = m_camera->MoveWorldPointToPixels(m_cursorPosition, pixelX, pixelY);
 	}
 	
 	void ObjectsEditor::SelectionChanged()
