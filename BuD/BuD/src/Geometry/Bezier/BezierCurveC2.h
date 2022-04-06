@@ -9,9 +9,16 @@ namespace BuD
 	public:
 		BezierCurveC2(const DX11Device& device, std::vector<SceneObject*> controlPoints);
 
+		virtual void AddControlPoint(SceneObject* obj) override;
+		virtual void RemoveControlPoint(SceneObject* obj) override;
+
 		virtual GeometryType GetType() override;
 
 	protected:
+
+		void CalculateBernsteinPoints();
+
+		std::vector<Vector3> m_bernsteinPoints;
 
 		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
 		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);

@@ -20,8 +20,8 @@ namespace BuD
 		: BezierCurve(controlPoints)
 	{
 		m_tag = "Bezier C2";
-		m_controlPoints.reserve(16);
-		m_meshes.reserve(1);
+		
+		CalculateBernsteinPoints();
 
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
 		auto geometryShader = DX11ShaderLoader::Get()->GSLoad(device.Raw(), L"../BuD/shaders/bezier_curve_c0_gs.hlsl");
@@ -40,7 +40,7 @@ namespace BuD
 				FilterControlPoints();
 				UpdateCentroid();
 
-				int controlPointsCount = m_controlPoints.size();
+				size_t controlPointsCount = m_controlPoints.size();
 
 				if (controlPointsCount < 4)
 				{
@@ -50,27 +50,10 @@ namespace BuD
 					return;
 				}
 
-				std::vector<Vector3> vertices;
 				std::vector<unsigned short> indices;
-				vertices.reserve(3 * controlPointsCount);
 				indices.reserve((controlPointsCount - 3) * 4);
 
-				for (int i = 0; i < controlPointsCount - 1; i++)
-				{
-					auto& a = m_controlPoints[i]->GetMesh(0)->m_position;
-					auto& b = m_controlPoints[i + 1]->GetMesh(0)->m_position;
-
-					vertices.push_back(a);
-					vertices.push_back((2.0f * a + b) / 3.0f);
-					vertices.push_back((a + 2.0f * b) / 3.0f);
-				}
-
-				for (int i = 1; i < controlPointsCount - 1; i++)
-				{
-					vertices[3 * i] = (vertices[3 * i - 1] + vertices[3 * i + 1]) / 2.0f;
-				}
-
-				for (int i = 3; i < vertices.size() - 2; i++)
+				for (int i = 3; i < m_bernsteinPoints.size() - 2; i++)
 				{
 					indices.push_back(i - 3);
 
@@ -80,7 +63,7 @@ namespace BuD
 					}
 				}
 
-				entity->VertexBuffer()->Update(vertices.data() + 3, (vertices.size() - 5) * sizeof(Vector3));
+				entity->VertexBuffer()->Update(m_bernsteinPoints.data() + 3, (m_bernsteinPoints.size() - 5) * sizeof(Vector3));
 				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 				
 				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
@@ -105,6 +88,34 @@ namespace BuD
 		mesh->SetGS(geometryShader);
 
 		m_meshes.push_back(mesh);
+	}
+
+	void BezierCurveC2::CalculateBernsteinPoints()
+	{
+		m_bernsteinPoints.clear();
+		int controlPointsCount = m_controlPoints.size();
+
+		if (controlPointsCount < 4)
+		{
+			return;
+		}
+
+		m_bernsteinPoints.reserve(3 * controlPointsCount);
+
+		for (size_t i = 0; i < controlPointsCount - 1; i++)
+		{
+			auto& a = m_controlPoints[i]->GetMesh(0)->m_position;
+			auto& b = m_controlPoints[i + 1]->GetMesh(0)->m_position;
+
+			m_bernsteinPoints.push_back(a);
+			m_bernsteinPoints.push_back((2.0f * a + b) / 3.0f);
+			m_bernsteinPoints.push_back((a + 2.0f * b) / 3.0f);
+		}
+
+		for (size_t i = 1; i < controlPointsCount - 1; i++)
+		{
+			m_bernsteinPoints[3 * i] = (m_bernsteinPoints[3 * i - 1] + m_bernsteinPoints[3 * i + 1]) / 2.0f;
+		}
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::VSConstantBuffer(const DX11Device& device)
@@ -135,6 +146,18 @@ namespace BuD
 		}
 
 		return s_psConstantBuffer;
+	}
+
+	void BezierCurveC2::AddControlPoint(SceneObject* obj)
+	{
+		BezierCurve::AddControlPoint(obj);
+		CalculateBernsteinPoints();
+	}
+
+	void BezierCurveC2::RemoveControlPoint(SceneObject* obj)
+	{
+		BezierCurve::RemoveControlPoint(obj);
+		CalculateBernsteinPoints();
 	}
 
 	GeometryType BezierCurveC2::GetType()
