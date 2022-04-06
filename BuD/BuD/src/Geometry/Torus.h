@@ -9,7 +9,7 @@ namespace BuD
 	public:
 		Torus(const DX11Device& device, float largeRadius, float smallRadius);
 
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 		virtual void UpdateRenderableModel() override;
 
 		virtual GeometryType GetType() override { return GeometryType::TORUS; }

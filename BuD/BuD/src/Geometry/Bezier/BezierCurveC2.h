@@ -13,6 +13,7 @@ namespace BuD
 		virtual void RemoveControlPoint(SceneObject* obj) override;
 
 		virtual GeometryType GetType() override;
+		virtual bool DrawGui() override;
 
 	protected:
 

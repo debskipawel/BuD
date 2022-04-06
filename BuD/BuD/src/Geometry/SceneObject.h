@@ -15,7 +15,7 @@ namespace BuD
 	public:
 		SceneObject();
 
-		virtual void DrawGui() = 0;
+		virtual bool DrawGui() = 0;
 
 		virtual void MoveTo(const Vector3& position);
 		virtual void MoveBy(const Vector3& difference);
@@ -34,8 +34,8 @@ namespace BuD
 		inline uint32_t Id() const { return m_id; }
 		
 		inline std::string* Name() { return &m_tag; }
-		inline virtual bool IsSelected() { return m_selected; }
-		inline virtual bool ShouldBeDeleted() { return m_shouldBeDeleted; }
+		inline virtual bool IsSelected() const { return m_selected; }
+		inline virtual bool ShouldBeDeleted() const { return m_shouldBeDeleted; }
 
 		static SceneObject* Get(uint32_t id);
 		static const std::unordered_map<uint32_t, SceneObject*>& GetAll();

@@ -92,7 +92,7 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
-	void Point::DrawGui()
+	bool Point::DrawGui()
 	{
 		auto position = m_meshes[0]->m_position;
 		auto positionCopy = position;
@@ -102,7 +102,14 @@ namespace BuD
 		ImGui::DragFloat("t(y)", &position.y, 0.1f);
 		ImGui::DragFloat("t(z)", &position.z, 0.1f);
 
-		MoveBy(position - positionCopy);
+		if ((position - positionCopy).LengthSquared())
+		{
+			MoveBy(position - positionCopy);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> Point::VSConstantBuffer(const DX11Device& device)

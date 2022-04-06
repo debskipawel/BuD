@@ -118,6 +118,28 @@ namespace BuD
 		}
 	}
 
+	bool BezierCurveC2::DrawGui()
+	{
+		bool wasChanged = false;
+
+		if (DrawGuiForEditingControlPoints())
+		{
+			wasChanged = true;
+			CalculateBernsteinPoints();
+		}
+
+		ImGui::NewLine();
+
+		wasChanged |= DrawGuiForAddingControlPoints();
+		ImGui::NewLine();
+
+		ImGui::Text("Draw Bezier polygon:");
+		ImGui::SameLine();
+		ImGui::Checkbox("##bp", &m_drawPolygon);
+
+		return wasChanged;
+	}
+
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::VSConstantBuffer(const DX11Device& device)
 	{
 		if (!s_vsConstantBuffer)

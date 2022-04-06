@@ -7,7 +7,7 @@ namespace BuD
 	class BezierCurve : public SceneObject
 	{
 	public:
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 
 		virtual void MoveTo(const Vector3& position) override {}
 		virtual void MoveBy(const Vector3& difference) override {}
@@ -41,6 +41,9 @@ namespace BuD
 		virtual void FilterControlPoints();
 		virtual void UpdateCentroid();
 		virtual RECT GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height);
+
+		virtual bool DrawGuiForAddingControlPoints();
+		virtual bool DrawGuiForEditingControlPoints();
 
 		Vector3 m_color;
 

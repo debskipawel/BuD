@@ -7,58 +7,26 @@
 
 namespace BuD
 {
-	void BezierCurve::DrawGui()
+	BezierCurve::BezierCurve(std::vector<SceneObject*> controlPoints)
+		: m_controlPoints(controlPoints), m_color(1.0f, 1.0f, 1.0f)
 	{
-		ImGui::Text("Control points");
-		
-		int controlPointId = 0;
-		
-		for (auto& controlPoint : m_controlPoints)
-		{
-			std::string name = "Point " + std::to_string(controlPoint->Id()) + " ##" + std::to_string(controlPointId++);
+	}
 
-			if (ImGui::TreeNode(name.c_str()))
-			{
-				controlPoint->DrawGui();
+	bool BezierCurve::DrawGui()
+	{
+		bool wasChanged = false;
 
-				auto removeName = "Remove CP " + std::to_string(controlPoint->Id());
-
-				if (ImGui::Button(removeName.c_str()))
-				{
-					RemoveControlPoint(controlPoint);
-				}
-
-				ImGui::TreePop();
-			}
-			ImGui::Separator();
-		}
-
+		wasChanged |= DrawGuiForEditingControlPoints();
 		ImGui::NewLine();
-
-		if (ImGui::CollapsingHeader("Add control points"))
-		{
-			auto& objects = SceneObject::GetAll();
-
-			for (auto& [id, obj] : objects)
-			{
-				if (obj->GetType() == GeometryType::POINT)
-				{
-					std::string name = "Add " + *obj->Name() + std::to_string(id);
-					bool selected = false;
-					ImGui::Selectable(name.c_str(), &selected);
-
-					if (selected)
-					{
-						AddControlPoint(obj);
-					}
-				}
-			}
-		}
-
+		
+		wasChanged |= DrawGuiForAddingControlPoints();
 		ImGui::NewLine();
+		
 		ImGui::Text("Draw Bezier polygon:");
 		ImGui::SameLine();
 		ImGui::Checkbox("##bp", &m_drawPolygon);
+
+		return wasChanged;
 	}
 
 	void BezierCurve::AddControlPoint(SceneObject* obj)
@@ -74,11 +42,6 @@ namespace BuD
 		{
 			m_controlPoints.erase(res);
 		}
-	}
-	
-	BezierCurve::BezierCurve(std::vector<SceneObject*> controlPoints)
-		: m_controlPoints(controlPoints), m_color(1.0f, 1.0f, 1.0f)
-	{
 	}
 	
 	void BezierCurve::FilterControlPoints()
@@ -124,5 +87,67 @@ namespace BuD
 		}
 
 		return { minX, minY, maxX, maxY };
+	}
+
+	bool BezierCurve::DrawGuiForAddingControlPoints()
+	{
+		bool wasChanged = false;
+
+		if (ImGui::CollapsingHeader("Add control points"))
+		{
+			auto& objects = SceneObject::GetAll();
+
+			for (auto& [id, obj] : objects)
+			{
+				if (obj->GetType() == GeometryType::POINT)
+				{
+					std::string name = "Add " + *obj->Name() + std::to_string(id);
+					bool selected = false;
+					ImGui::Selectable(name.c_str(), &selected);
+
+					if (selected)
+					{
+						AddControlPoint(obj);
+						wasChanged = true;
+					}
+				}
+			}
+		}
+
+		return wasChanged;
+	}
+	
+	bool BezierCurve::DrawGuiForEditingControlPoints()
+	{
+		bool wasChanged = false;
+		int controlPointId = 0;
+
+		ImGui::Text("Control points");
+
+		for (auto& controlPoint : m_controlPoints)
+		{
+			std::string name = "Point " + std::to_string(controlPoint->Id()) + " ##" + std::to_string(controlPointId++);
+
+			if (ImGui::TreeNode(name.c_str()))
+			{
+				if (controlPoint->DrawGui())
+				{
+					wasChanged = true;
+				}
+
+				auto removeName = "Remove CP " + std::to_string(controlPoint->Id());
+
+				if (ImGui::Button(removeName.c_str()))
+				{
+					RemoveControlPoint(controlPoint);
+					wasChanged = true;
+				}
+
+				ImGui::TreePop();
+			}
+			ImGui::Separator();
+		}
+
+		return wasChanged;
 	}
 }

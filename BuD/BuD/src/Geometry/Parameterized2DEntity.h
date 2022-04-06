@@ -10,7 +10,7 @@ namespace BuD
 		Parameterized2DEntity(Vector2 minDomain, Vector2 maxDomain, std::function<Vector3(Vector2)> objectFunction);
 
 		virtual void UpdateRenderableModel() = 0;
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 
 	protected:
 		virtual void Sample() override;

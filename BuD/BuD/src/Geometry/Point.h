@@ -14,7 +14,7 @@ namespace BuD
 		Point(Vector3 position, const DX11Device& device);
 		~Point() = default;
 
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 
 		virtual GeometryType GetType() override { return GeometryType::POINT; }
 

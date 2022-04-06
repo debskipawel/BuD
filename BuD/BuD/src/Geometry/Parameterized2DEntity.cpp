@@ -27,7 +27,7 @@ namespace BuD
 		return true;
 	}
 
-	void Parameterized2DEntity::DrawGui()
+	bool Parameterized2DEntity::DrawGui()
 	{
 		int samplesU = m_samplesU;
 		int samplesV = m_samplesV;
@@ -45,7 +45,11 @@ namespace BuD
 		if (UpdateSampleIntervals(samplesU, samplesV))
 		{
 			UpdateRenderableModel();
+
+			return true;
 		}
+
+		return false;
 	}
 
 	void Parameterized2DEntity::Sample()

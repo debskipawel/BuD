@@ -62,8 +62,10 @@ namespace BuD
 		return true;
 	}
 
-	void Torus::DrawGui()
+	bool Torus::DrawGui()
 	{
+		bool wasChanged = false;
+
 		Vector3 currPos = m_meshes[0]->m_position;
 		Vector3 currPosCopy = currPos;
 
@@ -73,7 +75,11 @@ namespace BuD
 		ImGui::DragFloat("t(z)", &currPos.z, 0.5f);
 		ImGui::NewLine();
 
-		this->MoveTo(currPos);
+		if ((currPos - currPosCopy).LengthSquared())
+		{
+			this->MoveTo(currPos);
+			wasChanged = true;
+		}
 
 		Vector3 currRot = m_meshes[0]->m_rotation;
 		Vector3 currRotCopy = currRot;
@@ -86,6 +92,7 @@ namespace BuD
 		if ((currRot - currRotCopy).LengthSquared())
 		{
 			this->RotateTo(currRot);
+			wasChanged = true;
 		}
 		
 		ImGui::NewLine();
@@ -99,7 +106,11 @@ namespace BuD
 		ImGui::DragFloat("s(z)", &currScale.z, 0.1f);
 		ImGui::NewLine();
 		
-		this->ScaleTo(currScale);
+		if ((currScale - currScaleCopy).LengthSquared())
+		{
+			this->ScaleTo(currScale);
+			wasChanged = true;
+		}
 
 		Parameterized2DEntity::DrawGui();
 
@@ -121,15 +132,16 @@ namespace BuD
 		if (UpdateRadius(R, r))
 		{
 			UpdateRenderableModel();
+			wasChanged = true;
 		}
+
+		return wasChanged;
 	}
 
 	void Torus::UpdateRenderableModel()
 	{
 		m_meshes[0]->VertexBuffer()->Update(m_vertices.data(), m_vertices.size() * sizeof(Vector3));
 		m_meshes[0]->IndexBuffer()->Update(m_indices.data(), m_indices.size() * sizeof(unsigned short));
-
-		return;
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> Torus::VSConstantBuffer(const DX11Device& device)
