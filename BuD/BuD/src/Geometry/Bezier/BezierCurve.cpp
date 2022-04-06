@@ -10,9 +10,12 @@ namespace BuD
 	void BezierCurve::DrawGui()
 	{
 		ImGui::Text("Control points");
+		
+		int controlPointId = 0;
+		
 		for (auto& controlPoint : m_controlPoints)
 		{
-			std::string name = "Point " + std::to_string(controlPoint->Id());
+			std::string name = "Point " + std::to_string(controlPoint->Id()) + " ##" + std::to_string(controlPointId++);
 
 			if (ImGui::TreeNode(name.c_str()))
 			{
