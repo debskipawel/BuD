@@ -39,6 +39,7 @@ namespace BuD
 			{
 				FilterControlPoints();
 				UpdateCentroid();
+				CalculateBernsteinPoints();
 
 				size_t controlPointsCount = m_controlPoints.size();
 
@@ -53,17 +54,17 @@ namespace BuD
 				std::vector<unsigned short> indices;
 				indices.reserve((controlPointsCount - 3) * 4);
 
-				for (int i = 3; i < m_bernsteinPoints.size() - 2; i++)
+				for (int i = 0; i < m_bernsteinPoints.size(); i++)
 				{
-					indices.push_back(i - 3);
+					indices.push_back(i);
 
 					if (indices.size() % 4 == 0)
 					{
-						indices.push_back(i - 3);
+						indices.push_back(i);
 					}
 				}
 
-				entity->VertexBuffer()->Update(m_bernsteinPoints.data() + 3, (m_bernsteinPoints.size() - 5) * sizeof(Vector3));
+				entity->VertexBuffer()->Update(m_bernsteinPoints.data(), (m_bernsteinPoints.size()) * sizeof(Vector3));
 				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 				
 				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
@@ -90,6 +91,42 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
+	void BezierCurveC2::UpdateBezierPoints(int modifiedIndex)
+	{
+		auto segment = modifiedIndex / 3;
+		auto segmentPart = modifiedIndex % 3;
+
+		switch (segmentPart)
+		{
+			case 0:  // segment end point
+			{
+				auto& bez = m_bernsteinPoints[modifiedIndex];
+				auto& prev = m_controlPoints[segment]->GetMesh(0)->m_position;
+				auto& next = m_controlPoints[segment + 2]->GetMesh(0)->m_position;
+
+				auto newDeBoor = 1.5f * bez - 0.25f * (prev + next);
+				m_controlPoints[segment + 1]->MoveTo(newDeBoor);
+
+				break;
+			}
+			case 1:  // segment middle
+			case 2:
+			{
+				auto& midFirst = m_bernsteinPoints[3 * segment + 1];
+				auto& midSecond = m_bernsteinPoints[3 * segment + 2];
+
+				auto vec = midSecond - midFirst;
+
+				m_controlPoints[segment + 1]->MoveTo(midFirst - vec);
+				m_controlPoints[segment + 2]->MoveTo(midSecond + vec);
+
+				break;
+			}
+		}
+
+		CalculateBernsteinPoints();
+	}
+
 	void BezierCurveC2::CalculateBernsteinPoints()
 	{
 		m_bernsteinPoints.clear();
@@ -102,35 +139,51 @@ namespace BuD
 
 		m_bernsteinPoints.reserve(3 * controlPointsCount);
 
-		for (size_t i = 0; i < controlPointsCount - 1; i++)
+		for (size_t i = 1; i < controlPointsCount - 2; i++)
 		{
-			auto& a = m_controlPoints[i]->GetMesh(0)->m_position;
-			auto& b = m_controlPoints[i + 1]->GetMesh(0)->m_position;
+			auto& a = m_controlPoints[i - 1]->GetMesh(0)->m_position;
+			auto& b = m_controlPoints[i]->GetMesh(0)->m_position;
+			auto& c = m_controlPoints[i + 1]->GetMesh(0)->m_position;
 
-			m_bernsteinPoints.push_back(a);
-			m_bernsteinPoints.push_back((2.0f * a + b) / 3.0f);
-			m_bernsteinPoints.push_back((a + 2.0f * b) / 3.0f);
+			auto ba = (a - b) / 3.0f;
+			auto bc = (c - b) / 3.0f;
+
+			auto endPt = b + (ba + bc) / 2.0f;
+			auto middleFirst = b + bc;
+			auto middleSecond = middleFirst + bc;
+
+			m_bernsteinPoints.push_back(endPt);
+			m_bernsteinPoints.push_back(middleFirst);
+			m_bernsteinPoints.push_back(middleSecond);
 		}
 
-		for (size_t i = 1; i < controlPointsCount - 1; i++)
-		{
-			m_bernsteinPoints[3 * i] = (m_bernsteinPoints[3 * i - 1] + m_bernsteinPoints[3 * i + 1]) / 2.0f;
-		}
+		auto& a = m_controlPoints[controlPointsCount - 3]->GetMesh(0)->m_position;
+		auto& b = m_controlPoints[controlPointsCount - 2]->GetMesh(0)->m_position;
+		auto& c = m_controlPoints[controlPointsCount - 1]->GetMesh(0)->m_position;
+
+		auto ba = (a - b) / 3.0f;
+		auto bc = (c - b) / 3.0f;
+
+		m_bernsteinPoints.push_back(b + (ba + bc) / 2.0f);
 	}
 
 	bool BezierCurveC2::DrawGui()
 	{
 		bool wasChanged = false;
 
-		if (DrawGuiForEditingControlPoints())
+		if (m_inBernstein)
 		{
-			wasChanged = true;
-			CalculateBernsteinPoints();
+			wasChanged |= DrawGuiForEditingBezierPoints();
+		}
+		else
+		{
+			wasChanged |= DrawGuiForEditingControlPoints();
+			ImGui::NewLine();
+			wasChanged |= DrawGuiForAddingControlPoints();
+			ImGui::NewLine();
 		}
 
-		ImGui::NewLine();
-
-		wasChanged |= DrawGuiForAddingControlPoints();
+		ImGui::Checkbox("Bernstein base", &m_inBernstein);
 		ImGui::NewLine();
 
 		ImGui::Text("Draw Bezier polygon:");
@@ -138,6 +191,39 @@ namespace BuD
 		ImGui::Checkbox("##bp", &m_drawPolygon);
 
 		return wasChanged;
+	}
+
+	bool BezierCurveC2::DrawGuiForEditingBezierPoints()
+	{
+		int i = 0;
+
+		ImGui::Text("Bezier points");
+
+		for (auto& point : m_bernsteinPoints)
+		{
+			std::string name = "Bezier point " + std::to_string(i++) + " ##" + std::to_string(i);
+
+			if (ImGui::TreeNode(name.c_str()))
+			{
+				Vector3 pointCopy = point;
+
+				ImGui::Text("Position");
+				ImGui::DragFloat("x", &point.x, 0.1f);
+				ImGui::DragFloat("y", &point.y, 0.1f);
+				ImGui::DragFloat("z", &point.z, 0.1f);
+
+				if ((pointCopy - point).LengthSquared())
+				{
+					UpdateBezierPoints(i - 1);
+				}
+
+				ImGui::TreePop();
+			}
+
+			ImGui::Separator();
+		}
+
+		return true;
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::VSConstantBuffer(const DX11Device& device)

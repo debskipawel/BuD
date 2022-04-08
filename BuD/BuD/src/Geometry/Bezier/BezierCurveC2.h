@@ -17,7 +17,11 @@ namespace BuD
 
 	protected:
 
+		void UpdateBezierPoints(int modifiedIndex);
 		void CalculateBernsteinPoints();
+		bool DrawGuiForEditingBezierPoints();
+
+		bool m_inBernstein = false;
 
 		std::vector<Vector3> m_bernsteinPoints;
 
