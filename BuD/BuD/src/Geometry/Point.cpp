@@ -132,6 +132,31 @@ namespace BuD
 		return s_psConstantBuffer;
 	}
 
+	std::shared_ptr<Mesh> Point::GetMesh(const DX11Device& device)
+	{
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
+
+		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
+		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
+			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			{
+				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
+				entity->m_scale = Vector3{ max(logf(dist), 1.0f) };
+
+				Vector3 color = { 1.0f, 1.0f, 1.0f };
+				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+
+				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
+				entity->PixelShader()->UpdateConstantBuffer(0, &color, sizeof(Vector3));
+			}
+		);
+
+		return mesh;
+	}
+
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::GetVB(const BuD::DX11Device& device)
 	{
 		if (!s_vertexBuffer)

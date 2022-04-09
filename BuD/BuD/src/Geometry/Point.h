@@ -34,15 +34,17 @@ namespace BuD
 		inline virtual void RotateTo(const Quaternion& rotation) override { }
 		inline virtual void ScaleTo(const Vector3& scale) override { }
 
+		static std::shared_ptr<Mesh> GetMesh(const DX11Device& device);
+
 	private:
 
 		Vector3 m_color = { 1.0f, 1.0f, 1.0f };
 
-		static std::shared_ptr<BuD::DX11VertexBuffer> GetVB(const BuD::DX11Device& device);
-		static std::shared_ptr<BuD::DX11IndexBuffer> GetIB(const BuD::DX11Device& device);
+		static std::shared_ptr<DX11VertexBuffer> GetVB(const DX11Device& device);
+		static std::shared_ptr<DX11IndexBuffer> GetIB(const DX11Device& device);
 
-		static std::shared_ptr<BuD::DX11VertexBuffer> s_vertexBuffer;
-		static std::shared_ptr<BuD::DX11IndexBuffer> s_indexBuffer;
+		static std::shared_ptr<DX11VertexBuffer> s_vertexBuffer;
+		static std::shared_ptr<DX11IndexBuffer> s_indexBuffer;
 
 		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
 		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);

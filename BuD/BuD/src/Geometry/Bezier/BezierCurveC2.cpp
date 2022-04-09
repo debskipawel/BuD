@@ -26,6 +26,8 @@ namespace BuD
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
 		auto geometryShader = DX11ShaderLoader::Get()->GSLoad(device.Raw(), L"../BuD/shaders/bezier_curve_c0_gs.hlsl");
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/bezier_with_polygon_ps.hlsl");
+		
+		auto deBoorPixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_light_blue_ps.hlsl");
 
 		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
 		geometryShader->AddConstantBuffer(GSConstantBuffer(device));
@@ -33,6 +35,7 @@ namespace BuD
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
+		auto polygonIndexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
@@ -83,6 +86,29 @@ namespace BuD
 
 				GSResource resource = { longSide / 10, m_drawPolygon };
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
+			}
+		);
+
+		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, deBoorPixelShader, vertexBuffer, polygonIndexBuffer,
+			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			{
+				size_t controlPointsCount = m_controlPoints.size();
+
+				std::vector<Vector3> vertices(controlPointsCount);
+				std::vector<unsigned short> indices(controlPointsCount);
+
+				for (int i = 0; i < m_controlPoints.size(); i++)
+				{
+					indices[i] = i;
+					vertices[i] = m_controlPoints[i]->GetMesh(0)->m_position;
+				}
+
+				entity->VertexBuffer()->Update(vertices.data(), vertices.size() * sizeof(Vector3));
+				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
+
+				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+
+				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 			}
 		);
 
@@ -190,6 +216,23 @@ namespace BuD
 		ImGui::SameLine();
 		ImGui::Checkbox("##bp", &m_drawPolygon);
 
+		bool deBoorCopy = m_drawDeBoorPolygon;
+		ImGui::Text("Draw De Boor polygon:");
+		ImGui::SameLine();
+		ImGui::Checkbox("##dbp", &m_drawDeBoorPolygon);
+
+		if (m_drawDeBoorPolygon ^ deBoorCopy)
+		{
+			if (m_drawDeBoorPolygon)
+			{
+				m_meshes.push_back(m_deBoorPolygonMesh);
+			}
+			else
+			{
+				m_meshes.erase(std::find(m_meshes.begin(), m_meshes.end(), m_deBoorPolygonMesh));
+			}
+		}
+
 		return wasChanged;
 	}
 
@@ -266,6 +309,11 @@ namespace BuD
 	{
 		BezierCurve::RemoveControlPoint(obj);
 		CalculateBernsteinPoints();
+	}
+
+	std::vector<Vector3> BezierCurveC2::VirtualControlPoints()
+	{
+		return m_inBernstein ? m_bernsteinPoints : std::vector<Vector3>();
 	}
 
 	GeometryType BezierCurveC2::GetType()

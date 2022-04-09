@@ -28,6 +28,8 @@ namespace BuD
 		virtual void Select();
 		virtual void Unselect();
 
+		virtual std::vector<Vector3> VirtualControlPoints() { return std::vector<Vector3>(); }
+
 		inline std::shared_ptr<Mesh> GetMesh(uint32_t index) { return m_meshes[index]; }
 		
 		inline uint32_t MeshesCount() const	{ return m_meshes.size(); }

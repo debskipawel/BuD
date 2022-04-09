@@ -9,6 +9,7 @@
 #include "Event/MouseEvents.h"
 
 #include "Geometry/SceneObject.h"
+#include "Geometry/Point.h"
 #include "Geometry/ObjectsCollection.h"
 
 #include "Scene/Cursor.h"
@@ -34,6 +35,8 @@ namespace BuD
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
         m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_camera, m_window);
+
+        m_pointMesh = Point::GetMesh(m_renderer->Device());
 
         QueryPerformanceCounter(&m_counterStart);
         QueryPerformanceFrequency(&m_freq);
@@ -75,6 +78,14 @@ namespace BuD
             for (uint32_t index = 0; index < entity->MeshesCount(); index++)
             {
                 m_renderer->Draw(entity->GetMesh(index), m_camera, id);
+            }
+
+            auto controlPoints = entity->VirtualControlPoints();
+
+            for (auto& controlPoint : controlPoints)
+            {
+                m_pointMesh->m_position = controlPoint;
+                m_renderer->Draw(m_pointMesh, m_camera);
             }
         }
 

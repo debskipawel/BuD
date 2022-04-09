@@ -52,6 +52,7 @@ namespace BuD
 		std::unique_ptr<ObjectsEditor> m_guiEditor;
 
 		std::map<KeyboardKeys, bool> m_keyMap;
+		std::shared_ptr<Mesh> m_pointMesh;
 
 		dxm::Vector3 m_cursorPosition = { 0.0f, 0.0f, 0.0f };
 		LARGE_INTEGER m_counterStart, m_freq;

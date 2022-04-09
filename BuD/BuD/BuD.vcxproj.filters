@@ -271,5 +271,6 @@
     <FxCompile Include="shaders\render_id_ps.hlsl" />
     <FxCompile Include="shaders\bezier_curve_c0_gs.hlsl" />
     <FxCompile Include="shaders\bezier_with_polygon_ps.hlsl" />
+    <FxCompile Include="shaders\solid_light_blue_ps.hlsl" />
   </ItemGroup>
 </Project>

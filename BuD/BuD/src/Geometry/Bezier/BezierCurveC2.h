@@ -12,6 +12,8 @@ namespace BuD
 		virtual void AddControlPoint(SceneObject* obj) override;
 		virtual void RemoveControlPoint(SceneObject* obj) override;
 
+		virtual std::vector<Vector3> VirtualControlPoints() override;
+
 		virtual GeometryType GetType() override;
 		virtual bool DrawGui() override;
 
@@ -22,8 +24,10 @@ namespace BuD
 		bool DrawGuiForEditingBezierPoints();
 
 		bool m_inBernstein = false;
+		bool m_drawDeBoorPolygon = false;
 
 		std::vector<Vector3> m_bernsteinPoints;
+		std::shared_ptr<Mesh> m_deBoorPolygonMesh;
 
 		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
 		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
