@@ -172,6 +172,21 @@ namespace BuD
 
                 break;
             }
+            case KeyboardKeys::D1:
+            {
+                m_appMode = InteractionMode::TRANSLATION;
+                break;
+            }
+            case KeyboardKeys::D2:
+            {
+                m_appMode = InteractionMode::ROTATION;
+                break;
+            }
+            case KeyboardKeys::D3:
+            {
+                m_appMode = InteractionMode::SCALE;
+                break;
+            }
         }
     }
 
@@ -188,6 +203,12 @@ namespace BuD
         }
         else if (e.m_button == MouseCode::LEFT)
         {
+            m_inAction = true;
+
+            m_prevX = e.m_xPos;
+            m_prevY = e.m_yPos;
+            m_prevActionPoint = m_camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), e.m_xPos, e.m_yPos);
+
             auto r = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
             
             auto object = SceneObject::Get(r);
@@ -211,13 +232,50 @@ namespace BuD
         {
             m_cameraMoving = false;
         }
+        else if (e.m_button == MouseCode::LEFT)
+        {
+            m_inAction = false;
+        }
     }
 
     void Application::OnConcreteEvent(MouseMovedEvent& e)
     {
+        m_prevX += e.m_xOffset;
+        m_prevY += e.m_yOffset;
+
         if (m_cameraMoving)
         {
             m_camera->ProcessMouseMovement(e.m_xOffset, e.m_yOffset);
+        }
+
+        if (m_inAction)
+        {
+            auto diff = m_camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
+
+            switch (m_appMode)
+            {
+                case InteractionMode::ROTATION:
+                {
+                    SceneObject::GetSelected().RotateAroundCentroid(diff * 5.0f);
+                    break;
+                }
+                case InteractionMode::SCALE:
+                {
+                    SceneObject::GetSelected().ScaleAroundCentroid(diff * 0.5f + Vector3(1.0f, 1.0f, 1.0f));
+                    break;
+                }
+                case InteractionMode::TRANSLATION:
+                {
+                    SceneObject::GetSelected().MoveAll(diff);
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+
+            m_prevActionPoint += diff;
         }
     }
 

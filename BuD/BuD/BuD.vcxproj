@@ -217,6 +217,7 @@
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\GuiLayer.h" />
+    <ClInclude Include="src\Core\InteractionMode.h" />
     <ClInclude Include="src\Core\KeyboardKeys.h" />
     <ClInclude Include="src\Core\MouseCode.h" />
     <ClInclude Include="src\Core\Renderer.h" />
