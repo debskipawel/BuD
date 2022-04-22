@@ -197,6 +197,7 @@
     <ClCompile Include="src\Geometry\Bezier\BezierCurve.cpp" />
     <ClCompile Include="src\Geometry\Bezier\BezierCurveC0.cpp" />
     <ClCompile Include="src\Geometry\Bezier\BezierCurveC2.cpp" />
+    <ClCompile Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.cpp" />
     <ClCompile Include="src\Geometry\ObjectsCollection.cpp" />
     <ClCompile Include="src\GUI\ObjectsEditor.cpp" />
     <ClCompile Include="src\Scene\Cursor.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="src\Geometry\Bezier\BezierCurve.h" />
     <ClInclude Include="src\Geometry\Bezier\BezierCurveC0.h" />
     <ClInclude Include="src\Geometry\Bezier\BezierCurveC2.h" />
+    <ClInclude Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.h" />
     <ClInclude Include="src\Geometry\GeometryType.h" />
     <ClInclude Include="src\Geometry\ObjectsCollection.h" />
     <ClInclude Include="src\GUI\ObjectsEditor.h" />
@@ -280,6 +282,22 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\interpolated_bezier_c2_gs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\interpolated_bezier_c2_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="shaders\pos_color_cursor_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

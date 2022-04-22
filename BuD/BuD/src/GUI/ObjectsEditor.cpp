@@ -8,6 +8,7 @@
 #include "Geometry/Bezier/BezierCurve.h"
 #include "Geometry/Bezier/BezierCurveC0.h"
 #include "Geometry/Bezier/BezierCurveC2.h"
+#include "Geometry/Bezier/InterpolatedBezierCurveC2.h"
 
 #include <algorithm>
 
@@ -209,30 +210,21 @@ namespace BuD
 
 			if (ImGui::Button("Add Bezier C0"))
 			{
-				std::vector<SceneObject*> controlPoints;
-				controlPoints.reserve(selected.Count());
-
-				for (auto& obj : selected.Objects())
-				{
-					controlPoints.push_back(obj);
-				}
-
-				auto bezier = std::make_shared<BezierCurveC0>(device, controlPoints);
+				auto bezier = std::make_shared<BezierCurveC0>(device, selected.Objects());
 
 				m_objects.push_back(bezier);
 			}
 
 			if (ImGui::Button("Add Bezier C2"))
 			{
-				std::vector<SceneObject*> controlPoints;
-				controlPoints.reserve(selected.Count());
+				auto bezier = std::make_shared<BezierCurveC2>(device, selected.Objects());
 
-				for (auto& obj : selected.Objects())
-				{
-					controlPoints.push_back(obj);
-				}
+				m_objects.push_back(bezier);
+			}
 
-				auto bezier = std::make_shared<BezierCurveC2>(device, controlPoints);
+			if (ImGui::Button("Add interpolated C2"))
+			{
+				auto bezier = std::make_shared<InterpolatedBezierCurveC2>(device, selected.Objects());
 
 				m_objects.push_back(bezier);
 			}

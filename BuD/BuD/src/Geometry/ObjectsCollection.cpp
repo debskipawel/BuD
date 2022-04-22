@@ -109,7 +109,7 @@ namespace BuD
 				matrix.Decompose(scale, rotQuat, position);
 
 				object->MoveTo(position);
-				object->ScaleTo(scale);
+				object->ScaleTo(scale.LengthSquared() ? scale : Vector3{ 0.01f, 0.01f, 0.01f });
 			});
 	}
 

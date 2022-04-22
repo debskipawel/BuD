@@ -251,6 +251,11 @@ namespace BuD
         if (m_inAction)
         {
             auto diff = m_camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
+            
+            if (diff.x != diff.x || diff.y != diff.y || diff.z != diff.z)
+            {
+                return;
+            }
 
             switch (m_appMode)
             {

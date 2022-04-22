@@ -25,6 +25,8 @@ namespace BuD
 
 		virtual GeometryType GetType() = 0;
 
+		virtual Vector3 Position() { return m_meshes[0]->m_position; }
+
 		virtual void Select();
 		virtual void Unselect();
 
