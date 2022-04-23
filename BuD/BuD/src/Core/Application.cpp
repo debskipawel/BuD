@@ -97,9 +97,12 @@ namespace BuD
             m_renderer->Draw(cursor->GetMesh(), m_camera);
         }
 
-        m_guiLayer->BeginFrame();
-        m_guiEditor->DrawGui(m_renderer->Device());
-        m_guiLayer->EndFrame();
+        if (!m_inDebug)
+        {
+            m_guiLayer->BeginFrame();
+            m_guiEditor->DrawGui(m_renderer->Device());
+            m_guiLayer->EndFrame();
+        }
 
         m_renderer->End();
     }
@@ -185,6 +188,11 @@ namespace BuD
             case KeyboardKeys::D3:
             {
                 m_appMode = InteractionMode::SCALE;
+                break;
+            }
+            case KeyboardKeys::D0:
+            {
+                m_inDebug = !m_inDebug;
                 break;
             }
         }

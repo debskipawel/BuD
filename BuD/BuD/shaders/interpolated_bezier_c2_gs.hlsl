@@ -11,6 +11,7 @@ cbuffer mvp : register(b1)
 struct GSOutput
 {
     float4 pos : SV_POSITION;
+    float bezier : POLYGON_FLAG;
 };
 
 [maxvertexcount(200)]

@@ -109,8 +109,8 @@ namespace BuD
 
 		auto prevC = dPrim[eqCount - 1];
 		auto prevD = -prevC / 3.0f;
-		auto prevB = -(3.0f * prevD + 2.0f * prevC);
-		auto prevA = -(prevD + prevC + prevB);
+		auto prevA = m_controlPoints[cpCount - 2]->Position();
+		auto prevB = m_controlPoints[cpCount - 1]->Position() - prevA - prevC - prevD;
 
 		m_splineParameters[eqCount - 1][0] = prevA;
 		m_splineParameters[eqCount - 1][1] = prevB;
@@ -123,8 +123,8 @@ namespace BuD
 			{
 				auto currC = dPrim[i] - cPrim[i] * prevC;
 				auto currD = (prevC - currC) / 3.0f;
-				auto currB = prevB - (3.0f * currD + 2.0f * currC);
-				auto currA = prevA - (currD + currC + currB);
+				auto currA = m_controlPoints[i + 1]->Position();
+				auto currB = m_controlPoints[i + 2]->Position() - prevA - prevC - prevD;
 				
 				m_splineParameters[i][0] = prevA = currA;
 				m_splineParameters[i][1] = prevB = currB;
