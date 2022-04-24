@@ -10,7 +10,7 @@ namespace BuD
 		BezierCurveC2(const DX11Device& device, std::vector<SceneObject*> controlPoints);
 
 		virtual void AddControlPoint(SceneObject* obj) override;
-		virtual void RemoveControlPoint(SceneObject* obj) override;
+		virtual void RemoveControlPoint(int index) override;
 
 		virtual std::vector<Vector3> VirtualControlPoints() override;
 

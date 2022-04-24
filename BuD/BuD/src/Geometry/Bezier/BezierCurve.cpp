@@ -34,13 +34,11 @@ namespace BuD
 		m_controlPoints.push_back(obj);
 	}
 
-	void BezierCurve::RemoveControlPoint(SceneObject* obj)
+	void BezierCurve::RemoveControlPoint(int index)
 	{
-		auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), obj);
-
-		if (res != m_controlPoints.end())
+		if (index >= 0 && index < m_controlPoints.size())
 		{
-			m_controlPoints.erase(res);
+			m_controlPoints.erase(m_controlPoints.begin() + index);
 		}
 	}
 	
@@ -139,7 +137,7 @@ namespace BuD
 
 				if (ImGui::Button(removeName.c_str()))
 				{
-					RemoveControlPoint(controlPoint);
+					RemoveControlPoint(controlPointId - 1);
 					wasChanged = true;
 				}
 

@@ -305,9 +305,9 @@ namespace BuD
 		CalculateBernsteinPoints();
 	}
 
-	void BezierCurveC2::RemoveControlPoint(SceneObject* obj)
+	void BezierCurveC2::RemoveControlPoint(int index)
 	{
-		BezierCurve::RemoveControlPoint(obj);
+		BezierCurve::RemoveControlPoint(index);
 		CalculateBernsteinPoints();
 	}
 

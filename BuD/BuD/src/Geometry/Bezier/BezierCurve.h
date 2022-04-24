@@ -16,7 +16,7 @@ namespace BuD
 		virtual void RotateTo(const Vector3& rotation) override {}
 		
 		virtual void AddControlPoint(SceneObject* obj);
-		virtual void RemoveControlPoint(SceneObject* obj);
+		virtual void RemoveControlPoint(int index);
 
 		virtual void Select() override
 		{
