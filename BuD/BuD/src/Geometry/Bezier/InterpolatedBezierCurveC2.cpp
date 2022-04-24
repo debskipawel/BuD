@@ -7,7 +7,7 @@ namespace BuD
 	static std::vector<D3D11_INPUT_ELEMENT_DESC> elements
 	{
 		{
-			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+			"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		},
 	};
@@ -46,7 +46,7 @@ namespace BuD
 					indices.push_back(i);
 				}
 
-				entity->VertexBuffer()->Update(m_splineParameters.data(), m_splineParameters.size() * sizeof(Vector3[4]));
+				entity->VertexBuffer()->Update(m_splineParameters.data(), m_splineParameters.size() * sizeof(Vector4[4]));
 				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 
 				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
@@ -93,13 +93,15 @@ namespace BuD
 		std::vector<float> cPrim(max(1, eqCount - 1));
 		std::vector<Vector3> dPrim(eqCount);
 
-		constexpr float a = 0.5f, b = 2.0f, c = 0.5f;
-
-		cPrim[0] = c / b;
-		dPrim[0] = EquationResult(0) / b;
+		cPrim[0] = m_distances[1] / (2.0f * (m_distances[0] + m_distances[1]));
+		dPrim[0] = EquationResult(0) / 2.0f;
 
 		for (int i = 1; i < eqCount - 1; i++)
 		{
+			float b = 2.0f;
+			float a = m_distances[i] / (m_distances[i] + m_distances[i + 1]);
+			float c = 1.0f - a;
+
 			float denominator = b - a * cPrim[i - 1];
 			cPrim[i] = c / denominator;
 			dPrim[i] = (EquationResult(i) - a * dPrim[i - 1]) / denominator;
@@ -107,6 +109,10 @@ namespace BuD
 
 		if (eqCount > 1)
 		{
+			float b = 2.0f;
+			float a = m_distances[eqCount - 1] / (m_distances[eqCount - 1] + m_distances[eqCount]);
+			float c = 1.0f - a;
+
 			dPrim[eqCount - 1] = (EquationResult(eqCount - 1) - a * dPrim[eqCount - 2]) / (b - a * cPrim[eqCount - 2]);
 		}
 
@@ -122,41 +128,53 @@ namespace BuD
 
 	void InterpolatedBezierCurveC2::CalculateSplineParameters()
 	{
-		auto cParams = SolveTridiagonal();
 		auto cpCount = m_controlPoints.size();
 		auto n = cpCount - 1;
+
+		m_distances.resize(n);
+
+		for (int i = 0; i < n; i++)
+		{
+			m_distances[i] = (m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()).Length();
+		}
+
+		auto cParams = SolveTridiagonal();
 
 		m_splineParameters.clear();
 		m_splineParameters.resize(n + 1);
 
 		for (int i = 0; i < n; i++)
 		{
-			m_splineParameters[i][0] = m_controlPoints[i]->Position();
-			m_splineParameters[i][2] = cParams[i];
+			m_splineParameters[i][0] = Vector4(m_controlPoints[i]->Position());
+			m_splineParameters[i][0].w = m_distances[i];
+			m_splineParameters[i][2] = Vector4(cParams[i]);
 		}
 
-		m_splineParameters[n][0] = m_controlPoints[n]->Position();
+		m_splineParameters[n][0] = Vector4(m_controlPoints[n]->Position());
 
 		for (int i = 1; i < n; i++)
 		{
-			m_splineParameters[i - 1][3] = (m_splineParameters[i][2] - m_splineParameters[i - 1][2]) / 3.0f;
+			m_splineParameters[i - 1][3] = (m_splineParameters[i][2] - m_splineParameters[i - 1][2]) / (3.0f * m_distances[i - 1]);
 		}
 
 		for (int i = 1; i < n; i++)
 		{
-			m_splineParameters[i - 1][1] = m_splineParameters[i][0] - m_splineParameters[i - 1][0] - m_splineParameters[i - 1][2] - m_splineParameters[i - 1][3];
+			m_splineParameters[i - 1][1] = (m_splineParameters[i][0] - m_splineParameters[i - 1][0] - m_splineParameters[i - 1][2] * powf(m_distances[i - 1], 2.0f) - m_splineParameters[i - 1][3] * powf(m_distances[i - 1], 3.0f)) / m_distances[i - 1];
 		}
 
 		if (n > 1)
 		{
-			m_splineParameters[n - 1][1] = m_splineParameters[n - 2][1] + 2.0f * m_splineParameters[n - 2][2] + 3.0f * m_splineParameters[n - 2][3];
-			m_splineParameters[n - 1][3] = m_splineParameters[n][0] - m_splineParameters[n - 1][0] - m_splineParameters[n - 1][1] - m_splineParameters[n - 1][2];
+			m_splineParameters[n - 1][1] = m_splineParameters[n - 2][1] + 2.0f * m_splineParameters[n - 2][2] * m_distances[n - 2] + 3.0f * m_splineParameters[n - 2][3] * powf(m_distances[n - 2], 2.0f);
+			m_splineParameters[n - 1][3] = (m_splineParameters[n][0] - m_splineParameters[n - 1][0] - m_splineParameters[n - 1][1] * m_distances[n - 1] - m_splineParameters[n - 1][2] * powf(m_distances[n - 1], 2.0f)) / powf(m_distances[n - 1], 3.0f);
 		}
 	}
 
 	Vector3 InterpolatedBezierCurveC2::EquationResult(int i)
 	{
-		return 1.5f * (m_controlPoints[i + 2]->Position() - 2.0f * m_controlPoints[i + 1]->Position() + m_controlPoints[i]->Position());
+		return 3.0f / (m_distances[i] + m_distances[i + 1]) * (
+			(m_controlPoints[i + 2]->Position() - m_controlPoints[i + 1]->Position()) / m_distances[i + 1] -
+			(m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()) / m_distances[i]
+		);
 	}
 
 	std::shared_ptr<DX11ConstantBuffer> InterpolatedBezierCurveC2::VSConstantBuffer(const DX11Device& device)

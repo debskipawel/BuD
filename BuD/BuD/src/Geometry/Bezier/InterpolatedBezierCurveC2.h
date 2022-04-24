@@ -16,7 +16,8 @@ namespace BuD
 		void CalculateSplineParameters();
 		Vector3 EquationResult(int i);
 
-		std::vector<std::array<Vector3, 4>> m_splineParameters;
+		std::vector<std::array<Vector4, 4>> m_splineParameters;
+		std::vector<float> m_distances;
 
 		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
 		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);

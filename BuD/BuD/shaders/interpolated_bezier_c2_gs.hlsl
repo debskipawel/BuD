@@ -21,11 +21,15 @@ void main(
 )
 {
     uint sampleCount = min(200, samples);
-    float dt = 1.0 / sampleCount;
+    float l = input[0].w;
+    float dt = l / sampleCount;
 
     float eps = 0.0001;
 	
-    for (float t = 0.0; t <= 1.0 + eps; t += dt)
+    if (l == 0.0f)
+        return;
+    
+    for (float t = 0.0; t <= l + eps; t += dt)
     {
         GSOutput value = (GSOutput) 0;
         value.pos = mul(mvp, float4(input[0].xyz + t * (input[1].xyz + t * (input[2].xyz + t * input[3].xyz)), 1.0));
