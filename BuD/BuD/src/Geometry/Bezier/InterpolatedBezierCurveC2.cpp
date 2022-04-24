@@ -34,7 +34,7 @@ namespace BuD
 			{
 				FilterControlPoints();
 				UpdateCentroid();
-				SolveTridiagonal();
+				CalculateSplineParameters();
 
 				size_t controlPointsCount = m_controlPoints.size();
 
@@ -73,19 +73,22 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
-	void InterpolatedBezierCurveC2::SolveTridiagonal()
+	std::vector<Vector3> InterpolatedBezierCurveC2::SolveTridiagonal()
 	{
 		uint32_t cpCount = m_controlPoints.size();
 		uint32_t eqCount = cpCount - 2;
 
-		m_splineParameters.clear();
+		if (cpCount < 2)
+		{
+			return std::vector<Vector3>();
+		}
+
+		std::vector<Vector3> cParams(cpCount);
 
 		if (eqCount == 0)
 		{
-			return;
+			return cParams;
 		}
-
-		m_splineParameters.resize(eqCount);
 
 		std::vector<float> cPrim(max(1, eqCount - 1));
 		std::vector<Vector3> dPrim(eqCount);
@@ -107,30 +110,47 @@ namespace BuD
 			dPrim[eqCount - 1] = (EquationResult(eqCount - 1) - a * dPrim[eqCount - 2]) / (b - a * cPrim[eqCount - 2]);
 		}
 
-		auto prevC = dPrim[eqCount - 1];
-		auto prevD = -prevC / 3.0f;
-		auto prevA = m_controlPoints[cpCount - 2]->Position();
-		auto prevB = m_controlPoints[cpCount - 1]->Position() - prevA - prevC - prevD;
+		cParams[cpCount - 2] = dPrim[eqCount - 1];
 
-		m_splineParameters[eqCount - 1][0] = prevA;
-		m_splineParameters[eqCount - 1][1] = prevB;
-		m_splineParameters[eqCount - 1][2] = prevC;
-		m_splineParameters[eqCount - 1][3] = prevD;
-
-		if (eqCount > 1)
+		for (int i = cpCount - 3; i > 0; i--)
 		{
-			for (int i = eqCount - 2; i >= 0; i--)
-			{
-				auto currC = dPrim[i] - cPrim[i] * prevC;
-				auto currD = (prevC - currC) / 3.0f;
-				auto currA = m_controlPoints[i + 1]->Position();
-				auto currB = m_controlPoints[i + 2]->Position() - prevA - prevC - prevD;
-				
-				m_splineParameters[i][0] = prevA = currA;
-				m_splineParameters[i][1] = prevB = currB;
-				m_splineParameters[i][2] = prevC = currC;
-				m_splineParameters[i][3] = prevD = currD;
-			}
+			cParams[i] = dPrim[i - 1] - cPrim[i - 1] * cParams[i + 1];
+		}
+
+		return cParams;
+	}
+
+	void InterpolatedBezierCurveC2::CalculateSplineParameters()
+	{
+		auto cParams = SolveTridiagonal();
+		auto cpCount = m_controlPoints.size();
+		auto n = cpCount - 1;
+
+		m_splineParameters.clear();
+		m_splineParameters.resize(n + 1);
+
+		for (int i = 0; i < n; i++)
+		{
+			m_splineParameters[i][0] = m_controlPoints[i]->Position();
+			m_splineParameters[i][2] = cParams[i];
+		}
+
+		m_splineParameters[n][0] = m_controlPoints[n]->Position();
+
+		for (int i = 1; i < n; i++)
+		{
+			m_splineParameters[i - 1][3] = (m_splineParameters[i][2] - m_splineParameters[i - 1][2]) / 3.0f;
+		}
+
+		for (int i = 1; i < n; i++)
+		{
+			m_splineParameters[i - 1][1] = m_splineParameters[i][0] - m_splineParameters[i - 1][0] - m_splineParameters[i - 1][2] - m_splineParameters[i - 1][3];
+		}
+
+		if (n > 1)
+		{
+			m_splineParameters[n - 1][1] = m_splineParameters[n - 2][1] + 2.0f * m_splineParameters[n - 2][2] + 3.0f * m_splineParameters[n - 2][3];
+			m_splineParameters[n - 1][3] = m_splineParameters[n][0] - m_splineParameters[n - 1][0] - m_splineParameters[n - 1][1] - m_splineParameters[n - 1][2];
 		}
 	}
 

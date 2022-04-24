@@ -12,7 +12,8 @@ namespace BuD
 		InterpolatedBezierCurveC2(const DX11Device& device, std::vector<SceneObject*> controlPoints);
 
 	protected:
-		void SolveTridiagonal();
+		std::vector<Vector3> SolveTridiagonal();
+		void CalculateSplineParameters();
 		Vector3 EquationResult(int i);
 
 		std::vector<std::array<Vector3, 4>> m_splineParameters;
