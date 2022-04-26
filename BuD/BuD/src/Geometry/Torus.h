@@ -44,10 +44,5 @@ namespace BuD
 		bool UpdateRadius(float largeRadius, float smallRadius);
 
 		Vector3 m_color;
-
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }

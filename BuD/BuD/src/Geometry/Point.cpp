@@ -8,8 +8,6 @@ namespace BuD
 {
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::s_vertexBuffer = nullptr;
 	std::shared_ptr<BuD::DX11IndexBuffer> Point::s_indexBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Point::s_vsConstantBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Point::s_psConstantBuffer = nullptr;
 	
 	static std::vector<Vector3> vertices =
 	{
@@ -68,11 +66,8 @@ namespace BuD
 		m_tag = "Point";
 		m_meshes.reserve(1);
 
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
-
-		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
@@ -112,33 +107,10 @@ namespace BuD
 		return false;
 	}
 
-	std::shared_ptr<DX11ConstantBuffer> Point::VSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_vsConstantBuffer)
-		{
-			s_vsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
-		}
-
-		return s_vsConstantBuffer;
-	}
-
-	std::shared_ptr<DX11ConstantBuffer> Point::PSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_psConstantBuffer)
-		{
-			s_psConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Vector4));
-		}
-
-		return s_psConstantBuffer;
-	}
-
 	std::shared_ptr<Mesh> Point::GetMesh(const DX11Device& device)
 	{
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
-
-		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)

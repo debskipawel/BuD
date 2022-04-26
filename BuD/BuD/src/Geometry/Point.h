@@ -45,10 +45,5 @@ namespace BuD
 
 		static std::shared_ptr<DX11VertexBuffer> s_vertexBuffer;
 		static std::shared_ptr<DX11IndexBuffer> s_indexBuffer;
-
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }

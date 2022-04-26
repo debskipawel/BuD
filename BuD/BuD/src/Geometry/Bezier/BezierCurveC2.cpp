@@ -23,15 +23,11 @@ namespace BuD
 		
 		CalculateBernsteinPoints();
 
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto geometryShader = DX11ShaderLoader::Get()->GSLoad(device.Raw(), L"../BuD/shaders/bezier_curve_c0_gs.hlsl");
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/bezier_with_polygon_ps.hlsl");
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto geometryShader = DX11ShaderLoader::Get()->GSLoad(device, L"../BuD/shaders/bezier_curve_c0_gs.hlsl", { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/bezier_with_polygon_ps.hlsl", { sizeof(Vector4) });
 		
-		auto deBoorPixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_light_blue_ps.hlsl");
-
-		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		geometryShader->AddConstantBuffer(GSConstantBuffer(device));
-		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+		auto deBoorPixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_light_blue_ps.hlsl", {});
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
@@ -269,36 +265,6 @@ namespace BuD
 		return true;
 	}
 
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::VSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_vsConstantBuffer)
-		{
-			s_vsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
-		}
-
-		return s_vsConstantBuffer;
-	}
-
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::GSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_gsConstantBuffer)
-		{
-			s_gsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
-		}
-
-		return s_gsConstantBuffer;
-	}
-
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::PSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_psConstantBuffer)
-		{
-			s_psConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Vector4));
-		}
-
-		return s_psConstantBuffer;
-	}
-
 	void BezierCurveC2::AddControlPoint(SceneObject* obj)
 	{
 		BezierCurve::AddControlPoint(obj);
@@ -320,8 +286,4 @@ namespace BuD
 	{
 		return GeometryType::BEZIER_C2;
 	}
-
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::s_vsConstantBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::s_gsConstantBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> BezierCurveC2::s_psConstantBuffer = nullptr;
 }

@@ -2,7 +2,7 @@
 
 namespace BuD
 {
-	DX11VertexShader::DX11VertexShader(ID3D11Device* device, void* code, size_t size, const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputDesc)
+	DX11VertexShader::DX11VertexShader(const DX11Device& device, void* code, size_t size, const std::vector<D3D11_INPUT_ELEMENT_DESC>& inputDesc)
 	{
 		if (FAILED(device->CreateVertexShader(code, size, nullptr, m_shader.GetAddressOf())))
 		{

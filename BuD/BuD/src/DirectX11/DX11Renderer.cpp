@@ -132,7 +132,7 @@ namespace BuD
 		m_device.Context()->VSSetShader(entity->m_vertexShader->Shader(), nullptr, 0);
 		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);
 
-		m_device.Context()->IASetInputLayout(entity->m_vertexShader->Layout());
+		m_device.Context()->IASetInputLayout(entity->m_vertexShader->GetLayout());
 		m_device.Context()->IASetPrimitiveTopology(entity->IndexBuffer()->Topology());
 
 		if (auto count = entity->m_vertexShader->ConstantBuffers().size())
@@ -202,7 +202,7 @@ namespace BuD
 	{
 		if (!s_idShader)
 		{
-			s_idShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/render_id_ps.hlsl");
+			s_idShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/render_id_ps.hlsl", {});
 			s_idShader->AddConstantBuffer(std::make_shared<DX11ConstantBuffer>(device, 16));
 		}
 

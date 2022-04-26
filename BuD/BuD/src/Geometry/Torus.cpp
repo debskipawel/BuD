@@ -23,11 +23,8 @@ namespace BuD
 
 		UpdateSampleIntervals(8, 8);
 
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
-
-		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
@@ -44,9 +41,6 @@ namespace BuD
 
 		m_meshes.push_back(mesh);
 	}
-
-	std::shared_ptr<DX11ConstantBuffer> Torus::s_vsConstantBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Torus::s_psConstantBuffer = nullptr;
 
 	bool Torus::UpdateRadius(float largeRadius, float smallRadius)
 	{
@@ -142,25 +136,5 @@ namespace BuD
 	{
 		m_meshes[0]->VertexBuffer()->Update(m_vertices.data(), m_vertices.size() * sizeof(Vector3));
 		m_meshes[0]->IndexBuffer()->Update(m_indices.data(), m_indices.size() * sizeof(unsigned short));
-	}
-
-	std::shared_ptr<DX11ConstantBuffer> Torus::VSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_vsConstantBuffer)
-		{
-			s_vsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
-		}
-
-		return s_vsConstantBuffer;
-	}
-
-	std::shared_ptr<DX11ConstantBuffer> Torus::PSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_psConstantBuffer)
-		{
-			s_psConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Vector4));
-		}
-
-		return s_psConstantBuffer;
 	}
 }

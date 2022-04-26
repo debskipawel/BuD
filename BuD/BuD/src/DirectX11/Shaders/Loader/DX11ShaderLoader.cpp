@@ -12,7 +12,7 @@ namespace BuD
 {
 	std::shared_ptr<DX11ShaderLoader> DX11ShaderLoader::s_instance = nullptr;
 
-	std::vector<BYTE> DX11ShaderLoader::LoadByteCode(const std::wstring& shaderPath)
+	std::vector<BYTE> LoadByteCode(const std::wstring& shaderPath)
 	{
 		std::wcout << L"Trying to read shader from: " << shaderPath << std::endl;
 
@@ -88,128 +88,120 @@ namespace BuD
 		return hr;
 	}
 
-	std::shared_ptr<DX11VertexShader> DX11ShaderLoader::VSLoad(ID3D11Device* device, std::wstring shaderPath, const std::vector< D3D11_INPUT_ELEMENT_DESC>& layout, std::string mainFunName)
+	template<typename T>
+	std::shared_ptr<T> ShaderLoad(
+		std::map<std::wstring, std::shared_ptr<T>>& map,
+		const DX11Device& device,
+		std::wstring shaderPath,
+		const std::vector<size_t>& constants,
+		std::string mainFunName,
+		std::string shaderVersion
+	)
+	{
+		auto result = map.find(shaderPath);
+		
+		if (result != map.end())
+		{
+			return result->second;
+		}
+
+		std::shared_ptr<T> shader;
+
+		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
+		{
+			auto bytecode = LoadByteCode(shaderPath);
+			shader = std::make_shared<T>(device, bytecode.data(), bytecode.size());
+		}
+		else
+		{
+			auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
+			auto compiledShaderName = shaderName + L".cso";
+
+			try
+			{
+				// try loading compiled shader if exists
+				auto bytecode = LoadByteCode(compiledShaderName);
+				shader = std::make_shared<T>(device, bytecode.data(), bytecode.size());
+			}
+			catch (std::exception e)
+			{
+				ID3DBlob* blob = nullptr;
+				auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), shaderVersion.c_str(), &blob);
+
+				shader = std::make_shared<T>(device, blob->GetBufferPointer(), blob->GetBufferSize());
+
+				SaveToFile(blob->GetBufferPointer(), blob->GetBufferSize(), compiledShaderName);
+
+				blob->Release();
+			}
+		}
+
+		for (auto& size : constants)
+		{
+			auto cb = std::make_shared<DX11ConstantBuffer>(device, size);
+			shader->AddConstantBuffer(cb);
+		}
+
+		map.insert(std::make_pair(shaderPath, shader));
+
+		return shader;
+	}
+
+	std::shared_ptr<DX11VertexShader> DX11ShaderLoader::VSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, const std::vector<size_t>& constants, std::string mainFunName)
 	{
 		auto result = m_vertexShaders.find(shaderPath);
+		
 		if (result != m_vertexShaders.end())
 		{
 			return result->second;
 		}
 
+		std::shared_ptr<DX11VertexShader> shader;
+
 		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
 		{
 			auto bytecode = LoadByteCode(shaderPath);
-			return std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
+			shader = std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
 		}
-
-		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
-		auto compiledShaderName = shaderName + L".cso";
-
-		try
+		else
 		{
-			auto bytecode = LoadByteCode(compiledShaderName);
-			auto shader = std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
-			
-			m_vertexShaders.insert(std::make_pair(shaderPath, shader));
+			auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
+			auto compiledShaderName = shaderName + L".cso";
 
-			return shader;
+			try
+			{
+				auto bytecode = LoadByteCode(compiledShaderName);
+				shader = std::make_shared<DX11VertexShader>(device, bytecode.data(), bytecode.size(), layout);
+			}
+			catch (std::exception e)
+			{
+				ID3DBlob* vsBlob = nullptr;
+				auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), "vs_4_0_level_9_1", &vsBlob);
+				shader = std::make_shared<DX11VertexShader>(device, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), layout);
+				vsBlob->Release();
+
+				SaveToFile(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), compiledShaderName);
+			}
 		}
-		catch (std::exception e) {}
 
-		ID3DBlob* vsBlob = nullptr;
-		auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), "vs_4_0_level_9_1", &vsBlob);
+		for (auto& size : constants)
+		{
+			auto cb = std::make_shared<DX11ConstantBuffer>(device, size);
+			shader->AddConstantBuffer(cb);
+		}
 
-		auto shader = std::make_shared<DX11VertexShader>(device, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), layout);
 		m_vertexShaders.insert(std::make_pair(shaderPath, shader));
 
-		vsBlob->Release();
-
-		SaveToFile(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), compiledShaderName);
-
 		return shader;
 	}
 
-	std::shared_ptr<DX11GeometryShader> DX11ShaderLoader::GSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName)
+	std::shared_ptr<DX11GeometryShader> DX11ShaderLoader::GSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants, std::string mainFunName)
 	{
-		auto result = m_geometryShaders.find(shaderPath);
-		if (result != m_geometryShaders.end())
-		{
-			return result->second;
-		}
-
-		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
-		{
-			auto bytecode = LoadByteCode(shaderPath);
-			return std::make_shared<DX11GeometryShader>(device, bytecode.data(), bytecode.size());
-		}
-
-		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
-		auto compiledShaderName = shaderName + L".cso";
-
-		try
-		{
-			// try loading compiled shader if exists
-			auto bytecode = LoadByteCode(compiledShaderName);
-			auto shader = std::make_shared<DX11GeometryShader>(device, bytecode.data(), bytecode.size());
-
-			m_geometryShaders.insert(std::make_pair(shaderPath, shader));
-
-			return shader;
-		}
-		catch (std::exception e) {}
-
-		ID3DBlob* psBlob = nullptr;
-		auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), "gs_4_0_level_9_1", &psBlob);
-
-		auto shader = std::make_shared<DX11GeometryShader>(device, psBlob->GetBufferPointer(), psBlob->GetBufferSize());
-		m_geometryShaders.insert(std::make_pair(shaderPath, shader));
-
-		SaveToFile(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), compiledShaderName);
-
-		psBlob->Release();
-
-		return shader;
+		return ShaderLoad(m_geometryShaders, device, shaderPath, constants, mainFunName, "gs_4_0_level_9_1");
 	}
 
-	std::shared_ptr<DX11PixelShader> DX11ShaderLoader::PSLoad(ID3D11Device* device, std::wstring shaderPath, std::string mainFunName)
+	std::shared_ptr<DX11PixelShader> DX11ShaderLoader::PSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants, std::string mainFunName)
 	{
-		auto result = m_pixelShaders.find(shaderPath);
-		if (result != m_pixelShaders.end())
-		{
-			return result->second;
-		}
-
-		if (shaderPath.substr(shaderPath.length() - 4) == L".cso")
-		{
-			auto bytecode = LoadByteCode(shaderPath);
-			return std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
-		}
-
-		auto shaderName = shaderPath.substr(0, shaderPath.find_last_of(L'.'));
-		auto compiledShaderName = shaderName + L".cso";
-
-		try
-		{
-			// try loading compiled shader if exists
-			auto bytecode = LoadByteCode(compiledShaderName);
-			auto shader = std::make_shared<DX11PixelShader>(device, bytecode.data(), bytecode.size());
-
-			m_pixelShaders.insert(std::make_pair(shaderPath, shader));
-
-			return shader;
-		}
-		catch (std::exception e) {}
-
-		ID3DBlob* psBlob = nullptr;
-		auto hr = CompileShader(shaderPath.c_str(), mainFunName.c_str(), "ps_4_0_level_9_1", &psBlob);
-		
-		auto shader = std::make_shared<DX11PixelShader>(device, psBlob->GetBufferPointer(), psBlob->GetBufferSize());
-		m_pixelShaders.insert(std::make_pair(shaderPath, shader));
-
-		SaveToFile(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), compiledShaderName);
-
-		psBlob->Release();
-
-		return shader;
+		return ShaderLoad(m_pixelShaders, device, shaderPath, constants, mainFunName, "ps_4_0_level_9_1");
 	}
 }

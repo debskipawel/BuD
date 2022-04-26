@@ -41,11 +41,8 @@ namespace BuD
 
 	Cursor::Cursor(Vector3 position, const DX11Device& device)
 	{
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_color_cursor_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/pos_color_cursor_ps.hlsl");
-
-		auto cb = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
-		vertexShader->AddConstantBuffer(cb);
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_color_cursor_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/pos_color_cursor_ps.hlsl");
 
 		auto vb = std::make_shared<BuD::DX11VertexBuffer>(device, vertices.size() * sizeof(Vertex), elements, vertices.data());
 		auto ib = std::make_shared<BuD::DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, indices.size() * sizeof(unsigned short), indices.data(), D3D_PRIMITIVE_TOPOLOGY_LINELIST);

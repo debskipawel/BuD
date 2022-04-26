@@ -14,19 +14,13 @@ namespace BuD
 	protected:
 		std::vector<Vector3> SolveTridiagonal();
 		void CalculateSplineParameters();
+		void TransformPowerToBernstein();
 		Vector3 EquationResult(int i);
 
-		std::vector<std::array<Vector4, 4>> m_splineParameters;
-		std::vector<float> m_distances;
+		virtual RECT GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height) override;
 
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> GSConstantBuffer1(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> GSConstantBuffer2(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_gsConstantBuffer1;
-		static std::shared_ptr<DX11ConstantBuffer> s_gsConstantBuffer2;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
+		std::vector<std::array<Vector3, 4>> m_splineParameters;
+		std::vector<float> m_distances;
 
 		virtual GeometryType GetType() override;
 	};
