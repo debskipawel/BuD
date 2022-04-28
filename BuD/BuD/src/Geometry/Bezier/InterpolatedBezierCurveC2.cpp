@@ -128,6 +128,22 @@ namespace BuD
 		auto cpCount = m_controlPoints.size();
 		auto n = cpCount - 1;
 
+		// nie jestem z tego dumny, ale dziala
+		if (cpCount == 2)
+		{
+			m_splineParameters.resize(1);
+
+			auto p1 = m_controlPoints[0]->Position();
+			auto p2 = m_controlPoints[1]->Position();
+
+			m_splineParameters[0][0] = p1;
+			m_splineParameters[0][1] = p1;
+			m_splineParameters[0][2] = p2;
+			m_splineParameters[0][3] = p2;
+
+			return;
+		}
+
 		m_distances.resize(n + 1);
 
 		for (int i = 0; i < n; i++)
