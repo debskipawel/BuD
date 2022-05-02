@@ -175,6 +175,7 @@
     <ClCompile Include="src\Camera\CameraFactory.cpp" />
     <ClCompile Include="src\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="src\Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\Camera\StereoscopicCamera.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\GuiLayer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\Camera\CameraFactory.h" />
     <ClInclude Include="src\Camera\OrthographicCamera.h" />
     <ClInclude Include="src\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\Camera\StereoscopicCamera.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\ApplicationInfo.h" />
     <ClInclude Include="src\Core\GuiLayer.h" />

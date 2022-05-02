@@ -149,7 +149,7 @@ namespace BuD
 		for (int i = 0; i < n; i++)
 		{
 			auto dist = (m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()).Length();
-			m_distances[i] = dist ? dist : 1.0f;
+			m_distances[i] = abs(dist) > 0.001f ? dist : 1.0f;
 		}
 
 		m_distances[n] = 1.0f;

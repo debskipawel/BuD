@@ -126,6 +126,9 @@
     <ClCompile Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera\StereoscopicCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -267,6 +270,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\StereoscopicCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

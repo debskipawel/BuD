@@ -35,10 +35,11 @@ namespace BuD
 			m_width = width;
 			m_height = height;
 
-			float ratio = static_cast<float>(width) / height;
+			m_projLeft = -static_cast<float>(width) / 2;
+			m_projRight = static_cast<float>(width) / 2;
 
-			m_projLeft = -ratio / 2;
-			m_projRight = ratio / 2;
+			m_projTop = static_cast<float>(height) / 2;
+			m_projBottom = -static_cast<float>(height) / 2;
 
 			UpdateProjectionMatrix();
 		}
@@ -60,10 +61,12 @@ namespace BuD
 
 		uint32_t m_width, m_height;
 
-		const float m_projFar = 100.0f;
-		const float m_projNear = 0.01f;
+		float m_fov = 90.0f;
+
+		float m_projFar = 100.0f;
+		float m_projNear = 0.1f;
 		float m_projTop = 1.0f;
-		float m_projBottom = 0.0f;
+		float m_projBottom = -1.0f;
 		float m_projLeft = -1.0f;
 		float m_projRight = 1.0f;
 
