@@ -5,6 +5,10 @@
 
 #include "Geometry/Point.h"
 #include "Geometry/Torus.h"
+#include "Geometry/Bezier/BezierCurve.h"
+#include "Geometry/Bezier/BezierCurveC0.h"
+#include "Geometry/Bezier/BezierCurveC2.h"
+#include "Geometry/Bezier/InterpolatedBezierCurveC2.h"
 
 #include <algorithm>
 
@@ -25,30 +29,7 @@ namespace BuD
 
 	void ObjectsEditor::SetCursorTo(int pixelX, int pixelY)
 	{
-		auto& viewMatrix = m_camera->GetViewMatrix();
-		auto& perspMatrix = m_camera->GetProjectionMatrix();
-		auto perspInverted = perspMatrix.Invert();
-		auto viewInverted = viewMatrix.Invert();
-
-		Vector4 currPosition = { m_cursorPosition.x, m_cursorPosition.y, m_cursorPosition.z, 1.0f };
-		auto cameraPosition = Vector4::Transform(currPosition, viewMatrix);
-		auto currPerspectivePosition = Vector4::Transform(cameraPosition, perspMatrix);
-
-		float w = currPerspectivePosition.z;
-		float z = cameraPosition.z;
-		currPerspectivePosition /= currPerspectivePosition.w;
-
-		float mappedX = static_cast<float>(pixelX) / m_window->Width() * 2.0f - 1.0f;
-		float mappedY = -(static_cast<float>(pixelY) / m_window->Height() * 2.0f - 1.0f);
-
-		Vector4 newPerspectivePosition = { mappedX, mappedY, 1.0f, 1.0f };
-		newPerspectivePosition *= w;
-
-		auto newCameraPosition = Vector4::Transform(newPerspectivePosition, perspInverted);
-		newCameraPosition.w = 1.0f;
-		auto newWorldPosition = Vector4::Transform(newCameraPosition, viewInverted);
-
-		m_cursorPosition = { newWorldPosition.x, newWorldPosition.y, newWorldPosition.z };
+		m_cursorPosition = m_camera->MoveWorldPointToPixels(m_cursorPosition, pixelX, pixelY);
 	}
 	
 	void ObjectsEditor::SelectionChanged()
@@ -90,16 +71,26 @@ namespace BuD
 		if (ImGui::Button("Add torus"))
 		{
 			auto torus = std::make_shared<Torus>(device, 3.0f, 1.0f);
-			torus->GetMesh()->m_position = m_cursorPosition;
+			torus->MoveTo(m_cursorPosition);
 
 			m_objects.push_back(torus);
 		}
 
 		if (ImGui::Button("Add point"))
 		{
-			m_objects.push_back(
-				std::make_shared<Point>(m_cursorPosition, device)
-			);
+			auto point = std::make_shared<Point>(m_cursorPosition, device);
+
+			m_objects.push_back(point);
+
+			auto& selected = SceneObject::GetSelected();
+
+			for (auto& obj : selected.Objects())
+			{
+				if (static_cast<int>(selected.GetType()) & static_cast<int>(GeometryType::BEZIER))
+				{
+					reinterpret_cast<BezierCurve*>(obj)->AddControlPoint(point.get());
+				}
+			}
 		}
 
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -113,7 +104,8 @@ namespace BuD
 		auto& objects = SceneObject::GetAll();
 
 		ImGui::Begin("Scene objects", nullptr, io.WantCaptureMouse);
-		if (ImGui::BeginListBox("Objects"))
+		ImGui::Text("Objects");
+		if (ImGui::BeginListBox("##ob"))
 		{
 			for (auto& [id, object] : objects)
 			{
@@ -151,12 +143,12 @@ namespace BuD
 		if (selected.Count() == 1)
 		{
 			// draw GUI for a single object
-			auto object = selected.Objects()[0];
+			auto object = *selected.Objects().begin();
 			object->DrawGui();
 
 			ImGui::NewLine();
 			ImGui::Text("Name");
-			ImGui::InputText("#n", object->Name());
+			ImGui::InputText("##n", object->Name());
 
 			ImGui::NewLine();
 
@@ -203,13 +195,39 @@ namespace BuD
 			Vector3 scale = m_beginScale / currScale;
 
 			if (translate != Vector3{ 0.0f })
-				SceneObject::GetSelected().MoveAll(translate);
+				selected.MoveAll(translate);
 
 			if (rotate != Vector3{ 0.0f })
-				SceneObject::GetSelected().RotateAroundCentroid(rotate);
+				selected.RotateAroundCentroid(rotate);
 
 			if (scale != Vector3{ 1.0f } && scale != Vector3{ 0.0f })
-				SceneObject::GetSelected().ScaleAroundCentroid(scale);
+				selected.ScaleAroundCentroid(scale);
+		}
+
+		if (selected.GetType() == GeometryType::POINT)
+		{
+			ImGui::NewLine();
+
+			if (ImGui::Button("Add Bezier C0"))
+			{
+				auto bezier = std::make_shared<BezierCurveC0>(device, selected.Objects());
+
+				m_objects.push_back(bezier);
+			}
+
+			if (ImGui::Button("Add Bezier C2"))
+			{
+				auto bezier = std::make_shared<BezierCurveC2>(device, selected.Objects());
+
+				m_objects.push_back(bezier);
+			}
+
+			if (ImGui::Button("Add interpolated C2"))
+			{
+				auto bezier = std::make_shared<InterpolatedBezierCurveC2>(device, selected.Objects());
+
+				m_objects.push_back(bezier);
+			}
 		}
 
 		ImGui::End();

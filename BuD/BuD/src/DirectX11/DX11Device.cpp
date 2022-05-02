@@ -5,6 +5,7 @@
 namespace BuD
 {
 	DX11Device::DX11Device(std::shared_ptr<Win32Window> window)
+		: m_window(window)
 	{
 		DX11SwapchainDesc swapChainDesc(window->Handle(), window->Width(), window->Height());
 

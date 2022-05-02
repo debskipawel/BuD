@@ -13,7 +13,7 @@ namespace BuD
 	class DX11PixelShader : public DX11Shader
 	{
 	public:
-		explicit DX11PixelShader(ID3D11Device* device, void* code, size_t size);
+		explicit DX11PixelShader(const DX11Device& device, void* code, size_t size);
 
 		inline ID3D11PixelShader* Shader() { return m_shader.Get(); }
 	private:

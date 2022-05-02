@@ -5,6 +5,7 @@
 
 #include "GuiLayer.h"
 #include "KeyboardKeys.h"
+#include "InteractionMode.h"
 
 #include "Event/IEventDispatchable.h"
 #include "DirectX11/DX11Renderer.h"
@@ -52,15 +53,24 @@ namespace BuD
 		std::unique_ptr<ObjectsEditor> m_guiEditor;
 
 		std::map<KeyboardKeys, bool> m_keyMap;
+		std::shared_ptr<Mesh> m_pointMesh;
 
 		dxm::Vector3 m_cursorPosition = { 0.0f, 0.0f, 0.0f };
 		LARGE_INTEGER m_counterStart, m_freq;
 
+		int m_prevX, m_prevY;
+
 		bool m_cameraMoving = false;
 		bool m_shouldRun = true;
+		
+		InteractionMode m_appMode = InteractionMode::NONE;
+		bool m_inAction = false;
+		Vector3 m_prevActionPoint;
 
 		bool m_in_sizemove = false;
 		bool m_minimized = false;
+
+		bool m_inDebug = false;
 
 	public:
 		inline static std::shared_ptr<Application> Get()

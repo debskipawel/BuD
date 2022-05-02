@@ -1,6 +1,9 @@
 #pragma once
 
+#include "GeometryType.h"
+
 #include <SimpleMath.h>
+#include <set>
 
 using namespace DirectX::SimpleMath;
 
@@ -17,6 +20,7 @@ namespace BuD
 		void Add(SceneObject* object);
 		void Remove(SceneObject* object);
 
+		inline GeometryType GetType() const { return m_objectsType; }
 		inline const std::vector<SceneObject*>& Objects() const { return m_objects; }
 
 		Vector3 Centroid() const;
@@ -26,6 +30,7 @@ namespace BuD
 		void MoveAll(Vector3 translation) const;
 
 	protected:
+		GeometryType m_objectsType = GeometryType::EMPTY;
 		std::vector<SceneObject*> m_objects;
 	};
 }

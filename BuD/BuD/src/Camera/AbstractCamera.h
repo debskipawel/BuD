@@ -25,8 +25,15 @@ namespace BuD
 
 		void ProcessMouseMovement(int xOffset, int yOffset);
 
-		inline void UpdateAspectRatio(float ratio)
+		dxm::Vector3 MoveWorldPointToPixels(dxm::Vector3 point, int x, int y);
+
+		inline void UpdateViewport(uint32_t width, uint32_t height)
 		{
+			m_width = width;
+			m_height = height;
+
+			float ratio = static_cast<float>(width) / height;
+
 			m_projLeft = -ratio / 2;
 			m_projRight = ratio / 2;
 
@@ -47,6 +54,8 @@ namespace BuD
 		dxm::Vector3 m_right;
 		dxm::Vector3 m_up;
 		dxm::Vector3 m_worldUp;
+
+		uint32_t m_width, m_height;
 
 		const float m_projFar = 100.0f;
 		const float m_projNear = 0.01f;

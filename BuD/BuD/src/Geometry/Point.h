@@ -14,9 +14,9 @@ namespace BuD
 		Point(Vector3 position, const DX11Device& device);
 		~Point() = default;
 
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 
-		inline std::shared_ptr<Mesh> GetMesh() { return m_mesh; }
+		virtual GeometryType GetType() override { return GeometryType::POINT; }
 
 		virtual void Select() override 
 		{ 
@@ -24,7 +24,7 @@ namespace BuD
 			m_color = { 0.7f, 0.5f, 0.0f }; 
 		}
 		
-		virtual void Unselect() 
+		virtual void Unselect() override
 		{ 
 			SceneObject::Unselect();
 			m_color = { 1.0f, 1.0f, 1.0f }; 
@@ -34,19 +34,16 @@ namespace BuD
 		inline virtual void RotateTo(const Quaternion& rotation) override { }
 		inline virtual void ScaleTo(const Vector3& scale) override { }
 
+		static std::shared_ptr<Mesh> GetMesh(const DX11Device& device);
+
 	private:
 
 		Vector3 m_color = { 1.0f, 1.0f, 1.0f };
 
-		static std::shared_ptr<BuD::DX11VertexBuffer> GetVB(const BuD::DX11Device& device);
-		static std::shared_ptr<BuD::DX11IndexBuffer> GetIB(const BuD::DX11Device& device);
+		static std::shared_ptr<DX11VertexBuffer> GetVB(const DX11Device& device);
+		static std::shared_ptr<DX11IndexBuffer> GetIB(const DX11Device& device);
 
-		static std::shared_ptr<BuD::DX11VertexBuffer> s_vertexBuffer;
-		static std::shared_ptr<BuD::DX11IndexBuffer> s_indexBuffer;
-
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
+		static std::shared_ptr<DX11VertexBuffer> s_vertexBuffer;
+		static std::shared_ptr<DX11IndexBuffer> s_indexBuffer;
 	};
 }

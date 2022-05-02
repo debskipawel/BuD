@@ -10,6 +10,20 @@ namespace BuD
 {
 	void ObjectsCollection::Add(SceneObject* object)
 	{
+		if (std::find(m_objects.begin(), m_objects.end(), object) != m_objects.end())
+		{
+			return;
+		}
+
+		if (m_objectsType == GeometryType::EMPTY)
+		{
+			m_objectsType = object->GetType();
+		}
+		else if ((static_cast<unsigned int>(m_objectsType) | static_cast<unsigned int>(object->GetType())) != static_cast<unsigned int>(m_objectsType))
+		{
+			m_objectsType = GeometryType::MIXED;
+		}
+
 		m_objects.push_back(object);
 	}
 	
@@ -23,12 +37,32 @@ namespace BuD
 		}
 
 		m_objects.erase(res);
+
+		m_objectsType = GeometryType::EMPTY;
+
+		for (auto& obj : m_objects)
+		{
+			auto type = obj->GetType();
+
+			if (m_objectsType == GeometryType::EMPTY)
+			{
+				m_objectsType = type;
+			}
+			else if (static_cast<int>(m_objectsType) == static_cast<int>(type))
+			{
+				m_objectsType = type;
+			}
+			else
+			{
+				m_objectsType = GeometryType::MIXED;
+			}
+		}
 	}
 	
 	Vector3 ObjectsCollection::Centroid() const
 	{
 		auto centroid = std::accumulate(m_objects.begin(), m_objects.end(), Vector3{ 0.0f, 0.0f, 0.0f }, 
-			[](Vector3 a, SceneObject* obj) { return a + obj->GetMesh()->m_position; });
+			[](Vector3 a, SceneObject* obj) { return a + obj->GetMesh(0)->m_position; });
 		
 		return centroid / static_cast<float>(m_objects.size());
 	}
@@ -45,7 +79,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[&model](SceneObject* object) 
 			{ 
-				auto mesh = object->GetMesh();
+				auto mesh = object->GetMesh(0);
 				auto matrix = mesh->GetModelMatrix() * model;
 
 				Vector3 position, scale;
@@ -54,7 +88,6 @@ namespace BuD
 
 				object->MoveTo(position);
 				object->RotateTo(rotQuat);
-				object->ScaleTo(scale);
 			});
 	}
 
@@ -68,7 +101,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[&model](SceneObject* object)
 			{
-				auto mesh = object->GetMesh();
+				auto mesh = object->GetMesh(0);
 				auto matrix = mesh->GetModelMatrix() * model;
 
 				Vector3 position, scale;
@@ -76,7 +109,7 @@ namespace BuD
 				matrix.Decompose(scale, rotQuat, position);
 
 				object->MoveTo(position);
-				object->ScaleTo(scale);
+				object->ScaleTo(scale.LengthSquared() ? scale : Vector3{ 0.01f, 0.01f, 0.01f });
 			});
 	}
 
@@ -85,7 +118,7 @@ namespace BuD
 		std::for_each(std::execution::par, m_objects.begin(), m_objects.end(),
 			[translation](SceneObject* object)
 			{
-				object->GetMesh()->m_position += translation;
+				object->MoveBy(translation);
 			});
 	}
 }

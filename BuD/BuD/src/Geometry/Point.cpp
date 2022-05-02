@@ -8,8 +8,6 @@ namespace BuD
 {
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::s_vertexBuffer = nullptr;
 	std::shared_ptr<BuD::DX11IndexBuffer> Point::s_indexBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Point::s_vsConstantBuffer = nullptr;
-	std::shared_ptr<DX11ConstantBuffer> Point::s_psConstantBuffer = nullptr;
 	
 	static std::vector<Vector3> vertices =
 	{
@@ -65,13 +63,13 @@ namespace BuD
 	Point::Point(Vector3 position, const DX11Device& device)
 		: SceneObject()
 	{
-		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device.Raw(), L"../BuD/shaders/pos_transf_vs.hlsl", elements);
-		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device.Raw(), L"../BuD/shaders/solid_color_ps.hlsl");
+		m_tag = "Point";
+		m_meshes.reserve(1);
 
-		vertexShader->AddConstantBuffer(VSConstantBuffer(device));
-		pixelShader->AddConstantBuffer(PSConstantBuffer(device));
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
-		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
 			{
 				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
@@ -84,35 +82,51 @@ namespace BuD
 			}
 		);
 
-		m_mesh->m_position = position;
+		mesh->m_position = position;
+
+		m_meshes.push_back(mesh);
 	}
 
-	void Point::DrawGui()
+	bool Point::DrawGui()
 	{
-		ImGui::Text("Position");
-		ImGui::DragFloat("p(x)", &m_mesh->m_position.x);
-		ImGui::DragFloat("p(y)", &m_mesh->m_position.y);
-		ImGui::DragFloat("p(z)", &m_mesh->m_position.z);
-	}
+		auto position = m_meshes[0]->m_position;
+		auto positionCopy = position;
 
-	std::shared_ptr<DX11ConstantBuffer> Point::VSConstantBuffer(const DX11Device& device)
-	{
-		if (!s_vsConstantBuffer)
+		ImGui::Text("Translation");
+		ImGui::DragFloat("t(x)", &position.x, 0.1f);
+		ImGui::DragFloat("t(y)", &position.y, 0.1f);
+		ImGui::DragFloat("t(z)", &position.z, 0.1f);
+
+		if ((position - positionCopy).LengthSquared())
 		{
-			s_vsConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Matrix));
+			MoveBy(position - positionCopy);
+
+			return true;
 		}
 
-		return s_vsConstantBuffer;
+		return false;
 	}
 
-	std::shared_ptr<DX11ConstantBuffer> Point::PSConstantBuffer(const DX11Device& device)
+	std::shared_ptr<Mesh> Point::GetMesh(const DX11Device& device)
 	{
-		if (!s_psConstantBuffer)
-		{
-			s_psConstantBuffer = std::make_shared<DX11ConstantBuffer>(device, sizeof(Vector4));
-		}
+		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
+		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
-		return s_psConstantBuffer;
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
+			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			{
+				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
+				entity->m_scale = Vector3{ max(logf(dist), 1.0f) };
+
+				Vector3 color = { 1.0f, 1.0f, 1.0f };
+				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+
+				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
+				entity->PixelShader()->UpdateConstantBuffer(0, &color, sizeof(Vector3));
+			}
+		);
+
+		return mesh;
 	}
 
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::GetVB(const BuD::DX11Device& device)

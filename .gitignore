@@ -398,3 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 BuD/bin-int**
+**.cso
+
+**Bin/

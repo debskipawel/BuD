@@ -9,8 +9,10 @@ namespace BuD
 	public:
 		Torus(const DX11Device& device, float largeRadius, float smallRadius);
 
-		virtual void DrawGui() override;
+		virtual bool DrawGui() override;
 		virtual void UpdateRenderableModel() override;
+
+		virtual GeometryType GetType() override { return GeometryType::TORUS; }
 
 		virtual void Select() override 
 		{
@@ -42,10 +44,5 @@ namespace BuD
 		bool UpdateRadius(float largeRadius, float smallRadius);
 
 		Vector3 m_color;
-
-		static std::shared_ptr<DX11ConstantBuffer> VSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> PSConstantBuffer(const DX11Device& device);
-		static std::shared_ptr<DX11ConstantBuffer> s_vsConstantBuffer;
-		static std::shared_ptr<DX11ConstantBuffer> s_psConstantBuffer;
 	};
 }
