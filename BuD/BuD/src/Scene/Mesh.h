@@ -21,7 +21,7 @@ namespace BuD
 			std::shared_ptr<DX11PixelShader>  pixelShader,
 			std::shared_ptr<DX11VertexBuffer> vertexBuffer,
 			std::shared_ptr<DX11IndexBuffer>  indexBuffer,
-			std::function<void(std::shared_ptr<AbstractCamera>, Mesh*)> updateFunc = [](std::shared_ptr<AbstractCamera>, Mesh*) {}
+			std::function<void(const dxm::Matrix& view, const dxm::Matrix& projection, Mesh*)> updateFunc = [](const dxm::Matrix&, const dxm::Matrix&, Mesh*) {}
 		);
 
 		inline void SetGS(std::shared_ptr<DX11GeometryShader> shader) { m_geometryShader = shader; }
@@ -44,7 +44,7 @@ namespace BuD
 	protected:
 		Mesh() = default;
 
-		void UpdateConstantBuffers(std::shared_ptr<AbstractCamera> camera);
+		void UpdateConstantBuffers(const dxm::Matrix& view, const dxm::Matrix& projection);
 
 		std::shared_ptr<DX11VertexShader> m_vertexShader = nullptr;
 		std::shared_ptr<DX11GeometryShader> m_geometryShader = nullptr;
@@ -53,7 +53,7 @@ namespace BuD
 		std::shared_ptr<DX11VertexBuffer> m_vertexBuffer;
 		std::shared_ptr<DX11IndexBuffer> m_indexBuffer;
 
-		std::function<void(std::shared_ptr<AbstractCamera>, Mesh*)> m_updateFunc;
+		std::function<void(const dxm::Matrix&, const dxm::Matrix&, Mesh*)> m_updateFunc;
 
 		friend class DX11Renderer;
 	};

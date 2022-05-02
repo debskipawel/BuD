@@ -17,7 +17,7 @@ namespace BuD
 		void TransformPowerToBernstein();
 		Vector3 EquationResult(int i);
 
-		virtual RECT GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height) override;
+		virtual RECT GetSurroundingRectangle(const dxm::Matrix& view, const dxm::Matrix& projection, UINT width, UINT height) override;
 
 		std::vector<std::array<Vector3, 4>> m_splineParameters;
 		std::vector<float> m_distances;

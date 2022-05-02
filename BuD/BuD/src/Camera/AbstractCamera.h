@@ -20,6 +20,9 @@ namespace BuD
 		const dxm::Matrix& GetViewMatrix() const;
 		const dxm::Matrix& GetProjectionMatrix() const;
 
+		virtual const dxm::Matrix& GetLeftEyeProjection() const { return m_projectionMatrix; }
+		virtual const dxm::Matrix& GetRightEyeProjection() const { return m_projectionMatrix; }
+
 		void Move(const dxm::Vector3& difference);
 		void MoveTo(const dxm::Vector3& position);
 

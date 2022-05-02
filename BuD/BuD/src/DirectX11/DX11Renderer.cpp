@@ -159,7 +159,7 @@ namespace BuD
 			m_device.Context()->GSSetShader(nullptr, nullptr, 0);
 		}
 
-		entity->UpdateConstantBuffers(camera);
+		entity->UpdateConstantBuffers(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
 		ID3D11Buffer* buffers[] = { entity->m_vertexBuffer->Buffer() };
 		UINT strides[] = { entity->m_vertexBuffer->Stride() };

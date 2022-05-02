@@ -70,12 +70,9 @@ namespace BuD
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
-			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
-				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
-				entity->m_scale = Vector3{ max(logf(dist), 1.0f) };
-
-				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = entity->GetModelMatrix() * view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
@@ -113,13 +110,10 @@ namespace BuD
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
-			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
-				auto dist = max((camera->Position() - entity->m_position).Length(), 0.0f);
-				entity->m_scale = Vector3{ max(logf(dist), 1.0f) };
-
 				Vector3 color = { 1.0f, 1.0f, 1.0f };
-				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = entity->GetModelMatrix() * view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &color, sizeof(Vector3));

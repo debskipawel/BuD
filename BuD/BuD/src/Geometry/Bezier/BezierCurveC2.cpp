@@ -34,7 +34,7 @@ namespace BuD
 		auto polygonIndexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
-			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				FilterControlPoints();
 				UpdateCentroid();
@@ -66,7 +66,7 @@ namespace BuD
 				entity->VertexBuffer()->Update(m_bernsteinPoints.data(), (m_bernsteinPoints.size()) * sizeof(Vector3));
 				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 				
-				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
@@ -77,7 +77,7 @@ namespace BuD
 					uint32_t drawPolygon;
 				};
 
-				auto rect = GetSurroundingRectangle(camera, device.BufferWidth(), device.BufferHeight());
+				auto rect = GetSurroundingRectangle(view, projection, device.BufferWidth(), device.BufferHeight());
 				auto longSide = max(rect.right - rect.left, rect.bottom - rect.top);
 
 				GSResource resource = { longSide / 10, m_drawPolygon };
@@ -86,7 +86,7 @@ namespace BuD
 		);
 
 		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, deBoorPixelShader, vertexBuffer, polygonIndexBuffer,
-			[this, device](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				size_t controlPointsCount = m_controlPoints.size();
 
@@ -102,7 +102,7 @@ namespace BuD
 				entity->VertexBuffer()->Update(vertices.data(), vertices.size() * sizeof(Vector3));
 				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 
-				auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 			}
