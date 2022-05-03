@@ -17,6 +17,8 @@ namespace BuD
 		inline dxm::Vector3 Up() const { return m_up; }
 		inline dxm::Vector3 Right() const { return m_right; }
 
+		virtual void DrawGui();
+
 		const dxm::Matrix& GetViewMatrix() const;
 		const dxm::Matrix& GetProjectionMatrix() const;
 

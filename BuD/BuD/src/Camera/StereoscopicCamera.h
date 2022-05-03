@@ -12,6 +12,8 @@ namespace BuD
 		virtual const dxm::Matrix& GetLeftEyeProjection() const override { return m_leftEyeProjection; }
 		virtual const dxm::Matrix& GetRightEyeProjection() const override { return m_rightEyeProjection; }
 
+		virtual void DrawGui() override;
+
 	protected:
 		virtual void UpdateProjectionMatrix() override;
 

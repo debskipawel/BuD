@@ -1,5 +1,7 @@
 #include "AbstractCamera.h"
 
+#include <imgui.h>
+
 BuD::AbstractCamera::AbstractCamera(const dxm::Vector3& position, const dxm::Vector3& front, const dxm::Vector3& worldUp, float ratio)
 	: m_position(position), m_front(), m_worldUp(),
 	m_viewMatrix(),
@@ -26,6 +28,14 @@ void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
 
 	m_pitch = 90.0f - dx::XMConvertToDegrees(acosf(m_worldUp.Dot(m_front)));
 	m_yaw = dx::XMConvertToDegrees(atan2f(m_front.z, m_front.x));
+}
+
+void BuD::AbstractCamera::DrawGui()
+{
+	ImGui::DragFloat("FOV:", &m_fov, 1.0f, 45.0f, 120.0f);
+	ImGui::DragFloat("Near:", &m_projNear, 0.1f, 0.001f, 10.0f);
+
+	UpdateProjectionMatrix();
 }
 
 const dxm::Matrix& BuD::AbstractCamera::GetViewMatrix() const

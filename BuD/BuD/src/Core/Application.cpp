@@ -31,7 +31,7 @@ namespace BuD
 
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_renderer = std::make_shared<DX11Renderer>(m_window);
-        m_camera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
+        m_camera = CameraFactory::MakeStereoscopic(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
         m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_camera, m_window);

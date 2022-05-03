@@ -44,6 +44,12 @@ namespace BuD
 		auto& io = ImGui::GetIO();
 		ImGui::Begin("Main settings", nullptr, io.WantCaptureMouse);
 
+		if (ImGui::TreeNode("Camera settings"))
+		{
+			m_camera->DrawGui();
+			ImGui::TreePop();
+		}
+
 		ImGui::Text("Cursor position");
 		ImGui::DragFloat("X", &m_cursorPosition.x, 0.1f);
 		ImGui::DragFloat("Y", &m_cursorPosition.y, 0.1f);
@@ -92,7 +98,7 @@ namespace BuD
 				}
 			}
 		}
-
+		
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		ImGui::End();
