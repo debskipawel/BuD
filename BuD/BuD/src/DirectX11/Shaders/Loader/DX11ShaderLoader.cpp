@@ -22,7 +22,7 @@ namespace BuD
 		auto byteCodeLength = sIn.tellg();
 		sIn.seekg(0, std::ios::beg);
 
-		std::vector<BYTE> byteCode(static_cast<unsigned int>(byteCodeLength));
+		std::vector<BYTE> byteCode(byteCodeLength);
 
 		sIn.read(reinterpret_cast<char*>(byteCode.data()), byteCodeLength);
 		sIn.close();

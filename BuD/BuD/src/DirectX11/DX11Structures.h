@@ -44,4 +44,9 @@ namespace BuD
 			return desc;
 		}
 	};
+
+	struct SamplerDescription : D3D11_SAMPLER_DESC
+	{
+		SamplerDescription();
+	};
 }

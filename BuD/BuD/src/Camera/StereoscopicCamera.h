@@ -20,7 +20,7 @@ namespace BuD
 		dxm::Matrix m_leftEyeProjection;
 		dxm::Matrix m_rightEyeProjection;
 
-		float m_eyeDistance = 6.0f;
-		float m_focus = 20.0f;
+		float m_eyeDistance = 2.0f;
+		float m_focus = 11.0f;
 	};
 }

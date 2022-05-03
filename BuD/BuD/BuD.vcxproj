@@ -183,6 +183,7 @@
     <ClCompile Include="src\DirectX11\Buffers\DX11IndexBuffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11VertexBuffer.cpp" />
     <ClCompile Include="src\DirectX11\DX11Device.cpp" />
+    <ClCompile Include="src\DirectX11\DX11StereoscopicRenderer.cpp" />
     <ClCompile Include="src\DirectX11\DX11Structures.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11GeometryShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11PixelShader.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="src\DirectX11\Buffers\DX11IndexBuffer.h" />
     <ClInclude Include="src\DirectX11\Buffers\DX11VertexBuffer.h" />
     <ClInclude Include="src\DirectX11\DX11Device.h" />
+    <ClInclude Include="src\DirectX11\DX11StereoscopicRenderer.h" />
     <ClInclude Include="src\DirectX11\DX11Structures.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11PixelShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
@@ -284,6 +286,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\f2_to_f4_no_transf_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="shaders\interpolated_bezier_c2_gs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
@@ -350,6 +362,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shaders\two_tex_blend_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

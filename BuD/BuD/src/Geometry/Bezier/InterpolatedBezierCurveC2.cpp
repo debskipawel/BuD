@@ -128,6 +128,11 @@ namespace BuD
 		auto cpCount = m_controlPoints.size();
 		auto n = cpCount - 1;
 
+		if (cpCount < 2)
+		{
+			return;
+		}
+
 		// nie jestem z tego dumny, ale dziala
 		if (cpCount == 2)
 		{

@@ -3,6 +3,7 @@
 #include "ApplicationInfo.h"
 #include "Camera/CameraFactory.h"
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
+#include "DirectX11/DX11StereoscopicRenderer.h"
 
 #include "Event/WindowEvents.h"
 #include "Event/KeyboardEvents.h"
@@ -30,7 +31,7 @@ namespace BuD
         auto collection = std::vector<std::shared_ptr<SceneObject>>();
 
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
-        m_renderer = std::make_shared<DX11Renderer>(m_window);
+        m_renderer = std::make_shared<DX11StereoscopicRenderer>(m_window);
         m_camera = CameraFactory::MakeStereoscopic(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
@@ -97,6 +98,8 @@ namespace BuD
             m_renderer->Draw(cursor->GetMesh(), m_camera);
         }
 
+        m_renderer->End();
+
         if (!m_inDebug)
         {
             m_guiLayer->BeginFrame();
@@ -104,7 +107,7 @@ namespace BuD
             m_guiLayer->EndFrame();
         }
 
-        m_renderer->End();
+        m_renderer->Present();
     }
 
     void Application::OnConcreteEvent(WindowResizedEvent& e)

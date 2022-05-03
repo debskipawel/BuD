@@ -29,7 +29,7 @@ namespace BuD
 		ImGui::DragFloat("##Near", &m_projNear, 0.1f, minNear, maxNear);
 
 		ImGui::Text("Eye dist:");
-		ImGui::DragFloat("##d", &m_eyeDistance, 0.1f, minEye, m_focus);
+		ImGui::DragFloat("##d", &m_eyeDistance, 0.1f, minEye);
 		
 		ImGui::Text("Focus plane:");
 		ImGui::DragFloat("##focus_plane", &m_focus, 0.5f, minFocus, maxFocus);

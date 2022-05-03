@@ -66,7 +66,7 @@ namespace BuD
 		float m_fov = 90.0f;
 
 		float m_projFar = 100.0f;
-		float m_projNear = 0.1f;
+		float m_projNear = 10.0f;
 		float m_projTop = 1.0f;
 		float m_projBottom = -1.0f;
 		float m_projLeft = -1.0f;
