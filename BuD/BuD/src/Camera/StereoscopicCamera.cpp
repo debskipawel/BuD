@@ -32,7 +32,7 @@ namespace BuD
 		ImGui::DragFloat("##d", &m_eyeDistance, 0.1f, minEye);
 		
 		ImGui::Text("Focus plane:");
-		ImGui::DragFloat("##focus_plane", &m_focus, 0.5f, minFocus, maxFocus);
+		ImGui::DragFloat("##focus_plane", &m_focus, 0.5f, minFocus);
 
 		m_fov = min(max(m_fov, minFov), maxFov);
 		m_focus = max(m_focus, minFocus);
@@ -54,11 +54,11 @@ namespace BuD
 		float L = -width / 2;
 		float R = width / 2;
 
-		float leftL = (L + halfDistance) * m_projNear / m_focus - halfDistance;
-		float leftR = (R + halfDistance) * m_projNear / m_focus - halfDistance;
+		float leftL = (L + halfDistance) * m_projNear / m_focus;
+		float leftR = (R + halfDistance) * m_projNear / m_focus;
 
-		float rightL = (L - halfDistance) * m_projNear / m_focus + halfDistance;
-		float rightR = (R - halfDistance) * m_projNear / m_focus + halfDistance;
+		float rightL = (L - halfDistance) * m_projNear / m_focus;
+		float rightR = (R - halfDistance) * m_projNear / m_focus;
 
 		top *= m_projNear / m_focus;
 		bottom *= m_projNear / m_focus;
