@@ -26,8 +26,8 @@ namespace BuD
 		}
 	};
 
-	DX11StereoscopicRenderer::DX11StereoscopicRenderer(std::shared_ptr<Win32Window> window)
-		: DX11Renderer(window)
+	DX11StereoscopicRenderer::DX11StereoscopicRenderer(DX11Device device, std::shared_ptr<Win32Window> window)
+		: DX11Renderer(device, window)
 	{
 		auto width = window->Width();
 		auto height = window->Height();

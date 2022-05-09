@@ -9,8 +9,8 @@
 
 namespace BuD
 {
-	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
-		: m_device(window)
+	BuD::DX11Renderer::DX11Renderer(DX11Device device, std::shared_ptr<Win32Window> window)
+		: m_device(device)
 	{
 		auto width = window->Width();
 		auto height = window->Height();

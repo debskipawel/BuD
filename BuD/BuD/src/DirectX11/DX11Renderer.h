@@ -18,7 +18,7 @@ namespace BuD
 	class DX11Renderer : public Renderer
 	{
 	public:
-		DX11Renderer(std::shared_ptr<Win32Window> window);
+		DX11Renderer(DX11Device device, std::shared_ptr<Win32Window> window);
 
 		inline const DX11Device& Device() const { return m_device; }
 

@@ -15,7 +15,11 @@ namespace BuD
 		inline dxm::Vector3 Position() const { return m_position; }
 		inline dxm::Vector3 Front() const { return m_front; }
 		inline dxm::Vector3 Up() const { return m_up; }
+		inline dxm::Vector3 WorldUp() const { return m_worldUp; }
 		inline dxm::Vector3 Right() const { return m_right; }
+
+		inline float Fov() const { return m_fov; }
+		inline float Ratio() const { return static_cast<float>(m_width) / m_height; }
 
 		virtual void DrawGui();
 
@@ -31,6 +35,13 @@ namespace BuD
 		void ProcessMouseMovement(int xOffset, int yOffset);
 
 		dxm::Vector3 MoveWorldPointToPixels(dxm::Vector3 point, int x, int y);
+
+		inline void SetFov(float fov)
+		{
+			m_fov = fov;
+
+			UpdateProjectionMatrix();
+		}
 
 		inline void UpdateViewport(uint32_t width, uint32_t height)
 		{

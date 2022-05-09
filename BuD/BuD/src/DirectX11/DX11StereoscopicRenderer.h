@@ -10,7 +10,7 @@ namespace BuD
 	class DX11StereoscopicRenderer : public DX11Renderer
 	{
 	public:
-		DX11StereoscopicRenderer(std::shared_ptr<Win32Window> window);
+		DX11StereoscopicRenderer(DX11Device device, std::shared_ptr<Win32Window> window);
 
 		virtual void UpdateBuffersSize(int width, int height) override;
 		virtual void InitializeBuffers(int width, int height) override;

@@ -10,13 +10,22 @@
 #include "Geometry/Bezier/BezierCurveC2.h"
 #include "Geometry/Bezier/InterpolatedBezierCurveC2.h"
 
+#include "Camera/CameraFactory.h"
+
 #include <algorithm>
 
 namespace BuD
 {
-	ObjectsEditor::ObjectsEditor(std::vector<std::shared_ptr<SceneObject>>& objects, std::shared_ptr<AbstractCamera> camera, std::shared_ptr<Win32Window> window)
-		: m_objects(objects), m_camera(camera), m_window(window)
+	ObjectsEditor::ObjectsEditor(std::vector<std::shared_ptr<SceneObject>>& objects, std::shared_ptr<Win32Window> window)
+		: m_objects(objects), m_window(window)
 	{
+		m_activeCamera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
+		m_selectedType = RenderingMode::STANDARD;
+	}
+
+	std::shared_ptr<AbstractCamera> ObjectsEditor::GetCamera()
+	{
+		return m_activeCamera;
 	}
 	
 	void ObjectsEditor::DrawGui(const DX11Device& device)
@@ -29,7 +38,7 @@ namespace BuD
 
 	void ObjectsEditor::SetCursorTo(int pixelX, int pixelY)
 	{
-		m_cursorPosition = m_camera->MoveWorldPointToPixels(m_cursorPosition, pixelX, pixelY);
+		m_cursorPosition = m_activeCamera->MoveWorldPointToPixels(m_cursorPosition, pixelX, pixelY);
 	}
 	
 	void ObjectsEditor::SelectionChanged()
@@ -46,9 +55,25 @@ namespace BuD
 
 		if (ImGui::TreeNode("Camera settings"))
 		{
-			m_camera->DrawGui();
+			if (ImGui::BeginCombo("##cameraType", "Camera type"))
+			{
+				RenderingMode types[] = { RenderingMode::STANDARD, RenderingMode::ANAGLIPH };
+				std::string names[] = { "Perspective", "Anagliph" };
+
+				for (int i = 0; i < 2; i++)
+				{
+					GuiForCamera(types[i], names[i]);
+				}
+
+				ImGui::EndCombo();
+			}
+
+			ImGui::NewLine();
+
+			m_activeCamera->DrawGui();
 			ImGui::TreePop();
 		}
+		ImGui::Separator();
 
 		ImGui::Text("Cursor position");
 		ImGui::DragFloat("X", &m_cursorPosition.x, 0.1f);
@@ -59,7 +84,7 @@ namespace BuD
 		Vector4 cursorPosition = Vector4(m_cursorPosition.x, m_cursorPosition.y, m_cursorPosition.z, 1.0f);
 		Vector4 screenPosition{};
 
-		auto transformMatrix = m_camera->GetViewMatrix() * m_camera->GetProjectionMatrix();
+		auto transformMatrix = m_activeCamera->GetViewMatrix() * m_activeCamera->GetProjectionMatrix();
 
 		Vector4::Transform(cursorPosition, transformMatrix, screenPosition);
 		screenPosition /= screenPosition.w;
@@ -237,5 +262,57 @@ namespace BuD
 		}
 
 		ImGui::End();
+	}
+	
+	void ObjectsEditor::UpdateCamera(const RenderingMode& selectedType)
+	{
+		auto position = m_activeCamera->Position();
+		auto direction = m_activeCamera->Front();
+		auto worldUp = m_activeCamera->WorldUp();
+
+		auto fov = m_activeCamera->Fov();
+		auto ratio = m_activeCamera->Ratio();
+
+		switch (selectedType)
+		{
+			case RenderingMode::STANDARD:
+			{
+				m_activeCamera = CameraFactory::MakePerspective(position, direction, worldUp, ratio);
+				break;
+			}
+			case RenderingMode::ANAGLIPH:
+			{
+				m_activeCamera = CameraFactory::MakeStereoscopic(position, direction, worldUp, ratio);
+				break;
+			}
+			default:
+			{
+				return;
+			}
+		}
+
+		m_activeCamera->SetFov(fov);
+		m_activeCamera->UpdateViewport(m_window->Width(), m_window->Height());
+	}
+	
+	void ObjectsEditor::GuiForCamera(const RenderingMode& cameraType, std::string name)
+	{
+		bool selected = m_selectedType == cameraType;
+		bool selectedCopy = selected;
+
+		if (ImGui::Selectable(name.c_str(), &selected))
+		{
+			m_selectedType = cameraType;
+
+			if (selected != selectedCopy)
+			{
+				UpdateCamera(cameraType);
+			}
+		}
+
+		if (selected)
+		{
+			ImGui::SetItemDefaultFocus();
+		}
 	}
 }

@@ -281,6 +281,9 @@
     <ClInclude Include="src\DirectX11\DX11StereoscopicRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\RenderingMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\pos_normal_vs.hlsl" />
