@@ -63,7 +63,7 @@ namespace BuD
 		top *= m_projNear / m_focus;
 		bottom *= m_projNear / m_focus;
 
-		m_leftEyeProjection = dxm::Matrix::CreatePerspectiveOffCenter(leftL, leftR, bottom, top, m_projNear, m_projFar);
-		m_rightEyeProjection = dxm::Matrix::CreatePerspectiveOffCenter(rightL, rightR, bottom, top, m_projNear, m_projFar);
+		m_leftEyeProjection = dxm::Matrix::CreateTranslation(dxm::Vector3{ halfDistance, 0.0f, 0.0f }) * dxm::Matrix::CreatePerspectiveOffCenter(leftL, leftR, bottom, top, m_projNear, m_projFar);
+		m_rightEyeProjection = dxm::Matrix::CreateTranslation(dxm::Vector3{ -halfDistance, 0.0f, 0.0f }) * dxm::Matrix::CreatePerspectiveOffCenter(rightL, rightR, bottom, top, m_projNear, m_projFar);
 	}
 }
