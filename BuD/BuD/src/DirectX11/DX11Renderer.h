@@ -18,7 +18,7 @@ namespace BuD
 	class DX11Renderer : public Renderer
 	{
 	public:
-		DX11Renderer(std::shared_ptr<Win32Window> window);
+		DX11Renderer(DX11Device device, std::shared_ptr<Win32Window> window);
 
 		inline const DX11Device& Device() const { return m_device; }
 
@@ -27,16 +27,21 @@ namespace BuD
 		virtual void Begin() override;
 		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id = 0) override;
 		virtual void End() override;
+		virtual void Present();
 
 		uint32_t GetObjectFrom(int x, int y);
 
-	private:
-		void InitializeBuffers(int width, int height);
+	protected:
+		virtual void InitializeBuffers(int width, int height);
+
+		virtual void SetupEntity(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection);
+		virtual void RenderId(std::shared_ptr<Mesh> entity, uint32_t id);
 		
 		int m_width, m_height;
 
 		DX11Device m_device;
-		ComPtr<ID3D11RenderTargetView> m_backBuffer;
+		ComPtr<ID3D11Texture2D> m_mainRTVTexture;
+		ComPtr<ID3D11RenderTargetView> m_mainRTV;
 		ComPtr<ID3D11RenderTargetView> m_idTexture;
 		ComPtr<ID3D11DepthStencilView> m_depthBuffer;
 		ComPtr<ID3D11DepthStencilView> m_idDepthBuffer;

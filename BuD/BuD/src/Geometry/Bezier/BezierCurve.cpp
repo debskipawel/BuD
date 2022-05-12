@@ -61,12 +61,12 @@ namespace BuD
 		}
 	}
 	
-	RECT BezierCurve::GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height)
+	RECT BezierCurve::GetSurroundingRectangle(const dxm::Matrix& view, const dxm::Matrix& projection, UINT width, UINT height)
 	{
 		long minX = width, maxX = 0;
 		long minY = height, maxY = 0;
 
-		auto matrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+		auto matrix = view * projection;
 
 		for (auto& cp : m_controlPoints)
 		{

@@ -3,6 +3,7 @@
 #include "ApplicationInfo.h"
 #include "Camera/CameraFactory.h"
 #include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
+#include "DirectX11/DX11StereoscopicRenderer.h"
 
 #include "Event/WindowEvents.h"
 #include "Event/KeyboardEvents.h"
@@ -30,11 +31,26 @@ namespace BuD
         auto collection = std::vector<std::shared_ptr<SceneObject>>();
 
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
-        m_renderer = std::make_shared<DX11Renderer>(m_window);
-        m_camera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
+        m_device = std::make_unique<DX11Device>(m_window);
+        m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_window);
+
+        m_selectedMode = m_guiEditor->GetRenderingMode();
+
+        switch (m_selectedMode)
+        {
+            case RenderingMode::STANDARD:
+            {
+                m_renderer = std::make_shared<DX11Renderer>(*m_device, m_window);
+                break;
+            }
+            case RenderingMode::ANAGLIPH:
+            {
+                m_renderer = std::make_shared<DX11StereoscopicRenderer>(*m_device, m_window);
+                break;
+            }
+        }
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
-        m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_camera, m_window);
 
         m_pointMesh = Point::GetMesh(m_renderer->Device());
 
@@ -67,17 +83,40 @@ namespace BuD
         m_counterStart = a;
 
         HandleControls(deltaTime);
+
+        auto prevMode = m_selectedMode;
+        m_selectedMode = m_guiEditor->GetRenderingMode();
+
+        if (m_selectedMode != prevMode)
+        {
+            switch (m_selectedMode)
+            {
+                case RenderingMode::STANDARD:
+                {
+                    m_renderer = std::make_shared<DX11Renderer>(*m_device, m_window);
+                    break;
+                }
+                case RenderingMode::ANAGLIPH:
+                {
+                    m_renderer = std::make_shared<DX11StereoscopicRenderer>(*m_device, m_window);
+                    break;
+                }
+            }
+
+            m_guiLayer->UpdateRenderer(m_renderer);
+        }
     }
 
     void Application::Render()
     {
         m_renderer->Begin();
+        auto camera = m_guiEditor->GetCamera();
 
         for (auto& [id, entity] : SceneObject::GetAll())
         {
             for (uint32_t index = 0; index < entity->MeshesCount(); index++)
             {
-                m_renderer->Draw(entity->GetMesh(index), m_camera, id);
+                m_renderer->Draw(entity->GetMesh(index), camera, id);
             }
 
             auto controlPoints = entity->VirtualControlPoints();
@@ -85,17 +124,19 @@ namespace BuD
             for (auto& controlPoint : controlPoints)
             {
                 m_pointMesh->m_position = controlPoint;
-                m_renderer->Draw(m_pointMesh, m_camera);
+                m_renderer->Draw(m_pointMesh, camera);
             }
         }
 
-        m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), m_camera);
+        m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), camera);
 
         if (SceneObject::GetSelected().Count() > 0)
         {
             auto cursor = Cursor::GetCursorAt(SceneObject::GetSelected().Centroid(), m_renderer->Device());
-            m_renderer->Draw(cursor->GetMesh(), m_camera);
+            m_renderer->Draw(cursor->GetMesh(), camera);
         }
+
+        m_renderer->End();
 
         if (!m_inDebug)
         {
@@ -104,7 +145,7 @@ namespace BuD
             m_guiLayer->EndFrame();
         }
 
-        m_renderer->End();
+        m_renderer->Present();
     }
 
     void Application::OnConcreteEvent(WindowResizedEvent& e)
@@ -126,7 +167,7 @@ namespace BuD
             m_renderer->UpdateBuffersSize(e.m_width, e.m_height);
         }
 
-        m_camera->UpdateViewport(e.m_width, e.m_height);
+        m_guiEditor->GetCamera()->UpdateViewport(e.m_width, e.m_height);
     }
 
     void Application::OnConcreteEvent(WindowEnterSizeMoveEvent& e)
@@ -215,7 +256,7 @@ namespace BuD
 
             m_prevX = e.m_xPos;
             m_prevY = e.m_yPos;
-            m_prevActionPoint = m_camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), e.m_xPos, e.m_yPos);
+            m_prevActionPoint = m_guiEditor->GetCamera()->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), e.m_xPos, e.m_yPos);
 
             auto r = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
             
@@ -248,17 +289,19 @@ namespace BuD
 
     void Application::OnConcreteEvent(MouseMovedEvent& e)
     {
+        auto camera = m_guiEditor->GetCamera();
+
         m_prevX += e.m_xOffset;
         m_prevY += e.m_yOffset;
 
         if (m_cameraMoving)
         {
-            m_camera->ProcessMouseMovement(e.m_xOffset, e.m_yOffset);
+            camera->ProcessMouseMovement(e.m_xOffset, e.m_yOffset);
         }
 
         if (m_inAction)
         {
-            auto diff = m_camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
+            auto diff = camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
             
             if (diff.x != diff.x || diff.y != diff.y || diff.z != diff.z)
             {
@@ -304,6 +347,8 @@ namespace BuD
             return;
         }
 
+        auto camera = m_guiEditor->GetCamera();
+
         float dx = 0.0f, dy = 0.0f, dz = 0.0f;
 
         if (m_keyMap[BuD::KeyboardKeys::W])
@@ -338,7 +383,7 @@ namespace BuD
             dy -= 1.0f;
         }
 
-        m_camera->Move(5.0f * deltatime * Vector3{ dx, dy, dz });
+        camera->Move(5.0f * deltatime * Vector3{ dx, dy, dz });
     }
 
     void Application::OnConcreteEvent(WindowClosedEvent& e)

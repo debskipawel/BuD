@@ -14,6 +14,11 @@ namespace BuD
 		void BeginFrame();
 		void EndFrame();
 
+		void UpdateRenderer(std::shared_ptr<DX11Renderer> renderer)
+		{
+			m_renderer = renderer;
+		}
+
 	private:
 		std::shared_ptr<DX11Renderer> m_renderer;
 	};

@@ -48,14 +48,9 @@ namespace BuD
 		auto ib = std::make_shared<BuD::DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, indices.size() * sizeof(unsigned short), indices.data(), D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
 		m_mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vb, ib,
-			[](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
-				auto dist = entity->m_position - camera->Position();
-				auto scale = max(3.0f * logf(dist.Length()), 1.0f);
-
-				entity->m_scale = { scale, scale, scale };
-
-				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = entity->GetModelMatrix() * view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 			}

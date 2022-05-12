@@ -30,9 +30,9 @@ namespace BuD
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
-			[this](std::shared_ptr<AbstractCamera> camera, Mesh* entity)
+			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
-				auto matrix = entity->GetModelMatrix() * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+				auto matrix = entity->GetModelMatrix() * view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));

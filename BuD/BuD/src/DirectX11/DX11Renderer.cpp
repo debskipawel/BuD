@@ -9,8 +9,8 @@
 
 namespace BuD
 {
-	BuD::DX11Renderer::DX11Renderer(std::shared_ptr<Win32Window> window)
-		: m_device(window)
+	BuD::DX11Renderer::DX11Renderer(DX11Device device, std::shared_ptr<Win32Window> window)
+		: m_device(device)
 	{
 		auto width = window->Width();
 		auto height = window->Height();
@@ -70,7 +70,8 @@ namespace BuD
 	{
 		m_device.Context()->OMSetRenderTargets(0, nullptr, nullptr);
 
-		m_backBuffer.Reset();
+		m_mainRTVTexture.Reset();
+		m_mainRTV.Reset();
 		m_idTexture.Reset();
 		m_depthBuffer.Reset();
 		m_idDepthBuffer.Reset();
@@ -87,8 +88,7 @@ namespace BuD
 		m_width = width;
 		m_height = height;
 
-		ComPtr<ID3D11Texture2D> backTexture;
-		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backTexture.GetAddressOf());
+		m_device.SwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_mainRTVTexture.GetAddressOf());
 
 		ComPtr<ID3D11Texture2D> idTexture;
 		auto texDesc = DX11Texture2DDesc(width, height);
@@ -96,20 +96,19 @@ namespace BuD
 		texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 		auto hr = m_device->CreateTexture2D(&texDesc, nullptr, idTexture.GetAddressOf());
 
-		m_backBuffer = m_device.CreateRenderTargetView(backTexture);
+		m_mainRTV = m_device.CreateRenderTargetView(m_mainRTVTexture);
 		m_idTexture = m_device.CreateRenderTargetView(idTexture);
 		m_depthBuffer = m_device.CreateDepthStencilBuffer(width, height);
 		m_idDepthBuffer = m_device.CreateDepthStencilBuffer(width, height);
 
-		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
+		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
 
 		D3D11_TEXTURE2D_DESC backBufferDesc = { 0 };
-		backTexture->GetDesc(&backBufferDesc);
+		m_mainRTVTexture->GetDesc(&backBufferDesc);
 
 		DX11Viewport viewport{ backBufferDesc.Width, backBufferDesc.Height };
 		m_device.Context()->RSSetViewports(1, &viewport);
 
-		backTexture.Reset();
 		idTexture.Reset();
 	}
 
@@ -118,7 +117,7 @@ namespace BuD
 		FLOAT color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		FLOAT nullcolor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		
-		m_device.Context()->ClearRenderTargetView(m_backBuffer.Get(), color);
+		m_device.Context()->ClearRenderTargetView(m_mainRTV.Get(), color);
 		m_device.Context()->ClearRenderTargetView(m_idTexture.Get(), nullcolor);
 		m_device.Context()->ClearDepthStencilView(m_depthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		m_device.Context()->ClearDepthStencilView(m_idDepthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -127,7 +126,21 @@ namespace BuD
 	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id)
 	{
 		// draw to the backbuffer
-		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
+		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
+		
+		SetupEntity(entity, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+		
+		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
+
+		RenderId(entity, id);
+
+		// return to backbuffer for gui render
+		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
+	}
+
+	void DX11Renderer::SetupEntity(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection)
+	{
+		entity->UpdateConstantBuffers(view, projection);
 
 		m_device.Context()->VSSetShader(entity->m_vertexShader->Shader(), nullptr, 0);
 		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);
@@ -159,8 +172,6 @@ namespace BuD
 			m_device.Context()->GSSetShader(nullptr, nullptr, 0);
 		}
 
-		entity->UpdateConstantBuffers(camera);
-
 		ID3D11Buffer* buffers[] = { entity->m_vertexBuffer->Buffer() };
 		UINT strides[] = { entity->m_vertexBuffer->Stride() };
 		UINT offsets[] = { entity->m_vertexBuffer->Offset() };
@@ -169,15 +180,17 @@ namespace BuD
 		m_device.Context()->IASetIndexBuffer(entity->m_indexBuffer->Buffer(), entity->m_indexBuffer->Format(), 0);
 
 		m_device.Context()->RSSetState(m_noCullWireframeState.Get());
-		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
+	}
 
+	void DX11Renderer::RenderId(std::shared_ptr<Mesh> entity, uint32_t id)
+	{
 		// draw to the texture contatining id
 		m_device.Context()->OMSetRenderTargets(1, m_idTexture.GetAddressOf(), m_idDepthBuffer.Get());
 
 		// set pixel shader to something containing id as constant buffer
 		auto pixelShader = GetIdShader(m_device);
 		pixelShader->UpdateConstantBuffer(0, &id, sizeof(uint32_t));
-		
+
 		m_device.Context()->PSSetShader(pixelShader->Shader(), nullptr, 0);
 
 		if (auto count = pixelShader->ConstantBuffers().size())
@@ -188,12 +201,13 @@ namespace BuD
 
 		m_device.Context()->RSSetState(m_backCullSolidState.Get());
 		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
-
-		// return to backbuffer for gui render
-		m_device.Context()->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_depthBuffer.Get());
 	}
 
 	void DX11Renderer::End()
+	{
+	}
+
+	void DX11Renderer::Present()
 	{
 		m_device.SwapChain()->Present(0, 0);
 	}

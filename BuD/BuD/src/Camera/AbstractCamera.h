@@ -15,10 +15,19 @@ namespace BuD
 		inline dxm::Vector3 Position() const { return m_position; }
 		inline dxm::Vector3 Front() const { return m_front; }
 		inline dxm::Vector3 Up() const { return m_up; }
+		inline dxm::Vector3 WorldUp() const { return m_worldUp; }
 		inline dxm::Vector3 Right() const { return m_right; }
+
+		inline float Fov() const { return m_fov; }
+		inline float Ratio() const { return static_cast<float>(m_width) / m_height; }
+
+		virtual void DrawGui();
 
 		const dxm::Matrix& GetViewMatrix() const;
 		const dxm::Matrix& GetProjectionMatrix() const;
+
+		virtual const dxm::Matrix& GetLeftEyeProjection() const { return m_projectionMatrix; }
+		virtual const dxm::Matrix& GetRightEyeProjection() const { return m_projectionMatrix; }
 
 		void Move(const dxm::Vector3& difference);
 		void MoveTo(const dxm::Vector3& position);
@@ -27,15 +36,23 @@ namespace BuD
 
 		dxm::Vector3 MoveWorldPointToPixels(dxm::Vector3 point, int x, int y);
 
+		inline void SetFov(float fov)
+		{
+			m_fov = fov;
+
+			UpdateProjectionMatrix();
+		}
+
 		inline void UpdateViewport(uint32_t width, uint32_t height)
 		{
 			m_width = width;
 			m_height = height;
 
-			float ratio = static_cast<float>(width) / height;
+			m_projLeft = -static_cast<float>(width) / 2;
+			m_projRight = static_cast<float>(width) / 2;
 
-			m_projLeft = -ratio / 2;
-			m_projRight = ratio / 2;
+			m_projTop = static_cast<float>(height) / 2;
+			m_projBottom = -static_cast<float>(height) / 2;
 
 			UpdateProjectionMatrix();
 		}
@@ -57,10 +74,12 @@ namespace BuD
 
 		uint32_t m_width, m_height;
 
-		const float m_projFar = 100.0f;
-		const float m_projNear = 0.01f;
+		float m_fov = 90.0f;
+
+		float m_projFar = 100.0f;
+		float m_projNear = 10.0f;
 		float m_projTop = 1.0f;
-		float m_projBottom = 0.0f;
+		float m_projBottom = -1.0f;
 		float m_projLeft = -1.0f;
 		float m_projRight = 1.0f;
 

@@ -45,7 +45,9 @@ namespace BuD
 
 		static std::shared_ptr<Application> s_app;
 
-		std::shared_ptr<AbstractCamera> m_camera;
+		RenderingMode m_selectedMode;
+
+		std::unique_ptr<DX11Device> m_device;
 		std::shared_ptr<DX11Renderer> m_renderer;
 		std::shared_ptr<Win32Window> m_window;
 

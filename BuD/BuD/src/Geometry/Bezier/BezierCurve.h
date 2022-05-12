@@ -40,7 +40,7 @@ namespace BuD
 
 		virtual void FilterControlPoints();
 		virtual void UpdateCentroid();
-		virtual RECT GetSurroundingRectangle(std::shared_ptr<AbstractCamera> camera, UINT width, UINT height);
+		virtual RECT GetSurroundingRectangle(const dxm::Matrix& view, const dxm::Matrix& projection, UINT width, UINT height);
 
 		virtual bool DrawGuiForAddingControlPoints();
 		virtual bool DrawGuiForEditingControlPoints();

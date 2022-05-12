@@ -10,13 +10,6 @@ namespace BuD
 
 	void BuD::PerspectiveCamera::UpdateProjectionMatrix()
 	{
-		dx::XMFLOAT4X4 projectionMatrix;
-
-		dx::XMStoreFloat4x4(
-			&projectionMatrix,
-			dx::XMMatrixPerspectiveFovRH(dx::XMConvertToRadians(90.0f), (m_projRight - m_projLeft) / (m_projTop - m_projBottom), m_projNear, m_projFar)
-		);
-
-		m_projectionMatrix = dxm::Matrix(projectionMatrix);
+		m_projectionMatrix = dxm::Matrix::CreatePerspectiveFieldOfView(dx::XMConvertToRadians(m_fov), (m_projRight - m_projLeft) / (m_projTop - m_projBottom), m_projNear, m_projFar);
 	}
 }

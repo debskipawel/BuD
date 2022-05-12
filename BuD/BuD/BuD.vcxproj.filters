@@ -126,6 +126,12 @@
     <ClCompile Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera\StereoscopicCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectX11\DX11StereoscopicRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -269,6 +275,15 @@
     <ClInclude Include="src\Geometry\Bezier\InterpolatedBezierCurveC2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Camera\StereoscopicCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectX11\DX11StereoscopicRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\RenderingMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\pos_normal_vs.hlsl" />
@@ -283,5 +298,7 @@
     <FxCompile Include="shaders\solid_light_blue_ps.hlsl" />
     <FxCompile Include="shaders\interpolated_bezier_c2_gs.hlsl" />
     <FxCompile Include="shaders\interpolated_bezier_c2_vs.hlsl" />
+    <FxCompile Include="shaders\f2_to_f4_no_transf_vs.hlsl" />
+    <FxCompile Include="shaders\two_tex_blend_ps.hlsl" />
   </ItemGroup>
 </Project>
