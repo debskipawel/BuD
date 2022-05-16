@@ -48,7 +48,6 @@ namespace BuD
         }
 
         m_guiLayer = std::make_unique<GuiLayer>(m_renderer, m_window);
-
         m_pointMesh = Point::GetMesh(m_renderer->Device());
 
         QueryPerformanceCounter(&m_counterStart);
@@ -84,6 +83,7 @@ namespace BuD
         auto prevMode = m_selectedMode;
         m_selectedMode = m_guiEditor->GetRenderingMode();
 
+        // TODO: make it smarter
         if (m_selectedMode != prevMode)
         {
             switch (m_selectedMode)

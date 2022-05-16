@@ -123,44 +123,49 @@ namespace BuD
 		m_device.Context()->ClearDepthStencilView(m_idDepthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
-	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id)
+	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> mesh, std::shared_ptr<AbstractCamera> camera, uint32_t id)
 	{
 		// draw to the backbuffer
 		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
 		
-		SetupEntity(entity, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+		SetupMesh(mesh, camera->GetViewMatrix(), camera->GetProjectionMatrix());
 		
-		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
+		while (!mesh->Finished())
+		{
+			mesh->OnRunUpdate();
+			m_device.Context()->DrawIndexed(mesh->m_indexBuffer->Count(), 0, 0);
+		}
 
-		RenderId(entity, id);
+		SetupMesh(mesh, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+		RenderId(mesh, id);
 
 		// return to backbuffer for gui render
 		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
 	}
 
-	void DX11Renderer::SetupEntity(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection)
+	void DX11Renderer::SetupMesh(std::shared_ptr<Mesh> mesh, const dxm::Matrix& view, const dxm::Matrix& projection)
 	{
-		entity->UpdateConstantBuffers(view, projection);
+		mesh->OnStartRendering(view, projection);
 
-		m_device.Context()->VSSetShader(entity->m_vertexShader->Shader(), nullptr, 0);
-		m_device.Context()->PSSetShader(entity->m_pixelShader->Shader(), nullptr, 0);
+		m_device.Context()->VSSetShader(mesh->m_vertexShader->Shader(), nullptr, 0);
+		m_device.Context()->PSSetShader(mesh->m_pixelShader->Shader(), nullptr, 0);
 
-		m_device.Context()->IASetInputLayout(entity->m_vertexShader->GetLayout());
-		m_device.Context()->IASetPrimitiveTopology(entity->IndexBuffer()->Topology());
+		m_device.Context()->IASetInputLayout(mesh->m_vertexShader->GetLayout());
+		m_device.Context()->IASetPrimitiveTopology(mesh->IndexBuffer()->Topology());
 
-		if (auto count = entity->m_vertexShader->ConstantBuffers().size())
+		if (auto count = mesh->m_vertexShader->ConstantBuffers().size())
 		{
-			auto rawBuffers = entity->m_vertexShader->RawConstantBuffers();
+			auto rawBuffers = mesh->m_vertexShader->RawConstantBuffers();
 			m_device.Context()->VSSetConstantBuffers(0, count, rawBuffers);
 		}
 
-		if (auto count = entity->m_pixelShader->ConstantBuffers().size())
+		if (auto count = mesh->m_pixelShader->ConstantBuffers().size())
 		{
-			auto rawBuffers = entity->m_pixelShader->RawConstantBuffers();
+			auto rawBuffers = mesh->m_pixelShader->RawConstantBuffers();
 			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
 		}
 
-		if (auto& gs = entity->m_geometryShader)
+		if (auto& gs = mesh->m_geometryShader)
 		{
 			m_device.Context()->GSSetShader(gs->Shader(), nullptr, 0);
 
@@ -172,17 +177,17 @@ namespace BuD
 			m_device.Context()->GSSetShader(nullptr, nullptr, 0);
 		}
 
-		ID3D11Buffer* buffers[] = { entity->m_vertexBuffer->Buffer() };
-		UINT strides[] = { entity->m_vertexBuffer->Stride() };
-		UINT offsets[] = { entity->m_vertexBuffer->Offset() };
+		ID3D11Buffer* buffers[] = { mesh->m_vertexBuffer->Buffer() };
+		UINT strides[] = { mesh->m_vertexBuffer->Stride() };
+		UINT offsets[] = { mesh->m_vertexBuffer->Offset() };
 
 		m_device.Context()->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-		m_device.Context()->IASetIndexBuffer(entity->m_indexBuffer->Buffer(), entity->m_indexBuffer->Format(), 0);
+		m_device.Context()->IASetIndexBuffer(mesh->m_indexBuffer->Buffer(), mesh->m_indexBuffer->Format(), 0);
 
 		m_device.Context()->RSSetState(m_noCullWireframeState.Get());
 	}
 
-	void DX11Renderer::RenderId(std::shared_ptr<Mesh> entity, uint32_t id)
+	void DX11Renderer::RenderId(std::shared_ptr<Mesh> mesh, uint32_t id)
 	{
 		// draw to the texture contatining id
 		m_device.Context()->OMSetRenderTargets(1, m_idTexture.GetAddressOf(), m_idDepthBuffer.Get());
@@ -200,7 +205,12 @@ namespace BuD
 		}
 
 		m_device.Context()->RSSetState(m_backCullSolidState.Get());
-		m_device.Context()->DrawIndexed(entity->m_indexBuffer->Count(), 0, 0);
+		
+		while (!mesh->Finished())
+		{
+			mesh->OnRunUpdate();
+			m_device.Context()->DrawIndexed(mesh->m_indexBuffer->Count(), 0, 0);
+		}
 	}
 
 	void DX11Renderer::End()

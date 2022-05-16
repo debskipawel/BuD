@@ -26,7 +26,7 @@ namespace BuD
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
+		auto mesh = std::make_shared<Mesh>(vertexShader, geometryShader, pixelShader, vertexBuffer, indexBuffer,
 			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = view * projection;
@@ -47,8 +47,6 @@ namespace BuD
 				entity->GeometryShader()->UpdateConstantBuffer(0, &resource, sizeof(GSResource));
 			}
 		);
-
-		mesh->SetGS(geometryShader);
 
 		m_meshes.push_back(mesh);
 

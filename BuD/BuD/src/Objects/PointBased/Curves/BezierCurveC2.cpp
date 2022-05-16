@@ -29,7 +29,7 @@ namespace BuD
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
 		auto polygonIndexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
+		auto mesh = std::make_shared<Mesh>(vertexShader, geometryShader, pixelShader, vertexBuffer, indexBuffer,
 			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = view * projection;
@@ -51,7 +51,7 @@ namespace BuD
 			}
 		);
 
-		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, deBoorPixelShader, vertexBuffer, polygonIndexBuffer,
+		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, deBoorPixelShader, vertexBuffer, polygonIndexBuffer,
 			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = view * projection;

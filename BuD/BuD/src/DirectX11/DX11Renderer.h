@@ -34,7 +34,7 @@ namespace BuD
 	protected:
 		virtual void InitializeBuffers(int width, int height);
 
-		virtual void SetupEntity(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection);
+		virtual void SetupMesh(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection);
 		virtual void RenderId(std::shared_ptr<Mesh> entity, uint32_t id);
 		
 		int m_width, m_height;

@@ -94,19 +94,29 @@ namespace BuD
 	void DX11StereoscopicRenderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id)
 	{
 		// render left eye
-		SetupEntity(entity, camera->GetViewMatrix(), camera->GetLeftEyeProjection());
-
+		SetupMesh(entity, camera->GetViewMatrix(), camera->GetLeftEyeProjection());
 		m_device.Context()->OMSetRenderTargets(1, m_leftEyeRTV.GetAddressOf(), nullptr);
-		m_device.Context()->DrawIndexed(entity->IndexBuffer()->Count(), 0, 0);
 
+		while (!entity->Finished())
+		{
+			entity->OnRunUpdate();
+			m_device.Context()->DrawIndexed(entity->IndexBuffer()->Count(), 0, 0);
+		}
+
+		SetupMesh(entity, camera->GetViewMatrix(), camera->GetLeftEyeProjection());
 		RenderId(entity, id);
 
 		// render right eye
-		SetupEntity(entity, camera->GetViewMatrix(), camera->GetRightEyeProjection());
-
+		SetupMesh(entity, camera->GetViewMatrix(), camera->GetRightEyeProjection());
 		m_device.Context()->OMSetRenderTargets(1, m_rightEyeRTV.GetAddressOf(), nullptr);
-		m_device.Context()->DrawIndexed(entity->IndexBuffer()->Count(), 0, 0);
 
+		while (!entity->Finished())
+		{
+			entity->OnRunUpdate();
+			m_device.Context()->DrawIndexed(entity->IndexBuffer()->Count(), 0, 0);
+		}
+
+		SetupMesh(entity, camera->GetViewMatrix(), camera->GetLeftEyeProjection());
 		RenderId(entity, id);
 
 		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
