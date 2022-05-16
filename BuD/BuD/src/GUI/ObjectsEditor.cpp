@@ -44,6 +44,10 @@ namespace BuD
 		m_beginRotation = { 0.0f, 0.0f, 0.0f };
 		m_beginScale = { 1.0f, 1.0f, 1.0f };
 	}
+
+	static float patchWidth, patchLength;
+	static int samplesU, samplesV, patchesU, patchesV;
+	static Vector3 patchPosition;
 	
 	void ObjectsEditor::DrawMainSettings(const DX11Device& device)
 	{
@@ -115,6 +119,59 @@ namespace BuD
 					pointBased->AddControlPoint(point.get());
 				}
 			}
+		}
+
+		if (ImGui::Button("Add C0 surface"))
+		{
+			patchWidth = patchLength = 1.0f;
+			samplesU = samplesV = 3;
+			patchesU = patchesV = 1;
+			patchPosition = m_cursorPosition;
+
+			ImGui::OpenPopup("new_surface");
+		}
+
+		if (ImGui::BeginPopupModal("new_surface"))
+		{
+			// TODO: gui for surface
+			ImGui::Text("Patches size:");
+			ImGui::DragFloat("width ##patchWidth", &patchWidth, 0.01f);
+			ImGui::DragFloat("length ##patchLength", &patchLength, 0.01f);
+
+			ImGui::Separator();
+
+			ImGui::Text("Sample count");
+			ImGui::DragInt("u ##uSamples", &samplesU, 1.0f, 1, 50);
+			ImGui::DragInt("v ##vSamples", &samplesV, 1.0f, 1, 50);
+
+			ImGui::Separator();
+
+			ImGui::Text("Patch count");
+			ImGui::DragInt("u ##uPatches", &patchesU, 1.0f, 1, 10);
+			ImGui::DragInt("v ##vPatches", &patchesV, 1.0f, 1, 10);
+
+			ImGui::Separator();
+
+			ImGui::Text("Position");
+			ImGui::DragFloat("X ##patchPosx", &patchPosition.x, 0.1f);
+			ImGui::DragFloat("Y ##patchPosy", &patchPosition.y, 0.1f);
+			ImGui::DragFloat("Z ##patchPosz", &patchPosition.z, 0.1f);
+
+			if (ImGui::Button("Add"))
+			{
+				m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV);
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
 		}
 		
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

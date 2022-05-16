@@ -8,6 +8,9 @@
 #include <Objects/PointBased/Curves/BezierCurveC2.h>
 #include <Objects/PointBased/Curves/InterpolatedCurveC2.h>
 
+#include <Objects/PointBased/Surfaces/BezierPatchC0.h>
+#include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
+
 #include <imgui.h>
 
 namespace BuD
@@ -213,6 +216,25 @@ namespace BuD
 		ImGui::Text("Draw Bezier polygon:");
 		ImGui::SameLine();
 		ImGui::Checkbox("##bp", &curve.m_drawPolygon);
+	}
+
+	void GuiDrawer::Action(BezierPatchC0& patch)
+	{
+	}
+
+	void GuiDrawer::Action(BezierSurfaceC0& surface)
+	{
+		auto prevShowPolygon = surface.m_showBezierPolygon;
+
+		ImGui::Checkbox("Show polygon", &surface.m_showBezierPolygon);
+
+		if (prevShowPolygon != surface.m_showBezierPolygon)
+		{
+			for (auto& patch : surface.m_patches)
+			{
+				patch->ToggleBezierPolygon(surface.m_showBezierPolygon);
+			}
+		}
 	}
 
 	bool GuiDrawer::DrawGui(BezierCurve& curve)
