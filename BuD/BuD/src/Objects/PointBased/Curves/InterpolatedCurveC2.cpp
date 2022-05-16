@@ -1,8 +1,8 @@
-#include "InterpolatedBezierCurveC2.h"
+#include "InterpolatedCurveC2.h"
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
-#include <algorithm>
+#include <Objects/Independent/Point.h>
 
 namespace BuD
 {
@@ -14,7 +14,7 @@ namespace BuD
 		},
 	};
 
-	InterpolatedBezierCurveC2::InterpolatedBezierCurveC2(const DX11Device& device, std::vector<SceneObject*> controlPoints)
+	InterpolatedCurveC2::InterpolatedCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints)
 		: BezierCurve(controlPoints)
 	{
 		m_tag = "Interpolated Bezier C2";
@@ -29,23 +29,6 @@ namespace BuD
 		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
-				FilterControlPoints();
-				UpdateCentroid();
-				CalculateSplineParameters();
-
-				size_t controlPointsCount = m_controlPoints.size();
-
-				std::vector<unsigned short> indices;
-				indices.reserve(controlPointsCount);
-
-				for (int i = 0; i < m_splineParameters.size() * 4; i++)
-				{
-					indices.push_back(i);
-				}
-
-				entity->VertexBuffer()->Update(m_splineParameters.data(), m_splineParameters.size() * sizeof(Vector3[4]));
-				entity->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
-
 				auto matrix = view * projection;
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
@@ -68,9 +51,98 @@ namespace BuD
 		mesh->SetGS(geometryShader);
 
 		m_meshes.push_back(mesh);
+
+		OnUpdate();
 	}
 
-	std::vector<Vector3> InterpolatedBezierCurveC2::SolveTridiagonal()
+	void InterpolatedCurveC2::Accept(AbstractVisitor& visitor)
+	{
+		visitor.Action(*this);
+	}
+
+	void InterpolatedCurveC2::OnUpdate()
+	{
+		auto cpCount = m_controlPoints.size();
+		auto n = cpCount - 1;
+
+		if (cpCount < 2)
+		{
+			return;
+		}
+
+		// nie jestem z tego dumny, ale dziala
+		if (cpCount == 2)
+		{
+			m_splineParameters.resize(1);
+
+			auto p1 = m_controlPoints[0]->Position();
+			auto p2 = m_controlPoints[1]->Position();
+
+			m_splineParameters[0][0] = p1;
+			m_splineParameters[0][1] = p1;
+			m_splineParameters[0][2] = p2;
+			m_splineParameters[0][3] = p2;
+
+			// TODO: update the buffers
+			return;
+		}
+
+		m_distances.resize(n + 1);
+
+		for (int i = 0; i < n; i++)
+		{
+			auto dist = (m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()).Length();
+			m_distances[i] = abs(dist) > 0.001f ? dist : 1.0f;
+		}
+
+		m_distances[n] = 1.0f;
+
+		auto cParams = SolveTridiagonal();
+
+		m_splineParameters.clear();
+		m_splineParameters.resize(n + 1);
+
+		for (int i = 0; i < n; i++)
+		{
+			m_splineParameters[i][0] = m_controlPoints[i]->Position();
+			m_splineParameters[i][2] = cParams[i];
+		}
+
+		m_splineParameters[n][0] = m_controlPoints[n]->Position();
+
+		for (int i = 1; i < n; i++)
+		{
+			m_splineParameters[i - 1][3] = (m_splineParameters[i][2] - m_splineParameters[i - 1][2]) / (3.0f * m_distances[i - 1]);
+		}
+
+		for (int i = 1; i < n; i++)
+		{
+			m_splineParameters[i - 1][1] = (m_splineParameters[i][0] - m_splineParameters[i - 1][0] - m_splineParameters[i - 1][2] * powf(m_distances[i - 1], 2.0f) - m_splineParameters[i - 1][3] * powf(m_distances[i - 1], 3.0f)) / m_distances[i - 1];
+		}
+
+		if (n > 1)
+		{
+			m_splineParameters[n - 1][1] = m_splineParameters[n - 2][1] + 2.0f * m_splineParameters[n - 2][2] * m_distances[n - 2] + 3.0f * m_splineParameters[n - 2][3] * powf(m_distances[n - 2], 2.0f);
+			m_splineParameters[n - 1][3] = (m_splineParameters[n][0] - m_splineParameters[n - 1][0] - m_splineParameters[n - 1][1] * m_distances[n - 1] - m_splineParameters[n - 1][2] * powf(m_distances[n - 1], 2.0f)) / powf(m_distances[n - 1], 3.0f);
+		}
+
+		TransformPowerToBernstein();
+
+		size_t controlPointsCount = m_controlPoints.size();
+
+		std::vector<unsigned short> indices;
+		indices.reserve(controlPointsCount);
+
+		for (int i = 0; i < m_splineParameters.size() * 4; i++)
+		{
+			indices.push_back(i);
+		}
+
+		m_meshes[0]->VertexBuffer()->Update(m_splineParameters.data(), m_splineParameters.size() * sizeof(Vector3[4]));
+		m_meshes[0]->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
+	}
+
+	std::vector<Vector3> InterpolatedCurveC2::SolveTridiagonal()
 	{
 		uint32_t cpCount = m_controlPoints.size();
 		uint32_t eqCount = cpCount - 2;
@@ -123,103 +195,7 @@ namespace BuD
 		return cParams;
 	}
 
-	void InterpolatedBezierCurveC2::CalculateSplineParameters()
-	{
-		auto cpCount = m_controlPoints.size();
-		auto n = cpCount - 1;
-
-		if (cpCount < 2)
-		{
-			return;
-		}
-
-		// nie jestem z tego dumny, ale dziala
-		if (cpCount == 2)
-		{
-			m_splineParameters.resize(1);
-
-			auto p1 = m_controlPoints[0]->Position();
-			auto p2 = m_controlPoints[1]->Position();
-
-			m_splineParameters[0][0] = p1;
-			m_splineParameters[0][1] = p1;
-			m_splineParameters[0][2] = p2;
-			m_splineParameters[0][3] = p2;
-
-			return;
-		}
-
-		m_distances.resize(n + 1);
-
-		for (int i = 0; i < n; i++)
-		{
-			auto dist = (m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()).Length();
-			m_distances[i] = abs(dist) > 0.001f ? dist : 1.0f;
-		}
-
-		m_distances[n] = 1.0f;
-
-		auto cParams = SolveTridiagonal();
-
-		m_splineParameters.clear();
-		m_splineParameters.resize(n + 1);
-
-		for (int i = 0; i < n; i++)
-		{
-			m_splineParameters[i][0] = m_controlPoints[i]->Position();
-			m_splineParameters[i][2] = cParams[i];
-		}
-
-		m_splineParameters[n][0] = m_controlPoints[n]->Position();
-
-		for (int i = 1; i < n; i++)
-		{
-			m_splineParameters[i - 1][3] = (m_splineParameters[i][2] - m_splineParameters[i - 1][2]) / (3.0f * m_distances[i - 1]);
-		}
-
-		for (int i = 1; i < n; i++)
-		{
-			m_splineParameters[i - 1][1] = (m_splineParameters[i][0] - m_splineParameters[i - 1][0] - m_splineParameters[i - 1][2] * powf(m_distances[i - 1], 2.0f) - m_splineParameters[i - 1][3] * powf(m_distances[i - 1], 3.0f)) / m_distances[i - 1];
-		}
-
-		if (n > 1)
-		{
-			m_splineParameters[n - 1][1] = m_splineParameters[n - 2][1] + 2.0f * m_splineParameters[n - 2][2] * m_distances[n - 2] + 3.0f * m_splineParameters[n - 2][3] * powf(m_distances[n - 2], 2.0f);
-			m_splineParameters[n - 1][3] = (m_splineParameters[n][0] - m_splineParameters[n - 1][0] - m_splineParameters[n - 1][1] * m_distances[n - 1] - m_splineParameters[n - 1][2] * powf(m_distances[n - 1], 2.0f)) / powf(m_distances[n - 1], 3.0f);
-		}
-
-		TransformPowerToBernstein();
-	}
-
-	RECT InterpolatedBezierCurveC2::GetSurroundingRectangle(const dxm::Matrix& view, const dxm::Matrix& projection, UINT width, UINT height)
-	{
-		long minX = width, maxX = 0;
-		long minY = height, maxY = 0;
-
-		auto matrix = view * projection;
-
-		for (auto& cp : m_splineParameters)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				auto trPosition = Vector4{ cp[i].x, cp[i].y, cp[i].z, 1.0f};
-				trPosition = Vector4::Transform(trPosition, matrix);
-				trPosition /= trPosition.w;
-
-				long xPos = width * (std::clamp(trPosition.x, -1.0f, 1.0f) + 1.0f) / 2.0f;
-				long yPos = height * (std::clamp(trPosition.y, -1.0f, 1.0f) + 1.0f) / 2.0f;
-
-				maxX = max(xPos, maxX);
-				minX = min(xPos, minX);
-				maxY = max(yPos, maxY);
-				minY = min(yPos, minY);
-			}
-		}
-
-		return { minX, minY, maxX, maxY };
-	}
-
-	void InterpolatedBezierCurveC2::TransformPowerToBernstein()
+	void InterpolatedCurveC2::TransformPowerToBernstein()
 	{
 		for (int i = 0; i < m_splineParameters.size(); i++)
 		{
@@ -249,12 +225,12 @@ namespace BuD
 			parameter[1].x = v1.y;
 			parameter[2].x = v1.z;
 			parameter[3].x = v1.w;
-			
+
 			parameter[0].y = v2.x;
 			parameter[1].y = v2.y;
 			parameter[2].y = v2.z;
 			parameter[3].y = v2.w;
-			
+
 			parameter[0].z = v3.x;
 			parameter[1].z = v3.y;
 			parameter[2].z = v3.z;
@@ -262,16 +238,11 @@ namespace BuD
 		}
 	}
 
-	Vector3 InterpolatedBezierCurveC2::EquationResult(int i)
+	Vector3 InterpolatedCurveC2::EquationResult(int i)
 	{
 		return 3.0f / (m_distances[i] + m_distances[i + 1]) * (
 			(m_controlPoints[i + 2]->Position() - m_controlPoints[i + 1]->Position()) / m_distances[i + 1] -
 			(m_controlPoints[i + 1]->Position() - m_controlPoints[i]->Position()) / m_distances[i]
 		);
-	}
-
-	GeometryType InterpolatedBezierCurveC2::GetType()
-	{
-		return GeometryType::BEZIER_C2;
 	}
 }

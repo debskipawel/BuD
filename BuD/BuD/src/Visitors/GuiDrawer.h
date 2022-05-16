@@ -1,0 +1,27 @@
+#pragma once
+
+#include "AbstractVisitor.h"
+
+#include <Objects/Scene.h>
+
+namespace BuD
+{
+	class BezierCurve;
+
+	class GuiDrawer : public AbstractVisitor
+	{
+	public:
+		GuiDrawer(Scene& scene);
+
+		virtual void Action(Point& point) override;
+		virtual void Action(Torus& torus) override;
+		virtual void Action(BezierCurveC0& curve) override;
+		virtual void Action(BezierCurveC2& curve) override;
+		virtual void Action(InterpolatedCurveC2& curve) override;
+
+	protected:
+		virtual bool DrawGui(BezierCurve& curve);
+
+		Scene& m_scene;
+	};
+}

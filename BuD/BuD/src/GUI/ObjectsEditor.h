@@ -3,7 +3,10 @@
 #include <SimpleMath.h>
 
 #include "Core/RenderingMode.h"
-#include "Geometry/SceneObject.h"
+
+#include <Objects/Scene.h>
+
+#include <Visitors/GuiDrawer.h>
 
 using namespace DirectX::SimpleMath;
 
@@ -12,7 +15,7 @@ namespace BuD
 	class ObjectsEditor
 	{
 	public:
-		ObjectsEditor(std::vector<std::shared_ptr<SceneObject>>& objects, std::shared_ptr<Win32Window> window);
+		ObjectsEditor(Scene& scene, std::shared_ptr<Win32Window> window);
 
 		std::shared_ptr<AbstractCamera> GetCamera();
 
@@ -36,7 +39,10 @@ namespace BuD
 		std::shared_ptr<Win32Window> m_window;
 
 		SceneObject* m_selectedObject = nullptr;
-		std::vector<std::shared_ptr<SceneObject>>& m_objects;
+		
+		Scene& m_scene;
+		GuiDrawer m_guiDrawer;
+		
 		Vector3 m_cursorPosition;
 
 		Vector3 m_beginPosition = { 0.0f, 0.0f, 0.0f };

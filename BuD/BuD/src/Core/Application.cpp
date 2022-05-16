@@ -9,9 +9,8 @@
 #include "Event/KeyboardEvents.h"
 #include "Event/MouseEvents.h"
 
-#include "Geometry/SceneObject.h"
-#include "Geometry/Point.h"
-#include "Geometry/ObjectsCollection.h"
+#include <Objects/Abstract/PointBasedObject.h>
+#include <Objects/SceneObjectGroup.h>
 
 #include "Scene/Cursor.h"
 #include "Win32/Win32Window.h"
@@ -28,11 +27,9 @@ namespace BuD
 
 	int Application::Run(HINSTANCE hInstance)
 	{
-        auto collection = std::vector<std::shared_ptr<SceneObject>>();
-
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_device = std::make_unique<DX11Device>(m_window);
-        m_guiEditor = std::make_unique<ObjectsEditor>(collection, m_window);
+        m_guiEditor = std::make_unique<ObjectsEditor>(m_scene, m_window);
 
         m_selectedMode = m_guiEditor->GetRenderingMode();
 
@@ -112,27 +109,34 @@ namespace BuD
         m_renderer->Begin();
         auto camera = m_guiEditor->GetCamera();
 
-        for (auto& [id, entity] : SceneObject::GetAll())
+        auto sceneObjects = m_scene.GetAllSceneObjects();
+
+        for (auto& [id, object] : sceneObjects)
         {
-            for (uint32_t index = 0; index < entity->MeshesCount(); index++)
+            for (uint32_t index = 0; index < object->MeshesCount(); index++)
             {
-                m_renderer->Draw(entity->GetMesh(index), camera, id);
+                m_renderer->Draw(object->GetMesh(index), camera, id);
             }
 
-            auto controlPoints = entity->VirtualControlPoints();
-
-            for (auto& controlPoint : controlPoints)
+            if ((object->GetType() & ObjectType::POINT_BASED) != ObjectType::NONE)
             {
-                m_pointMesh->m_position = controlPoint;
-                m_renderer->Draw(m_pointMesh, camera);
+                auto controlPoints = reinterpret_cast<PointBasedObject*>(object.get())->GetVirtualPoints();
+
+                for (auto& controlPoint : controlPoints)
+                {
+                    m_pointMesh->m_position = controlPoint;
+                    m_renderer->Draw(m_pointMesh, camera);
+                }
             }
         }
 
         m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), camera);
 
-        if (SceneObject::GetSelected().Count() > 0)
+        auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+
+        if (selected.Count() > 0)
         {
-            auto cursor = Cursor::GetCursorAt(SceneObject::GetSelected().Centroid(), m_renderer->Device());
+            auto cursor = Cursor::GetCursorAt(selected.Centroid(), m_renderer->Device());
             m_renderer->Draw(cursor->GetMesh(), camera);
         }
 
@@ -190,28 +194,22 @@ namespace BuD
         {
             case KeyboardKeys::Delete:
             {
-                auto& objects = SceneObject::GetSelected().Objects();
-                std::vector<uint32_t> selectedIds(objects.size());
+                auto objects = m_scene.GetAllSelected();
 
-                std::transform(objects.begin(), objects.end(), selectedIds.begin(), [](SceneObject* obj) { return obj->Id(); });
-
-                for (auto id : selectedIds)
+                for (auto& [id, obj] : objects)
                 {
-                    SceneObject::DeleteObject(id);
+                    m_scene.RemoveSceneObject(id);
                 }
 
                 break;
             }
             case KeyboardKeys::Escape:
             {
-                auto& objects = SceneObject::GetSelected().Objects();
-                std::vector<uint32_t> selectedIds(objects.size());
+                auto objects = m_scene.GetAllSelected();
 
-                std::transform(objects.begin(), objects.end(), selectedIds.begin(), [](SceneObject* obj) { return obj->Id(); });
-
-                for (auto id : selectedIds)
+                for (auto& [id, obj] : objects)
                 {
-                    SceneObject::Get(id)->Unselect();
+                    obj->OnUnselect();
                 }
 
                 break;
@@ -252,19 +250,21 @@ namespace BuD
         }
         else if (e.m_button == MouseCode::LEFT)
         {
+            auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+
             m_inAction = true;
 
             m_prevX = e.m_xPos;
             m_prevY = e.m_yPos;
-            m_prevActionPoint = m_guiEditor->GetCamera()->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), e.m_xPos, e.m_yPos);
+            m_prevActionPoint = m_guiEditor->GetCamera()->MoveWorldPointToPixels(selected.Centroid(), e.m_xPos, e.m_yPos);
 
-            auto r = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
+            auto id = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
             
-            auto object = SceneObject::Get(r);
+            auto object = m_scene.GetSceneObject(id);
 
             if (object)
             {
-                object->IsSelected() ? object->Unselect() : object->Select();
+                object->Selected() ? object->OnUnselect() : object->OnSelect();
 
                 m_guiEditor->SelectionChanged();
             }
@@ -301,7 +301,9 @@ namespace BuD
 
         if (m_inAction)
         {
-            auto diff = camera->MoveWorldPointToPixels(SceneObject::GetSelected().Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
+            auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+
+            auto diff = camera->MoveWorldPointToPixels(selected.Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
             
             if (diff.x != diff.x || diff.y != diff.y || diff.z != diff.z)
             {
@@ -312,17 +314,17 @@ namespace BuD
             {
                 case InteractionMode::ROTATION:
                 {
-                    SceneObject::GetSelected().RotateAroundCentroid(diff * 5.0f);
+                    selected.RotateAroundCentroid(diff * 5.0f);
                     break;
                 }
                 case InteractionMode::SCALE:
                 {
-                    SceneObject::GetSelected().ScaleAroundCentroid(diff * 0.5f + Vector3(1.0f, 1.0f, 1.0f));
+                    selected.ScaleAroundCentroid(diff * 0.5f + Vector3(1.0f, 1.0f, 1.0f));
                     break;
                 }
                 case InteractionMode::TRANSLATION:
                 {
-                    SceneObject::GetSelected().MoveAll(diff);
+                    selected.MoveAll(diff);
                     break;
                 }
                 default:

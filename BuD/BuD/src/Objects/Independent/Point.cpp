@@ -1,45 +1,40 @@
 #include "Point.h"
 
-#include "DirectX11/Shaders/Loader/DX11ShaderLoader.h"
-
-#include <imgui.h>
+#include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
 namespace BuD
 {
-	std::shared_ptr<BuD::DX11VertexBuffer> Point::s_vertexBuffer = nullptr;
-	std::shared_ptr<BuD::DX11IndexBuffer> Point::s_indexBuffer = nullptr;
-	
 	static std::vector<Vector3> vertices =
 	{
-		{ -0.03f, -0.03f, -0.03f }, 
-		{ +0.03f, -0.03f, -0.03f }, 
-		{ +0.03f, +0.03f, -0.03f }, 
-		{ -0.03f, +0.03f, -0.03f }, 
-			 		 		 
-		{ -0.03f, -0.03f, +0.03f }, 
-		{ +0.03f, +0.03f, +0.03f }, 
-		{ +0.03f, -0.03f, +0.03f }, 
-		{ -0.03f, +0.03f, +0.03f }, 
-			 		 		 
-		{ -0.03f, -0.03f, -0.03f }, 
-		{ -0.03f, +0.03f, -0.03f }, 
-		{ -0.03f, -0.03f, +0.03f }, 
-		{ -0.03f, +0.03f, +0.03f }, 
-			 		 		 
-		{ +0.03f, -0.03f, -0.03f }, 
-		{ +0.03f, +0.03f, -0.03f }, 
-		{ +0.03f, -0.03f, +0.03f }, 
-		{ +0.03f, +0.03f, +0.03f }, 
-			 		 		 
-		{ +0.03f, +0.03f, -0.03f }, 
-		{ +0.03f, +0.03f, +0.03f }, 
-		{ -0.03f, +0.03f, -0.03f }, 
-		{ -0.03f, +0.03f, +0.03f }, 
-			 		 		 
-		{ +0.03f, -0.03f, -0.03f }, 
-		{ +0.03f, -0.03f, +0.03f }, 
-		{ -0.03f, -0.03f, -0.03f }, 
-		{ -0.03f, -0.03f, +0.03f }, 
+		{ -0.03f, -0.03f, -0.03f },
+		{ +0.03f, -0.03f, -0.03f },
+		{ +0.03f, +0.03f, -0.03f },
+		{ -0.03f, +0.03f, -0.03f },
+
+		{ -0.03f, -0.03f, +0.03f },
+		{ +0.03f, +0.03f, +0.03f },
+		{ +0.03f, -0.03f, +0.03f },
+		{ -0.03f, +0.03f, +0.03f },
+
+		{ -0.03f, -0.03f, -0.03f },
+		{ -0.03f, +0.03f, -0.03f },
+		{ -0.03f, -0.03f, +0.03f },
+		{ -0.03f, +0.03f, +0.03f },
+
+		{ +0.03f, -0.03f, -0.03f },
+		{ +0.03f, +0.03f, -0.03f },
+		{ +0.03f, -0.03f, +0.03f },
+		{ +0.03f, +0.03f, +0.03f },
+
+		{ +0.03f, +0.03f, -0.03f },
+		{ +0.03f, +0.03f, +0.03f },
+		{ -0.03f, +0.03f, -0.03f },
+		{ -0.03f, +0.03f, +0.03f },
+
+		{ +0.03f, -0.03f, -0.03f },
+		{ +0.03f, -0.03f, +0.03f },
+		{ -0.03f, -0.03f, -0.03f },
+		{ -0.03f, -0.03f, +0.03f },
 	};
 
 	static std::vector<unsigned short> indices =
@@ -60,8 +55,7 @@ namespace BuD
 		}
 	};
 
-	Point::Point(Vector3 position, const DX11Device& device)
-		: SceneObject()
+	Point::Point(const DX11Device& device, const Vector3& position)
 	{
 		m_tag = "Point";
 		m_meshes.reserve(1);
@@ -84,24 +78,51 @@ namespace BuD
 		m_meshes.push_back(mesh);
 	}
 
-	bool Point::DrawGui()
+	void Point::Accept(AbstractVisitor& visitor)
 	{
-		auto position = m_meshes[0]->m_position;
-		auto positionCopy = position;
+		visitor.Action(*this);
+	}
 
-		ImGui::Text("Translation");
-		ImGui::DragFloat("t(x)", &position.x, 0.1f);
-		ImGui::DragFloat("t(y)", &position.y, 0.1f);
-		ImGui::DragFloat("t(z)", &position.z, 0.1f);
-
-		if ((position - positionCopy).LengthSquared())
+	void Point::OnUpdate()
+	{
+		for (auto& dependent : m_dependentObjects)
 		{
-			MoveBy(position - positionCopy);
-
-			return true;
+			dependent->OnUpdate();
 		}
+	}
+	
+	void Point::OnDelete()
+	{
+		for (auto& dependent : m_dependentObjects)
+		{
+			auto& controlPoints = dependent->m_controlPoints;
 
-		return false;
+			auto position = std::find(controlPoints.begin(), controlPoints.end(), this);
+			controlPoints.erase(position);
+			dependent->OnUpdate();
+		}
+	}
+
+	void Point::OnSelect()
+	{
+		SceneObject::OnSelect();
+		m_color = { 0.7f, 0.5f, 0.0f };
+	}
+
+	void Point::OnUnselect()
+	{
+		SceneObject::OnUnselect();
+		m_color = { 1.0f, 1.0f, 1.0f };
+	}
+
+	void Point::AddDependentObject(PointBasedObject* obj)
+	{
+		m_dependentObjects.insert(obj);
+	}
+
+	void Point::RemoveDependentObject(PointBasedObject* obj)
+	{
+		m_dependentObjects.erase(obj);
 	}
 
 	std::shared_ptr<Mesh> Point::GetMesh(const DX11Device& device)
@@ -152,4 +173,7 @@ namespace BuD
 
 		return s_indexBuffer;
 	}
+
+	std::shared_ptr<BuD::DX11VertexBuffer> Point::s_vertexBuffer = nullptr;
+	std::shared_ptr<BuD::DX11IndexBuffer> Point::s_indexBuffer = nullptr;
 }
