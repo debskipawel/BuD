@@ -113,7 +113,7 @@ namespace BuD
 
         for (auto& [id, object] : sceneObjects)
         {
-            if (m_inPreviewMode && object->GetType() == ObjectType::POINT)
+            if (m_inPreviewMode && object->GetFlags() == ObjectFlags::POINT)
             {
                 continue;
             }
@@ -123,7 +123,7 @@ namespace BuD
                 m_renderer->Draw(object->GetMesh(index), camera, id);
             }
 
-            if ((object->GetType() & ObjectType::POINT_BASED) != ObjectType::NONE)
+            if ((object->GetFlags() & ObjectFlags::POINT_BASED) != ObjectFlags::NONE)
             {
                 auto controlPoints = reinterpret_cast<PointBasedObject*>(object.get())->GetVirtualPoints();
 

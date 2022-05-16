@@ -19,7 +19,7 @@ namespace BuD
 		virtual void OnSelect() override;
 		virtual void OnUnselect() override;
 
-		virtual ObjectType GetType() override { return ObjectType::TORUS; }
+		virtual ObjectFlags GetFlags() override { return ObjectFlags::TORUS; }
 
 		virtual Vector3 GetPoint(Vector2 parameter) override;
 		

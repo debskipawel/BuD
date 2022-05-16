@@ -13,7 +13,7 @@ namespace BuD
 		SceneObjectsGroup(const std::map<uint32_t, std::shared_ptr<SceneObject>>& objects);
 
 		inline size_t Count() const { return m_objects.size(); }
-		inline ObjectType GetType() const { return m_objectsType; }
+		inline ObjectFlags GetType() const { return m_objectsType; }
 		
 		void Add(std::shared_ptr<SceneObject> object);
 		void Remove(std::shared_ptr<SceneObject> object);
@@ -27,7 +27,7 @@ namespace BuD
 		void MoveAll(Vector3 translation) const;
 
 	protected:
-		ObjectType m_objectsType;
+		ObjectFlags m_objectsType;
 
 	protected:
 		std::map<uint32_t, std::shared_ptr<SceneObject>> m_objects;

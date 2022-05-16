@@ -22,7 +22,7 @@ namespace BuD
 		virtual void AddDependentObject(PointBasedObject* obj);
 		virtual void RemoveDependentObject(PointBasedObject* obj);
 
-		virtual ObjectType GetType() override { return ObjectType::POINT; }
+		virtual ObjectFlags GetFlags() override { return ObjectFlags::POINT; }
 
 		inline virtual void RotateTo(const Vector3& rotation, bool propagateUpdate = false) override { }
 		inline virtual void RotateTo(const Quaternion& rotation, bool propagateUpdate = false) override { }

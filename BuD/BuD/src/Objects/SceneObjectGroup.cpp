@@ -7,29 +7,29 @@
 namespace BuD
 {
 	SceneObjectsGroup::SceneObjectsGroup(const std::map<uint32_t, std::shared_ptr<SceneObject>>& objects)
-		: m_objects(objects), m_objectsType(static_cast<ObjectType>(0))
+		: m_objects(objects), m_objectsType(static_cast<ObjectFlags>(0))
 	{
-		auto val = static_cast<ObjectType>(0);
+		auto val = static_cast<ObjectFlags>(0);
 
 		m_objectsType = std::accumulate(m_objects.begin(), m_objects.end(), val,
-			[](ObjectType type, std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return type | record.second->GetType(); }
+			[](ObjectFlags type, std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return type | record.second->GetFlags(); }
 		);
 	}
 	
 	void SceneObjectsGroup::Add(std::shared_ptr<SceneObject> object)
 	{
 		m_objects.insert(std::make_pair(object->Id(), object));
-		m_objectsType = m_objectsType | object->GetType();
+		m_objectsType = m_objectsType | object->GetFlags();
 	}
 	
 	void SceneObjectsGroup::Remove(std::shared_ptr<SceneObject> object)
 	{
 		m_objects.erase(object->Id());
 
-		auto val = static_cast<ObjectType>(0);
+		auto val = static_cast<ObjectFlags>(0);
 
 		m_objectsType = std::accumulate(m_objects.begin(), m_objects.end(), val,
-			[](ObjectType type, std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return type | record.second->GetType(); }
+			[](ObjectFlags type, std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return type | record.second->GetFlags(); }
 		);
 	}
 

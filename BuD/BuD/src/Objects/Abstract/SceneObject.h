@@ -27,7 +27,7 @@ namespace BuD
 		virtual void RotateTo(const Quaternion& quaternion, bool propagateUpdate = false);
 		virtual void RotateTo(const Vector3& rotation, bool propagateUpdate = false);
 
-		virtual ObjectType GetType() = 0;
+		virtual ObjectFlags GetFlags() = 0;
 		
 		virtual void OnUpdate() = 0;
 		virtual void OnDelete() = 0;

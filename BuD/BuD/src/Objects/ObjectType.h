@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ObjectType
+enum class ObjectFlags
 {
 	NONE = 0x00000000,
 
@@ -26,12 +26,12 @@ enum class ObjectType
 	SURFACE_C2 = SURFACE | C2
 };
 
-inline ObjectType operator|(ObjectType a, ObjectType b)
+inline ObjectFlags operator|(ObjectFlags a, ObjectFlags b)
 {
-	return static_cast<ObjectType>(static_cast<int>(a) | static_cast<int>(b));
+	return static_cast<ObjectFlags>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-inline ObjectType operator&(ObjectType a, ObjectType b)
+inline ObjectFlags operator&(ObjectFlags a, ObjectFlags b)
 {
-	return static_cast<ObjectType>(static_cast<int>(a) & static_cast<int>(b));
+	return static_cast<ObjectFlags>(static_cast<int>(a) & static_cast<int>(b));
 }

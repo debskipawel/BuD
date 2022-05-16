@@ -97,12 +97,12 @@ namespace BuD
 		return m_objects;
 	}
 
-	std::map<uint32_t, std::shared_ptr<SceneObject>> Scene::GetSceneObjectsFiltered(ObjectType filter)
+	std::map<uint32_t, std::shared_ptr<SceneObject>> Scene::GetSceneObjectsFiltered(ObjectFlags filter)
 	{
 		std::map<uint32_t, std::shared_ptr<SceneObject>> result;
 
 		std::copy_if(m_objects.begin(), m_objects.end(), std::inserter(result, result.end()),
-			[filter](std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return (record.second->GetType() & filter) == filter; }
+			[filter](std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return (record.second->GetFlags() & filter) == filter; }
 		);
 
 		return result;

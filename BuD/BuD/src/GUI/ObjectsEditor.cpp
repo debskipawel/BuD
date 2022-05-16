@@ -114,7 +114,7 @@ namespace BuD
 
 			for (auto& [id, obj] : selected)
 			{
-				if ((obj->GetType() & ObjectType::POINT_BASED) != ObjectType::NONE)
+				if ((obj->GetFlags() & ObjectFlags::POINT_BASED) != ObjectFlags::NONE)
 				{
 					auto pointBased = reinterpret_cast<PointBasedObject*>(obj.get());
 					pointBased->AddControlPoint(point.get());
@@ -299,7 +299,7 @@ namespace BuD
 			}
 		}
 
-		if (group.GetType() == ObjectType::POINT)
+		if (group.GetType() == ObjectFlags::POINT)
 		{
 			ImGui::NewLine();
 

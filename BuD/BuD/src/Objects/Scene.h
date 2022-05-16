@@ -26,7 +26,7 @@ namespace BuD
 		virtual std::shared_ptr<SceneObject> GetSceneObject(uint32_t id);
 
 		virtual std::map<uint32_t, std::shared_ptr<SceneObject>> GetAllSceneObjects();
-		virtual std::map<uint32_t, std::shared_ptr<SceneObject>> GetSceneObjectsFiltered(ObjectType filter);
+		virtual std::map<uint32_t, std::shared_ptr<SceneObject>> GetSceneObjectsFiltered(ObjectFlags filter);
 		
 		virtual std::map<uint32_t, std::shared_ptr<SceneObject>> GetAllSelected();
 

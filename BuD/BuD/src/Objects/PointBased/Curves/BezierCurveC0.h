@@ -12,6 +12,6 @@ namespace BuD
 		virtual void Accept(AbstractVisitor& visitor) override;
 		virtual void OnUpdate() override;
 
-		inline virtual ObjectType GetType() override { return ObjectType::BEZIER_CURVE_C0; }
+		inline virtual ObjectFlags GetFlags() override { return ObjectFlags::BEZIER_CURVE_C0; }
 	};
 }

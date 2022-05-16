@@ -11,7 +11,7 @@ namespace BuD
 	public:
 		virtual std::vector<Vector3> GetVirtualPoints() { return std::vector<Vector3>(); }
 
-		virtual ObjectType GetType() override { return ObjectType::POINT_BASED; }
+		virtual ObjectFlags GetFlags() override { return ObjectFlags::POINT_BASED; }
 
 		virtual void MoveTo(const Vector3& position, bool propagateUpdate = false) override {}
 		virtual void MoveBy(const Vector3& difference, bool propagateUpdate = false) override {}

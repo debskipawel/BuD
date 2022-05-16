@@ -17,7 +17,7 @@ namespace BuD
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 
-		virtual ObjectType GetType() override { return ObjectType::SURFACE_C0; }
+		virtual ObjectFlags GetFlags() override { return ObjectFlags::SURFACE_C0; }
 
 	protected:
 		std::vector<BezierPatchC0*> m_patches;

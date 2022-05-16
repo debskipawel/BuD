@@ -10,7 +10,7 @@ namespace BuD
 		BezierCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints);
 
 		virtual void Accept(AbstractVisitor& visitor) override;
-		inline virtual ObjectType GetType() { return ObjectType::BEZIER_CURVE_C2; }
+		inline virtual ObjectFlags GetFlags() { return ObjectFlags::BEZIER_CURVE_C2; }
 
 		virtual void OnUpdate() override;
 

@@ -307,7 +307,7 @@ namespace BuD
 
 		if (ImGui::CollapsingHeader("Add control points"))
 		{
-			auto objects = m_scene.GetSceneObjectsFiltered(ObjectType::POINT);
+			auto objects = m_scene.GetSceneObjectsFiltered(ObjectFlags::POINT);
 
 			for (auto& [id, obj] : objects)
 			{

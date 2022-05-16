@@ -17,7 +17,7 @@ namespace BuD
 
 		inline virtual bool ParameterizationWrapped() override { return false; }
 
-		virtual ObjectType GetType() override { return ObjectType::BEZIER_PATCH_C0; }
+		virtual ObjectFlags GetFlags() override { return ObjectFlags::BEZIER_PATCH_C0; }
 		virtual Vector2 MinDomain() override { return { 0.0f, 0.0f }; }
 		virtual Vector2 MaxDomain() override { return { 1.0f, 1.0f }; }
 
