@@ -113,6 +113,11 @@ namespace BuD
 
         for (auto& [id, object] : sceneObjects)
         {
+            if (m_inPreviewMode && object->GetType() == ObjectType::POINT)
+            {
+                continue;
+            }
+
             for (uint32_t index = 0; index < object->MeshesCount(); index++)
             {
                 m_renderer->Draw(object->GetMesh(index), camera, id);
@@ -142,7 +147,7 @@ namespace BuD
 
         m_renderer->End();
 
-        if (!m_inDebug)
+        if (!m_inPreviewMode)
         {
             m_guiLayer->BeginFrame();
             m_guiEditor->DrawGui(m_renderer->Device());
@@ -231,7 +236,7 @@ namespace BuD
             }
             case KeyboardKeys::D0:
             {
-                m_inDebug = !m_inDebug;
+                m_inPreviewMode = !m_inPreviewMode;
                 break;
             }
         }

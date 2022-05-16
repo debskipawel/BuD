@@ -74,7 +74,7 @@ namespace BuD
 		bool m_in_sizemove = false;
 		bool m_minimized = false;
 
-		bool m_inDebug = false;
+		bool m_inPreviewMode = false;
 
 	public:
 		inline static std::shared_ptr<Application> Get()
