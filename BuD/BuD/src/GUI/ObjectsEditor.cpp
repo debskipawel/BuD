@@ -48,6 +48,7 @@ namespace BuD
 	static float patchWidth, patchLength;
 	static int samplesU, samplesV, patchesU, patchesV;
 	static Vector3 patchPosition;
+	static bool asCylinder;
 	
 	void ObjectsEditor::DrawMainSettings(const DX11Device& device)
 	{
@@ -127,6 +128,7 @@ namespace BuD
 			samplesU = samplesV = 3;
 			patchesU = patchesV = 1;
 			patchPosition = m_cursorPosition;
+			asCylinder = false;
 
 			ImGui::OpenPopup("new_surface");
 		}
@@ -157,9 +159,13 @@ namespace BuD
 			ImGui::DragFloat("Y ##patchPosy", &patchPosition.y, 0.1f);
 			ImGui::DragFloat("Z ##patchPosz", &patchPosition.z, 0.1f);
 
+			ImGui::Separator();
+
+			ImGui::Checkbox("As cylinder: ", &asCylinder);
+
 			if (ImGui::Button("Add"))
 			{
-				m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV);
+				m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
 
 				ImGui::CloseCurrentPopup();
 			}

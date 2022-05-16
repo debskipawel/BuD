@@ -220,6 +220,44 @@ namespace BuD
 
 	void GuiDrawer::Action(BezierPatchC0& patch)
 	{
+		bool wasChanged = false;
+
+		int samplesU = patch.m_samplesU;
+		int samplesV = patch.m_samplesV;
+
+		const int samplesMinU = 3;
+		const int samplesMinV = 3;
+
+		ImGui::Text("Samples count");
+		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
+		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
+
+		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
+		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
+
+		if (samplesU != patch.m_samplesU || samplesV != patch.m_samplesV)
+		{
+			wasChanged = true;
+		}
+
+		patch.m_samplesU = samplesU;
+		patch.m_samplesV = samplesV;
+
+		ImGui::Separator();
+
+		auto prevShowPolygon = patch.m_showBezierPolygon;
+
+		ImGui::Checkbox("Show polygon", &patch.m_showBezierPolygon);
+
+		if (prevShowPolygon != patch.m_showBezierPolygon)
+		{
+			patch.ToggleBezierPolygon(patch.m_showBezierPolygon);
+		}
+
+		if (wasChanged)
+		{
+			patch.OnUpdate();
+		}
 	}
 
 	void GuiDrawer::Action(BezierSurfaceC0& surface)

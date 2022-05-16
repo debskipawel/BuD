@@ -29,6 +29,9 @@ namespace BuD
 
 		wfdesc.FillMode = D3D11_FILL_SOLID;
 		m_device->CreateRasterizerState(&wfdesc, m_backCullSolidState.GetAddressOf());
+
+		wfdesc.CullMode = D3D11_CULL_NONE;
+		m_device->CreateRasterizerState(&wfdesc, m_noCullSolidState.GetAddressOf());
 	}
 
 	uint32_t DX11Renderer::GetObjectFrom(int x, int y)
@@ -204,7 +207,7 @@ namespace BuD
 			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
 		}
 
-		m_device.Context()->RSSetState(m_backCullSolidState.Get());
+		m_device.Context()->RSSetState(m_noCullSolidState.Get());
 		
 		while (!mesh->Finished())
 		{

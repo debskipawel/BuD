@@ -72,9 +72,9 @@ namespace BuD
 		return patch;
 	}
 
-	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV)
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
 	{
-		auto surface = std::make_shared<BezierSurfaceC0>(device, *this, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV);
+		auto surface = std::make_shared<BezierSurfaceC0>(device, *this, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
 		AddSceneObject(surface);
 
 		return surface;

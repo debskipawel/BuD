@@ -10,7 +10,7 @@ namespace BuD
 	{
 	public:
 		BezierSurfaceC0(const DX11Device& device, Scene& scene, 
-			Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV);
+			Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder = false);
 
 		virtual void OnUpdate() override;
 		virtual void OnDelete() override;

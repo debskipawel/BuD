@@ -49,6 +49,7 @@ namespace BuD
 		ComPtr<ID3D11RasterizerState> m_backCullWireframeState;
 		ComPtr<ID3D11RasterizerState> m_noCullWireframeState;
 		ComPtr<ID3D11RasterizerState> m_backCullSolidState;
+		ComPtr<ID3D11RasterizerState> m_noCullSolidState;
 
 		static std::shared_ptr<DX11PixelShader> GetIdShader(const DX11Device&);
 		static std::shared_ptr<DX11PixelShader> s_idShader;
