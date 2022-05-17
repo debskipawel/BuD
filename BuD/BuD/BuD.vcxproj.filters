@@ -287,7 +287,7 @@
     <ClInclude Include="src\MathObjects\Parameterized2DObjectCPU.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Objects\ObjectType.h">
+    <ClInclude Include="src\Objects\ObjectFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Independent\Torus.h">

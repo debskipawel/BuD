@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Objects/ObjectType.h>
+#include <Objects/ObjectFlags.h>
 #include <Scene/Mesh.h>
 #include <Visitors/AbstractVisitor.h>
 

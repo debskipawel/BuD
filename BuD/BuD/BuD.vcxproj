@@ -256,7 +256,7 @@
     <ClInclude Include="src\MathObjects\ParameterizedObject.h" />
     <ClInclude Include="src\MathObjects\ParameterizedObjectCPU.h" />
     <ClInclude Include="src\Objects\Independent\Torus.h" />
-    <ClInclude Include="src\Objects\ObjectType.h" />
+    <ClInclude Include="src\Objects\ObjectFlags.h" />
     <ClInclude Include="src\Objects\Independent\Point.h" />
     <ClInclude Include="src\Objects\Abstract\PointBasedObject.h" />
     <ClInclude Include="src\Objects\Abstract\SceneObject.h" />
