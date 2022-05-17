@@ -202,7 +202,6 @@
     <ClCompile Include="src\Objects\Independent\Point.cpp" />
     <ClCompile Include="src\Objects\Abstract\PointBasedObject.cpp" />
     <ClCompile Include="src\Objects\Independent\Torus.cpp" />
-    <ClCompile Include="src\Objects\Independent\UnmovablePoint.cpp" />
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurve.cpp" />
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurveC0.cpp" />
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurveC2.cpp" />
@@ -261,7 +260,6 @@
     <ClInclude Include="src\Objects\Independent\Point.h" />
     <ClInclude Include="src\Objects\Abstract\PointBasedObject.h" />
     <ClInclude Include="src\Objects\Abstract\SceneObject.h" />
-    <ClInclude Include="src\Objects\Independent\UnmovablePoint.h" />
     <ClInclude Include="src\Objects\PointBased\Curves\BezierCurve.h" />
     <ClInclude Include="src\Objects\PointBased\Curves\BezierCurveC0.h" />
     <ClInclude Include="src\Objects\PointBased\Curves\BezierCurveC2.h" />

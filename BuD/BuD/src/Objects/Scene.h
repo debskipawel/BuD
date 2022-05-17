@@ -15,7 +15,6 @@ namespace BuD
 		Scene() = default;
 
 		virtual std::shared_ptr<Point> CreatePoint(const DX11Device& device, const Vector3& position);
-		virtual std::shared_ptr<Point> CreateUnmovablePoint(const DX11Device& device, const Vector3& position);
 
 		virtual std::shared_ptr<SceneObject> CreateTorus(const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius);
 		virtual std::shared_ptr<SceneObject> CreateBezierCurveC0(const DX11Device& device, const std::vector<Point*>& controlPoints);

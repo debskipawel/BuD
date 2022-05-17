@@ -120,9 +120,6 @@
     <ClCompile Include="src\Objects\Abstract\SceneObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Objects\Independent\UnmovablePoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -285,9 +282,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MathObjects\ParameterizedObjectCPU.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Independent\UnmovablePoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MathObjects\Parameterized2DObjectCPU.h">

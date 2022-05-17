@@ -4,7 +4,6 @@
 #include <iterator>
 
 #include <Objects/Independent/Point.h>
-#include <Objects/Independent/UnmovablePoint.h>
 #include <Objects/Independent/Torus.h>
 
 #include <Objects/PointBased/Curves/BezierCurveC0.h>
@@ -19,14 +18,6 @@ namespace BuD
 	std::shared_ptr<Point> Scene::CreatePoint(const DX11Device& device, const Vector3& position)
 	{
 		auto point = std::make_shared<Point>(*this, device, position);
-		AddSceneObject(point);
-
-		return point;
-	}
-
-	std::shared_ptr<Point> Scene::CreateUnmovablePoint(const DX11Device& device, const Vector3& position)
-	{
-		auto point = std::make_shared<UnmovablePoint>(*this, device, position);
 		AddSceneObject(point);
 
 		return point;
