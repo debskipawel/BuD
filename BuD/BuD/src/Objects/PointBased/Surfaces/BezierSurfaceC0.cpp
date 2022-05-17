@@ -7,7 +7,7 @@
 namespace BuD
 {
 	BezierSurfaceC0::BezierSurfaceC0(Scene& scene, const DX11Device& device, Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
-		: SceneObject(scene)
+		: BezierSurface(scene)
 	{
 		m_tag = "Bezier surface C0";
 
@@ -72,7 +72,7 @@ namespace BuD
 					}
 
 					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV, this);
-					m_patches.push_back(reinterpret_cast<BezierPatchC0*>(patch.get()));
+					m_patches.push_back(reinterpret_cast<BezierPatch*>(patch.get()));
 				}
 			}
 		}
@@ -110,7 +110,7 @@ namespace BuD
 
 					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV, this);
 
-					m_patches.push_back(reinterpret_cast<BezierPatchC0*>(patch.get()));
+					m_patches.push_back(reinterpret_cast<BezierPatch*>(patch.get()));
 				}
 			}
 		}
@@ -119,24 +119,5 @@ namespace BuD
 	void BezierSurfaceC0::Accept(AbstractVisitor& visitor)
 	{
 		visitor.Action(*this);
-	}
-
-	void BezierSurfaceC0::OnUpdate()
-	{
-	}
-	
-	void BezierSurfaceC0::OnDelete()
-	{
-		while (!m_patches.empty())
-		{
-			auto patch = *m_patches.begin();
-			m_scene.RemoveSceneObject(patch->Id());
-		}
-	}
-	
-	void BezierSurfaceC0::OnDeletePatch(BezierPatchC0* patch)
-	{
-		auto result = std::find(m_patches.begin(), m_patches.end(), patch);
-		m_patches.erase(result);
 	}
 }

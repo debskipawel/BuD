@@ -150,6 +150,12 @@
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -321,6 +327,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
