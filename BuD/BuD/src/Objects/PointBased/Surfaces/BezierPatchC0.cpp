@@ -19,7 +19,7 @@ namespace BuD
 	};
 
 	BezierPatchC0::BezierPatchC0(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner)
-		: PointBasedObject(scene, controlPoints), m_owner(owner)
+		: PointBasedObject(scene, controlPoints), m_owner(owner), m_showBezierPolygon(false)
 	{
 		m_samplesU = samplesU;
 		m_samplesV = samplesV;

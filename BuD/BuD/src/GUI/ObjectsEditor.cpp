@@ -49,6 +49,10 @@ namespace BuD
 	static int samplesU, samplesV, patchesU, patchesV;
 	static Vector3 patchPosition;
 	static bool asCylinder;
+
+	const int minSamples = 3, maxSamples = 50;
+	const int minPatches = 1, maxPatches = 10;
+	const float minWidth = 0.01f;
 	
 	void ObjectsEditor::DrawMainSettings(const DX11Device& device)
 	{
@@ -137,20 +141,29 @@ namespace BuD
 		{
 			// TODO: gui for surface
 			ImGui::Text("Patches size:");
-			ImGui::DragFloat("width ##patchWidth", &patchWidth, 0.01f);
-			ImGui::DragFloat("length ##patchLength", &patchLength, 0.01f);
+			ImGui::DragFloat(asCylinder ? "radius ##patchWidth" : "width ##patchWidth", &patchWidth, minWidth);
+			ImGui::DragFloat(asCylinder ? "height ##patchWidth" : "length ##patchLength", &patchLength, minWidth);
+
+			patchWidth = max(patchWidth, minWidth);
+			patchLength = max(patchLength, minWidth);
 
 			ImGui::Separator();
 
 			ImGui::Text("Sample count");
-			ImGui::DragInt("u ##uSamples", &samplesU, 1.0f, 1, 50);
-			ImGui::DragInt("v ##vSamples", &samplesV, 1.0f, 1, 50);
+			ImGui::DragInt("u ##uSamples", &samplesU, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+			ImGui::DragInt("v ##vSamples", &samplesV, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+
+			samplesU = std::clamp(samplesU, minSamples, maxSamples);
+			samplesV = std::clamp(samplesV, minSamples, maxSamples);
 
 			ImGui::Separator();
 
 			ImGui::Text("Patch count");
-			ImGui::DragInt("u ##uPatches", &patchesU, 1.0f, 1, 10);
-			ImGui::DragInt("v ##vPatches", &patchesV, 1.0f, 1, 10);
+			ImGui::DragInt("u ##uPatches", &patchesU, 0.5f, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			ImGui::DragInt("v ##vPatches", &patchesV,minPatches, maxPatches);
+
+			patchesU = std::clamp(patchesU, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			patchesV = std::clamp(patchesV, minPatches, maxPatches);
 
 			ImGui::Separator();
 

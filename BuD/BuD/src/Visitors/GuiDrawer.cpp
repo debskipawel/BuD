@@ -247,11 +247,11 @@ namespace BuD
 
 		auto prevShowPolygon = patch.m_showBezierPolygon;
 
-		ImGui::Checkbox("Show polygon", &patch.m_showBezierPolygon);
+		ImGui::Checkbox("Show polygon", &prevShowPolygon);
 
 		if (prevShowPolygon != patch.m_showBezierPolygon)
 		{
-			patch.ToggleBezierPolygon(patch.m_showBezierPolygon);
+			patch.ToggleBezierPolygon(prevShowPolygon);
 		}
 
 		if (wasChanged)
