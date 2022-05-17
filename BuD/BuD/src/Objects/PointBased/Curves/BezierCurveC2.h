@@ -7,7 +7,7 @@ namespace BuD
 	class BezierCurveC2 : public BezierCurve
 	{
 	public:
-		BezierCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints);
+		BezierCurveC2(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints);
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 		inline virtual ObjectFlags GetFlags() { return ObjectFlags::BEZIER_CURVE_C2; }

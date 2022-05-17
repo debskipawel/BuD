@@ -2,6 +2,8 @@
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
+#include <Objects/Scene.h>
+
 #include <imgui.h>
 
 namespace BuD
@@ -14,8 +16,8 @@ namespace BuD
 		}
 	};
 
-	Torus::Torus(const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius)
-		: Parameterized2DObjectCPU(), m_largeRadius(largeRadius), m_smallRadius(smallRadius)
+	Torus::Torus(Scene& scene, const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius)
+		: SceneObject(scene), Parameterized2DObjectCPU(), m_largeRadius(largeRadius), m_smallRadius(smallRadius)
 	{
 		m_tag = "Torus";
 		m_samplesU = m_samplesV = 8;

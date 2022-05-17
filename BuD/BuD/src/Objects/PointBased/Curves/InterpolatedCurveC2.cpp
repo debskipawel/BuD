@@ -2,6 +2,7 @@
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
+#include <Objects/Scene.h>
 #include <Objects/Independent/Point.h>
 
 namespace BuD
@@ -14,8 +15,8 @@ namespace BuD
 		},
 	};
 
-	InterpolatedCurveC2::InterpolatedCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints)
-		: BezierCurve(controlPoints)
+	InterpolatedCurveC2::InterpolatedCurveC2(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints)
+		: BezierCurve(scene, controlPoints)
 	{
 		m_tag = "Interpolated Bezier C2";
 

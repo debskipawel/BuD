@@ -5,8 +5,8 @@
 
 namespace BuD
 {
-	PointBasedObject::PointBasedObject(const std::vector<Point*>& controlPoints)
-		: m_controlPoints(controlPoints)
+	PointBasedObject::PointBasedObject(Scene& scene, const std::vector<Point*>& controlPoints)
+		: SceneObject(scene), m_controlPoints(controlPoints)
 	{
 		for (auto& point : m_controlPoints)
 		{
@@ -45,7 +45,7 @@ namespace BuD
 		OnUpdate();
 	}
 
-	void PointBasedObject::OnDelete(Scene& scene)
+	void PointBasedObject::OnDelete()
 	{
 		for (auto& point : m_controlPoints)
 		{

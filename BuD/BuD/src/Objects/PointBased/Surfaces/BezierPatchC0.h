@@ -7,12 +7,15 @@
 
 namespace BuD
 {
+	class BezierSurfaceC0;
+
 	class BezierPatchC0 : public PointBasedObject, public Parameterized2DObjectCPU
 	{
 	public:
-		BezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV);
+		BezierPatchC0(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner = nullptr);
 
 		virtual void OnUpdate() override;
+		virtual void OnDelete() override;
 		virtual void Accept(AbstractVisitor& visitor) override;
 
 		inline virtual bool ParameterizationWrapped() override { return false; }
@@ -38,6 +41,8 @@ namespace BuD
 
 		std::shared_ptr<Mesh> m_bezierPolygonMesh;
 		bool m_showBezierPolygon = false;
+
+		BezierSurfaceC0* m_owner;
 
 		friend class BezierSurfaceC0;
 		friend class GuiDrawer;

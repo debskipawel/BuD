@@ -1,12 +1,14 @@
 #include "SceneObject.h"
 
+#include <Objects/Scene.h>
+
 namespace BuD
 {
 	uint32_t SceneObject::s_nextId = 1;
 	std::stack<uint32_t> SceneObject::s_availableIds;
 
-	SceneObject::SceneObject()
-		: m_selected(false)
+	SceneObject::SceneObject(Scene& scene)
+		: m_selected(false), m_scene(scene)
 	{
 		uint32_t id;
 

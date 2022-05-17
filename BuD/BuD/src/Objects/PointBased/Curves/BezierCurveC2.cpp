@@ -2,6 +2,7 @@
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
+#include <Objects/Scene.h>
 #include <Objects/Independent/Point.h>
 
 namespace BuD
@@ -14,8 +15,8 @@ namespace BuD
 		}
 	};
 
-	BezierCurveC2::BezierCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints)
-		: BezierCurve(controlPoints)
+	BezierCurveC2::BezierCurveC2(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints)
+		: BezierCurve(scene, controlPoints)
 	{
 		m_tag = "Bezier C2";
 
@@ -59,8 +60,6 @@ namespace BuD
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 			}
 		);
-
-		OnUpdate();
 	}
 
 	void BezierCurveC2::Accept(AbstractVisitor& visitor)

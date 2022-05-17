@@ -10,12 +10,12 @@ namespace BuD
 	class Torus : public SceneObject, public Parameterized2DObjectCPU
 	{
 	public:
-		Torus(const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius);
+		Torus(Scene& scene, const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius);
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 		
 		virtual void OnUpdate() override;
-		virtual void OnDelete(Scene& scene) override {}
+		virtual void OnDelete() override {}
 		virtual void OnSelect() override;
 		virtual void OnUnselect() override;
 

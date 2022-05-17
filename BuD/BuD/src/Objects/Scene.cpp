@@ -18,7 +18,7 @@ namespace BuD
 {
 	std::shared_ptr<Point> Scene::CreatePoint(const DX11Device& device, const Vector3& position)
 	{
-		auto point = std::make_shared<Point>(device, position);
+		auto point = std::make_shared<Point>(*this, device, position);
 		AddSceneObject(point);
 
 		return point;
@@ -26,7 +26,7 @@ namespace BuD
 
 	std::shared_ptr<Point> Scene::CreateUnmovablePoint(const DX11Device& device, const Vector3& position)
 	{
-		auto point = std::make_shared<UnmovablePoint>(device, position);
+		auto point = std::make_shared<UnmovablePoint>(*this, device, position);
 		AddSceneObject(point);
 
 		return point;
@@ -34,7 +34,7 @@ namespace BuD
 
 	std::shared_ptr<SceneObject> Scene::CreateTorus(const DX11Device& device, const Vector3& position, float largeRadius, float smallRadius)
 	{
-		auto torus = std::make_shared<Torus>(device, position, largeRadius, smallRadius);
+		auto torus = std::make_shared<Torus>(*this, device, position, largeRadius, smallRadius);
 		AddSceneObject(torus);
 
 		return torus;
@@ -42,7 +42,7 @@ namespace BuD
 
 	std::shared_ptr<SceneObject> Scene::CreateBezierCurveC0(const DX11Device& device, const std::vector<Point*>& controlPoints)
 	{
-		auto curve = std::make_shared<BezierCurveC0>(device, controlPoints);
+		auto curve = std::make_shared<BezierCurveC0>(*this, device, controlPoints);
 		AddSceneObject(curve);
 
 		return curve;
@@ -50,7 +50,7 @@ namespace BuD
 
 	std::shared_ptr<SceneObject> Scene::CreateBezierCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints)
 	{
-		auto curve = std::make_shared<BezierCurveC2>(device, controlPoints);
+		auto curve = std::make_shared<BezierCurveC2>(*this, device, controlPoints);
 		AddSceneObject(curve);
 
 		return curve;
@@ -58,15 +58,15 @@ namespace BuD
 
 	std::shared_ptr<SceneObject> Scene::CreateInterpolatedCurveC2(const DX11Device& device, const std::vector<Point*>& controlPoints)
 	{
-		auto curve = std::make_shared<InterpolatedCurveC2>(device, controlPoints);
+		auto curve = std::make_shared<InterpolatedCurveC2>(*this, device, controlPoints);
 		AddSceneObject(curve);
 
 		return curve;
 	}
 
-	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV)
+	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner)
 	{
-		auto patch = std::make_shared<BezierPatchC0>(device, controlPoints, samplesU, samplesV);
+		auto patch = std::make_shared<BezierPatchC0>(*this, device, controlPoints, samplesU, samplesV, owner);
 		AddSceneObject(patch);
 
 		return patch;
@@ -74,7 +74,7 @@ namespace BuD
 
 	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
 	{
-		auto surface = std::make_shared<BezierSurfaceC0>(device, *this, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
+		auto surface = std::make_shared<BezierSurfaceC0>(*this, device, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
 		AddSceneObject(surface);
 
 		return surface;
@@ -145,7 +145,7 @@ namespace BuD
 			return;
 		}
 
-		result->second->OnDelete(*this);
+		result->second->OnDelete();
 		m_objects.erase(id);
 	}
 }

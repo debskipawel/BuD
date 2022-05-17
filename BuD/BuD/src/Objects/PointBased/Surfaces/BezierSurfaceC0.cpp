@@ -2,10 +2,12 @@
 
 #include <imgui.h>
 
+#include <Objects/Scene.h>
+
 namespace BuD
 {
-	BezierSurfaceC0::BezierSurfaceC0(const DX11Device& device, Scene& scene,
-		Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
+	BezierSurfaceC0::BezierSurfaceC0(Scene& scene, const DX11Device& device, Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
+		: SceneObject(scene)
 	{
 		m_tag = "Bezier surface C0";
 
@@ -69,7 +71,7 @@ namespace BuD
 						patchPoints[p] = points[(startingV + dv) * (3 * patchesU) + indexU];
 					}
 
-					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV);
+					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV, this);
 					m_patches.push_back(reinterpret_cast<BezierPatchC0*>(patch.get()));
 				}
 			}
@@ -106,7 +108,7 @@ namespace BuD
 						patchPoints.push_back(points[indexU * (patchesV * 3 + 1) + indexV]);
 					}
 
-					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV);
+					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV, this);
 
 					m_patches.push_back(reinterpret_cast<BezierPatchC0*>(patch.get()));
 				}
@@ -123,11 +125,18 @@ namespace BuD
 	{
 	}
 	
-	void BezierSurfaceC0::OnDelete(Scene& scene)
+	void BezierSurfaceC0::OnDelete()
 	{
-		for (auto& patch : m_patches)
+		while (!m_patches.empty())
 		{
-			scene.RemoveSceneObject(patch->Id());
+			auto patch = *m_patches.begin();
+			m_scene.RemoveSceneObject(patch->Id());
 		}
+	}
+	
+	void BezierSurfaceC0::OnDeletePatch(BezierPatchC0* patch)
+	{
+		auto result = std::find(m_patches.begin(), m_patches.end(), patch);
+		m_patches.erase(result);
 	}
 }

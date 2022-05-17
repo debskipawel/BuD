@@ -10,12 +10,12 @@ namespace BuD
 	class Point : public SceneObject
 	{
 	public:
-		Point(const DX11Device& device, const Vector3& position);
+		Point(Scene& scene, const DX11Device& device, const Vector3& position);
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 
 		virtual void OnUpdate() override;
-		virtual void OnDelete(Scene& scene) override;
+		virtual void OnDelete() override;
 		virtual void OnSelect() override;
 		virtual void OnUnselect() override;
 

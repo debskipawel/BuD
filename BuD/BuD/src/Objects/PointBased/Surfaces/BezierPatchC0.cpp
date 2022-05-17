@@ -1,9 +1,11 @@
 #include "BezierPatchC0.h"
+#include "BezierSurfaceC0.h"
 
 #include <algorithm>
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
+#include <Objects/Scene.h>
 #include <Objects/Independent/Point.h>
 
 namespace BuD
@@ -16,8 +18,8 @@ namespace BuD
 		}
 	};
 
-	BezierPatchC0::BezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV)
-		: PointBasedObject(controlPoints)
+	BezierPatchC0::BezierPatchC0(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner)
+		: PointBasedObject(scene, controlPoints), m_owner(owner)
 	{
 		m_samplesU = samplesU;
 		m_samplesV = samplesV;
@@ -142,6 +144,12 @@ namespace BuD
 
 	void BezierPatchC0::OnUpdate()
 	{
+		if (m_controlPoints.size() != 16)
+		{
+			m_scene.RemoveSceneObject(m_id);
+			return;
+		}
+
 		Meshify();
 
 		m_meshes[0]->VertexBuffer()->Update(m_vertices.data(), m_vertices.size() * sizeof(Vector3));
@@ -169,6 +177,16 @@ namespace BuD
 
 		m_bezierPolygonMesh->VertexBuffer()->Update(polygonVertices.data(), polygonVertices.size() * sizeof(Vector3));
 		m_bezierPolygonMesh->IndexBuffer()->Update(polygonIndices.data(), polygonIndices.size() * sizeof(unsigned short));
+	}
+
+	void BezierPatchC0::OnDelete()
+	{
+		PointBasedObject::OnDelete();
+
+		if (m_owner)
+		{
+			m_owner->OnDeletePatch(this);
+		}
 	}
 	
 	void BezierPatchC0::Accept(AbstractVisitor& visitor)

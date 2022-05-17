@@ -21,7 +21,7 @@ namespace BuD
 		inline virtual void DrawPolygon(bool draw) { m_drawPolygon = draw; }
 
 	protected:
-		BezierCurve(const std::vector<Point*>& controlPoints);
+		BezierCurve(Scene& scene, const std::vector<Point*>& controlPoints);
 
 		virtual RECT GetSurroundingRectangle(const Matrix& view, const Matrix& projection, UINT width, UINT height);
 

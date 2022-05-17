@@ -57,7 +57,8 @@ namespace BuD
 		}
 	};
 
-	Point::Point(const DX11Device& device, const Vector3& position)
+	Point::Point(Scene& scene, const DX11Device& device, const Vector3& position)
+		: SceneObject(scene)
 	{
 		m_tag = "Point";
 		m_meshes.reserve(1);
@@ -93,7 +94,7 @@ namespace BuD
 		}
 	}
 	
-	void Point::OnDelete(Scene& scene)
+	void Point::OnDelete()
 	{
 		for (auto& dependent : m_dependentObjects)
 		{

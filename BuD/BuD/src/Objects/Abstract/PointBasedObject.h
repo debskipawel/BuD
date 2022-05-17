@@ -23,10 +23,10 @@ namespace BuD
 		virtual void AddControlPoints(std::initializer_list<Point*> obj);
 		virtual void RemoveControlPoint(int index);
 
-		virtual void OnDelete(Scene& scene) override;
+		virtual void OnDelete() override;
 
 	protected:
-		PointBasedObject(const std::vector<Point*>& controlPoints);
+		PointBasedObject(Scene& scene, const std::vector<Point*>& controlPoints);
 
 		friend class Point;
 

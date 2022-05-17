@@ -19,7 +19,7 @@ namespace BuD
 		friend class Scene;
 
 	public:
-		SceneObject();
+		SceneObject(Scene& scene);
 
 		virtual void Accept(AbstractVisitor& visitor) = 0;
 
@@ -32,7 +32,7 @@ namespace BuD
 		virtual ObjectFlags GetFlags() = 0;
 		
 		virtual void OnUpdate() = 0;
-		virtual void OnDelete(Scene& scene) = 0;
+		virtual void OnDelete() = 0;
 		virtual void OnSelect() { m_selected = true; }
 		virtual void OnUnselect() { m_selected = false; }
 
@@ -47,6 +47,8 @@ namespace BuD
 		inline bool Selected() { return m_selected; }
 
 	protected:
+		Scene& m_scene;
+
 		uint32_t m_id;
 		std::string m_tag = "Unnamed object";
 		std::vector<std::shared_ptr<Mesh>> m_meshes;

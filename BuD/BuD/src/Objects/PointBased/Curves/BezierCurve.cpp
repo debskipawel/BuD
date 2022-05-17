@@ -2,12 +2,13 @@
 
 #include <algorithm>
 
+#include <Objects/Scene.h>
 #include <Objects/Independent/Point.h>
 
 namespace BuD
 {
-	BezierCurve::BezierCurve(const std::vector<Point*>& controlPoints)
-		: PointBasedObject(controlPoints)
+	BezierCurve::BezierCurve(Scene& scene, const std::vector<Point*>& controlPoints)
+		: PointBasedObject(scene, controlPoints)
 	{
 	}
 
