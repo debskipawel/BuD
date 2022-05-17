@@ -156,6 +156,9 @@
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -335,6 +338,9 @@
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\pos_normal_vs.hlsl" />
@@ -351,5 +357,7 @@
     <FxCompile Include="shaders\interpolated_bezier_c2_vs.hlsl" />
     <FxCompile Include="shaders\f2_to_f4_no_transf_vs.hlsl" />
     <FxCompile Include="shaders\two_tex_blend_ps.hlsl" />
+    <FxCompile Include="shaders\bezier_patch_c0_gs.hlsl" />
+    <FxCompile Include="shaders\bezier_patch_c0_vs.hlsl" />
   </ItemGroup>
 </Project>

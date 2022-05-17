@@ -208,6 +208,7 @@
     <ClCompile Include="src\Objects\PointBased\Curves\InterpolatedCurveC2.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatch.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0.cpp" />
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurface.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.cpp" />
     <ClCompile Include="src\Objects\Scene.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="src\Objects\PointBased\Curves\InterpolatedCurveC2.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatch.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0.h" />
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurface.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.h" />
     <ClInclude Include="src\Objects\Scene.h" />
@@ -290,6 +292,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\bezier_curve_c0_gs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\bezier_patch_c0_gs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -386,6 +398,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\bezier_patch_c0_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
