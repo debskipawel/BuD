@@ -15,7 +15,7 @@ namespace BuD
 		virtual void Accept(AbstractVisitor& visitor) override;
 
 		virtual void OnUpdate() override;
-		virtual void OnDelete() override;
+		virtual void OnDelete(Scene& scene) override;
 		virtual void OnSelect() override;
 		virtual void OnUnselect() override;
 

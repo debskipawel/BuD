@@ -16,6 +16,8 @@ namespace BuD
 {
 	class SceneObject
 	{
+		friend class Scene;
+
 	public:
 		SceneObject();
 
@@ -30,7 +32,7 @@ namespace BuD
 		virtual ObjectFlags GetFlags() = 0;
 		
 		virtual void OnUpdate() = 0;
-		virtual void OnDelete() = 0;
+		virtual void OnDelete(Scene& scene) = 0;
 		virtual void OnSelect() { m_selected = true; }
 		virtual void OnUnselect() { m_selected = false; }
 

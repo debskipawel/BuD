@@ -13,7 +13,7 @@ namespace BuD
 			Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder = false);
 
 		virtual void OnUpdate() override;
-		virtual void OnDelete() override;
+		virtual void OnDelete(Scene& scene) override;
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 

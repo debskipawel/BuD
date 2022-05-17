@@ -145,7 +145,7 @@ namespace BuD
 			return;
 		}
 
-		result->second->OnDelete();
+		result->second->OnDelete(*this);
 		m_objects.erase(id);
 	}
 }

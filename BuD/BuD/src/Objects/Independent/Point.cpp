@@ -2,6 +2,8 @@
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
+#include <Objects/Scene.h>
+
 namespace BuD
 {
 	static std::vector<Vector3> vertices =
@@ -91,7 +93,7 @@ namespace BuD
 		}
 	}
 	
-	void Point::OnDelete()
+	void Point::OnDelete(Scene& scene)
 	{
 		for (auto& dependent : m_dependentObjects)
 		{

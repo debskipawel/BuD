@@ -123,11 +123,11 @@ namespace BuD
 	{
 	}
 	
-	void BezierSurfaceC0::OnDelete()
+	void BezierSurfaceC0::OnDelete(Scene& scene)
 	{
 		for (auto& patch : m_patches)
 		{
-			patch->OnDelete();
+			scene.RemoveSceneObject(patch->Id());
 		}
 	}
 }

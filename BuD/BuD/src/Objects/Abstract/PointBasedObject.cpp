@@ -1,5 +1,6 @@
 #include "PointBasedObject.h"
 
+#include <Objects/Scene.h>
 #include <Objects/Independent/Point.h>
 
 namespace BuD
@@ -44,7 +45,7 @@ namespace BuD
 		OnUpdate();
 	}
 
-	void PointBasedObject::OnDelete()
+	void PointBasedObject::OnDelete(Scene& scene)
 	{
 		for (auto& point : m_controlPoints)
 		{
