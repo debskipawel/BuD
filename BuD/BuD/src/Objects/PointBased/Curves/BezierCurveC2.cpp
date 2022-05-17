@@ -28,6 +28,7 @@ namespace BuD
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
+		auto polygonVertexBuffer = std::make_shared<DX11VertexBuffer>(device, 16 * sizeof(Vector3), elements, nullptr);
 		auto polygonIndexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 16 * sizeof(unsigned short), nullptr, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, geometryShader, pixelShader, vertexBuffer, indexBuffer,
@@ -52,7 +53,9 @@ namespace BuD
 			}
 		);
 
-		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, deBoorPixelShader, vertexBuffer, polygonIndexBuffer,
+		m_meshes.push_back(mesh);
+
+		m_deBoorPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, deBoorPixelShader, polygonVertexBuffer, polygonIndexBuffer,
 			[this, device](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = view * projection;
@@ -60,6 +63,8 @@ namespace BuD
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
 			}
 		);
+
+		OnUpdate();
 	}
 
 	void BezierCurveC2::Accept(AbstractVisitor& visitor)
@@ -82,12 +87,6 @@ namespace BuD
 
 		// transforming nodes from B-Spline basis to Bernstein basis
 		m_bernsteinPoints.clear();
-
-		if (controlPointsCount < 4)
-		{
-			return;
-		}
-
 		m_bernsteinPoints.reserve(3 * controlPointsCount);
 
 		for (size_t i = 1; i < controlPointsCount - 2; i++)
@@ -131,7 +130,7 @@ namespace BuD
 			}
 		}
 
-		m_meshes[0]->VertexBuffer()->Update(m_bernsteinPoints.data(), (m_bernsteinPoints.size()) * sizeof(Vector3));
+		m_meshes[0]->VertexBuffer()->Update(m_bernsteinPoints.data(), m_bernsteinPoints.size() * sizeof(Vector3));
 		m_meshes[0]->IndexBuffer()->Update(indices.data(), indices.size() * sizeof(unsigned short));
 
 		// indices for polygon mesh

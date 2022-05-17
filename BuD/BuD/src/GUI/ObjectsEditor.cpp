@@ -129,7 +129,7 @@ namespace BuD
 		if (ImGui::Button("Add C0 surface"))
 		{
 			patchWidth = patchLength = 1.0f;
-			samplesU = samplesV = 3;
+			samplesU = samplesV = 4;
 			patchesU = patchesV = 1;
 			patchPosition = m_cursorPosition;
 			asCylinder = false;

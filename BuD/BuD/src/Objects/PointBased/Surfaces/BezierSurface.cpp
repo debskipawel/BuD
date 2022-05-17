@@ -66,5 +66,10 @@ namespace BuD
 	{
 		auto result = std::find(m_patches.begin(), m_patches.end(), patch);
 		m_patches.erase(result);
+
+		if (m_patches.size() == 0)
+		{
+			m_scene.RemoveSceneObject(m_id);
+		}
 	}
 }
