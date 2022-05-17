@@ -2,6 +2,8 @@
 
 #include <Objects/Scene.h>
 
+#include <unordered_set>
+
 namespace BuD
 {
 	BezierSurface::BezierSurface(Scene& scene)
@@ -18,18 +20,34 @@ namespace BuD
 
 	void BezierSurface::MoveBy(const Vector3& difference, bool propagateUpdate)
 	{
-		for (auto& patch : m_patches)
-		{
-			for (auto& point : patch->m_controlPoints)
-			{
-				point->MoveBy(difference, false);
-			}
-		}
+		std::unordered_set<Point*> pointsMoved;
 
 		for (auto& patch : m_patches)
 		{
 			for (auto& point : patch->m_controlPoints)
 			{
+				if (pointsMoved.find(point) != pointsMoved.end())
+				{
+					continue;
+				}
+
+				pointsMoved.insert(point);
+				point->MoveBy(difference, false);
+			}
+		}
+
+		pointsMoved.clear();
+
+		for (auto& patch : m_patches)
+		{
+			for (auto& point : patch->m_controlPoints)
+			{
+				if (pointsMoved.find(point) != pointsMoved.end())
+				{
+					continue;
+				}
+
+				pointsMoved.insert(point);
 				point->OnUpdate();
 			}
 		}
