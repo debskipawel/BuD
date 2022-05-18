@@ -25,7 +25,6 @@ namespace BuD
 
         m_desc.ByteWidth = size;
 
-        m_buffer->Release();
         m_buffer.Reset();
 
         CreateBuffer(data, m_desc);

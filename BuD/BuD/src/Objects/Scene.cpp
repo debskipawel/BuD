@@ -11,6 +11,7 @@
 #include <Objects/PointBased/Curves/InterpolatedCurveC2.h>
 
 #include <Objects/PointBased/Surfaces/BezierPatchC0.h>
+#include <Objects/PointBased/Surfaces/BezierPatchC0GPU.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
 
 namespace BuD
@@ -58,6 +59,14 @@ namespace BuD
 	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner)
 	{
 		auto patch = std::make_shared<BezierPatchC0>(*this, device, controlPoints, samplesU, samplesV, owner);
+		AddSceneObject(patch);
+
+		return patch;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC0GPU(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner)
+	{
+		auto patch = std::make_shared<BezierPatchC0GPU>(*this, device, controlPoints, samplesU, samplesV, owner);
 		AddSceneObject(patch);
 
 		return patch;

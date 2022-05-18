@@ -18,6 +18,9 @@ namespace BuD
 		virtual Vector2 MinDomain() override = 0;
 		virtual Vector2 MaxDomain() override = 0;
 
+		inline virtual int SamplesU() { return m_samplesU; }
+		inline virtual int SamplesV() { return m_samplesV; }
+
 		virtual bool ParameterizationWrapped() override = 0;
 
 	protected:
