@@ -71,7 +71,7 @@ namespace BuD
 						patchPoints[p] = points[(startingV + dv) * (3 * patchesU) + indexU];
 					}
 
-					auto patch = scene.CreateBezierPatchC0GPU(device, patchPoints, sampleU, sampleV, this);
+					auto patch = scene.CreateBezierPatchC0(device, patchPoints, sampleU, sampleV, this);
 					m_patches.push_back(reinterpret_cast<BezierPatch*>(patch.get()));
 				}
 			}
