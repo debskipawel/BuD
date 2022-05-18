@@ -34,7 +34,7 @@ namespace BuD
 	protected:
 		virtual void InitializeBuffers(int width, int height);
 
-		virtual void SetupEntity(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection);
+		virtual void SetupMesh(std::shared_ptr<Mesh> entity, const dxm::Matrix& view, const dxm::Matrix& projection);
 		virtual void RenderId(std::shared_ptr<Mesh> entity, uint32_t id);
 		
 		int m_width, m_height;
@@ -49,6 +49,7 @@ namespace BuD
 		ComPtr<ID3D11RasterizerState> m_backCullWireframeState;
 		ComPtr<ID3D11RasterizerState> m_noCullWireframeState;
 		ComPtr<ID3D11RasterizerState> m_backCullSolidState;
+		ComPtr<ID3D11RasterizerState> m_noCullSolidState;
 
 		static std::shared_ptr<DX11PixelShader> GetIdShader(const DX11Device&);
 		static std::shared_ptr<DX11PixelShader> s_idShader;

@@ -57,6 +57,8 @@ namespace BuD
 		std::map<KeyboardKeys, bool> m_keyMap;
 		std::shared_ptr<Mesh> m_pointMesh;
 
+		Scene m_scene;
+
 		dxm::Vector3 m_cursorPosition = { 0.0f, 0.0f, 0.0f };
 		LARGE_INTEGER m_counterStart, m_freq;
 
@@ -72,7 +74,7 @@ namespace BuD
 		bool m_in_sizemove = false;
 		bool m_minimized = false;
 
-		bool m_inDebug = false;
+		bool m_inPreviewMode = false;
 
 	public:
 		inline static std::shared_ptr<Application> Get()

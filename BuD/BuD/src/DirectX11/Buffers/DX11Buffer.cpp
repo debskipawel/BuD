@@ -25,9 +25,7 @@ namespace BuD
 
         m_desc.ByteWidth = size;
 
-        ID3D11Device* device = nullptr;
-        m_buffer->GetDevice(&device);
-        m_buffer->Release();
+        m_buffer.Reset();
 
         CreateBuffer(data, m_desc);
 	}

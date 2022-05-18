@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/ClientApp.h"
 #include "Core/Window.h"
 #include "Core/Renderer.h"
 #include "Core/MouseCode.h"

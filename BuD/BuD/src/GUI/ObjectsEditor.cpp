@@ -3,21 +3,18 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 
-#include "Geometry/Point.h"
-#include "Geometry/Torus.h"
-#include "Geometry/Bezier/BezierCurve.h"
-#include "Geometry/Bezier/BezierCurveC0.h"
-#include "Geometry/Bezier/BezierCurveC2.h"
-#include "Geometry/Bezier/InterpolatedBezierCurveC2.h"
-
 #include "Camera/CameraFactory.h"
 
+#include <Objects/Abstract/PointBasedObject.h>
+#include <Objects/SceneObjectGroup.h>
+
 #include <algorithm>
+#include <iterator>
 
 namespace BuD
 {
-	ObjectsEditor::ObjectsEditor(std::vector<std::shared_ptr<SceneObject>>& objects, std::shared_ptr<Win32Window> window)
-		: m_objects(objects), m_window(window)
+	ObjectsEditor::ObjectsEditor(Scene& scene, std::shared_ptr<Win32Window> window)
+		: m_scene(scene), m_window(window), m_guiDrawer(scene)
 	{
 		m_activeCamera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 		m_selectedType = RenderingMode::STANDARD;
@@ -47,6 +44,15 @@ namespace BuD
 		m_beginRotation = { 0.0f, 0.0f, 0.0f };
 		m_beginScale = { 1.0f, 1.0f, 1.0f };
 	}
+
+	static float patchWidth, patchLength;
+	static int samplesU, samplesV, patchesU, patchesV;
+	static Vector3 patchPosition;
+	static bool asCylinder;
+
+	const int minSamples = 3, maxSamples = 50;
+	const int minPatches = 1, maxPatches = 10;
+	const float minWidth = 0.01f;
 	
 	void ObjectsEditor::DrawMainSettings(const DX11Device& device)
 	{
@@ -101,27 +107,90 @@ namespace BuD
 
 		if (ImGui::Button("Add torus"))
 		{
-			auto torus = std::make_shared<Torus>(device, 3.0f, 1.0f);
-			torus->MoveTo(m_cursorPosition);
-
-			m_objects.push_back(torus);
+			m_scene.CreateTorus(device, m_cursorPosition, 3.0f, 1.0f);
 		}
 
 		if (ImGui::Button("Add point"))
 		{
-			auto point = std::make_shared<Point>(m_cursorPosition, device);
+			auto point = m_scene.CreatePoint(device, m_cursorPosition);
 
-			m_objects.push_back(point);
+			auto selected = m_scene.GetAllSelected();
 
-			auto& selected = SceneObject::GetSelected();
-
-			for (auto& obj : selected.Objects())
+			for (auto& [id, obj] : selected)
 			{
-				if (static_cast<int>(selected.GetType()) & static_cast<int>(GeometryType::BEZIER))
+				if ((obj->GetFlags() & ObjectFlags::POINT_BASED) != ObjectFlags::NONE)
 				{
-					reinterpret_cast<BezierCurve*>(obj)->AddControlPoint(point.get());
+					auto pointBased = reinterpret_cast<PointBasedObject*>(obj.get());
+					pointBased->AddControlPoint(point.get());
 				}
 			}
+		}
+
+		if (ImGui::Button("Add C0 surface"))
+		{
+			patchWidth = patchLength = 1.0f;
+			samplesU = samplesV = 4;
+			patchesU = patchesV = 1;
+			patchPosition = m_cursorPosition;
+			asCylinder = false;
+
+			ImGui::OpenPopup("new_surface");
+		}
+
+		if (ImGui::BeginPopupModal("new_surface"))
+		{
+			// TODO: gui for surface
+			ImGui::Text("Patches size:");
+			ImGui::DragFloat(asCylinder ? "radius ##patchWidth" : "width ##patchWidth", &patchWidth, minWidth);
+			ImGui::DragFloat(asCylinder ? "height ##patchWidth" : "length ##patchLength", &patchLength, minWidth);
+
+			patchWidth = max(patchWidth, minWidth);
+			patchLength = max(patchLength, minWidth);
+
+			ImGui::Separator();
+
+			ImGui::Text("Sample count");
+			ImGui::DragInt("u ##uSamples", &samplesU, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+			ImGui::DragInt("v ##vSamples", &samplesV, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+
+			samplesU = std::clamp(samplesU, minSamples, maxSamples);
+			samplesV = std::clamp(samplesV, minSamples, maxSamples);
+
+			ImGui::Separator();
+
+			ImGui::Text("Patch count");
+			ImGui::DragInt("u ##uPatches", &patchesU, 0.5f, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			ImGui::DragInt("v ##vPatches", &patchesV,minPatches, maxPatches);
+
+			patchesU = std::clamp(patchesU, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			patchesV = std::clamp(patchesV, minPatches, maxPatches);
+
+			ImGui::Separator();
+
+			ImGui::Text("Position");
+			ImGui::DragFloat("X ##patchPosx", &patchPosition.x, 0.1f);
+			ImGui::DragFloat("Y ##patchPosy", &patchPosition.y, 0.1f);
+			ImGui::DragFloat("Z ##patchPosz", &patchPosition.z, 0.1f);
+
+			ImGui::Separator();
+
+			ImGui::Checkbox("As cylinder: ", &asCylinder);
+
+			if (ImGui::Button("Add"))
+			{
+				m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
 		}
 		
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -132,7 +201,7 @@ namespace BuD
 	void ObjectsEditor::DrawSelectableList(const DX11Device& device)
 	{
 		auto& io = ImGui::GetIO();
-		auto& objects = SceneObject::GetAll();
+		auto objects = m_scene.GetAllSceneObjects();
 
 		ImGui::Begin("Scene objects", nullptr, io.WantCaptureMouse);
 		ImGui::Text("Objects");
@@ -140,17 +209,17 @@ namespace BuD
 		{
 			for (auto& [id, object] : objects)
 			{
-				bool selected = object->IsSelected();
+				bool selected = object->Selected();
 				bool copySelected = selected;
 
-				std::string name = std::to_string(id) + ": " + *object->Name();
+				std::string name = std::to_string(id) + ": " + object->Name();
 
 				auto res = ImGui::Selectable(name.c_str(), &copySelected);
 
 				if (copySelected != selected)
 				{
 					SelectionChanged();
-					copySelected ? object->Select() : object->Unselect();
+					copySelected ? object->OnSelect() : object->OnUnselect();
 				}
 			}
 
@@ -162,31 +231,33 @@ namespace BuD
 	
 	void ObjectsEditor::DrawSelectableConfig(const DX11Device& device)
 	{
-		auto& selected = SceneObject::GetSelected();
+		auto selected = m_scene.GetAllSelected();
+		SceneObjectsGroup group(selected);
 
-		if (selected.Count() == 0)
+		if (selected.size() == 0)
 		{
 			return;
 		}
 
 		ImGui::Begin("Selected");
 
-		if (selected.Count() == 1)
+		if (selected.size() == 1)
 		{
 			// draw GUI for a single object
-			auto object = *selected.Objects().begin();
-			object->DrawGui();
+			auto object = (*selected.begin()).second;
+			m_guiDrawer.Visit(*object.get());
 
 			ImGui::NewLine();
 			ImGui::Text("Name");
-			ImGui::InputText("##n", object->Name());
+
+			auto name = object->Name();
+			ImGui::InputText("##n", &name);
 
 			ImGui::NewLine();
 
 			if (ImGui::Button("Delete"))
 			{
-				object->Unselect();
-				SceneObject::DeleteObject(object->Id());
+				m_scene.RemoveSceneObject(object);
 			}
 		}
 		else
@@ -226,38 +297,53 @@ namespace BuD
 			Vector3 scale = m_beginScale / currScale;
 
 			if (translate != Vector3{ 0.0f })
-				selected.MoveAll(translate);
+			{
+				group.MoveAll(translate);
+			}
 
 			if (rotate != Vector3{ 0.0f })
-				selected.RotateAroundCentroid(rotate);
+			{
+				group.RotateAroundCentroid(rotate);
+			}
 
 			if (scale != Vector3{ 1.0f } && scale != Vector3{ 0.0f })
-				selected.ScaleAroundCentroid(scale);
+			{
+				group.ScaleAroundCentroid(scale);
+			}
 		}
 
-		if (selected.GetType() == GeometryType::POINT)
+		if (group.GetType() == ObjectFlags::POINT)
 		{
 			ImGui::NewLine();
 
 			if (ImGui::Button("Add Bezier C0"))
 			{
-				auto bezier = std::make_shared<BezierCurveC0>(device, selected.Objects());
+				std::vector<Point*> result;
+				std::transform(selected.begin(), selected.end(), std::inserter(result, result.end()),
+					[](std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return reinterpret_cast<Point*>(record.second.get()); }
+				);
 
-				m_objects.push_back(bezier);
+				m_scene.CreateBezierCurveC0(device, result);
 			}
 
 			if (ImGui::Button("Add Bezier C2"))
 			{
-				auto bezier = std::make_shared<BezierCurveC2>(device, selected.Objects());
+				std::vector<Point*> result;
+				std::transform(selected.begin(), selected.end(), std::inserter(result, result.end()),
+					[](std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return reinterpret_cast<Point*>(record.second.get()); }
+				);
 
-				m_objects.push_back(bezier);
+				m_scene.CreateBezierCurveC2(device, result);
 			}
 
 			if (ImGui::Button("Add interpolated C2"))
 			{
-				auto bezier = std::make_shared<InterpolatedBezierCurveC2>(device, selected.Objects());
+				std::vector<Point*> result;
+				std::transform(selected.begin(), selected.end(), std::inserter(result, result.end()),
+					[](std::pair<uint32_t, std::shared_ptr<SceneObject>> record) { return reinterpret_cast<Point*>(record.second.get()); }
+				);
 
-				m_objects.push_back(bezier);
+				m_scene.CreateInterpolatedCurveC2(device, result);
 			}
 		}
 
