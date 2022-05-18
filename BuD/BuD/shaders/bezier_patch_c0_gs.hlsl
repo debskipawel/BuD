@@ -82,7 +82,7 @@ void main(
     int vertices = 0;
     
     int samplesU = u + 1;
-    int samplesV = u + 1;
+    int samplesV = v + 1;
 
     int verticesCount = samplesU * samplesV;
 
@@ -93,13 +93,12 @@ void main(
     float dv = (maxDom - minDom) / (samplesV - 1);
 
     float u = minDom + uStart * du;
-    float v = minDom + vStart * dv;
     
     int vStartMod = vStart;
 
     for (int i = uStart; i < samplesU - 1; i++)
     {
-        v = minDom;
+        float v = minDom + vStartMod * dv;
 
         for (int j = vStartMod; j < samplesV - 1; j++)
         {
@@ -117,7 +116,7 @@ void main(
             
             output.RestartStrip();
             
-            element.pos = v1;
+            element.pos = v2;
             output.Append(element);
             element.pos = v3;
             output.Append(element);
