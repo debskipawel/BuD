@@ -13,7 +13,6 @@ namespace BuD
 
 		virtual void Meshify() override;
 
-		// Inherited via BezierPatch
 		virtual void Accept(AbstractVisitor& visitor) override;
 		virtual Vector3 GetPoint(Vector2 parameter) override;
 	};

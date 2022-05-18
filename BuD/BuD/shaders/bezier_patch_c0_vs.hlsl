@@ -1,9 +1,9 @@
 struct VSInput
 {
-    float3 pos0 : POSITION0;
-    float3 pos1 : POSITION1;
-    float3 pos2 : POSITION2;
-    float3 pos3 : POSITION3;
+    float3 pos0 : POSITIONA;
+    float3 pos1 : POSITIONB;
+    float3 pos2 : POSITIONC;
+    float3 pos3 : POSITIOND;
 };
 
 struct GSInput

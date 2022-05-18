@@ -9,11 +9,17 @@ namespace BuD
 	{
 		DX11SwapchainDesc swapChainDesc(window->Handle(), window->Width(), window->Height());
 
+		UINT flags = 0;
+
+#ifdef _DEBUG
+		flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
 		ID3D11Device* device = nullptr;
 		ID3D11DeviceContext* context = nullptr;
 		IDXGISwapChain* swapchain = nullptr;
 
-		auto hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0,
+		auto hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags, nullptr, 0,
 			D3D11_SDK_VERSION, &swapChainDesc, &swapchain, &device, nullptr, &context);
 
 		m_device.Attach(device);

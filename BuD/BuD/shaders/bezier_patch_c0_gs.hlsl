@@ -49,20 +49,93 @@ float4 DeCasteljau3(int n, float t)
     return float4(bernsteinBasis[n][0], bernsteinBasis[n][1], bernsteinBasis[n][2], bernsteinBasis[n][3]);
 }
 
-[maxvertexcount(256)]
+float4 GetPoint(GSInput input[4], float u, float v)
+{
+    float4 uDeCasteljau = DeCasteljau3(3, u);
+    float4 vDeCasteljau = DeCasteljau3(3, v);
+
+    float4 result = float4(0.0, 0.0, 0.0, 0.0);
+
+    for (int u = 0; u < 4; u++)
+    {
+        float4 partResult = float4(0.0, 0.0, 0.0, 0.0);
+
+        partResult += input[u].pos0 * vDeCasteljau[0];
+        partResult += input[u].pos1 * vDeCasteljau[1];
+        partResult += input[u].pos2 * vDeCasteljau[2];
+        partResult += input[u].pos3 * vDeCasteljau[3];
+
+        result += partResult * uDeCasteljau[u];
+    }
+
+    return result;
+}
+
+[maxvertexcount(252)]
 void main(
 	lineadj GSInput input[4], 
-	inout LineStream<GSOutput> output
+	inout TriangleStream<GSOutput> output
 )
 {
     GSOutput element;
-    element.pos = mul(mvp, input[0].pos1);
     
-    output.Append(element);
+    int vertices = 0;
     
-    element.pos = float4(1.0, 1.0, 1.0, 1.0);
-    
-    output.Append(element);
-    output.RestartStrip();
+    int samplesU = u + 1;
+    int samplesV = u + 1;
 
+    int verticesCount = samplesU * samplesV;
+
+    float minDom = 0.0;
+    float maxDom = 1.0;
+
+    float du = (maxDom - minDom) / (samplesU - 1);
+    float dv = (maxDom - minDom) / (samplesV - 1);
+
+    float u = minDom + uStart * du;
+    float v = minDom + vStart * dv;
+    
+    int vStartMod = vStart;
+
+    for (int i = uStart; i < samplesU - 1; i++)
+    {
+        v = minDom;
+
+        for (int j = vStartMod; j < samplesV - 1; j++)
+        {
+            float4 v1 = mul(mvp, GetPoint(input, u, v));
+            float4 v2 = mul(mvp, GetPoint(input, u, v + dv));
+            float4 v3 = mul(mvp, GetPoint(input, u + du, v));
+            float4 v4 = mul(mvp, GetPoint(input, u + du, v + dv));
+
+            element.pos = v1;
+            output.Append(element);
+            element.pos = v2;
+            output.Append(element);
+            element.pos = v3;
+            output.Append(element);
+            
+            output.RestartStrip();
+            
+            element.pos = v1;
+            output.Append(element);
+            element.pos = v3;
+            output.Append(element);
+            element.pos = v4;
+            output.Append(element);
+            
+            output.RestartStrip();
+
+            v += dv;
+            vertices += 6;
+            
+            if (vertices == 252)
+            {
+                return;
+            }
+        }
+
+        vStartMod = 0;
+        u += du;
+    }
 }

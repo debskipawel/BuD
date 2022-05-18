@@ -8,22 +8,30 @@
 
 namespace BuD
 {
-	static std::vector<D3D11_INPUT_ELEMENT_DESC> elements
+	static std::vector<D3D11_INPUT_ELEMENT_DESC> polygonElements
 	{
 		{
 			"POSITION0", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		},
+	};
+
+	static std::vector<D3D11_INPUT_ELEMENT_DESC> elements
+	{
 		{
-			"POSITION1", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
+			"POSITIONA", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		},
 		{
-			"POSITION2", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24,
+			"POSITIONB", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		},
 		{
-			"POSITION3", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36,
+			"POSITIONC", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24,
+			D3D11_INPUT_PER_VERTEX_DATA, 0
+		},
+		{
+			"POSITIOND", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		},
 	};
@@ -39,9 +47,9 @@ namespace BuD
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
-		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
+		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data(), D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ);
 
-		auto polygonVB = std::make_shared<DX11VertexBuffer>(device, m_controlPoints.size() * sizeof(Vector3), elements);
+		auto polygonVB = std::make_shared<DX11VertexBuffer>(device, m_controlPoints.size() * sizeof(Vector3), polygonElements);
 		auto polygonIB = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 2 * m_controlPoints.size() * sizeof(unsigned short), nullptr, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
 		auto mesh = std::make_shared<Mesh>(vertexShader, geometryShader, pixelShader, vertexBuffer, indexBuffer,
@@ -49,20 +57,24 @@ namespace BuD
 			{
 				auto matrix = view * projection;
 
+				entity->GeometryShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
+				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
+			},
+			[this](int run, Mesh* mesh)
+			{
+				int loopPasses = run * 42; // 252 vertices in each pass, 6 for every loop pass
+				int startU = loopPasses % SamplesU();
+				int startV = loopPasses / SamplesV();
+
 				struct Params
 				{
 					int params[4];
 				};
 
-				Params params{ { SamplesU(), SamplesV(), 0, 0 } };
+				Params params{ { SamplesU(), SamplesV(), startU, startV } };
+				mesh->GeometryShader()->UpdateConstantBuffer(1, &params, sizeof(Params));
 
-				entity->GeometryShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
-				entity->GeometryShader()->UpdateConstantBuffer(1, &params, sizeof(Params));
-				entity->PixelShader()->UpdateConstantBuffer(0, &m_color, sizeof(Vector3));
-			},
-			[this](int run, Mesh* mesh)
-			{
-				return true;
+				return loopPasses >= SamplesU() * SamplesV();
 			}
 		);
 
