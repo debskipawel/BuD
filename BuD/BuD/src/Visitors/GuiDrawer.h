@@ -19,6 +19,7 @@ namespace BuD
 		virtual void Action(BezierCurveC2& curve) override;
 		virtual void Action(InterpolatedCurveC2& curve) override;
 		virtual void Action(BezierPatchC0& patch) override;
+		virtual void Action(BezierPatchC0GPU& patch) override;
 		virtual void Action(BezierSurfaceC0& surface) override;
 
 	protected:
