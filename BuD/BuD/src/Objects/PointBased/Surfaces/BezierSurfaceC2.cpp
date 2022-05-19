@@ -11,7 +11,68 @@ namespace BuD
 
 		if (asCylinder)
 		{
+			float alpha = DirectX::XM_2PI / patchesU;
+			float ca = cosf(alpha), sa = sinf(alpha);
 
+			float sideLength = 4.0f / 3 * tanf(alpha / 4);
+
+			Vector3 versor = { 1.0f, 0.0f, 0.0f };
+
+			auto size = 3 * patchesU;
+			std::vector<Vector3> pointsPositions(size);
+
+			for (int i = 0; i < patchesU; i++)
+			{
+				int index = 3 * i;
+
+				Vector3 orth = versor.Cross(Vector3{ 0.0f, 0.0f, 1.0f });
+
+				int prevIndex = index - 1 < 0 ? index - 1 + size : index - 1;
+				pointsPositions[prevIndex] = position + patchWidth * (versor + orth * sideLength);
+
+				pointsPositions[index] = position + patchWidth * versor;
+				pointsPositions[index + 1] = position + patchWidth * (versor - orth * sideLength);
+
+				versor = { ca * versor.x - sa * versor.y, sa * versor.x + ca * versor.y, 0.0f };
+			}
+
+			std::vector<Point*> points;
+			points.reserve((3 * patchesU) * (patchesV + 3));
+
+			for (int j = 0; j < patchesV + 3; j++)
+			{
+				float z = position.z + j * (patchLength / 3) - (patchesV * patchLength / 2);
+
+				for (int i = 0; i < patchesU * 3; i++)
+				{
+					auto point = scene.CreatePoint(device, pointsPositions[i] + Vector3(0.0f, 0.0f, z));
+					points.push_back(point.get());
+				}
+			}
+
+			for (int j = 0; j < patchesV; j++)
+			{
+				for (int i = 0; i < 3 * patchesU; i++)
+				{
+					std::vector<Point*> patchPoints(16);
+
+					int startingU = i;
+					int startingV = j;
+
+					for (int p = 0; p < 16; p++)
+					{
+						int dv = p / 4;
+						int du = p % 4;
+
+						int indexU = (startingU + du) % (3 * patchesU);
+
+						patchPoints[p] = points[(startingV + dv) * (3 * patchesU) + indexU];
+					}
+
+					auto patch = scene.CreateBezierPatchC2(device, patchPoints, sampleU, sampleV, this);
+					m_patches.push_back(reinterpret_cast<BezierPatch*>(patch.get()));
+				}
+			}
 		}
 		else
 		{
