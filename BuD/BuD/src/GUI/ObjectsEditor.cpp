@@ -126,7 +126,7 @@ namespace BuD
 			}
 		}
 
-		if (ImGui::Button("Add C0 surface"))
+		if (ImGui::Button("Add C2 surface"))
 		{
 			patchWidth = patchLength = 1.0f;
 			samplesU = samplesV = 4;
@@ -178,7 +178,7 @@ namespace BuD
 
 			if (ImGui::Button("Add"))
 			{
-				m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
+				m_scene.CreateBezierSurfaceC2(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
 
 				ImGui::CloseCurrentPopup();
 			}

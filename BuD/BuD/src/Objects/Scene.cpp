@@ -14,6 +14,9 @@
 #include <Objects/PointBased/Surfaces/BezierPatchC0GPU.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
 
+#include <Objects/PointBased/Surfaces/BezierPatchC2.h>
+#include <Objects/PointBased/Surfaces/BezierSurfaceC2.h>
+
 namespace BuD
 {
 	std::shared_ptr<Point> Scene::CreatePoint(const DX11Device& device, const Vector3& position)
@@ -75,6 +78,22 @@ namespace BuD
 	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
 	{
 		auto surface = std::make_shared<BezierSurfaceC0>(*this, device, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
+		AddSceneObject(surface);
+
+		return surface;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC2(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC2* owner)
+	{
+		auto patch = std::make_shared<BezierPatchC2>(*this, device, controlPoints, samplesU, samplesV, owner);
+		AddSceneObject(patch);
+
+		return patch;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC2(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
+	{
+		auto surface = std::make_shared<BezierSurfaceC2>(*this, device, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
 		AddSceneObject(surface);
 
 		return surface;

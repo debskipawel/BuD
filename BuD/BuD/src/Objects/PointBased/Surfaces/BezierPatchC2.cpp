@@ -1,12 +1,10 @@
-#include "BezierPatchC0.h"
-#include "BezierSurface.h"
-
-#include <algorithm>
+#include "BezierPatchC2.h"
 
 #include <DirectX11/Shaders/Loader/DX11ShaderLoader.h>
 
 #include <Objects/Scene.h>
-#include <Objects/Independent/Point.h>
+
+#include <algorithm>
 
 namespace BuD
 {
@@ -18,7 +16,7 @@ namespace BuD
 		}
 	};
 
-	BezierPatchC0::BezierPatchC0(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurface* owner)
+	BezierPatchC2::BezierPatchC2(Scene& scene, const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurface* owner)
 		: BezierPatch(scene, device, controlPoints, samplesU, samplesV, owner)
 	{
 		Meshify();
@@ -27,7 +25,6 @@ namespace BuD
 
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
-		auto deBoorPixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_light_blue_ps.hlsl", {});
 
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
@@ -45,12 +42,14 @@ namespace BuD
 			}
 		);
 
-		m_bezierPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, deBoorPixelShader, polygonVB, polygonIB,
+		m_bezierPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, polygonVB, polygonIB,
 			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * view * projection;
+				Vector3 polygonColor = { 1.0f, 0.0f, 0.0f };
 
 				entity->VertexShader()->UpdateConstantBuffer(0, &matrix, sizeof(Matrix));
+				entity->PixelShader()->UpdateConstantBuffer(0, &polygonColor, sizeof(Vector3));
 			}
 		);
 
@@ -59,15 +58,20 @@ namespace BuD
 		OnUpdate();
 	}
 
-	Vector3 BezierPatchC0::GetPoint(Vector2 param)
+	void BezierPatchC2::Accept(AbstractVisitor& visitor)
+	{
+		visitor.Action(*this);
+	}
+	
+	Vector3 BezierPatchC2::GetPoint(Vector2 param)
 	{
 		if (param.x != m_prevU)
 		{
 			m_prevU = param.x;
-			m_uDeCasteljau = DeCasteljau(param.x);
+			m_uDeBoor = DeBoor(param.x);
 		}
 
-		auto vDeCasteljau = DeCasteljau(param.y);
+		auto vDeCasteljau = DeBoor(param.y);
 
 		Vector3 result = {};
 
@@ -81,33 +85,34 @@ namespace BuD
 				partResult += point * vDeCasteljau[v];
 			}
 
-			result += partResult * m_uDeCasteljau[u];
+			result += partResult * m_uDeBoor[u];
 		}
 
 		return result;
 	}
-	
-	std::array<float, 4> BezierPatchC0::DeCasteljau(float t)
+
+	std::array<float, 4> BezierPatchC2::DeBoor(float t)
 	{
-		auto res = std::array<float, 4> { 0.0f };
-		res[0] = 1.0f;
+		std::array<float, 4> result{ 0.0f };
+		result[0] = 1.0f;
 
- 		float u = 1.0f - t;
-
+		// knots are 0, 1, 2, 3 - t is always from 0 to 1
 		for (int j = 1; j <= 3; j++)
 		{
 			for (int i = j; i >= 1; i--)
 			{
-				res[i] = res[i] * u + res[i - 1] * t;
+				float left = i - j;
+				float right = i + 1;
+				result[i] = result[i] * ((right - t) / j) + result[i - 1] * ((t - left) / j);
 			}
 
-			res[0] = res[0] * u;
+			result[0] = result[0] * (1.0f - t) / j;
 		}
 
-		return res;
+		return result;
 	}
 
-	void BezierPatchC0::OnUpdate()
+	void BezierPatchC2::OnUpdate()
 	{
 		if (m_controlPoints.size() != 16)
 		{
@@ -142,10 +147,5 @@ namespace BuD
 
 		m_bezierPolygonMesh->VertexBuffer()->Update(polygonVertices.data(), polygonVertices.size() * sizeof(Vector3));
 		m_bezierPolygonMesh->IndexBuffer()->Update(polygonIndices.data(), polygonIndices.size() * sizeof(unsigned short));
-	}
-	
-	void BezierPatchC0::Accept(AbstractVisitor& visitor)
-	{
-		visitor.Action(*this);
 	}
 }

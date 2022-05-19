@@ -209,8 +209,10 @@
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatch.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.cpp" />
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC2.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurface.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.cpp" />
+    <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.cpp" />
     <ClCompile Include="src\Objects\Scene.cpp" />
     <ClCompile Include="src\Objects\SceneObjectGroup.cpp" />
     <ClCompile Include="src\Scene\Cursor.cpp" />
@@ -270,8 +272,10 @@
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatch.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.h" />
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC2.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurface.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.h" />
+    <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.h" />
     <ClInclude Include="src\Objects\Scene.h" />
     <ClInclude Include="src\Objects\SceneObjectGroup.h" />
     <ClInclude Include="src\Scene\Cursor.h" />
