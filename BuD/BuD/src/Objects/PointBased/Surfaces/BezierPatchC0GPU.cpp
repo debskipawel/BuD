@@ -149,6 +149,7 @@ namespace BuD
 
 	void BezierPatchC0GPU::Accept(AbstractVisitor& visitor)
 	{
+		visitor.Action(*this);
 	}
 	
 	Vector3 BezierPatchC0GPU::GetPoint(Vector2 parameter)

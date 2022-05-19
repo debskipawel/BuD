@@ -54,11 +54,11 @@ namespace BuD
 		float L = -width / 2;
 		float R = width / 2;
 
-		float leftL = (L + halfDistance) * m_projNear / m_focus;
-		float leftR = (R + halfDistance) * m_projNear / m_focus;
+		float leftL = (L + halfDistance) * m_projNear / m_focus + halfDistance;
+		float leftR = (R + halfDistance) * m_projNear / m_focus + halfDistance;
 
-		float rightL = (L - halfDistance) * m_projNear / m_focus;
-		float rightR = (R - halfDistance) * m_projNear / m_focus;
+		float rightL = (L - halfDistance) * m_projNear / m_focus - halfDistance;
+		float rightR = (R - halfDistance) * m_projNear / m_focus - halfDistance;
 
 		top *= m_projNear / m_focus;
 		bottom *= m_projNear / m_focus;
