@@ -9,7 +9,9 @@
 #include <Objects/PointBased/Curves/InterpolatedCurveC2.h>
 
 #include <Objects/PointBased/Surfaces/BezierPatchC0.h>
+#include <Objects/PointBased/Surfaces/BezierPatchC2.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
+#include <Objects/PointBased/Surfaces/BezierSurfaceC2.h>
 
 #include <imgui.h>
 
@@ -220,47 +222,36 @@ namespace BuD
 
 	void GuiDrawer::Action(BezierPatchC0& patch)
 	{
-		bool wasChanged = false;
-
-		int samplesU = patch.m_samplesU;
-		int samplesV = patch.m_samplesV;
-
-		const int samplesMinU = 3;
-		const int samplesMinV = 3;
-
-		ImGui::Text("Samples count");
-		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
-		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
-
-		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
-		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
-
-		if (samplesU != patch.m_samplesU || samplesV != patch.m_samplesV)
-		{
-			wasChanged = true;
-		}
-
-		patch.m_samplesU = samplesU;
-		patch.m_samplesV = samplesV;
-
-		ImGui::Separator();
-
-		auto prevShowPolygon = patch.m_showBezierPolygon;
-
-		ImGui::Checkbox("Show polygon", &prevShowPolygon);
-
-		if (prevShowPolygon != patch.m_showBezierPolygon)
-		{
-			patch.ToggleBezierPolygon(prevShowPolygon);
-		}
-
-		if (wasChanged)
+		if (DrawGui(patch))
 		{
 			patch.OnUpdate();
 		}
 	}
 
 	void GuiDrawer::Action(BezierSurfaceC0& surface)
+	{
+		auto prevShowPolygon = surface.m_showBezierPolygon;
+
+		ImGui::Checkbox("Show polygon", &surface.m_showBezierPolygon);
+
+		if (prevShowPolygon != surface.m_showBezierPolygon)
+		{
+			for (auto& patch : surface.m_patches)
+			{
+				patch->ToggleBezierPolygon(surface.m_showBezierPolygon);
+			}
+		}
+	}
+
+	void GuiDrawer::Action(BezierPatchC2& patch)
+	{
+		if (DrawGui(patch))
+		{
+			patch.OnUpdate();
+		}
+	}
+
+	void GuiDrawer::Action(BezierSurfaceC2& surface)
 	{
 		auto prevShowPolygon = surface.m_showBezierPolygon;
 
@@ -323,6 +314,45 @@ namespace BuD
 					wasChanged = true;
 				}
 			}
+		}
+
+		return wasChanged;
+	}
+	
+	bool GuiDrawer::DrawGui(BezierPatch& patch)
+	{
+		bool wasChanged = false;
+
+		int samplesU = patch.m_samplesU;
+		int samplesV = patch.m_samplesV;
+
+		const int samplesMinU = 3;
+		const int samplesMinV = 3;
+
+		ImGui::Text("Samples count");
+		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
+		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
+
+		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
+		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
+
+		if (samplesU != patch.m_samplesU || samplesV != patch.m_samplesV)
+		{
+			wasChanged = true;
+		}
+
+		patch.m_samplesU = samplesU;
+		patch.m_samplesV = samplesV;
+
+		ImGui::Separator();
+
+		auto prevShowPolygon = patch.m_showBezierPolygon;
+
+		ImGui::Checkbox("Show polygon", &prevShowPolygon);
+
+		if (prevShowPolygon != patch.m_showBezierPolygon)
+		{
+			patch.ToggleBezierPolygon(prevShowPolygon);
 		}
 
 		return wasChanged;
