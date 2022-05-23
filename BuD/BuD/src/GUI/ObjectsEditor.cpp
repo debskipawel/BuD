@@ -126,6 +126,17 @@ namespace BuD
 			}
 		}
 
+		if (ImGui::Button("Add C0 surface"))
+		{
+			patchWidth = patchLength = 1.0f;
+			samplesU = samplesV = 4;
+			patchesU = patchesV = 1;
+			patchPosition = m_cursorPosition;
+			asCylinder = false;
+
+			ImGui::OpenPopup("Add C0 surface ##new_surface");
+		}
+
 		if (ImGui::Button("Add C2 surface"))
 		{
 			patchWidth = patchLength = 1.0f;
@@ -134,63 +145,17 @@ namespace BuD
 			patchPosition = m_cursorPosition;
 			asCylinder = false;
 
-			ImGui::OpenPopup("new_surface");
+			ImGui::OpenPopup("Add C2 surface ##new_surface");
 		}
 
-		if (ImGui::BeginPopupModal("new_surface"))
+		if (DrawSurfacePopup("Add C0 surface ##new_surface"))
 		{
-			// TODO: gui for surface
-			ImGui::Text("Patches size:");
-			ImGui::DragFloat(asCylinder ? "radius ##patchWidth" : "width ##patchWidth", &patchWidth, minWidth);
-			ImGui::DragFloat(asCylinder ? "height ##patchWidth" : "length ##patchLength", &patchLength, minWidth);
+			m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
+		}
 
-			patchWidth = max(patchWidth, minWidth);
-			patchLength = max(patchLength, minWidth);
-
-			ImGui::Separator();
-
-			ImGui::Text("Sample count");
-			ImGui::DragInt("u ##uSamples", &samplesU, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
-			ImGui::DragInt("v ##vSamples", &samplesV, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
-
-			samplesU = std::clamp(samplesU, minSamples, maxSamples);
-			samplesV = std::clamp(samplesV, minSamples, maxSamples);
-
-			ImGui::Separator();
-
-			ImGui::Text("Patch count");
-			ImGui::DragInt("u ##uPatches", &patchesU, 0.5f, asCylinder ? minPatches + 1 : minPatches, maxPatches);
-			ImGui::DragInt("v ##vPatches", &patchesV,minPatches, maxPatches);
-
-			patchesU = std::clamp(patchesU, asCylinder ? minPatches + 1 : minPatches, maxPatches);
-			patchesV = std::clamp(patchesV, minPatches, maxPatches);
-
-			ImGui::Separator();
-
-			ImGui::Text("Position");
-			ImGui::DragFloat("X ##patchPosx", &patchPosition.x, 0.1f);
-			ImGui::DragFloat("Y ##patchPosy", &patchPosition.y, 0.1f);
-			ImGui::DragFloat("Z ##patchPosz", &patchPosition.z, 0.1f);
-
-			ImGui::Separator();
-
-			ImGui::Checkbox("As cylinder: ", &asCylinder);
-
-			if (ImGui::Button("Add"))
-			{
-				m_scene.CreateBezierSurfaceC2(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
-
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::SameLine();
-
-			if (ImGui::Button("Cancel"))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
+		if (DrawSurfacePopup("Add C2 surface ##new_surface"))
+		{
+			m_scene.CreateBezierSurfaceC2(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
 		}
 		
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -348,6 +313,68 @@ namespace BuD
 		}
 
 		ImGui::End();
+	}
+
+	bool ObjectsEditor::DrawSurfacePopup(std::string name)
+	{
+		if (ImGui::BeginPopupModal(name.c_str()))
+		{
+			// TODO: gui for surface
+			ImGui::Text("Patches size:");
+			ImGui::DragFloat(asCylinder ? "radius ##patchWidth" : "width ##patchWidth", &patchWidth, minWidth);
+			ImGui::DragFloat(asCylinder ? "height ##patchWidth" : "length ##patchLength", &patchLength, minWidth);
+
+			patchWidth = max(patchWidth, minWidth);
+			patchLength = max(patchLength, minWidth);
+
+			ImGui::Separator();
+
+			ImGui::Text("Sample count");
+			ImGui::DragInt("u ##uSamples", &samplesU, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+			ImGui::DragInt("v ##vSamples", &samplesV, 0.5f, asCylinder ? minSamples + 1 : minSamples, maxSamples);
+
+			samplesU = std::clamp(samplesU, minSamples, maxSamples);
+			samplesV = std::clamp(samplesV, minSamples, maxSamples);
+
+			ImGui::Separator();
+
+			ImGui::Text("Patch count");
+			ImGui::DragInt("u ##uPatches", &patchesU, 0.5f, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			ImGui::DragInt("v ##vPatches", &patchesV, minPatches, maxPatches);
+
+			patchesU = std::clamp(patchesU, asCylinder ? minPatches + 1 : minPatches, maxPatches);
+			patchesV = std::clamp(patchesV, minPatches, maxPatches);
+
+			ImGui::Separator();
+
+			ImGui::Text("Position");
+			ImGui::DragFloat("X ##patchPosx", &patchPosition.x, 0.1f);
+			ImGui::DragFloat("Y ##patchPosy", &patchPosition.y, 0.1f);
+			ImGui::DragFloat("Z ##patchPosz", &patchPosition.z, 0.1f);
+
+			ImGui::Separator();
+
+			ImGui::Checkbox("As cylinder: ", &asCylinder);
+
+			if (ImGui::Button("Add"))
+			{
+				ImGui::CloseCurrentPopup();
+				ImGui::EndPopup();
+
+				return true;
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		return false;
 	}
 	
 	void ObjectsEditor::UpdateCamera(const RenderingMode& selectedType)
