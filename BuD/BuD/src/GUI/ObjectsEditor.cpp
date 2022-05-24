@@ -27,6 +27,8 @@ namespace BuD
 	
 	void ObjectsEditor::DrawGui(const DX11Device& device)
 	{
+		DrawContextMenu(device);
+
 		DrawMainSettings(device);
 		DrawSelectableList(device);
 
@@ -161,6 +163,31 @@ namespace BuD
 		ImGui::Text("Avg %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		ImGui::End();
+	}
+
+	void ObjectsEditor::DrawContextMenu(const DX11Device& device)
+	{
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Save to file..."))
+				{
+					// TODO: serializing the scene
+					MessageBox(nullptr, L"Zapisansko!", L"Zapisuwa", 0);
+				}
+
+				if (ImGui::MenuItem("Read from file..."))
+				{
+					// TODO: read the scene
+					MessageBox(nullptr, L"Wczytansko!", L"Wczytuwa", 0);
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMainMenuBar();
+		}
 	}
 	
 	void ObjectsEditor::DrawSelectableList(const DX11Device& device)

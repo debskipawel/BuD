@@ -29,6 +29,9 @@ namespace BuD
 	protected:
 		
 		void DrawMainSettings(const DX11Device& device);
+
+		void DrawContextMenu(const DX11Device& device);
+
 		void DrawSelectableList(const DX11Device& device);
 		void DrawSelectableConfig(const DX11Device& device);
 		bool DrawSurfacePopup(std::string title);
