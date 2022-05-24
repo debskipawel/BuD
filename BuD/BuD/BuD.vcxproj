@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32,WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32,WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -156,7 +156,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -289,6 +289,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
       <Project>{6d79829e-a19e-456c-a4be-0ad5f55bf220}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\ImGuiFileDialog\ImGuiFileDialog.vcxproj">
+      <Project>{f12b4da7-215a-4d9e-919b-b67ac9ee3cd3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\ImGui\ImGui.vcxproj">
       <Project>{16388acb-0f41-4ff6-9345-3faf941dcf4d}</Project>
