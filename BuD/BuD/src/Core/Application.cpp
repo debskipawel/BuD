@@ -29,7 +29,7 @@ namespace BuD
 	{
         m_window = std::make_shared<Win32Window>(ApplicationInfo(), hInstance);
         m_device = std::make_unique<DX11Device>(m_window);
-        m_guiEditor = std::make_unique<ObjectsEditor>(m_scene, m_window);
+        m_guiEditor = std::make_unique<ObjectsEditor>(m_window);
 
         m_selectedMode = m_guiEditor->GetRenderingMode();
 
@@ -109,7 +109,7 @@ namespace BuD
         m_renderer->Begin();
         auto camera = m_guiEditor->GetCamera();
 
-        auto sceneObjects = m_scene.GetAllSceneObjects();
+        auto sceneObjects = m_guiEditor->GetScene().GetAllSceneObjects();
 
         for (auto& [id, object] : sceneObjects)
         {
@@ -137,7 +137,7 @@ namespace BuD
 
         m_renderer->Draw(Cursor::GetCursorAt(m_guiEditor->CursorPosition(), m_renderer->Device())->GetMesh(), camera);
 
-        auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+        auto selected = SceneObjectsGroup(m_guiEditor->GetScene().GetAllSelected());
 
         if (selected.Count() > 0)
         {
@@ -199,18 +199,18 @@ namespace BuD
         {
             case KeyboardKeys::Delete:
             {
-                auto objects = m_scene.GetAllSelected();
+                auto objects = m_guiEditor->GetScene().GetAllSelected();
 
                 for (auto& [id, obj] : objects)
                 {
-                    m_scene.RemoveSceneObject(id);
+                    m_guiEditor->GetScene().RemoveSceneObject(id);
                 }
 
                 break;
             }
             case KeyboardKeys::Escape:
             {
-                auto objects = m_scene.GetAllSelected();
+                auto objects = m_guiEditor->GetScene().GetAllSelected();
 
                 for (auto& [id, obj] : objects)
                 {
@@ -255,7 +255,7 @@ namespace BuD
         }
         else if (e.m_button == MouseCode::LEFT)
         {
-            auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+            auto selected = SceneObjectsGroup(m_guiEditor->GetScene().GetAllSelected());
 
             m_inAction = true;
 
@@ -265,7 +265,7 @@ namespace BuD
 
             auto id = m_renderer->GetObjectFrom(e.m_xPos, e.m_yPos);
             
-            auto object = m_scene.GetSceneObject(id);
+            auto object = m_guiEditor->GetScene().GetSceneObject(id);
 
             if (object)
             {
@@ -306,7 +306,7 @@ namespace BuD
 
         if (m_inAction)
         {
-            auto selected = SceneObjectsGroup(m_scene.GetAllSelected());
+            auto selected = SceneObjectsGroup(m_guiEditor->GetScene().GetAllSelected());
 
             auto diff = camera->MoveWorldPointToPixels(selected.Centroid(), m_prevX, m_prevY) - m_prevActionPoint;
             

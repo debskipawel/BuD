@@ -41,5 +41,7 @@ namespace BuD
 
 		static std::shared_ptr<DX11VertexBuffer> s_vertexBuffer;
 		static std::shared_ptr<DX11IndexBuffer> s_indexBuffer;
+
+		friend class ObjectSerializer;
 	};
 }

@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32,WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Serializer\Serializer\;$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32,WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Serializer\Serializer\;$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Serializer\Serializer\;$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -156,7 +156,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Serializer\Serializer\;$(SolutionDir)Dependencies\ImGuiFileDialog\src;$(SolutionDir)Dependencies\ImGui\src;$(SolutionDir)Dependencies\DirectXTK\Inc;$(SolutionDir)BuD\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -219,6 +219,7 @@
     <ClCompile Include="src\Scene\Mesh.cpp" />
     <ClCompile Include="src\Visitors\AbstractVisitor.cpp" />
     <ClCompile Include="src\Visitors\GuiDrawer.cpp" />
+    <ClCompile Include="src\Visitors\ObjectSerializer.cpp" />
     <ClCompile Include="src\Win32\Win32EventFactory.cpp" />
     <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
@@ -282,11 +283,15 @@
     <ClInclude Include="src\Scene\Mesh.h" />
     <ClInclude Include="src\Visitors\AbstractVisitor.h" />
     <ClInclude Include="src\Visitors\GuiDrawer.h" />
+    <ClInclude Include="src\Visitors\ObjectSerializer.h" />
     <ClInclude Include="src\Win32\Win32EventFactory.h" />
     <ClInclude Include="src\Win32\Win32Window.h" />
     <ClInclude Include="src\Core\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Scene-Serializer\cpp\Serializer\Serializer\Serializer.vcxproj">
+      <Project>{f5ad3677-fd39-41a7-8ef3-5e429d816ce0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
       <Project>{6d79829e-a19e-456c-a4be-0ad5f55bf220}</Project>
     </ProjectReference>

@@ -57,8 +57,6 @@ namespace BuD
 		std::map<KeyboardKeys, bool> m_keyMap;
 		std::shared_ptr<Mesh> m_pointMesh;
 
-		Scene m_scene;
-
 		dxm::Vector3 m_cursorPosition = { 0.0f, 0.0f, 0.0f };
 		LARGE_INTEGER m_counterStart, m_freq;
 

@@ -4,6 +4,7 @@
 #include "Independent/Point.h"
 
 #include <map>
+#include <filesystem>
 
 namespace BuD
 {
@@ -39,6 +40,10 @@ namespace BuD
 		virtual void AddSceneObject(std::shared_ptr<SceneObject> object);
 		virtual void RemoveSceneObject(std::shared_ptr<SceneObject> object);
 		virtual void RemoveSceneObject(uint32_t id);
+
+		virtual void SaveToFile(std::filesystem::path path);
+
+		static Scene ReadFromFile(const DX11Device& device, std::filesystem::path path);
 
 	protected:
 		std::map<uint32_t, std::shared_ptr<SceneObject>> m_objects;

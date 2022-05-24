@@ -23,5 +23,7 @@ namespace BuD
 		void TransformPowerToBernstein();
 
 		Vector3 EquationResult(int i);
+
+		friend class ObjectSerializer;
 	};
 }

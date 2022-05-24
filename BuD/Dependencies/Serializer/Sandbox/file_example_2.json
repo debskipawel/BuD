@@ -1,0 +1,57 @@
+{
+    "points": [
+        {
+            "id": 0,
+            "position": {
+                "x": 2.0,
+                "y": -3.2,
+                "z": 8.1
+            }
+        },
+        {
+            "id": 1,
+            "position": {
+                "x": 42.0,
+                "y": -3,
+                "z": 8
+            }
+        },
+        {
+            "id": 2,
+            "position": {
+                "x": 2.0,
+                "y": -13,
+                "z": 6.8
+            }
+        },
+        {
+            "id": 3,
+            "position": {
+                "x": 12.0,
+                "y": 3.6,
+                "z": 10.1
+            }
+        }
+    ],
+    "geometry": [
+        {
+            "objectType": "bezierC0",
+            "id": 4,
+            "controlPoints": [
+                { "id": 1 },
+                { "id": 0 },
+                { "id": 2 }
+            ]
+        },
+        {
+            "objectType": "bezierC2",
+            "id": 5,
+            "deBoorPoints": [
+                { "id": 3 },
+                { "id": 1 },
+                { "id": 2 },
+                { "id": 0 }
+            ]
+        }
+    ]
+}

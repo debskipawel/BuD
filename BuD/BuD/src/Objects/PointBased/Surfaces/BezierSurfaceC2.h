@@ -15,5 +15,6 @@ namespace BuD
 		virtual ObjectFlags GetFlags() override { return ObjectFlags::SURFACE_C2; }
 
 		friend class GuiDrawer;
+		friend class ObjectSerializer;
 	};
 }

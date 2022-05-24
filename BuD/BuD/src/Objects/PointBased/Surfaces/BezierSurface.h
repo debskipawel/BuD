@@ -26,5 +26,6 @@ namespace BuD
 		bool m_showBezierPolygon = false;
 
 		friend class GuiDrawer;
+		friend class ObjectSerializer;
 	};
 }

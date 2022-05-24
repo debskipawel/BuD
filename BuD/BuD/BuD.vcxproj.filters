@@ -165,6 +165,9 @@
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Visitors\ObjectSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -351,6 +354,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Visitors\ObjectSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

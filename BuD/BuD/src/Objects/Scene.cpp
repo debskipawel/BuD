@@ -17,6 +17,9 @@
 #include <Objects/PointBased/Surfaces/BezierPatchC2.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC2.h>
 
+#include <Visitors/ObjectSerializer.h>
+#include <Serializer.h>
+
 namespace BuD
 {
 	std::shared_ptr<Point> Scene::CreatePoint(const DX11Device& device, const Vector3& position)
@@ -166,5 +169,106 @@ namespace BuD
 
 		result->second->OnDelete();
 		m_objects.erase(id);
+	}
+	
+	void Scene::SaveToFile(std::filesystem::path path)
+	{
+		ObjectSerializer serializer;
+
+		MG1::Scene::Get().Clear();
+
+		for (auto& [id, obj] : m_objects)
+		{
+			serializer.Visit(*obj);
+		}
+
+		MG1::SceneSerializer sceneSerializer;
+
+		sceneSerializer.SaveScene(path);
+	}
+
+	Scene Scene::ReadFromFile(const DX11Device& device, std::filesystem::path path)
+	{
+		MG1::SceneSerializer sceneSerializer;
+
+		sceneSerializer.LoadScene(path);
+
+		auto& deserializedScene = MG1::Scene::Get();
+		std::map<uint32_t, Point*> points;
+
+		Scene scene;
+
+		for (auto& point : deserializedScene.points)
+		{
+			auto pos = point.position;
+			auto p = scene.CreatePoint(device, Vector3{ pos.x, pos.y, pos.z });
+
+			points.insert(std::make_pair(point.GetId(), p.get()));
+		}
+
+		for (auto& torus : deserializedScene.tori)
+		{
+			auto pos = torus.position;
+			auto rot = torus.rotation;
+			auto sc = torus.scale;
+			auto t = scene.CreateTorus(device, Vector3{ pos.x, pos.y, pos.z }, torus.smallRadius, torus.largeRadius);
+
+			t->RotateTo(Vector3{ rot.x, rot.y, rot.z });
+			t->ScaleTo(Vector3{ sc.x, sc.y, sc.z });
+
+			//TODO: samples & name
+		}
+
+		for (auto& bezierC0 : deserializedScene.bezierC0)
+		{
+			std::vector<Point*> controlPoints;
+
+			std::transform(bezierC0.controlPoints.begin(), bezierC0.controlPoints.end(), std::back_inserter(controlPoints),
+				[&points](MG1::PointRef ref) { return points[ref.GetId()]; }
+			);
+
+			auto b = scene.CreateBezierCurveC0(device, controlPoints);
+		}
+
+		for (auto& bezierC2 : deserializedScene.bezierC2)
+		{
+			std::vector<Point*> controlPoints;
+
+			std::transform(bezierC2.controlPoints.begin(), bezierC2.controlPoints.end(), std::back_inserter(controlPoints),
+				[&points](MG1::PointRef ref) { return points[ref.GetId()]; }
+			);
+
+			auto b = scene.CreateBezierCurveC2(device, controlPoints);
+		}
+
+		for (auto& interpolatedC2 : deserializedScene.interpolatedC2)
+		{
+			std::vector<Point*> controlPoints;
+
+			std::transform(interpolatedC2.controlPoints.begin(), interpolatedC2.controlPoints.end(), std::back_inserter(controlPoints),
+				[&points](MG1::PointRef ref) { return points[ref.GetId()]; }
+			);
+
+			auto b = scene.CreateInterpolatedCurveC2(device, controlPoints);
+		}
+
+		for (auto& surface : deserializedScene.surfacesC0)
+		{
+			std::vector<BezierPatch*> patches;
+
+			for (auto& patch : surface.patches)
+			{
+				std::vector<Point*> controlPoints;
+
+				std::transform(patch.controlPoints.begin(), patch.controlPoints.end(), std::back_inserter(controlPoints),
+					[&points](MG1::PointRef ref) { return points[ref.GetId()]; }
+				);
+
+				auto p = scene.CreateBezierPatchC0(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
+				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
+			}
+		}
+
+		return scene;
 	}
 }

@@ -1,0 +1,47 @@
+{
+    "points": [
+        {
+            "id": 0,
+            "position": {
+                "x": 2.0,
+                "y": -3.2,
+                "z": 8.1
+            }
+        },
+        {
+            "id": 1,
+            "position": {
+                "x": 42.0,
+                "y": -3,
+                "z": 8
+            }
+        }
+    ],
+    "geometry": [
+        {
+            "objectType": "torus",
+            "id": 2,
+            "position": {
+                "x": 2.0,
+                "y": -3.2,
+                "z": 8.1
+            },
+            "rotation": {
+                "x": 20,
+                "y": 32,
+                "z": -81
+            },
+            "scale": {
+                "x": 1.5,
+                "y": 2.2,
+                "z": 0.7
+            },
+            "samples": {
+                "x": 10,
+                "y": 12
+            },
+            "smallRadius": 2.0,
+            "largeRadius": 5.0
+        }
+    ]
+}

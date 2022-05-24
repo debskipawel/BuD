@@ -28,5 +28,6 @@ namespace BuD
 
 		friend class BezierSurfaceC0;
 		friend class GuiDrawer;
+		friend class ObjectSerializer;
 	};
 }

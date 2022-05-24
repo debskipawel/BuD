@@ -15,8 +15,8 @@
 
 namespace BuD
 {
-	ObjectsEditor::ObjectsEditor(Scene& scene, std::shared_ptr<Win32Window> window)
-		: m_scene(scene), m_window(window), m_guiDrawer(scene)
+	ObjectsEditor::ObjectsEditor(std::shared_ptr<Win32Window> window)
+		: m_scene(), m_window(window), m_guiDrawer(m_scene)
 	{
 		m_activeCamera = CameraFactory::MakePerspective(Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 0.0f, -1.0f));
 		m_selectedType = RenderingMode::STANDARD;
@@ -196,11 +196,9 @@ namespace BuD
 				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
 				std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
 				// action
-				std::wstring wFilePathName(filePathName.begin(), filePathName.end());
-				std::wstring wFilePath(filePath.begin(), filePath.end());
 				
 				// TODO: save the scene to a file
-				MessageBox(nullptr, wFilePathName.c_str(), wFilePath.c_str(), 0);
+				m_scene.SaveToFile(filePathName);
 			}
 
 			ImGuiFileDialog::Instance()->Close();
@@ -217,7 +215,7 @@ namespace BuD
 				std::wstring wFilePath(filePath.begin(), filePath.end());
 
 				// TODO: save the scene to a file
-				MessageBox(nullptr, wFilePathName.c_str(), wFilePath.c_str(), 0);
+				m_scene = Scene::ReadFromFile(device, filePathName);
 			}
 
 			ImGuiFileDialog::Instance()->Close();

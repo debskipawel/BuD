@@ -34,5 +34,6 @@ namespace BuD
 		float m_smallRadius, m_largeRadius;
 
 		friend class GuiDrawer;
+		friend class ObjectSerializer;
 	};
 }

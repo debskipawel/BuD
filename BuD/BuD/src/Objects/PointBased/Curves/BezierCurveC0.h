@@ -13,5 +13,7 @@ namespace BuD
 		virtual void OnUpdate() override;
 
 		inline virtual ObjectFlags GetFlags() override { return ObjectFlags::BEZIER_CURVE_C0; }
+
+		friend class ObjectSerializer;
 	};
 }

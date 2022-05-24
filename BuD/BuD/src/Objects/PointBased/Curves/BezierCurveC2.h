@@ -24,5 +24,6 @@ namespace BuD
 		std::shared_ptr<Mesh> m_deBoorPolygonMesh;
 
 		friend class GuiDrawer;
+		friend class ObjectSerializer;
 	};
 }

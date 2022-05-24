@@ -15,9 +15,11 @@ namespace BuD
 	class ObjectsEditor
 	{
 	public:
-		ObjectsEditor(Scene& scene, std::shared_ptr<Win32Window> window);
+		ObjectsEditor(std::shared_ptr<Win32Window> window);
 
 		std::shared_ptr<AbstractCamera> GetCamera();
+
+		Scene& GetScene() { return m_scene; }
 
 		Vector3 CursorPosition() const { return m_cursorPosition; }
 		void DrawGui(const DX11Device& device);
@@ -44,7 +46,7 @@ namespace BuD
 
 		SceneObject* m_selectedObject = nullptr;
 		
-		Scene& m_scene;
+		Scene m_scene;
 		GuiDrawer m_guiDrawer;
 		
 		Vector3 m_cursorPosition;

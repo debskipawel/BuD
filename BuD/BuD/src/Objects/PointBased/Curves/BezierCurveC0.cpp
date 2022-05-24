@@ -50,6 +50,8 @@ namespace BuD
 		);
 
 		m_meshes.push_back(mesh);
+
+		OnUpdate();
 	}
 
 	void BezierCurveC0::Accept(AbstractVisitor& visitor)
