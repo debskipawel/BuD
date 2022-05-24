@@ -3,6 +3,8 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 
+#include <ImGuiFileDialog.h>
+
 #include "Camera/CameraFactory.h"
 
 #include <Objects/Abstract/PointBasedObject.h>
@@ -173,20 +175,52 @@ namespace BuD
 			{
 				if (ImGui::MenuItem("Save to file..."))
 				{
-					// TODO: serializing the scene
-					MessageBox(nullptr, L"Zapisansko!", L"Zapisuwa", 0);
+					ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlg", "Save to file", ".json", ".");
 				}
 
 				if (ImGui::MenuItem("Read from file..."))
 				{
-					// TODO: read the scene
-					MessageBox(nullptr, L"Wczytansko!", L"Wczytuwa", 0);
+					ImGuiFileDialog::Instance()->OpenDialog("OpenFileDlg", "Choose file", ".json", ".");
 				}
 
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMainMenuBar();
+		}
+
+		if (ImGuiFileDialog::Instance()->Display("SaveFileDlg"))
+		{
+			if (ImGuiFileDialog::Instance()->IsOk())
+			{
+				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+				std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+				// action
+				std::wstring wFilePathName(filePathName.begin(), filePathName.end());
+				std::wstring wFilePath(filePath.begin(), filePath.end());
+				
+				// TODO: save the scene to a file
+				MessageBox(nullptr, wFilePathName.c_str(), wFilePath.c_str(), 0);
+			}
+
+			ImGuiFileDialog::Instance()->Close();
+		}
+
+		if (ImGuiFileDialog::Instance()->Display("OpenFileDlg"))
+		{
+			if (ImGuiFileDialog::Instance()->IsOk())
+			{
+				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+				std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+				// action
+				std::wstring wFilePathName(filePathName.begin(), filePathName.end());
+				std::wstring wFilePath(filePath.begin(), filePath.end());
+
+				// TODO: save the scene to a file
+				MessageBox(nullptr, wFilePathName.c_str(), wFilePath.c_str(), 0);
+			}
+
+			ImGuiFileDialog::Instance()->Close();
 		}
 	}
 	
