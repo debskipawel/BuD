@@ -211,7 +211,7 @@ namespace BuD
 			auto pos = torus.position;
 			auto rot = torus.rotation;
 			auto sc = torus.scale;
-			auto t = scene.CreateTorus(device, Vector3{ pos.x, pos.y, pos.z }, torus.smallRadius, torus.largeRadius);
+			auto t = scene.CreateTorus(device, Vector3{ pos.x, pos.y, pos.z }, torus.largeRadius, torus.smallRadius);
 
 			t->RotateTo(Vector3{ rot.x, rot.y, rot.z });
 			t->ScaleTo(Vector3{ sc.x, sc.y, sc.z });
