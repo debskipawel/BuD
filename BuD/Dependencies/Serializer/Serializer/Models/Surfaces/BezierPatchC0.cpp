@@ -20,7 +20,8 @@ namespace MG1
 			{ "objectType", "bezierPatchC0" },
 			{ "id", p.m_id },
 			{ "name", p.name },
-			{ "controlPoints", points }
+			{ "controlPoints", points },
+			{ "samples", p.samples }
 		};
 	}
 
@@ -40,6 +41,7 @@ namespace MG1
 			p.controlPoints.push_back(ref);
 		}
 
+		p.samples = j["samples"];
 		p.SetId(j["id"].get<uint32_t>());
 	}
 }

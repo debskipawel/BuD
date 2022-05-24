@@ -6,6 +6,11 @@ namespace MG1
 {
 	bool SceneObject::SetId(uint32_t id)
 	{
+		if (id == m_id)
+		{
+			return true;
+		}
+
 		auto searchResult = s_takenIds.find(id);
 
 		if (searchResult != s_takenIds.end())
@@ -23,6 +28,11 @@ namespace MG1
 
 	SceneObject::SceneObject()
 	{
+		while (s_takenIds.find(s_firstFreeId) != s_takenIds.end())
+		{
+			s_firstFreeId++;
+		}
+
 		if (s_freedIds.empty())
 		{
 			m_id = s_firstFreeId++;

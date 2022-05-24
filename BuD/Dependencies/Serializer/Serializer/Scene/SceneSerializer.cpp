@@ -20,9 +20,14 @@ namespace MG1
 		auto& resultScene = Scene::Get();
 		resultScene.Clear();
 
+		std::set<uint32_t> loadedPoints;
+
 		for (auto& point : document["points"])
 		{
-			resultScene.points.push_back(point);
+			Point p = point;
+			resultScene.points.push_back(p);
+
+			loadedPoints.insert(p.GetId());
 		}
 
 		for (auto& element : document["geometry"])
@@ -60,6 +65,11 @@ namespace MG1
 				BezierSurfaceC2 s = element;
 				resultScene.surfacesC2.push_back(s);
 			}
+		}
+
+		if (!resultScene.IsValid())
+		{
+			throw SerializerException("File corrupted - Control points are not valid!");
 		}
 
 		return resultScene;

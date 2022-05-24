@@ -6,27 +6,9 @@
 
 namespace MG1
 {
-	std::map<uint32_t, Point*> Point::s_pointMap = {};
-	
 	Point::Point()
 		: SceneObject(), position()
 	{
-		s_pointMap.emplace(std::make_pair(m_id, this));
-	}
-
-	bool Point::SetId(uint32_t id)
-	{
-		auto prevId = m_id;
-
-		if (!SceneObject::SetId(id))
-		{
-			return false;
-		}
-
-		s_pointMap.erase(prevId);
-		s_pointMap.emplace(std::make_pair(id, this));
-
-		return true;
 	}
 
 	void to_json(nlohmann::json& j, const Point& p)

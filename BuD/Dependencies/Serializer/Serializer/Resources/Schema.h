@@ -161,9 +161,10 @@ inline static const std::string g_schema = R"(
                     "objectType":       { "const": "bezierPatchC0" },
                     "id":               { "$ref": "#/definitions/uint" },
                     "name":             { "type": "string" },
-                    "controlPoints":    { "$ref": "#/definitions/geometry/patchControlPoints" }
+                    "controlPoints":    { "$ref": "#/definitions/geometry/patchControlPoints" },
+                    "samples":          { "$ref": "#/definitions/uint2" }
                 },
-                "required": ["objectType", "id", "controlPoints"],
+                "required": ["objectType", "id", "controlPoints", "samples"],
                 "additionalProperties": false
             },
 
@@ -188,9 +189,10 @@ inline static const std::string g_schema = R"(
                     "objectType":       { "const": "bezierPatchC2" },
                     "id":               { "$ref": "#/definitions/uint" },
                     "name":             { "type": "string" },
-                    "controlPoints":    { "$ref": "#/definitions/geometry/patchControlPoints" }
+                    "controlPoints":    { "$ref": "#/definitions/geometry/patchControlPoints" },
+                    "samples":          { "$ref": "#/definitions/uint2" }
                 },
-                "required": ["objectType", "id", "controlPoints"],
+                "required": ["objectType", "id", "controlPoints", "samples"],
                 "additionalProperties": false
             },
 

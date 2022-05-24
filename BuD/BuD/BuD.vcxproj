@@ -289,9 +289,6 @@
     <ClInclude Include="src\Core\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Scene-Serializer\cpp\Serializer\Serializer\Serializer.vcxproj">
-      <Project>{f5ad3677-fd39-41a7-8ef3-5e429d816ce0}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
       <Project>{6d79829e-a19e-456c-a4be-0ad5f55bf220}</Project>
     </ProjectReference>
@@ -300,6 +297,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\ImGui\ImGui.vcxproj">
       <Project>{16388acb-0f41-4ff6-9345-3faf941dcf4d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\Serializer\Serializer\Serializer.vcxproj">
+      <Project>{f5ad3677-fd39-41a7-8ef3-5e429d816ce0}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace MG1
 		explicit Point();
 		Point(const Point& other) = default;
 
-		virtual bool SetId(uint32_t id) override;
+		virtual bool SetId(uint32_t id) override { return SceneObject::SetId(id); }
 
 		Float3 position;
 
@@ -25,9 +25,5 @@ namespace MG1
 
 		friend class PointRef;
 		friend class Scene;
-
-	protected:
-		// TODO: check if this is really necessary - works nice with PointRefs, but it's pretty ugly
-		static std::map<uint32_t, Point*> s_pointMap;
 	};
 }

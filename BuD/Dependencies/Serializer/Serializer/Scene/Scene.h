@@ -21,6 +21,7 @@ namespace MG1
 		static Scene& Get();
 
 		void Clear();
+		bool IsValid() const;
 
 		std::vector<Point> points;
 		std::vector<Torus> tori;

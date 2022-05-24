@@ -8,6 +8,7 @@ namespace MG1
 	void to_json(nlohmann::json& j, const Torus& p)
 	{
 		j = {
+			{ "objectType", "torus" },
 			{ "id", p.m_id },
 			{ "name", p.name },
 			{ "smallRadius", p.smallRadius },
