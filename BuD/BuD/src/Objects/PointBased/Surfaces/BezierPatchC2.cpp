@@ -21,7 +21,7 @@ namespace BuD
 	{
 		Meshify();
 
-		m_tag = "Patch C0";
+		m_tag = "Patch C2";
 
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });

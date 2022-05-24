@@ -9,6 +9,8 @@ namespace BuD
 	public:
 		BezierSurfaceC0(Scene& scene, const DX11Device& device,
 			Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder = false);
+		
+		BezierSurfaceC0(Scene& scene, const std::vector<BezierPatch*>& patches);
 
 		virtual void Accept(AbstractVisitor& visitor) override;
 

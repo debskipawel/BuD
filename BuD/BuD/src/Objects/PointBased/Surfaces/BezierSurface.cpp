@@ -11,6 +11,15 @@ namespace BuD
 	{
 	}
 
+	BezierSurface::BezierSurface(Scene& scene, const std::vector<BezierPatch*>& patches)
+		: SceneObject(scene), m_patches(patches)
+	{
+		for (auto& patch : m_patches)
+		{
+			patch->m_owner = this;
+		}
+	}
+
 	void BezierSurface::MoveTo(const Vector3& position, bool propagateUpdate)
 	{
 		auto diff = position - m_patches[0]->m_controlPoints[0]->Position();

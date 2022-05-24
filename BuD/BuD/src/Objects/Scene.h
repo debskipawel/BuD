@@ -10,6 +10,7 @@ namespace BuD
 {
 	class BezierSurfaceC0;
 	class BezierSurfaceC2;
+	class BezierPatch;
 
 	class Scene
 	{
@@ -26,9 +27,11 @@ namespace BuD
 		virtual std::shared_ptr<SceneObject> CreateBezierPatchC0(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner = nullptr);
 		virtual std::shared_ptr<SceneObject> CreateBezierPatchC0GPU(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC0* owner = nullptr);
 		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder);
+		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC0(const std::vector<BezierPatch*>& patches);
 
 		virtual std::shared_ptr<SceneObject> CreateBezierPatchC2(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC2* owner = nullptr);
 		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC2(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder);
+		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC2(const std::vector<BezierPatch*>& patches);
 
 		virtual std::shared_ptr<SceneObject> GetSceneObject(uint32_t id);
 

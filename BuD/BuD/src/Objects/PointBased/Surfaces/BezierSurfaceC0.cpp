@@ -116,6 +116,11 @@ namespace BuD
 		}
 	}
 
+	BezierSurfaceC0::BezierSurfaceC0(Scene& scene, const std::vector<BezierPatch*>& patches)
+		: BezierSurface(scene, patches)
+	{
+	}
+
 	void BezierSurfaceC0::Accept(AbstractVisitor& visitor)
 	{
 		visitor.Action(*this);

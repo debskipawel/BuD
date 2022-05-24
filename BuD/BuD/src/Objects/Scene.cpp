@@ -86,6 +86,14 @@ namespace BuD
 		return surface;
 	}
 
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const std::vector<BezierPatch*>& patches)
+	{
+		auto surface = std::make_shared<BezierSurfaceC0>(*this, patches);
+		AddSceneObject(surface);
+
+		return surface;
+	}
+
 	std::shared_ptr<SceneObject> Scene::CreateBezierPatchC2(const DX11Device& device, const std::vector<Point*>& controlPoints, int samplesU, int samplesV, BezierSurfaceC2* owner)
 	{
 		auto patch = std::make_shared<BezierPatchC2>(*this, device, controlPoints, samplesU, samplesV, owner);
@@ -97,6 +105,14 @@ namespace BuD
 	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC2(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
 	{
 		auto surface = std::make_shared<BezierSurfaceC2>(*this, device, position, patchWidth, patchLength, patchesU, patchesV, sampleU, sampleV, asCylinder);
+		AddSceneObject(surface);
+
+		return surface;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC2(const std::vector<BezierPatch*>& patches)
+	{
+		auto surface = std::make_shared<BezierSurfaceC2>(*this, patches);
 		AddSceneObject(surface);
 
 		return surface;
@@ -267,6 +283,27 @@ namespace BuD
 				auto p = scene.CreateBezierPatchC0(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
 				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
 			}
+
+			scene.CreateBezierSurfaceC0(patches);
+		}
+
+		for (auto& surface : deserializedScene.surfacesC2)
+		{
+			std::vector<BezierPatch*> patches;
+
+			for (auto& patch : surface.patches)
+			{
+				std::vector<Point*> controlPoints;
+
+				std::transform(patch.controlPoints.begin(), patch.controlPoints.end(), std::back_inserter(controlPoints),
+					[&points](MG1::PointRef ref) { return points[ref.GetId()]; }
+				);
+
+				auto p = scene.CreateBezierPatchC2(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
+				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
+			}
+
+			scene.CreateBezierSurfaceC2(patches);
 		}
 
 		return scene;
