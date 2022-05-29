@@ -79,18 +79,16 @@ namespace MG1
 	{
 		auto& scene = Scene::Get();
 
-		nlohmann::json dumpDocument;
+		nlohmann::ordered_json dumpDocument;
 
-		auto points = nlohmann::json::array();
+		auto points = nlohmann::ordered_json::array();
 		
 		for (auto& point : scene.points)
 		{
 			points.push_back(point);
 		}
 
-		dumpDocument["points"] = points;
-
-		auto geometry = nlohmann::json::array();
+		auto geometry = nlohmann::ordered_json::array();
 
 		for (auto& obj : scene.tori)
 		{
@@ -123,6 +121,7 @@ namespace MG1
 		}
 
 		dumpDocument["geometry"] = geometry;
+		dumpDocument["points"] = points;
 
 		auto jsonString = dumpDocument.dump(1, '\t');
 

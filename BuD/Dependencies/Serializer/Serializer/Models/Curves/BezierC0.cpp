@@ -10,9 +10,9 @@ namespace MG1
             : Bezier(std::move(other))
     {   }
 
-	void to_json(nlohmann::json& j, const BezierC0& p)
+	void to_json(nlohmann::ordered_json& j, const BezierC0& p)
 	{
-		auto points = nlohmann::json::array();
+		auto points = nlohmann::ordered_json::array();
 
 		std::transform(
 			p.controlPoints.begin(), p.controlPoints.end(),
@@ -20,7 +20,7 @@ namespace MG1
 			[](const PointRef& point) { return nlohmann::json{ { "id", point.GetId() } }; }
 		);
 
-		j = {
+		j = nlohmann::ordered_json {
 			{ "objectType", "bezierC0" },
 			{ "id", p.m_id },
 			{ "name", p.name },
@@ -28,7 +28,7 @@ namespace MG1
 		};
 	}
 
-	void from_json(const nlohmann::json& j, BezierC0& p)
+	void from_json(const nlohmann::ordered_json& j, BezierC0& p)
 	{
 		if (j.contains("name"))
 		{

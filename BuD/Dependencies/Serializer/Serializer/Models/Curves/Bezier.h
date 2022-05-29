@@ -20,7 +20,7 @@ namespace MG1
 
 		std::vector<PointRef> controlPoints;
 
-		friend void to_json(nlohmann::json& j, const Bezier& p);
-		friend void from_json(const nlohmann::json& j, Bezier& p);
+		friend void to_json(nlohmann::ordered_json& j, const Bezier& p);
+		friend void from_json(const nlohmann::ordered_json& j, Bezier& p);
 	};
 }

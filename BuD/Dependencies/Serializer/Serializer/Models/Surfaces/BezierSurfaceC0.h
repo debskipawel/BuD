@@ -9,8 +9,8 @@ namespace MG1
 	class BezierSurfaceC0 : public SceneObject
 	{
 	public:
-		friend void to_json(nlohmann::json& j, const BezierSurfaceC0& p);
-		friend void from_json(const nlohmann::json& j, BezierSurfaceC0& p);
+		friend void to_json(nlohmann::ordered_json& j, const BezierSurfaceC0& p);
+		friend void from_json(const nlohmann::ordered_json& j, BezierSurfaceC0& p);
 
 		bool uWrapped, vWrapped;
 		Uint2 size;

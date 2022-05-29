@@ -5,7 +5,7 @@
 
 namespace MG1
 {
-	void to_json(nlohmann::json& j, const Uint2& p)
+	void to_json(nlohmann::ordered_json& j, const Uint2& p)
 	{
 		j = {
 			{ "x", p.x },
@@ -13,7 +13,7 @@ namespace MG1
 		};
 	}
 	
-	void from_json(const nlohmann::json& j, Uint2& p)
+	void from_json(const nlohmann::ordered_json& j, Uint2& p)
 	{
 		p.x = j["x"].get<uint32_t>();
 		p.y = j["y"].get<uint32_t>();

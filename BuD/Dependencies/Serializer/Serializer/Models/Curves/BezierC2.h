@@ -11,7 +11,7 @@ namespace MG1
 
         explicit BezierC2(Bezier &&other);
 
-		friend void to_json(nlohmann::json& j, const BezierC2& p);
-		friend void from_json(const nlohmann::json& j, BezierC2& p);
+		friend void to_json(nlohmann::ordered_json& j, const BezierC2& p);
+		friend void from_json(const nlohmann::ordered_json& j, BezierC2& p);
 	};
 }

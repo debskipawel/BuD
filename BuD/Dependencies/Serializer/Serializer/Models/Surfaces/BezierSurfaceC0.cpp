@@ -5,30 +5,31 @@
 
 namespace MG1
 {
-	void to_json(nlohmann::json& j, const BezierSurfaceC0& p)
+	void to_json(nlohmann::ordered_json& j, const BezierSurfaceC0& p)
 	{
-		auto patches = nlohmann::json::array();
+		auto patches = nlohmann::ordered_json::array();
 
 		for (auto& patch : p.patches)
 		{
 			patches.push_back(patch);
 		}
 
-		auto wrapped = nlohmann::json::object();
+		auto wrapped = nlohmann::ordered_json::object();
 		wrapped["u"] = p.uWrapped;
 		wrapped["v"] = p.vWrapped;
 
-		j = {
+		j = nlohmann::ordered_json {
+			{ "objectType", "bezierSurfaceC0" },
 			{ "name", p.name },
 			{ "id", p.m_id },
-			{ "size", p.size },
-			{ "parameterWrapped", wrapped },
-			{ "objectType", "bezierSurfaceC0" },
 			{ "patches", patches }
 		};
+
+		j["parameterWrapped"] = wrapped;
+		j["size"] = p.size;
 	}
 
-	void from_json(const nlohmann::json& j, BezierSurfaceC0& p)
+	void from_json(const nlohmann::ordered_json& j, BezierSurfaceC0& p)
 	{
 		for (auto& patch : j["patches"])
 		{

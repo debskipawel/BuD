@@ -5,22 +5,23 @@
 
 namespace MG1
 {
-	void to_json(nlohmann::json& j, const Torus& p)
+	void to_json(nlohmann::ordered_json& j, const Torus& p)
 	{
-		j = {
+		j = nlohmann::ordered_json {
 			{ "objectType", "torus" },
 			{ "id", p.m_id },
 			{ "name", p.name },
 			{ "smallRadius", p.smallRadius },
 			{ "largeRadius", p.largeRadius },
-			{ "position", p.position },
-			{ "rotation", p.rotation },
-			{ "scale", p.scale },
-			{ "samples", p.samples }
 		};
+
+		j["position"] = p.position;
+		j["rotation"] = p.rotation;
+		j["scale"] = p.scale;
+		j["samples"] = p.samples;
 	}
 	
-	void from_json(const nlohmann::json& j, Torus& p)
+	void from_json(const nlohmann::ordered_json& j, Torus& p)
 	{
 		if (j.contains("name"))
 		{

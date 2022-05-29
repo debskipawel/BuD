@@ -20,8 +20,8 @@ namespace MG1
 
 		Float3 position;
 
-		friend void to_json(nlohmann::json& j, const Point& p);
-		friend void from_json(const nlohmann::json& j, Point& p);
+		friend void to_json(nlohmann::ordered_json& j, const Point& p);
+		friend void from_json(const nlohmann::ordered_json& j, Point& p);
 
 		friend class PointRef;
 		friend class Scene;

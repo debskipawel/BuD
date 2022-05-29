@@ -23,7 +23,7 @@ namespace MG1
 		float largeRadius;
 		float smallRadius;
 
-		friend void to_json(nlohmann::json& j, const Torus& p);
-		friend void from_json(const nlohmann::json& j, Torus& p);
+		friend void to_json(nlohmann::ordered_json& j, const Torus& p);
+		friend void from_json(const nlohmann::ordered_json& j, Torus& p);
 	};
 }

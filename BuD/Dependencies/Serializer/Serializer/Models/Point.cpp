@@ -11,7 +11,7 @@ namespace MG1
 	{
 	}
 
-	void to_json(nlohmann::json& j, const Point& p)
+	void to_json(nlohmann::ordered_json& j, const Point& p)
 	{
 		j = {
 			{ "id", p.m_id },
@@ -20,7 +20,7 @@ namespace MG1
 		};
 	}
 
-	void from_json(const nlohmann::json& j, Point& p)
+	void from_json(const nlohmann::ordered_json& j, Point& p)
 	{
 		Float3 position = j["position"];
 		
