@@ -236,7 +236,7 @@ namespace BuD
 				bool selected = object->Selected();
 				bool copySelected = selected;
 
-				std::string name = std::to_string(id) + ": " + object->Name();
+				std::string name = std::to_string(id) + ": " + object->GetName();
 
 				auto res = ImGui::Selectable(name.c_str(), &copySelected);
 
@@ -274,7 +274,7 @@ namespace BuD
 			ImGui::NewLine();
 			ImGui::Text("Name");
 
-			auto name = object->Name();
+			auto name = object->GetName();
 			ImGui::InputText("##n", &name);
 
 			ImGui::NewLine();

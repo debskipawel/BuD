@@ -43,8 +43,10 @@ namespace BuD
 		inline std::shared_ptr<Mesh> GetMesh(int index) { return m_meshes[index]; }
 
 		inline uint32_t Id() const { return m_id; }
-		inline std::string Name() { return m_tag; }
 		inline bool Selected() { return m_selected; }
+
+		inline std::string GetName() { return m_tag; }
+		inline void SetName(std::string name) { m_tag = name; }
 
 	protected:
 		Scene& m_scene;

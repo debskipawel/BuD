@@ -304,7 +304,7 @@ namespace BuD
 			{
 				auto point = reinterpret_cast<Point*>(obj.get());
 
-				std::string name = "Add " + obj->Name() + std::to_string(id);
+				std::string name = "Add " + obj->GetName() + std::to_string(id);
 				bool selected = false;
 				ImGui::Selectable(name.c_str(), &selected);
 

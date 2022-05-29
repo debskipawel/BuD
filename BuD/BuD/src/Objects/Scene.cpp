@@ -233,6 +233,7 @@ namespace BuD
 			t->ScaleTo(Vector3{ sc.x, sc.y, sc.z });
 
 			//TODO: samples & name
+			t->SetName(torus.name);
 		}
 
 		for (auto& bezierC0 : deserializedScene.bezierC0)
@@ -244,6 +245,7 @@ namespace BuD
 			);
 
 			auto b = scene.CreateBezierCurveC0(device, controlPoints);
+			b->SetName(bezierC0.name);
 		}
 
 		for (auto& bezierC2 : deserializedScene.bezierC2)
@@ -255,6 +257,7 @@ namespace BuD
 			);
 
 			auto b = scene.CreateBezierCurveC2(device, controlPoints);
+			b->SetName(bezierC2.name);
 		}
 
 		for (auto& interpolatedC2 : deserializedScene.interpolatedC2)
@@ -266,6 +269,7 @@ namespace BuD
 			);
 
 			auto b = scene.CreateInterpolatedCurveC2(device, controlPoints);
+			b->SetName(interpolatedC2.name);
 		}
 
 		for (auto& surface : deserializedScene.surfacesC0)
@@ -282,9 +286,11 @@ namespace BuD
 
 				auto p = scene.CreateBezierPatchC0(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
 				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
+				p->SetName(patch.name);
 			}
 
-			scene.CreateBezierSurfaceC0(patches);
+			auto s = scene.CreateBezierSurfaceC0(patches);
+			s->SetName(surface.name);
 		}
 
 		for (auto& surface : deserializedScene.surfacesC2)
@@ -301,9 +307,11 @@ namespace BuD
 
 				auto p = scene.CreateBezierPatchC2(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
 				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
+				p->SetName(patch.name);
 			}
 
-			scene.CreateBezierSurfaceC2(patches);
+			auto s = scene.CreateBezierSurfaceC2(patches);
+			s->SetName(surface.name);
 		}
 
 		return scene;

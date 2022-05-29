@@ -171,15 +171,25 @@ inline static const std::string g_schema = R"(
             "bezierSurfaceC0": {
                 "type": "object",
                 "properties": {
-                    "objectType":   { "const": "bezierSurfaceC0" },
-                    "id":           { "$ref": "#/definitions/uint" },
-                    "name":         { "type": "string" },
-                    "patches":      { 
+                    "objectType": { "const": "bezierSurfaceC0" },
+                    "id": { "$ref": "#/definitions/uint" },
+                    "name": { "type": "string" },
+                    "patches": { 
                         "type": "array",
                         "items": { "$ref": "#/definitions/geometry/bezierPatchC0" }
-                    }
+                    },
+                    "parameterWrapped": {
+                        "type": "object",
+                        "properties": {
+                            "u": { "type": "boolean" },
+                            "v": { "type": "boolean" }
+                        },
+                        "additionalProperties": false,
+                        "required": ["u", "v"]
+                    },
+                    "size": { "$ref": "#/definitions/uint2" }
                 },
-                "required": ["objectType", "id", "patches"],
+                "required": ["objectType", "id", "patches", "parameterWrapped", "size"],
                 "additionalProperties": false
             },
 
@@ -205,9 +215,21 @@ inline static const std::string g_schema = R"(
                     "patches":      { 
                         "type": "array",
                         "items": { "$ref": "#/definitions/geometry/bezierPatchC2" }
+                    },
+                    "parameterWrapped": {
+                        "type": "object",
+                        "properties": {
+                            "u": { "type": "boolean" },
+                            "v": { "type": "boolean" }
+                        },
+                        "additionalProperties": false,
+                        "required": ["u", "v"]
+                    },
+                    "size": {
+                        "$ref": "#/definitions/uint2"
                     }
                 },
-                "required": ["objectType", "id", "patches"],
+                "required": ["objectType", "id", "patches", "parameterWrapped", "size"],
                 "additionalProperties": false
             }
         }

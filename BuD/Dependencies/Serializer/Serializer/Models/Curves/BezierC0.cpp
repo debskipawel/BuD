@@ -6,10 +6,14 @@
 
 namespace MG1
 {
+    BezierC0::BezierC0(Bezier &&other)
+            : Bezier(std::move(other))
+    {   }
+
 	void to_json(nlohmann::json& j, const BezierC0& p)
 	{
 		auto points = nlohmann::json::array();
-		
+
 		std::transform(
 			p.controlPoints.begin(), p.controlPoints.end(),
 			std::back_inserter(points),
@@ -23,7 +27,7 @@ namespace MG1
 			{ "controlPoints", points }
 		};
 	}
-	
+
 	void from_json(const nlohmann::json& j, BezierC0& p)
 	{
 		if (j.contains("name"))

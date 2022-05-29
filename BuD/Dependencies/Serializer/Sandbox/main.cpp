@@ -6,7 +6,7 @@
 int main()
 {
     MG1::SceneSerializer serializer;
-    serializer.LoadScene("./file_example_2.json");
+    serializer.LoadScene("./surface_example.json");
 
     auto& scene = MG1::Scene::Get();
 

@@ -22,7 +22,7 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto p = MG1::Point();
 
-		p.name = point.Name();
+		p.name = point.GetName();
 		p.SetId(point.Id());
 
 		auto position = point.Position();
@@ -45,7 +45,7 @@ namespace BuD
 		t.rotation = MG1::Float3{ rotation.x, rotation.y, rotation.z };
 		t.scale = MG1::Float3{ scale.x, scale.y, scale.z };
 		
-		t.name = torus.Name();
+		t.name = torus.GetName();
 		t.largeRadius = torus.m_largeRadius;
 		t.smallRadius = torus.m_smallRadius;
 		t.samples = MG1::Uint2{ static_cast<uint32_t>(torus.SamplesU()), static_cast<uint32_t>(torus.SamplesV()) };
@@ -60,7 +60,7 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto c = MG1::BezierC0();
 
-		c.name = curve.Name();
+		c.name = curve.GetName();
 		c.SetId(curve.Id());
 
 		for (auto cp : curve.m_controlPoints)
@@ -76,7 +76,7 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto c = MG1::BezierC2();
 
-		c.name = curve.Name();
+		c.name = curve.GetName();
 		c.SetId(curve.Id());
 
 		for (auto cp : curve.m_controlPoints)
@@ -92,7 +92,7 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto c = MG1::InterpolatedC2();
 
-		c.name = curve.Name();
+		c.name = curve.GetName();
 		c.SetId(curve.Id());
 
 		for (auto cp : curve.m_controlPoints)
@@ -112,13 +112,13 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto s = MG1::BezierSurfaceC0();
 
-		s.name = surface.Name();
+		s.name = surface.GetName();
 		s.SetId(surface.Id());
 
 		for (auto& patch : surface.m_patches)
 		{
 			auto p = MG1::BezierPatchC0();
-			p.name = patch->Name();
+			p.name = patch->GetName();
 			p.SetId(patch->Id());
 
 			p.samples = MG1::Uint2{ static_cast<uint32_t>(patch->SamplesU()), static_cast<uint32_t>(patch->SamplesV()) };
@@ -143,13 +143,13 @@ namespace BuD
 		auto& scene = MG1::Scene::Get();
 		auto s = MG1::BezierSurfaceC2();
 
-		s.name = surface.Name();
+		s.name = surface.GetName();
 		s.SetId(surface.Id());
 
 		for (auto& patch : surface.m_patches)
 		{
 			auto p = MG1::BezierPatchC2();
-			p.name = patch->Name();
+			p.name = patch->GetName();
 			p.SetId(patch->Id());
 
 			p.samples = MG1::Uint2{ static_cast<uint32_t>(patch->SamplesU()), static_cast<uint32_t>(patch->SamplesV()) };

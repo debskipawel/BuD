@@ -2,6 +2,7 @@
 
 #include <Models/SceneObject.h>
 #include <Models/Surfaces/BezierPatchC2.h>
+#include <Utils\Uint2.h>
 
 namespace MG1
 {
@@ -11,6 +12,8 @@ namespace MG1
 		friend void to_json(nlohmann::json& j, const BezierSurfaceC2& p);
 		friend void from_json(const nlohmann::json& j, BezierSurfaceC2& p);
 
+		bool uWrapped, vWrapped;
+		Uint2 size;
 		std::vector<BezierPatchC2> patches;
 	};
 }

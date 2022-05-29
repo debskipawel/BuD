@@ -24,6 +24,11 @@ namespace MG1
 	{
 		Float3 position = j["position"];
 		
+		if (j.contains("name"))
+		{
+			p.name = j["name"];
+		}
+
 		auto id = j["id"].get<uint32_t>();
 
 		// TODO: check if the point was not a duplicate - SetId will return false

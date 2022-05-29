@@ -14,6 +14,10 @@ namespace MG1
 	public:
 		explicit Bezier() = default;
 
+        Bezier(const Bezier &other) = default;
+
+        Bezier(Bezier &&other) = default;
+
 		std::vector<PointRef> controlPoints;
 
 		friend void to_json(nlohmann::json& j, const Bezier& p);

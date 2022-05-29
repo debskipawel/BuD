@@ -6,6 +6,10 @@
 
 namespace MG1
 {
+    InterpolatedC2::InterpolatedC2(Bezier &&other)
+            : Bezier(std::move(other))
+    {   }
+
 	void to_json(nlohmann::json& j, const InterpolatedC2& p)
 	{
 		auto points = nlohmann::json::array();

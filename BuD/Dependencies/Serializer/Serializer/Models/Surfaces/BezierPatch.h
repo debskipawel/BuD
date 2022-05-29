@@ -12,6 +12,10 @@ namespace MG1
 	public:
 		explicit BezierPatch() = default;
 
+        BezierPatch(const BezierPatch &other) = default;
+
+        BezierPatch(BezierPatch &&other) = default;
+
 		std::vector<PointRef> controlPoints;
 		Uint2 samples;
 	};
