@@ -229,11 +229,15 @@ namespace BuD
 			auto sc = torus.scale;
 			auto t = scene.CreateTorus(device, Vector3{ pos.x, pos.y, pos.z }, torus.largeRadius, torus.smallRadius);
 
+			auto torusCast = reinterpret_cast<Torus*>(t.get());
+
 			t->RotateTo(Vector3{ rot.x, rot.y, rot.z });
 			t->ScaleTo(Vector3{ sc.x, sc.y, sc.z });
 
 			//TODO: samples & name
 			t->SetName(torus.name);
+			torusCast->UpdateSamples(torus.samples.x, torus.samples.y);
+			torusCast->OnUpdate();
 		}
 
 		for (auto& bezierC0 : deserializedScene.bezierC0)
@@ -285,8 +289,13 @@ namespace BuD
 				);
 
 				auto p = scene.CreateBezierPatchC0(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
-				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
-				p->SetName(patch.name);
+				auto patchCast = reinterpret_cast<BezierPatch*>(p.get());
+				
+				patches.push_back(patchCast);
+
+				patchCast->SetName(patch.name);
+				patchCast->UpdateSamples(patch.samples.x, patch.samples.y);
+				patchCast->OnUpdate();
 			}
 
 			auto s = scene.CreateBezierSurfaceC0(patches);
@@ -306,8 +315,13 @@ namespace BuD
 				);
 
 				auto p = scene.CreateBezierPatchC2(device, controlPoints, patch.samples.x, patch.samples.y, nullptr);
-				patches.push_back(reinterpret_cast<BezierPatch*>(p.get()));
-				p->SetName(patch.name);
+				auto patchCast = reinterpret_cast<BezierPatch*>(p.get());
+
+				patches.push_back(patchCast);
+
+				patchCast->SetName(patch.name);
+				patchCast->UpdateSamples(patch.samples.x, patch.samples.y);
+				patchCast->OnUpdate();
 			}
 
 			auto s = scene.CreateBezierSurfaceC2(patches);
