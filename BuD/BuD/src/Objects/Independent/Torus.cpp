@@ -52,8 +52,8 @@ namespace BuD
 		return Vector3
 		{
 			(m_largeRadius + m_smallRadius * cv) * cu,
-			(m_largeRadius + m_smallRadius * cv) * su,
-			m_smallRadius * sv
+			m_smallRadius * sv,
+			(m_largeRadius + m_smallRadius * cv) * su
 		};
 	}
 
