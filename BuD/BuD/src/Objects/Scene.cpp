@@ -86,9 +86,9 @@ namespace BuD
 		return surface;
 	}
 
-	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const std::vector<BezierPatch*>& patches)
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder)
 	{
-		auto surface = std::make_shared<BezierSurfaceC0>(*this, patches);
+		auto surface = std::make_shared<BezierSurfaceC0>(*this, patches, patchesU, patchesV, asCylinder);
 		AddSceneObject(surface);
 
 		return surface;
@@ -110,9 +110,9 @@ namespace BuD
 		return surface;
 	}
 
-	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC2(const std::vector<BezierPatch*>& patches)
+	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC2(const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder)
 	{
-		auto surface = std::make_shared<BezierSurfaceC2>(*this, patches);
+		auto surface = std::make_shared<BezierSurfaceC2>(*this, patches, patchesU, patchesV, asCylinder);
 		AddSceneObject(surface);
 
 		return surface;
@@ -298,7 +298,7 @@ namespace BuD
 				patchCast->OnUpdate();
 			}
 
-			auto s = scene.CreateBezierSurfaceC0(patches);
+			auto s = scene.CreateBezierSurfaceC0(patches, surface.size.x, surface.size.y, surface.uWrapped);
 			s->SetName(surface.name);
 		}
 
@@ -324,7 +324,7 @@ namespace BuD
 				patchCast->OnUpdate();
 			}
 
-			auto s = scene.CreateBezierSurfaceC2(patches);
+			auto s = scene.CreateBezierSurfaceC2(patches, surface.size.x, surface.size.y, surface.uWrapped);
 			s->SetName(surface.name);
 		}
 

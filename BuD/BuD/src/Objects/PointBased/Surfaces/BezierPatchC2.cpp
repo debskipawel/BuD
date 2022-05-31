@@ -81,7 +81,7 @@ namespace BuD
 
 			for (int v = 0; v < 4; v++)
 			{
-				auto point = m_controlPoints[u * 4 + v]->Position();
+				auto point = m_controlPoints[v * 4 + u]->Position();
 				partResult += point * vDeCasteljau[v];
 			}
 

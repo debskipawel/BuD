@@ -115,6 +115,10 @@ namespace BuD
 		s.name = surface.GetName();
 		s.SetId(surface.Id());
 
+		s.uWrapped = surface.m_cylinder;
+		s.vWrapped = false;
+		s.size = MG1::Uint2{ static_cast<uint32_t>(surface.m_patchesU), static_cast<uint32_t>(surface.m_patchesV) };
+
 		for (auto& patch : surface.m_patches)
 		{
 			auto p = MG1::BezierPatchC0();
@@ -145,6 +149,10 @@ namespace BuD
 
 		s.name = surface.GetName();
 		s.SetId(surface.Id());
+
+		s.uWrapped = surface.m_cylinder;
+		s.vWrapped = false;
+		s.size = MG1::Uint2{ static_cast<uint32_t>(surface.m_patchesU), static_cast<uint32_t>(surface.m_patchesV) };
 
 		for (auto& patch : surface.m_patches)
 		{
