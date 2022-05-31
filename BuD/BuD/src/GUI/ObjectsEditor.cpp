@@ -197,8 +197,19 @@ namespace BuD
 				std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
 				// action
 				
-				// TODO: save the scene to a file
-				m_scene.SaveToFile(filePathName);
+				try
+				{
+					m_scene.SaveToFile(filePathName);
+				}
+				catch (std::exception e)
+				{
+					std::string message = e.what();
+					std::wstring wMessage = std::wstring(message.begin(), message.end());
+
+					wMessage = L"Error occured while writing to the file: " + wMessage;
+
+					MessageBox(nullptr, wMessage.c_str(), L"Error", 0);
+				}
 			}
 
 			ImGuiFileDialog::Instance()->Close();
@@ -214,8 +225,19 @@ namespace BuD
 				std::wstring wFilePathName(filePathName.begin(), filePathName.end());
 				std::wstring wFilePath(filePath.begin(), filePath.end());
 
-				// TODO: save the scene to a file
-				m_scene = Scene::ReadFromFile(device, filePathName);
+				try
+				{
+					m_scene = Scene::ReadFromFile(device, filePathName);
+				}
+				catch (std::exception e)
+				{
+					std::string message = e.what();
+					std::wstring wMessage = std::wstring(message.begin(), message.end());
+
+					wMessage = L"Error occured while reading the file: " + wMessage;
+
+					MessageBox(nullptr, wMessage.c_str(), L"Error", 0);
+				}
 			}
 
 			ImGuiFileDialog::Instance()->Close();
