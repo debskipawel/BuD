@@ -227,7 +227,8 @@ namespace BuD
 
 				try
 				{
-					m_scene = Scene::ReadFromFile(device, filePathName);
+					m_scene = Scene();
+					Scene::ReadFromFile(device, m_scene, filePathName);
 				}
 				catch (std::exception e)
 				{

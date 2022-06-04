@@ -203,7 +203,7 @@ namespace BuD
 		sceneSerializer.SaveScene(path);
 	}
 
-	Scene Scene::ReadFromFile(const DX11Device& device, std::filesystem::path path)
+	void Scene::ReadFromFile(const DX11Device& device, Scene& scene, std::filesystem::path path)
 	{
 		MG1::SceneSerializer sceneSerializer;
 
@@ -211,8 +211,6 @@ namespace BuD
 
 		auto& deserializedScene = MG1::Scene::Get();
 		std::map<uint32_t, Point*> points;
-
-		Scene scene;
 
 		for (auto& point : deserializedScene.points)
 		{
@@ -233,9 +231,8 @@ namespace BuD
 
 			t->RotateTo(Vector3{ rot.x, rot.y, rot.z });
 			t->ScaleTo(Vector3{ sc.x, sc.y, sc.z });
-
-			//TODO: samples & name
 			t->SetName(torus.name);
+
 			torusCast->UpdateSamples(torus.samples.x, torus.samples.y);
 			torusCast->OnUpdate();
 		}
@@ -327,7 +324,5 @@ namespace BuD
 			auto s = scene.CreateBezierSurfaceC2(patches, surface.size.x, surface.size.y, surface.uWrapped);
 			s->SetName(surface.name);
 		}
-
-		return scene;
 	}
 }

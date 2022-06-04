@@ -7,8 +7,8 @@ namespace BuD
 	class BezierSurface : public SceneObject
 	{
 	public:
-		BezierSurface(Scene& scene);
-		BezierSurface(Scene& scene, const std::vector<BezierPatch*>& patches);
+		BezierSurface(Scene& scene, int patchesU, int patchesV, bool asCylinder);
+		BezierSurface(Scene& scene, const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder);
 
 		virtual void MoveTo(const Vector3& position, bool propagateUpdate = false) override;
 		virtual void MoveBy(const Vector3& difference, bool propagateUpdate = false) override;
@@ -26,6 +26,9 @@ namespace BuD
 
 	protected:
 		std::vector<BezierPatch*> m_patches;
+		int m_patchesU, m_patchesV;
+		bool m_cylinder;
+
 		bool m_showBezierPolygon = false;
 
 		friend class GuiDrawer;

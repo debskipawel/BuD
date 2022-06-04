@@ -7,7 +7,7 @@
 namespace BuD
 {
 	BezierSurfaceC0::BezierSurfaceC0(Scene& scene, const DX11Device& device, Vector3 position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
-		: BezierSurface(scene), m_patchesU(patchesU), m_patchesV(patchesV), m_cylinder(asCylinder)
+		: BezierSurface(scene, patchesU, patchesV, asCylinder)
 	{
 		m_tag = "Bezier surface C0";
 
@@ -117,7 +117,7 @@ namespace BuD
 	}
 
 	BezierSurfaceC0::BezierSurfaceC0(Scene& scene, const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder)
-		: BezierSurface(scene, patches), m_cylinder(asCylinder), m_patchesU(patchesU), m_patchesV(patchesV)
+		: BezierSurface(scene, patches, patchesU, patchesV, asCylinder)
 	{
 	}
 

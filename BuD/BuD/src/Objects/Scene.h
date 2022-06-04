@@ -46,7 +46,7 @@ namespace BuD
 
 		virtual void SaveToFile(std::filesystem::path path);
 
-		static Scene ReadFromFile(const DX11Device& device, std::filesystem::path path);
+		static void ReadFromFile(const DX11Device& device, Scene& scene, std::filesystem::path path);
 
 	protected:
 		std::map<uint32_t, std::shared_ptr<SceneObject>> m_objects;

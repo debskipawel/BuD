@@ -17,8 +17,6 @@ namespace BuD
 		virtual ObjectFlags GetFlags() override { return ObjectFlags::SURFACE_C2; }
 
 	protected:
-		int m_patchesU, m_patchesV;
-		bool m_cylinder;
 
 		friend class GuiDrawer;
 		friend class ObjectSerializer;

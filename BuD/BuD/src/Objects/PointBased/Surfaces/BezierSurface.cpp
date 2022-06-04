@@ -6,13 +6,13 @@
 
 namespace BuD
 {
-	BezierSurface::BezierSurface(Scene& scene)
-		: SceneObject(scene)
+	BezierSurface::BezierSurface(Scene& scene, int patchesU, int patchesV, bool asCylinder)
+		: SceneObject(scene), m_cylinder(asCylinder), m_patchesU(patchesU), m_patchesV(patchesV)
 	{
 	}
 
-	BezierSurface::BezierSurface(Scene& scene, const std::vector<BezierPatch*>& patches)
-		: SceneObject(scene), m_patches(patches)
+	BezierSurface::BezierSurface(Scene& scene, const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder)
+		: SceneObject(scene), m_patches(patches), m_cylinder(asCylinder), m_patchesU(patchesU), m_patchesV(patchesV)
 	{
 		for (auto& patch : m_patches)
 		{

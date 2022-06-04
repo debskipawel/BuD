@@ -100,10 +100,15 @@ namespace BuD
 		{
 			auto& controlPoints = dependent->m_controlPoints;
 
-			auto position = std::find(controlPoints.begin(), controlPoints.end(), this);
-			
-			if (position != controlPoints.end())
+			while (true)
 			{
+				auto position = std::find(controlPoints.begin(), controlPoints.end(), this);
+
+				if (position == controlPoints.end())
+				{
+					break;
+				}
+
 				controlPoints.erase(position);
 			}
 
