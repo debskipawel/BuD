@@ -81,4 +81,15 @@ namespace BuD
 			m_scene.RemoveSceneObject(m_id);
 		}
 	}
+	
+	void BezierSurface::OnSelect()
+	{
+		for (auto& patch : m_patches)
+		{
+			for (auto& point : patch->m_controlPoints)
+			{
+				point->OnSelect();
+			}
+		}
+	}
 }

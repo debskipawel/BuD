@@ -1,0 +1,5134 @@
+{
+	"geometry": [
+		{
+			"objectType": "torus",
+			"id": 402,
+			"name": "Torus",
+			"smallRadius": 0.5,
+			"largeRadius": 4.300000190734863,
+			"position": {
+				"x": -6.724008083343506,
+				"y": 2.491509437561035,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 90.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": {
+				"x": 0.4000000059604645,
+				"y": 1.0,
+				"z": 0.8999999761581421
+			},
+			"samples": {
+				"x": 29,
+				"y": 36
+			}
+		},
+		{
+			"objectType": "bezierSurfaceC0",
+			"name": "Bezier surface C0",
+			"id": 407,
+			"patches": [
+				{
+					"objectType": "bezierPatchC0",
+					"id": 403,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 302
+						},
+						{
+							"id": 303
+						},
+						{
+							"id": 304
+						},
+						{
+							"id": 305
+						},
+						{
+							"id": 314
+						},
+						{
+							"id": 315
+						},
+						{
+							"id": 316
+						},
+						{
+							"id": 317
+						},
+						{
+							"id": 326
+						},
+						{
+							"id": 327
+						},
+						{
+							"id": 328
+						},
+						{
+							"id": 329
+						},
+						{
+							"id": 338
+						},
+						{
+							"id": 339
+						},
+						{
+							"id": 340
+						},
+						{
+							"id": 341
+						}
+					],
+					"samples": {
+						"x": 9,
+						"y": 10
+					}
+				},
+				{
+					"objectType": "bezierPatchC0",
+					"id": 404,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 305
+						},
+						{
+							"id": 306
+						},
+						{
+							"id": 307
+						},
+						{
+							"id": 308
+						},
+						{
+							"id": 317
+						},
+						{
+							"id": 318
+						},
+						{
+							"id": 319
+						},
+						{
+							"id": 320
+						},
+						{
+							"id": 329
+						},
+						{
+							"id": 330
+						},
+						{
+							"id": 331
+						},
+						{
+							"id": 332
+						},
+						{
+							"id": 341
+						},
+						{
+							"id": 342
+						},
+						{
+							"id": 343
+						},
+						{
+							"id": 344
+						}
+					],
+					"samples": {
+						"x": 9,
+						"y": 10
+					}
+				},
+				{
+					"objectType": "bezierPatchC0",
+					"id": 405,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 308
+						},
+						{
+							"id": 309
+						},
+						{
+							"id": 310
+						},
+						{
+							"id": 311
+						},
+						{
+							"id": 320
+						},
+						{
+							"id": 321
+						},
+						{
+							"id": 322
+						},
+						{
+							"id": 323
+						},
+						{
+							"id": 332
+						},
+						{
+							"id": 333
+						},
+						{
+							"id": 334
+						},
+						{
+							"id": 335
+						},
+						{
+							"id": 344
+						},
+						{
+							"id": 345
+						},
+						{
+							"id": 346
+						},
+						{
+							"id": 347
+						}
+					],
+					"samples": {
+						"x": 9,
+						"y": 10
+					}
+				},
+				{
+					"objectType": "bezierPatchC0",
+					"id": 406,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 311
+						},
+						{
+							"id": 312
+						},
+						{
+							"id": 313
+						},
+						{
+							"id": 302
+						},
+						{
+							"id": 323
+						},
+						{
+							"id": 324
+						},
+						{
+							"id": 325
+						},
+						{
+							"id": 314
+						},
+						{
+							"id": 335
+						},
+						{
+							"id": 336
+						},
+						{
+							"id": 337
+						},
+						{
+							"id": 326
+						},
+						{
+							"id": 347
+						},
+						{
+							"id": 348
+						},
+						{
+							"id": 349
+						},
+						{
+							"id": 338
+						}
+					],
+					"samples": {
+						"x": 9,
+						"y": 10
+					}
+				}
+			],
+			"parameterWrapped": {
+				"u": false,
+				"v": false
+			},
+			"size": {
+				"x": 4,
+				"y": 1
+			}
+		},
+		{
+			"objectType": "bezierSurfaceC0",
+			"name": "Bezier surface C0",
+			"id": 410,
+			"patches": [
+				{
+					"objectType": "bezierPatchC0",
+					"id": 408,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 350
+						},
+						{
+							"id": 351
+						},
+						{
+							"id": 352
+						},
+						{
+							"id": 353
+						},
+						{
+							"id": 357
+						},
+						{
+							"id": 358
+						},
+						{
+							"id": 359
+						},
+						{
+							"id": 360
+						},
+						{
+							"id": 364
+						},
+						{
+							"id": 365
+						},
+						{
+							"id": 366
+						},
+						{
+							"id": 367
+						},
+						{
+							"id": 371
+						},
+						{
+							"id": 372
+						},
+						{
+							"id": 373
+						},
+						{
+							"id": 374
+						}
+					],
+					"samples": {
+						"x": 8,
+						"y": 8
+					}
+				},
+				{
+					"objectType": "bezierPatchC0",
+					"id": 409,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 353
+						},
+						{
+							"id": 354
+						},
+						{
+							"id": 355
+						},
+						{
+							"id": 356
+						},
+						{
+							"id": 360
+						},
+						{
+							"id": 361
+						},
+						{
+							"id": 362
+						},
+						{
+							"id": 363
+						},
+						{
+							"id": 367
+						},
+						{
+							"id": 368
+						},
+						{
+							"id": 369
+						},
+						{
+							"id": 370
+						},
+						{
+							"id": 374
+						},
+						{
+							"id": 375
+						},
+						{
+							"id": 376
+						},
+						{
+							"id": 377
+						}
+					],
+					"samples": {
+						"x": 8,
+						"y": 8
+					}
+				}
+			],
+			"parameterWrapped": {
+				"u": false,
+				"v": false
+			},
+			"size": {
+				"x": 2,
+				"y": 1
+			}
+		},
+		{
+			"objectType": "bezierSurfaceC0",
+			"name": "Bezier surface C0",
+			"id": 413,
+			"patches": [
+				{
+					"objectType": "bezierPatchC0",
+					"id": 411,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 378
+						},
+						{
+							"id": 379
+						},
+						{
+							"id": 380
+						},
+						{
+							"id": 381
+						},
+						{
+							"id": 384
+						},
+						{
+							"id": 385
+						},
+						{
+							"id": 386
+						},
+						{
+							"id": 387
+						},
+						{
+							"id": 390
+						},
+						{
+							"id": 391
+						},
+						{
+							"id": 392
+						},
+						{
+							"id": 393
+						},
+						{
+							"id": 396
+						},
+						{
+							"id": 397
+						},
+						{
+							"id": 398
+						},
+						{
+							"id": 399
+						}
+					],
+					"samples": {
+						"x": 10,
+						"y": 10
+					}
+				},
+				{
+					"objectType": "bezierPatchC0",
+					"id": 412,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 381
+						},
+						{
+							"id": 382
+						},
+						{
+							"id": 383
+						},
+						{
+							"id": 378
+						},
+						{
+							"id": 387
+						},
+						{
+							"id": 388
+						},
+						{
+							"id": 389
+						},
+						{
+							"id": 384
+						},
+						{
+							"id": 393
+						},
+						{
+							"id": 394
+						},
+						{
+							"id": 395
+						},
+						{
+							"id": 390
+						},
+						{
+							"id": 399
+						},
+						{
+							"id": 400
+						},
+						{
+							"id": 401
+						},
+						{
+							"id": 396
+						}
+					],
+					"samples": {
+						"x": 10,
+						"y": 10
+					}
+				}
+			],
+			"parameterWrapped": {
+				"u": false,
+				"v": false
+			},
+			"size": {
+				"x": 2,
+				"y": 1
+			}
+		},
+		{
+			"objectType": "bezierSurfaceC2",
+			"name": "Bezier surface C2",
+			"id": 464,
+			"patches": [
+				{
+					"objectType": "bezierPatchC2",
+					"id": 414,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 222
+						},
+						{
+							"id": 223
+						},
+						{
+							"id": 224
+						},
+						{
+							"id": 225
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 415,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 223
+						},
+						{
+							"id": 224
+						},
+						{
+							"id": 225
+						},
+						{
+							"id": 226
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 416,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 224
+						},
+						{
+							"id": 225
+						},
+						{
+							"id": 226
+						},
+						{
+							"id": 227
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 417,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 225
+						},
+						{
+							"id": 226
+						},
+						{
+							"id": 227
+						},
+						{
+							"id": 228
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 418,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 226
+						},
+						{
+							"id": 227
+						},
+						{
+							"id": 228
+						},
+						{
+							"id": 229
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 419,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 227
+						},
+						{
+							"id": 228
+						},
+						{
+							"id": 229
+						},
+						{
+							"id": 230
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 420,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 228
+						},
+						{
+							"id": 229
+						},
+						{
+							"id": 230
+						},
+						{
+							"id": 231
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 421,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 229
+						},
+						{
+							"id": 230
+						},
+						{
+							"id": 231
+						},
+						{
+							"id": 222
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 422,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 230
+						},
+						{
+							"id": 231
+						},
+						{
+							"id": 222
+						},
+						{
+							"id": 223
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 423,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 231
+						},
+						{
+							"id": 222
+						},
+						{
+							"id": 223
+						},
+						{
+							"id": 224
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 424,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 425,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 426,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 234
+						},
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 427,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 235
+						},
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 428,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 236
+						},
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 429,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 237
+						},
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 430,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 238
+						},
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 431,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 239
+						},
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 432,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 240
+						},
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 433,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 241
+						},
+						{
+							"id": 232
+						},
+						{
+							"id": 233
+						},
+						{
+							"id": 234
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 434,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 435,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 436,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 244
+						},
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 437,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 245
+						},
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 438,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 246
+						},
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 439,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 247
+						},
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 440,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 248
+						},
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 441,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 249
+						},
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 442,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 250
+						},
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 443,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 251
+						},
+						{
+							"id": 242
+						},
+						{
+							"id": 243
+						},
+						{
+							"id": 244
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 444,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 445,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 446,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 254
+						},
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 447,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 255
+						},
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 448,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 256
+						},
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 449,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 257
+						},
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 450,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 258
+						},
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 451,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 259
+						},
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 452,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 260
+						},
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 453,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 261
+						},
+						{
+							"id": 252
+						},
+						{
+							"id": 253
+						},
+						{
+							"id": 254
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 454,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 292
+						},
+						{
+							"id": 293
+						},
+						{
+							"id": 294
+						},
+						{
+							"id": 295
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 455,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 293
+						},
+						{
+							"id": 294
+						},
+						{
+							"id": 295
+						},
+						{
+							"id": 296
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 456,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 264
+						},
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 294
+						},
+						{
+							"id": 295
+						},
+						{
+							"id": 296
+						},
+						{
+							"id": 297
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 457,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 265
+						},
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 275
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 285
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 295
+						},
+						{
+							"id": 296
+						},
+						{
+							"id": 297
+						},
+						{
+							"id": 298
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 458,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 266
+						},
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 276
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 286
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 296
+						},
+						{
+							"id": 297
+						},
+						{
+							"id": 298
+						},
+						{
+							"id": 299
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 459,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 267
+						},
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 277
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 287
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 297
+						},
+						{
+							"id": 298
+						},
+						{
+							"id": 299
+						},
+						{
+							"id": 300
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 460,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 268
+						},
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 278
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 288
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 298
+						},
+						{
+							"id": 299
+						},
+						{
+							"id": 300
+						},
+						{
+							"id": 301
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 461,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 269
+						},
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 279
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 289
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 299
+						},
+						{
+							"id": 300
+						},
+						{
+							"id": 301
+						},
+						{
+							"id": 292
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 462,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 270
+						},
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 280
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 290
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 300
+						},
+						{
+							"id": 301
+						},
+						{
+							"id": 292
+						},
+						{
+							"id": 293
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				},
+				{
+					"objectType": "bezierPatchC2",
+					"id": 463,
+					"name": "Single Bezier Surface",
+					"controlPoints": [
+						{
+							"id": 271
+						},
+						{
+							"id": 262
+						},
+						{
+							"id": 263
+						},
+						{
+							"id": 264
+						},
+						{
+							"id": 281
+						},
+						{
+							"id": 272
+						},
+						{
+							"id": 273
+						},
+						{
+							"id": 274
+						},
+						{
+							"id": 291
+						},
+						{
+							"id": 282
+						},
+						{
+							"id": 283
+						},
+						{
+							"id": 284
+						},
+						{
+							"id": 301
+						},
+						{
+							"id": 292
+						},
+						{
+							"id": 293
+						},
+						{
+							"id": 294
+						}
+					],
+					"samples": {
+						"x": 4,
+						"y": 4
+					}
+				}
+			],
+			"parameterWrapped": {
+				"u": false,
+				"v": false
+			},
+			"size": {
+				"x": 10,
+				"y": 5
+			}
+		}
+	],
+	"points": [
+		{
+			"id": 222,
+			"name": "Point",
+			"position": {
+				"x": 4.449592590332031,
+				"y": 11.66667366027832,
+				"z": 3.2516093254089355
+			}
+		},
+		{
+			"id": 223,
+			"name": "Point",
+			"position": {
+				"x": 1.6995935440063477,
+				"y": 11.666685104370117,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 224,
+			"name": "Point",
+			"position": {
+				"x": -1.6995933055877686,
+				"y": 11.666685104370117,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 225,
+			"name": "Point",
+			"position": {
+				"x": -4.449594497680664,
+				"y": 11.66667366027832,
+				"z": 3.251610279083252
+			}
+		},
+		{
+			"id": 226,
+			"name": "Point",
+			"position": {
+				"x": -5.500000953674316,
+				"y": 11.666666030883789,
+				"z": 0.018789052963256836
+			}
+		},
+		{
+			"id": 227,
+			"name": "Point",
+			"position": {
+				"x": -4.449594974517822,
+				"y": 11.666679382324219,
+				"z": -3.2140302658081055
+			}
+		},
+		{
+			"id": 228,
+			"name": "Point",
+			"position": {
+				"x": -1.6995943784713745,
+				"y": 11.666674613952637,
+				"z": -5.212028503417969
+			}
+		},
+		{
+			"id": 229,
+			"name": "Point",
+			"position": {
+				"x": 2.118000030517578,
+				"y": 11.217000007629395,
+				"z": -6.449545860290527
+			}
+		},
+		{
+			"id": 230,
+			"name": "Point",
+			"position": {
+				"x": 4.449593544006348,
+				"y": 11.666678428649902,
+				"z": -3.2140321731567383
+			}
+		},
+		{
+			"id": 231,
+			"name": "Point",
+			"position": {
+				"x": 5.5,
+				"y": 11.666668891906738,
+				"z": 0.01878833770751953
+			}
+		},
+		{
+			"id": 232,
+			"name": "Point",
+			"position": {
+				"x": 4.449592590332031,
+				"y": 8.333335876464844,
+				"z": 3.251610279083252
+			}
+		},
+		{
+			"id": 233,
+			"name": "Point",
+			"position": {
+				"x": 1.6995935440063477,
+				"y": 8.333337783813477,
+				"z": 5.249603271484375
+			}
+		},
+		{
+			"id": 234,
+			"name": "Point",
+			"position": {
+				"x": -1.6995933055877686,
+				"y": 8.333337783813477,
+				"z": 5.249603271484375
+			}
+		},
+		{
+			"id": 235,
+			"name": "Point",
+			"position": {
+				"x": -4.449594497680664,
+				"y": 8.333333969116211,
+				"z": 3.25161075592041
+			}
+		},
+		{
+			"id": 236,
+			"name": "Point",
+			"position": {
+				"x": -5.500000953674316,
+				"y": 8.333332061767578,
+				"z": 0.018790721893310547
+			}
+		},
+		{
+			"id": 237,
+			"name": "Point",
+			"position": {
+				"x": -4.449594974517822,
+				"y": 8.333337783813477,
+				"z": -3.2140302658081055
+			}
+		},
+		{
+			"id": 238,
+			"name": "Point",
+			"position": {
+				"x": -1.6995943784713745,
+				"y": 8.333340644836426,
+				"z": -5.212023735046387
+			}
+		},
+		{
+			"id": 239,
+			"name": "Point",
+			"position": {
+				"x": 1.6995930671691895,
+				"y": 8.333338737487793,
+				"z": -5.212023735046387
+			}
+		},
+		{
+			"id": 240,
+			"name": "Point",
+			"position": {
+				"x": 4.831999778747559,
+				"y": 8.783334732055664,
+				"z": -3.4795455932617188
+			}
+		},
+		{
+			"id": 241,
+			"name": "Point",
+			"position": {
+				"x": 5.5,
+				"y": 8.333337783813477,
+				"z": 0.018788814544677734
+			}
+		},
+		{
+			"id": 242,
+			"name": "Point",
+			"position": {
+				"x": 5.339511394500732,
+				"y": 5.00000524520874,
+				"z": 3.898175001144409
+			}
+		},
+		{
+			"id": 243,
+			"name": "Point",
+			"position": {
+				"x": 2.0395126342773438,
+				"y": 5.00000524520874,
+				"z": 6.2957682609558105
+			}
+		},
+		{
+			"id": 244,
+			"name": "Point",
+			"position": {
+				"x": -2.0395119190216064,
+				"y": 5.00000524520874,
+				"z": 6.2957682609558105
+			}
+		},
+		{
+			"id": 245,
+			"name": "Point",
+			"position": {
+				"x": -5.339513778686523,
+				"y": 5.000008583068848,
+				"z": 3.8981761932373047
+			}
+		},
+		{
+			"id": 246,
+			"name": "Point",
+			"position": {
+				"x": -6.600001335144043,
+				"y": 5.000000953674316,
+				"z": 0.01878976821899414
+			}
+		},
+		{
+			"id": 247,
+			"name": "Point",
+			"position": {
+				"x": -5.339514255523682,
+				"y": 5.000002861022949,
+				"z": -3.8605947494506836
+			}
+		},
+		{
+			"id": 248,
+			"name": "Point",
+			"position": {
+				"x": -2.039513111114502,
+				"y": 5.000001907348633,
+				"z": -6.258187294006348
+			}
+		},
+		{
+			"id": 249,
+			"name": "Point",
+			"position": {
+				"x": 2.0395119190216064,
+				"y": 5.000003814697266,
+				"z": -6.258188247680664
+			}
+		},
+		{
+			"id": 250,
+			"name": "Point",
+			"position": {
+				"x": 5.339512348175049,
+				"y": 4.999998569488525,
+				"z": -3.8605947494506836
+			}
+		},
+		{
+			"id": 251,
+			"name": "Point",
+			"position": {
+				"x": 6.600000381469727,
+				"y": 5.000000953674316,
+				"z": 0.018788576126098633
+			}
+		},
+		{
+			"id": 252,
+			"name": "Point",
+			"position": {
+				"x": 4.449592590332031,
+				"y": 1.6666669845581055,
+				"z": 3.251610279083252
+			}
+		},
+		{
+			"id": 253,
+			"name": "Point",
+			"position": {
+				"x": 1.6995935440063477,
+				"y": 1.666669249534607,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 254,
+			"name": "Point",
+			"position": {
+				"x": -1.6995933055877686,
+				"y": 1.666669249534607,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 255,
+			"name": "Point",
+			"position": {
+				"x": -4.449594497680664,
+				"y": 1.6666688919067383,
+				"z": 3.25161075592041
+			}
+		},
+		{
+			"id": 256,
+			"name": "Point",
+			"position": {
+				"x": -5.500000953674316,
+				"y": 1.6666661500930786,
+				"z": 0.018790245056152344
+			}
+		},
+		{
+			"id": 257,
+			"name": "Point",
+			"position": {
+				"x": -4.449594974517822,
+				"y": 1.6666710376739502,
+				"z": -3.2140321731567383
+			}
+		},
+		{
+			"id": 258,
+			"name": "Point",
+			"position": {
+				"x": -1.6995943784713745,
+				"y": 1.666666865348816,
+				"z": -5.212023735046387
+			}
+		},
+		{
+			"id": 259,
+			"name": "Point",
+			"position": {
+				"x": 1.6995930671691895,
+				"y": 1.6666680574417114,
+				"z": -5.212024688720703
+			}
+		},
+		{
+			"id": 260,
+			"name": "Point",
+			"position": {
+				"x": 4.449593544006348,
+				"y": 1.6666662693023682,
+				"z": -3.2140321731567383
+			}
+		},
+		{
+			"id": 261,
+			"name": "Point",
+			"position": {
+				"x": 5.5,
+				"y": 1.6666672229766846,
+				"z": 0.018789052963256836
+			}
+		},
+		{
+			"id": 262,
+			"name": "Point",
+			"position": {
+				"x": 3.55967378616333,
+				"y": -1.6666688919067383,
+				"z": 2.605025291442871
+			}
+		},
+		{
+			"id": 263,
+			"name": "Point",
+			"position": {
+				"x": 1.3596744537353516,
+				"y": -1.6666656732559204,
+				"z": 4.203429222106934
+			}
+		},
+		{
+			"id": 264,
+			"name": "Point",
+			"position": {
+				"x": -1.3596749305725098,
+				"y": -1.6666656732559204,
+				"z": 4.203429222106934
+			}
+		},
+		{
+			"id": 265,
+			"name": "Point",
+			"position": {
+				"x": -3.559675693511963,
+				"y": -1.6666679382324219,
+				"z": 2.605025291442871
+			}
+		},
+		{
+			"id": 266,
+			"name": "Point",
+			"position": {
+				"x": -4.400001049041748,
+				"y": -1.6666688919067383,
+				"z": 0.018782615661621094
+			}
+		},
+		{
+			"id": 267,
+			"name": "Point",
+			"position": {
+				"x": -3.559676170349121,
+				"y": -1.6666637659072876,
+				"z": -2.5674753189086914
+			}
+		},
+		{
+			"id": 268,
+			"name": "Point",
+			"position": {
+				"x": -1.3596758842468262,
+				"y": -1.666673183441162,
+				"z": -4.165863990783691
+			}
+		},
+		{
+			"id": 269,
+			"name": "Point",
+			"position": {
+				"x": 1.359674096107483,
+				"y": -1.666668176651001,
+				"z": -4.165863990783691
+			}
+		},
+		{
+			"id": 270,
+			"name": "Point",
+			"position": {
+				"x": 3.5596742630004883,
+				"y": -1.6666665077209473,
+				"z": -2.5674753189086914
+			}
+		},
+		{
+			"id": 271,
+			"name": "Point",
+			"position": {
+				"x": 4.399999618530273,
+				"y": -1.66666841506958,
+				"z": 0.018782615661621094
+			}
+		},
+		{
+			"id": 272,
+			"name": "Point",
+			"position": {
+				"x": 4.449592590332031,
+				"y": -7.968026161193848,
+				"z": 3.2516112327575684
+			}
+		},
+		{
+			"id": 273,
+			"name": "Point",
+			"position": {
+				"x": 1.6995933055877686,
+				"y": -7.968026161193848,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 274,
+			"name": "Point",
+			"position": {
+				"x": -1.6995935440063477,
+				"y": -7.968026161193848,
+				"z": 5.249605178833008
+			}
+		},
+		{
+			"id": 275,
+			"name": "Point",
+			"position": {
+				"x": -4.449594497680664,
+				"y": -7.968026161193848,
+				"z": 3.2516117095947266
+			}
+		},
+		{
+			"id": 276,
+			"name": "Point",
+			"position": {
+				"x": -5.500000953674316,
+				"y": -7.968026161193848,
+				"z": 0.018790245056152344
+			}
+		},
+		{
+			"id": 277,
+			"name": "Point",
+			"position": {
+				"x": -4.449594974517822,
+				"y": -7.968026161193848,
+				"z": -3.2140302658081055
+			}
+		},
+		{
+			"id": 278,
+			"name": "Point",
+			"position": {
+				"x": -1.6995947360992432,
+				"y": -7.968026161193848,
+				"z": -5.212024688720703
+			}
+		},
+		{
+			"id": 279,
+			"name": "Point",
+			"position": {
+				"x": 1.6995928287506104,
+				"y": -7.968026161193848,
+				"z": -5.2120256423950195
+			}
+		},
+		{
+			"id": 280,
+			"name": "Point",
+			"position": {
+				"x": 4.449593544006348,
+				"y": -7.968026161193848,
+				"z": -3.2140321731567383
+			}
+		},
+		{
+			"id": 281,
+			"name": "Point",
+			"position": {
+				"x": 5.5,
+				"y": -7.968026161193848,
+				"z": 0.018788814544677734
+			}
+		},
+		{
+			"id": 282,
+			"name": "Point",
+			"position": {
+				"x": 0.04449516534805298,
+				"y": -8.01785945892334,
+				"z": 0.05111813545227051
+			}
+		},
+		{
+			"id": 283,
+			"name": "Point",
+			"position": {
+				"x": 0.01699519157409668,
+				"y": -8.01785945892334,
+				"z": 0.07109808921813965
+			}
+		},
+		{
+			"id": 284,
+			"name": "Point",
+			"position": {
+				"x": -0.016996681690216064,
+				"y": -8.01785945892334,
+				"z": 0.07109808921813965
+			}
+		},
+		{
+			"id": 285,
+			"name": "Point",
+			"position": {
+				"x": -0.04449665546417236,
+				"y": -8.01785945892334,
+				"z": 0.05111813545227051
+			}
+		},
+		{
+			"id": 286,
+			"name": "Point",
+			"position": {
+				"x": -0.05500072240829468,
+				"y": -8.01785945892334,
+				"z": 0.018790006637573242
+			}
+		},
+		{
+			"id": 287,
+			"name": "Point",
+			"position": {
+				"x": -0.04449665546417236,
+				"y": -8.01785945892334,
+				"z": -0.013538122177124023
+			}
+		},
+		{
+			"id": 288,
+			"name": "Point",
+			"position": {
+				"x": -0.016996681690216064,
+				"y": -8.01785945892334,
+				"z": -0.033518075942993164
+			}
+		},
+		{
+			"id": 289,
+			"name": "Point",
+			"position": {
+				"x": 0.01699519157409668,
+				"y": -8.01785945892334,
+				"z": -0.033518075942993164
+			}
+		},
+		{
+			"id": 290,
+			"name": "Point",
+			"position": {
+				"x": 0.04449516534805298,
+				"y": -8.01785945892334,
+				"z": -0.013538122177124023
+			}
+		},
+		{
+			"id": 291,
+			"name": "Point",
+			"position": {
+				"x": 0.05499938502907753,
+				"y": -7.98333215713501,
+				"z": 0.018790006637573242
+			}
+		},
+		{
+			"id": 292,
+			"name": "Point",
+			"position": {
+				"x": 0.04449516534805298,
+				"y": -8.018192291259766,
+				"z": 0.05111813545227051
+			}
+		},
+		{
+			"id": 293,
+			"name": "Point",
+			"position": {
+				"x": 0.01699519157409668,
+				"y": -8.018192291259766,
+				"z": 0.07109808921813965
+			}
+		},
+		{
+			"id": 294,
+			"name": "Point",
+			"position": {
+				"x": -0.016996681690216064,
+				"y": -8.018192291259766,
+				"z": 0.07109808921813965
+			}
+		},
+		{
+			"id": 295,
+			"name": "Point",
+			"position": {
+				"x": -0.04449665546417236,
+				"y": -8.018192291259766,
+				"z": 0.05111813545227051
+			}
+		},
+		{
+			"id": 296,
+			"name": "Point",
+			"position": {
+				"x": -0.05500072240829468,
+				"y": -8.018192291259766,
+				"z": 0.018790006637573242
+			}
+		},
+		{
+			"id": 297,
+			"name": "Point",
+			"position": {
+				"x": -0.04449665546417236,
+				"y": -8.018192291259766,
+				"z": -0.013538122177124023
+			}
+		},
+		{
+			"id": 298,
+			"name": "Point",
+			"position": {
+				"x": -0.016996556892991066,
+				"y": -8.016666412353516,
+				"z": -0.033518075942993164
+			}
+		},
+		{
+			"id": 299,
+			"name": "Point",
+			"position": {
+				"x": 0.016995318233966827,
+				"y": -8.016666412353516,
+				"z": -0.033518075942993164
+			}
+		},
+		{
+			"id": 300,
+			"name": "Point",
+			"position": {
+				"x": 0.044495318084955215,
+				"y": -8.016666412353516,
+				"z": -0.013538122177124023
+			}
+		},
+		{
+			"id": 301,
+			"name": "Point",
+			"position": {
+				"x": 0.05499938502907753,
+				"y": -8.016666412353516,
+				"z": 0.018790006637573242
+			}
+		},
+		{
+			"id": 302,
+			"name": "Point",
+			"position": {
+				"x": 0.06010362505912781,
+				"y": 6.878702163696289,
+				"z": 0.002413511276245117
+			}
+		},
+		{
+			"id": 303,
+			"name": "Point",
+			"position": {
+				"x": 0.06010642647743225,
+				"y": 6.878698348999023,
+				"z": 0.04300832748413086
+			}
+		},
+		{
+			"id": 304,
+			"name": "Point",
+			"position": {
+				"x": 0.09301476180553436,
+				"y": 6.878698348999023,
+				"z": 0.07591366767883301
+			}
+		},
+		{
+			"id": 305,
+			"name": "Point",
+			"position": {
+				"x": 0.13360533118247986,
+				"y": 6.878700256347656,
+				"z": 0.07591366767883301
+			}
+		},
+		{
+			"id": 306,
+			"name": "Point",
+			"position": {
+				"x": 0.17400255799293518,
+				"y": 6.776159286499023,
+				"z": 0.07604527473449707
+			}
+		},
+		{
+			"id": 307,
+			"name": "Point",
+			"position": {
+				"x": 0.20691075921058655,
+				"y": 6.776156425476074,
+				"z": 0.043138742446899414
+			}
+		},
+		{
+			"id": 308,
+			"name": "Point",
+			"position": {
+				"x": 0.20691075921058655,
+				"y": 6.776156425476074,
+				"z": 0.0025451183319091797
+			}
+		},
+		{
+			"id": 309,
+			"name": "Point",
+			"position": {
+				"x": 0.2071070373058319,
+				"y": 6.878700256347656,
+				"z": -0.0381772518157959
+			}
+		},
+		{
+			"id": 310,
+			"name": "Point",
+			"position": {
+				"x": 0.17420163750648499,
+				"y": 6.878698348999023,
+				"z": -0.07108688354492188
+			}
+		},
+		{
+			"id": 311,
+			"name": "Point",
+			"position": {
+				"x": 0.13360533118247986,
+				"y": 6.878700256347656,
+				"z": -0.07108831405639648
+			}
+		},
+		{
+			"id": 312,
+			"name": "Point",
+			"position": {
+				"x": 0.09301476180553436,
+				"y": 6.878698348999023,
+				"z": -0.07108688354492188
+			}
+		},
+		{
+			"id": 313,
+			"name": "Point",
+			"position": {
+				"x": 0.06010362505912781,
+				"y": 6.878698348999023,
+				"z": -0.0381772518157959
+			}
+		},
+		{
+			"id": 314,
+			"name": "Point",
+			"position": {
+				"x": -7.211582660675049,
+				"y": 7.87870979309082,
+				"z": -0.0008144378662109375
+			}
+		},
+		{
+			"id": 315,
+			"name": "Point",
+			"position": {
+				"x": -7.211582660675049,
+				"y": 7.87870979309082,
+				"z": 4.05847692489624
+			}
+		},
+		{
+			"id": 316,
+			"name": "Point",
+			"position": {
+				"x": -3.920881509780884,
+				"y": 7.878711700439453,
+				"z": 7.349181175231934
+			}
+		},
+		{
+			"id": 317,
+			"name": "Point",
+			"position": {
+				"x": 0.13841387629508972,
+				"y": 7.878711700439453,
+				"z": 7.349181175231934
+			}
+		},
+		{
+			"id": 318,
+			"name": "Point",
+			"position": {
+				"x": 4.197704792022705,
+				"y": 7.8787078857421875,
+				"z": 7.349181175231934
+			}
+		},
+		{
+			"id": 319,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 7.878702163696289,
+				"z": 4.058475494384766
+			}
+		},
+		{
+			"id": 320,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 7.878705978393555,
+				"z": -0.0008139610290527344
+			}
+		},
+		{
+			"id": 321,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 7.878702163696289,
+				"z": -4.060105323791504
+			}
+		},
+		{
+			"id": 322,
+			"name": "Point",
+			"position": {
+				"x": 4.197704792022705,
+				"y": 7.878704071044922,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 323,
+			"name": "Point",
+			"position": {
+				"x": 0.13841387629508972,
+				"y": 7.878708839416504,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 324,
+			"name": "Point",
+			"position": {
+				"x": -3.9208786487579346,
+				"y": 7.878708839416504,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 325,
+			"name": "Point",
+			"position": {
+				"x": -7.211582660675049,
+				"y": 7.87870979309082,
+				"z": -4.0601043701171875
+			}
+		},
+		{
+			"id": 326,
+			"name": "Point",
+			"position": {
+				"x": -7.211583614349365,
+				"y": 8.878693580627441,
+				"z": -0.0008144378662109375
+			}
+		},
+		{
+			"id": 327,
+			"name": "Point",
+			"position": {
+				"x": -7.211582660675049,
+				"y": 8.87869644165039,
+				"z": 4.058478355407715
+			}
+		},
+		{
+			"id": 328,
+			"name": "Point",
+			"position": {
+				"x": -3.9208786487579346,
+				"y": 8.878692626953125,
+				"z": 7.349183082580566
+			}
+		},
+		{
+			"id": 329,
+			"name": "Point",
+			"position": {
+				"x": 0.13841387629508972,
+				"y": 8.878693580627441,
+				"z": 7.34918212890625
+			}
+		},
+		{
+			"id": 330,
+			"name": "Point",
+			"position": {
+				"x": 4.197707176208496,
+				"y": 8.87868881225586,
+				"z": 7.349183082580566
+			}
+		},
+		{
+			"id": 331,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 8.878686904907227,
+				"z": 4.05847692489624
+			}
+		},
+		{
+			"id": 332,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 8.87868881225586,
+				"z": -0.0008139610290527344
+			}
+		},
+		{
+			"id": 333,
+			"name": "Point",
+			"position": {
+				"x": 7.488410949707031,
+				"y": 8.878684997558594,
+				"z": -4.060105323791504
+			}
+		},
+		{
+			"id": 334,
+			"name": "Point",
+			"position": {
+				"x": 4.197707176208496,
+				"y": 8.87868881225586,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 335,
+			"name": "Point",
+			"position": {
+				"x": 0.1384166181087494,
+				"y": 8.878693580627441,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 336,
+			"name": "Point",
+			"position": {
+				"x": -3.9208757877349854,
+				"y": 8.878693580627441,
+				"z": -7.350811004638672
+			}
+		},
+		{
+			"id": 337,
+			"name": "Point",
+			"position": {
+				"x": -7.211583614349365,
+				"y": 8.878693580627441,
+				"z": -4.0601043701171875
+			}
+		},
+		{
+			"id": 338,
+			"name": "Point",
+			"position": {
+				"x": 0.0649121105670929,
+				"y": 9.878684997558594,
+				"z": -0.0008151531219482422
+			}
+		},
+		{
+			"id": 339,
+			"name": "Point",
+			"position": {
+				"x": 0.06491497159004211,
+				"y": 9.878686904907227,
+				"z": 0.03977680206298828
+			}
+		},
+		{
+			"id": 340,
+			"name": "Point",
+			"position": {
+				"x": 0.09781758487224579,
+				"y": 9.878683090209961,
+				"z": 0.07268404960632324
+			}
+		},
+		{
+			"id": 341,
+			"name": "Point",
+			"position": {
+				"x": 0.13841387629508972,
+				"y": 9.878684997558594,
+				"z": 0.07268404960632324
+			}
+		},
+		{
+			"id": 342,
+			"name": "Point",
+			"position": {
+				"x": 0.1790045201778412,
+				"y": 9.878684997558594,
+				"z": 0.07268404960632324
+			}
+		},
+		{
+			"id": 343,
+			"name": "Point",
+			"position": {
+				"x": 0.21191272139549255,
+				"y": 9.878684997558594,
+				"z": 0.03977680206298828
+			}
+		},
+		{
+			"id": 344,
+			"name": "Point",
+			"position": {
+				"x": 0.21191272139549255,
+				"y": 9.878684997558594,
+				"z": -0.0008180141448974609
+			}
+		},
+		{
+			"id": 345,
+			"name": "Point",
+			"position": {
+				"x": 0.21191272139549255,
+				"y": 9.878684997558594,
+				"z": -0.041411399841308594
+			}
+		},
+		{
+			"id": 346,
+			"name": "Point",
+			"position": {
+				"x": 0.1790045201778412,
+				"y": 9.878684997558594,
+				"z": -0.07431674003601074
+			}
+		},
+		{
+			"id": 347,
+			"name": "Point",
+			"position": {
+				"x": 0.13841387629508972,
+				"y": 9.878684997558594,
+				"z": -0.07431674003601074
+			}
+		},
+		{
+			"id": 348,
+			"name": "Point",
+			"position": {
+				"x": 0.09781758487224579,
+				"y": 9.878683090209961,
+				"z": -0.07431674003601074
+			}
+		},
+		{
+			"id": 349,
+			"name": "Point",
+			"position": {
+				"x": 0.0649121105670929,
+				"y": 9.878684997558594,
+				"z": -0.041411399841308594
+			}
+		},
+		{
+			"id": 350,
+			"name": "Point",
+			"position": {
+				"x": 3.8830881118774414,
+				"y": 7.85713529586792,
+				"z": -2.753509759902954
+			}
+		},
+		{
+			"id": 351,
+			"name": "Point",
+			"position": {
+				"x": 5.286829471588135,
+				"y": 8.42087173461914,
+				"z": -3.2675271034240723
+			}
+		},
+		{
+			"id": 352,
+			"name": "Point",
+			"position": {
+				"x": 5.013338088989258,
+				"y": 8.384725570678711,
+				"z": -1.9630165100097656
+			}
+		},
+		{
+			"id": 353,
+			"name": "Point",
+			"position": {
+				"x": 6.917935371398926,
+				"y": 8.348575592041016,
+				"z": -0.045362573117017746
+			}
+		},
+		{
+			"id": 354,
+			"name": "Point",
+			"position": {
+				"x": 4.466364860534668,
+				"y": 8.312381744384766,
+				"z": 0.6459271907806396
+			}
+		},
+		{
+			"id": 355,
+			"name": "Point",
+			"position": {
+				"x": 4.1929121017456055,
+				"y": 8.276209831237793,
+				"z": 1.9504303932189941
+			}
+		},
+		{
+			"id": 356,
+			"name": "Point",
+			"position": {
+				"x": 3.9193925857543945,
+				"y": 8.240067481994629,
+				"z": 3.25490140914917
+			}
+		},
+		{
+			"id": 357,
+			"name": "Point",
+			"position": {
+				"x": 4.254083633422852,
+				"y": 6.5771002769470215,
+				"z": -2.7112209796905518
+			}
+		},
+		{
+			"id": 358,
+			"name": "Point",
+			"position": {
+				"x": 5.65781307220459,
+				"y": 7.14093542098999,
+				"z": -3.225212812423706
+			}
+		},
+		{
+			"id": 359,
+			"name": "Point",
+			"position": {
+				"x": 5.384332180023193,
+				"y": 7.104772090911865,
+				"z": -1.9207067489624023
+			}
+		},
+		{
+			"id": 360,
+			"name": "Point",
+			"position": {
+				"x": 7.2889299392700195,
+				"y": 7.068564414978027,
+				"z": -0.00307474285364151
+			}
+		},
+		{
+			"id": 361,
+			"name": "Point",
+			"position": {
+				"x": 4.837404727935791,
+				"y": 7.032392978668213,
+				"z": 0.688211977481842
+			}
+		},
+		{
+			"id": 362,
+			"name": "Point",
+			"position": {
+				"x": 4.563870429992676,
+				"y": 6.996241092681885,
+				"z": 1.9927027225494385
+			}
+		},
+		{
+			"id": 363,
+			"name": "Point",
+			"position": {
+				"x": 4.290392875671387,
+				"y": 6.96002721786499,
+				"z": 3.2971677780151367
+			}
+		},
+		{
+			"id": 364,
+			"name": "Point",
+			"position": {
+				"x": 4.625114440917969,
+				"y": 5.2971296310424805,
+				"z": -2.6689682006835938
+			}
+		},
+		{
+			"id": 365,
+			"name": "Point",
+			"position": {
+				"x": 6.028857231140137,
+				"y": 5.860945701599121,
+				"z": -3.182954788208008
+			}
+		},
+		{
+			"id": 366,
+			"name": "Point",
+			"position": {
+				"x": 5.755353927612305,
+				"y": 5.824785232543945,
+				"z": -1.8784592151641846
+			}
+		},
+		{
+			"id": 367,
+			"name": "Point",
+			"position": {
+				"x": 7.659956932067871,
+				"y": 5.78863000869751,
+				"z": 0.039189647883176804
+			}
+		},
+		{
+			"id": 368,
+			"name": "Point",
+			"position": {
+				"x": 5.208409786224365,
+				"y": 5.752448081970215,
+				"z": 0.7305370569229126
+			}
+		},
+		{
+			"id": 369,
+			"name": "Point",
+			"position": {
+				"x": 4.934919357299805,
+				"y": 5.716258525848389,
+				"z": 2.0350024700164795
+			}
+		},
+		{
+			"id": 370,
+			"name": "Point",
+			"position": {
+				"x": 4.6614274978637695,
+				"y": 5.680118560791016,
+				"z": 3.339500665664673
+			}
+		},
+		{
+			"id": 371,
+			"name": "Point",
+			"position": {
+				"x": 3.481550693511963,
+				"y": 4.410874366760254,
+				"z": -2.7847111225128174
+			}
+		},
+		{
+			"id": 372,
+			"name": "Point",
+			"position": {
+				"x": 4.895280838012695,
+				"y": 4.5809831619262695,
+				"z": -2.1531431674957275
+			}
+		},
+		{
+			"id": 373,
+			"name": "Point",
+			"position": {
+				"x": 6.126363754272461,
+				"y": 4.544767379760742,
+				"z": -1.8361759185791016
+			}
+		},
+		{
+			"id": 374,
+			"name": "Point",
+			"position": {
+				"x": 6.129307270050049,
+				"y": 4.369322299957275,
+				"z": -0.28368666768074036
+			}
+		},
+		{
+			"id": 375,
+			"name": "Point",
+			"position": {
+				"x": 5.579381942749023,
+				"y": 4.47251033782959,
+				"z": 0.7728542685508728
+			}
+		},
+		{
+			"id": 376,
+			"name": "Point",
+			"position": {
+				"x": 5.305901050567627,
+				"y": 4.436309814453125,
+				"z": 2.077312707901001
+			}
+		},
+		{
+			"id": 377,
+			"name": "Point",
+			"position": {
+				"x": 4.925505638122559,
+				"y": 4.4000725746154785,
+				"z": 2.853794574737549
+			}
+		},
+		{
+			"id": 378,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 10.754680633544922,
+				"z": 3.0994415283203125e-06
+			}
+		},
+		{
+			"id": 379,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 10.754678726196289,
+				"z": 0.02666497230529785
+			}
+		},
+		{
+			"id": 380,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 10.754678726196289,
+				"z": 0.02666497230529785
+			}
+		},
+		{
+			"id": 381,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 10.754680633544922,
+				"z": 3.0994415283203125e-06
+			}
+		},
+		{
+			"id": 382,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 10.754678726196289,
+				"z": -0.02666449546813965
+			}
+		},
+		{
+			"id": 383,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 10.754678726196289,
+				"z": -0.02666449546813965
+			}
+		},
+		{
+			"id": 384,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.704679489135742,
+				"z": 2.384185791015625e-07
+			}
+		},
+		{
+			"id": 385,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.704675674438477,
+				"z": 2.666663408279419
+			}
+		},
+		{
+			"id": 386,
+			"name": "Point",
+			"position": {
+				"x": -1.8180001974105835,
+				"y": 10.704675674438477,
+				"z": 2.666663408279419
+			}
+		},
+		{
+			"id": 387,
+			"name": "Point",
+			"position": {
+				"x": -1.8179999589920044,
+				"y": 10.704679489135742,
+				"z": 2.384185791015625e-07
+			}
+		},
+		{
+			"id": 388,
+			"name": "Point",
+			"position": {
+				"x": -1.8179997205734253,
+				"y": 10.704679489135742,
+				"z": -2.66666316986084
+			}
+		},
+		{
+			"id": 389,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.704681396484375,
+				"z": -2.666661262512207
+			}
+		},
+		{
+			"id": 390,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.204681396484375,
+				"z": 2.384185791015625e-07
+			}
+		},
+		{
+			"id": 391,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.20467758178711,
+				"z": 2.6666643619537354
+			}
+		},
+		{
+			"id": 392,
+			"name": "Point",
+			"position": {
+				"x": -1.8180001974105835,
+				"y": 10.20467758178711,
+				"z": 2.6666643619537354
+			}
+		},
+		{
+			"id": 393,
+			"name": "Point",
+			"position": {
+				"x": -1.8179999589920044,
+				"y": 10.204681396484375,
+				"z": 2.384185791015625e-07
+			}
+		},
+		{
+			"id": 394,
+			"name": "Point",
+			"position": {
+				"x": -1.8179997205734253,
+				"y": 10.20467758178711,
+				"z": -2.666670799255371
+			}
+		},
+		{
+			"id": 395,
+			"name": "Point",
+			"position": {
+				"x": 2.182000160217285,
+				"y": 10.20467758178711,
+				"z": -2.6666669845581055
+			}
+		},
+		{
+			"id": 396,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 9.704679489135742,
+				"z": 1.1920928955078125e-06
+			}
+		},
+		{
+			"id": 397,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 9.70467758178711,
+				"z": 0.026668787002563477
+			}
+		},
+		{
+			"id": 398,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 9.70467758178711,
+				"z": 0.026668787002563477
+			}
+		},
+		{
+			"id": 399,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 9.704679489135742,
+				"z": 1.1920928955078125e-06
+			}
+		},
+		{
+			"id": 400,
+			"name": "Point",
+			"position": {
+				"x": 0.16199998557567596,
+				"y": 9.70467758178711,
+				"z": -0.02666926383972168
+			}
+		},
+		{
+			"id": 401,
+			"name": "Point",
+			"position": {
+				"x": 0.2019999474287033,
+				"y": 9.70467758178711,
+				"z": -0.02666926383972168
+			}
+		}
+	]
+}

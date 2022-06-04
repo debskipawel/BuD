@@ -20,6 +20,8 @@ namespace BuD
 		virtual void OnDelete() override;
 		virtual void OnDeletePatch(BezierPatch* patch);
 
+		virtual void OnSelect() override;
+
 		virtual ObjectFlags GetFlags() override { return ObjectFlags::SURFACE; }
 
 	protected:
