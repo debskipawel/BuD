@@ -373,7 +373,7 @@ namespace BuD
 
 			float maxDist = (element->second->Position() - centroid).Length();
 
-			if (maxDist <= 0.1f)
+			if (maxDist <= 0.2f && objects.size() > 1)
 			{
 				if (ImGui::Button("Merge"))
 				{
