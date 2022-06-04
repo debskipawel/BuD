@@ -45,6 +45,23 @@ namespace BuD
 		OnUpdate();
 	}
 
+	void PointBasedObject::ReplaceControlPoint(Point* oldPoint, Point* newPoint)
+	{
+		while (true)
+		{
+			auto res = std::find(m_controlPoints.begin(), m_controlPoints.end(), oldPoint);
+
+			if (res == m_controlPoints.end())
+			{
+				break;
+			}
+
+			*res = newPoint;
+		}
+
+		OnUpdate();
+	}
+
 	void PointBasedObject::OnDelete()
 	{
 		for (auto& point : m_controlPoints)

@@ -101,7 +101,12 @@ namespace BuD
 			auto& controlPoints = dependent->m_controlPoints;
 
 			auto position = std::find(controlPoints.begin(), controlPoints.end(), this);
-			controlPoints.erase(position);
+			
+			if (position != controlPoints.end())
+			{
+				controlPoints.erase(position);
+			}
+
 			dependent->OnUpdate();
 		}
 	}
@@ -145,6 +150,36 @@ namespace BuD
 		);
 
 		return mesh;
+	}
+
+	std::shared_ptr<Point> Point::Merge(const DX11Device& device, Point* first, Point* second)
+	{
+		auto& scene = first->m_scene;
+		
+		if (scene.GetSceneObject(second->Id()).get() != second)
+		{
+			// two points are from different scenes, merging them makes no sense
+			return nullptr;
+		}
+
+		auto newPoint = scene.CreatePoint(device, 0.5f * (first->Position() + second->Position()));
+
+		for (auto& obj : first->m_dependentObjects)
+		{
+			obj->ReplaceControlPoint(first, newPoint.get());
+			newPoint->AddDependentObject(obj);
+		}
+
+		for (auto& obj : second->m_dependentObjects)
+		{
+			obj->ReplaceControlPoint(second, newPoint.get());
+			newPoint->AddDependentObject(obj);
+		}
+
+		scene.RemoveSceneObject(first->Id());
+		scene.RemoveSceneObject(second->Id());
+
+		return newPoint;
 	}
 
 	std::shared_ptr<BuD::DX11VertexBuffer> Point::GetVB(const BuD::DX11Device& device)

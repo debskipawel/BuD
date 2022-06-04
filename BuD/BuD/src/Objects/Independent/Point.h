@@ -29,6 +29,7 @@ namespace BuD
 		inline virtual void ScaleTo(const Vector3& scale, bool propagateUpdate = false) override { }
 
 		static std::shared_ptr<Mesh> GetMesh(const DX11Device& device);
+		static std::shared_ptr<Point> Merge(const DX11Device& device, Point* first, Point* second);
 
 	protected:
 		std::set<PointBasedObject*> m_dependentObjects;

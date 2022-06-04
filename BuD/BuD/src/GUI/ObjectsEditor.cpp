@@ -362,6 +362,38 @@ namespace BuD
 		{
 			ImGui::NewLine();
 
+			auto& objects = group.Objects();
+			auto centroid = group.Centroid();
+			auto element = std::max_element(objects.begin(), objects.end(),
+				[centroid](std::pair<uint32_t, std::shared_ptr<SceneObject>> first, std::pair<uint32_t, std::shared_ptr<SceneObject>> second)
+				{
+					return (first.second->Position() - centroid).LengthSquared() > (second.second->Position() - centroid).LengthSquared();
+				}
+			);
+
+			float maxDist = (element->second->Position() - centroid).Length();
+
+			if (maxDist <= 0.1f)
+			{
+				if (ImGui::Button("Merge"))
+				{
+					auto last = reinterpret_cast<Point*>(objects.rbegin()->second.get());
+
+					for (auto& [id, obj] : objects)
+					{
+						auto point = reinterpret_cast<Point*>(obj.get());
+
+						if (point == last || m_scene.GetSceneObject(id) == nullptr)
+						{
+							break;
+						}
+
+						auto newPoint = Point::Merge(device, point, last);
+						last = newPoint.get();
+					}
+				}
+			}
+
 			if (ImGui::Button("Add Bezier C0"))
 			{
 				std::vector<Point*> result;

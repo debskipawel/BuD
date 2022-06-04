@@ -23,6 +23,8 @@ namespace BuD
 		virtual void AddControlPoints(std::initializer_list<Point*> obj);
 		virtual void RemoveControlPoint(int index);
 
+		virtual void ReplaceControlPoint(Point* oldPoint, Point* newPoint);
+
 		virtual void OnDelete() override;
 
 	protected:
