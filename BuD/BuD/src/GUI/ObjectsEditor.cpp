@@ -7,6 +7,8 @@
 
 #include "Camera/CameraFactory.h"
 
+#include <Algorithms/HoleFindingAlgorithm.h>
+
 #include <Objects/Abstract/PointBasedObject.h>
 #include <Objects/SceneObjectGroup.h>
 
@@ -423,6 +425,31 @@ namespace BuD
 				);
 
 				m_scene.CreateInterpolatedCurveC2(device, result);
+			}
+		}
+		else if (group.GetType() == ObjectFlags::BEZIER_PATCH_C0)
+		{
+			auto& objects = group.Objects();
+			std::vector<BezierPatchC0*> patches;
+			
+			std::transform(objects.begin(), objects.end(), std::back_inserter(patches),
+				[](std::pair<uint32_t, std::shared_ptr<SceneObject>> pair)
+				{
+					return reinterpret_cast<BezierPatchC0*>(pair.second.get());
+				}
+			);
+
+			auto res = HoleFindingAlgorithm::FindHole(patches);
+
+			if (res.size() > 0)
+			{
+				if (ImGui::Button("Mark Cycle"))
+				{
+					for (auto& p : res)
+					{
+						p->OnSelect();
+					}
+				}
 			}
 		}
 
