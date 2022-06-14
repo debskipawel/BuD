@@ -1,13 +1,78 @@
 #include "GregoryPatchesCalculator.h"
 
+#include <algorithm>
+#include <array>
+#include <numeric>
+
 namespace BuD
 {
 	std::vector<std::vector<Vector3>> GregoryPatchCalculator::CalculateControlPoints(const std::vector<Point*>& firstLine, const std::vector<Point*>& secondLine)
 	{
-		auto [firstLineSplit, secondLineSplit] = CalculateSplitSides(firstLine, secondLine);
 		auto patchesCount = firstLine.size() / 3;
+		std::vector<std::vector<Vector3>> gregoryPatches;
 
-		return std::vector<std::vector<Vector3>>();
+		// 1. Obliczyc punkty p^3_i dzielac wejsciowe platki
+		auto [firstLineSplit, secondLineSplit] = CalculateSplitSides(firstLine, secondLine);
+
+		for (int i = 0; i < patchesCount; i++)
+		{
+			gregoryPatches.push_back(std::vector<Vector3>(20));
+
+			std::vector<Vector3> prevFirstLine = firstLineSplit[i];
+			std::vector<Vector3> nextFirstLine = firstLineSplit[(i + 1) % patchesCount];
+
+			int sideIndicesV[] = { 3, 9, 15, 19 };
+			for (int j = 0; j < 4; j++)
+			{
+				gregoryPatches[i][j] = prevFirstLine[3 + j];
+				gregoryPatches[i][sideIndicesV[j]] = nextFirstLine[j];
+			}
+		}
+
+		// 2. Obliczyc punkty p^2_i na podstawie warunkow ciaglosci C1
+		for (int i = 0; i < patchesCount; i++)
+		{
+			std::vector<Vector3> prevSecondLine = secondLineSplit[i];
+			std::vector<Vector3> nextSecondLine = secondLineSplit[(i + 1) % patchesCount];
+
+			int sideIndicesU[] = { 0, 1, 1, 2 };
+			int sideIndicesV[] = { 8, 13, 14, 18 };
+			int sideIndicesVPrev[] = { 9, 15, 15, 19 };
+			
+			for (int j = 0; j < 4; j++)
+			{
+				gregoryPatches[i][4 + j] = 2 * gregoryPatches[i][sideIndicesU[j]] - prevSecondLine[3 + sideIndicesU[j]];
+			}
+
+			for (int j = 0; j < 4; j++)
+			{
+				gregoryPatches[i][sideIndicesV[j]] = 2 * gregoryPatches[i][sideIndicesVPrev[j]] - prevSecondLine[j];
+			}
+		}
+
+		// 3. Obliczyc punkty pomocnicze dla kazdego platka
+		std::vector<Vector3> qPoints(patchesCount);
+
+		for (int i = 0; i < patchesCount; i++)
+		{
+			qPoints[i] = (3.0f * gregoryPatches[i][2] - gregoryPatches[i][3]) / 2.0f;
+		}
+
+		auto centerOfMass = std::accumulate(qPoints.begin(), qPoints.end(), Vector3(0.0f)) / patchesCount;
+
+		for (int i = 0; i < patchesCount; i++)
+		{
+			gregoryPatches[i][16] = centerOfMass;
+		}
+
+		// 4. Na podstawie punktow Q obliczyc punkty p^1_i
+		for (int i = 0; i < patchesCount; i++)
+		{
+			gregoryPatches[i][10] = 2 * qPoints[i] - centerOfMass;
+			gregoryPatches[i][17] = 2 * qPoints[(i + 1) % patchesCount] - centerOfMass;
+		}
+
+		return gregoryPatches;
 	}
 
 	std::pair<std::vector<std::vector<Vector3>>, std::vector<std::vector<Vector3>>> GregoryPatchCalculator::CalculateSplitSides(const std::vector<Point*>& firstLine, const std::vector<Point*>& secondLine)
