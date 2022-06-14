@@ -171,6 +171,9 @@
     <ClCompile Include="src\Algorithms\HoleFindingAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Algorithms\GregoryPatchesCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -363,6 +366,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Algorithms\HoleFindingAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithms\GregoryPatchesCalculator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

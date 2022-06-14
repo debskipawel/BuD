@@ -171,6 +171,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Algorithms\GregoryPatchesCalculator.cpp" />
     <ClCompile Include="src\Algorithms\HoleFindingAlgorithm.cpp" />
     <ClCompile Include="src\Camera\AbstractCamera.cpp" />
     <ClCompile Include="src\Camera\CameraFactory.cpp" />
@@ -225,6 +226,7 @@
     <ClCompile Include="src\Win32\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Algorithms\GregoryPatchesCalculator.h" />
     <ClInclude Include="src\Algorithms\HoleFindingAlgorithm.h" />
     <ClInclude Include="src\BuD.h" />
     <ClInclude Include="src\Camera\AbstractCamera.h" />
