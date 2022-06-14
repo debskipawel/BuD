@@ -439,13 +439,13 @@ namespace BuD
 				}
 			);
 
-			auto res = HoleFindingAlgorithm::FindHole(patches);
+			auto [firstLine, secondLine] = HoleFindingAlgorithm::FindHole(patches);
 
-			if (res.size() > 0)
+			if (firstLine.size() > 0)
 			{
 				if (ImGui::Button("Mark Cycle"))
 				{
-					for (auto& p : res)
+					for (auto& p : firstLine)
 					{
 						p->OnSelect();
 					}

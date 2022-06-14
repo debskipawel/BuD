@@ -15,7 +15,7 @@ namespace BuD
 		HoleFindingAlgorithm(const HoleFindingAlgorithm& other) = delete;
 		HoleFindingAlgorithm(HoleFindingAlgorithm&& other) = delete;
 
-		static std::vector<Point*> FindHole(std::vector<BezierPatchC0*> patches); 
+		static std::pair<std::vector<Point*>, std::vector<Point*>> FindHole(std::vector<BezierPatchC0*> patches);
 
 	protected:
 		static std::vector<BezierPatchC0*> GetAllPatchesContaining(std::vector<BezierPatchC0*> patches, Point* point);

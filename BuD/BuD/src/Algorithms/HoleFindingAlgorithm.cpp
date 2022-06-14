@@ -1,5 +1,6 @@
 #include "HoleFindingAlgorithm.h"
 
+#include <map>
 #include <algorithm>
 #include <iterator>
 
@@ -7,7 +8,7 @@
 
 namespace BuD
 {
-	std::vector<Point*> HoleFindingAlgorithm::FindHole(std::vector<BezierPatchC0*> patches)
+	std::pair<std::vector<Point*>, std::vector<Point*>> HoleFindingAlgorithm::FindHole(std::vector<BezierPatchC0*> patches)
 	{
 		if (patches.size() < 3)
 		{
@@ -15,6 +16,19 @@ namespace BuD
 		}
 
 		std::vector<Point*> cycle;
+		std::vector<Point*> cycleSecondLine;
+
+		const std::map<std::pair<int, int>, std::vector<int>> secondLineIndices =
+		{
+			{ { 0, 3 }, { 4, 5, 6, 7 } },
+			{ { 3, 0 }, { 7, 6, 5, 4 } },
+			{ { 3, 15 }, { 2, 6, 10, 14 } },
+			{ { 15, 3 }, { 14, 10, 6, 2 } },
+			{ { 0, 12 }, { 1, 5, 9, 13 } },
+			{ { 12, 0 }, { 13, 9, 5, 1 } },
+			{ { 12, 15 }, { 8, 9, 10, 11 } },
+			{ { 15, 12 }, { 11, 10, 9, 8 } }
+		};
 
 		auto [currentPoint, startPatch] = FindStartingPoint(patches);
 
@@ -54,6 +68,12 @@ namespace BuD
 				auto prevIndex = static_cast<int>(std::find(cp.begin(), cp.end(), currentPoint) - cp.begin());
 				auto deltaIndex = (nextIndex - prevIndex) / 3;
 
+				for (auto& index : secondLineIndices.at(std::make_pair(prevIndex, nextIndex)))
+				{
+					auto point = patch->m_controlPoints[index];
+					cycleSecondLine.push_back(point);
+				}
+
 				for (int i = 0; i < 3; i++)
 				{
 					auto newPointOnCycle = cp[prevIndex + i * deltaIndex];
@@ -76,9 +96,10 @@ namespace BuD
 			{
 				return {};
 			}
-		} while (currentPatch != startPatch);
+		} 
+		while (currentPatch != startPatch);
 
-		return cycle;
+		return { cycle, cycleSecondLine };
 	}
 	
 	std::vector<BezierPatchC0*> HoleFindingAlgorithm::GetAllPatchesContaining(std::vector<BezierPatchC0*> patches, Point* point)
