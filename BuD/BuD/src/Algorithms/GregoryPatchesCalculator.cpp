@@ -46,7 +46,7 @@ namespace BuD
 
 			for (int j = 0; j < 4; j++)
 			{
-				gregoryPatches[i][sideIndicesV[j]] = 2 * gregoryPatches[i][sideIndicesVPrev[j]] - prevSecondLine[j];
+				gregoryPatches[i][sideIndicesV[j]] = 2 * gregoryPatches[i][sideIndicesVPrev[j]] - nextSecondLine[sideIndicesU[j] + 1];
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace BuD
 
 		for (int i = 0; i < patchesCount; i++)
 		{
-			qPoints[i] = (3.0f * gregoryPatches[i][2] - gregoryPatches[i][3]) / 2.0f;
+			qPoints[i] = (3.0f * gregoryPatches[i][4] - gregoryPatches[i][0]) / 2.0f;
 		}
 
 		auto centerOfMass = std::accumulate(qPoints.begin(), qPoints.end(), Vector3(0.0f)) / patchesCount;
@@ -68,8 +68,22 @@ namespace BuD
 		// 4. Na podstawie punktow Q obliczyc punkty p^1_i
 		for (int i = 0; i < patchesCount; i++)
 		{
-			gregoryPatches[i][10] = 2 * qPoints[i] - centerOfMass;
-			gregoryPatches[i][17] = 2 * qPoints[(i + 1) % patchesCount] - centerOfMass;
+			gregoryPatches[i][10] = (2.0f * qPoints[i] + centerOfMass) / 3.0f;
+			gregoryPatches[i][17] = (2.0f * qPoints[(i + 1) % patchesCount] + centerOfMass) / 3.0f;
+		}
+
+		// 5. Obliczyc dwa tycki - indeksy 11 i 12
+		for (int i = 0; i < patchesCount; i++)
+		{
+			std::vector<Vector3> prevFirstLine = firstLineSplit[i], prevSecondLine = secondLineSplit[i];
+			std::vector<Vector3> nextFirstLine = firstLineSplit[(i + 1) % patchesCount], nextSecondLine = secondLineSplit[(i + 1) % patchesCount];
+
+			auto dU1 = prevFirstLine[4] - prevFirstLine[3];
+			auto dU2 = prevSecondLine[4] - prevSecondLine[3];
+			auto dV1 = nextFirstLine[1] - nextFirstLine[0];
+			auto dV2 = nextSecondLine[1] - nextSecondLine[0];
+
+			gregoryPatches[i][11] = gregoryPatches[i][12] = gregoryPatches[i][1] + gregoryPatches[i][4] - centerOfMass;
 		}
 
 		return gregoryPatches;

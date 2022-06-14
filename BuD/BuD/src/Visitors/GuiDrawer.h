@@ -24,6 +24,7 @@ namespace BuD
 		virtual void Action(BezierPatchC2& patch) override;
 		//virtual void Action(BezierPatchC2GPU& patch) override;
 		virtual void Action(BezierSurfaceC2& surface) override;
+		virtual void Action(GregoryPatch& surface) override;
 
 	protected:
 		virtual bool DrawGui(BezierCurve& curve);

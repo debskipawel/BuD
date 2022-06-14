@@ -357,4 +357,9 @@ namespace BuD
 
 		return wasChanged;
 	}
+
+	void GuiDrawer::Action(GregoryPatch& surface)
+	{
+		
+	}
 }

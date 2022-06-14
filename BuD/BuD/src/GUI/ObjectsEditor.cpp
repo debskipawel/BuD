@@ -8,6 +8,7 @@
 #include "Camera/CameraFactory.h"
 
 #include <Algorithms/HoleFindingAlgorithm.h>
+#include <Algorithms/GregoryPatchesCalculator.h>
 
 #include <Objects/Abstract/PointBasedObject.h>
 #include <Objects/SceneObjectGroup.h>
@@ -443,12 +444,9 @@ namespace BuD
 
 			if (firstLine.size() > 0)
 			{
-				if (ImGui::Button("Mark Cycle"))
+				if (ImGui::Button("Glue it up!"))
 				{
-					for (auto& p : firstLine)
-					{
-						p->OnSelect();
-					}
+					m_scene.CreateGregoryPatch(device, firstLine, secondLine);
 				}
 			}
 		}

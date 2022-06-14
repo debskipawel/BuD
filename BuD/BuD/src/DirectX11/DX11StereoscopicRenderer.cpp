@@ -91,11 +91,16 @@ namespace BuD
 		DX11Renderer::Begin();
 	}
 
-	void DX11StereoscopicRenderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id)
+	void DX11StereoscopicRenderer::Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id, bool fill)
 	{
 		// render left eye
 		SetupMesh(entity, camera->GetViewMatrix(), camera->GetLeftEyeProjection());
 		m_device.Context()->OMSetRenderTargets(1, m_leftEyeRTV.GetAddressOf(), nullptr);
+
+		if (fill)
+		{
+			m_device.Context()->RSSetState(m_noCullSolidState.Get());
+		}
 
 		while (!entity->Finished())
 		{
@@ -109,6 +114,11 @@ namespace BuD
 		// render right eye
 		SetupMesh(entity, camera->GetViewMatrix(), camera->GetRightEyeProjection());
 		m_device.Context()->OMSetRenderTargets(1, m_rightEyeRTV.GetAddressOf(), nullptr);
+
+		if (fill)
+		{
+			m_device.Context()->RSSetState(m_noCullSolidState.Get());
+		}
 
 		while (!entity->Finished())
 		{

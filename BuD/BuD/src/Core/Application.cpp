@@ -120,7 +120,7 @@ namespace BuD
 
             for (uint32_t index = 0; index < object->MeshesCount(); index++)
             {
-                m_renderer->Draw(object->GetMesh(index), camera, id);
+                m_renderer->Draw(object->GetMesh(index), camera, id, object->GetFlags() == ObjectFlags::POINT);
             }
 
             if ((object->GetFlags() & ObjectFlags::POINT_BASED) != ObjectFlags::NONE)

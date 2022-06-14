@@ -25,7 +25,7 @@ namespace BuD
 		virtual void UpdateBuffersSize(int width, int height) override;
 
 		virtual void Begin() override;
-		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id = 0) override;
+		virtual void Draw(std::shared_ptr<Mesh> entity, std::shared_ptr<AbstractCamera> camera, uint32_t id = 0, bool fill = false) override;
 		virtual void End() override;
 		virtual void Present();
 

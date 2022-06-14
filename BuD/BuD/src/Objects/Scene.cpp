@@ -10,6 +10,8 @@
 #include <Objects/PointBased/Curves/BezierCurveC2.h>
 #include <Objects/PointBased/Curves/InterpolatedCurveC2.h>
 
+#include <Objects/PointBased/GregoryPatch.h>
+
 #include <Objects/PointBased/Surfaces/BezierPatchC0.h>
 #include <Objects/PointBased/Surfaces/BezierPatchC0GPU.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
@@ -116,6 +118,14 @@ namespace BuD
 		AddSceneObject(surface);
 
 		return surface;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateGregoryPatch(const DX11Device& device, const std::vector<Point*>& cycleFirstLine, const std::vector<Point*>& cycleSecondLine)
+	{
+		auto patch = std::make_shared<GregoryPatch>(*this, device, cycleFirstLine, cycleSecondLine);
+		AddSceneObject(patch);
+
+		return patch;
 	}
 
 	std::shared_ptr<SceneObject> Scene::GetSceneObject(uint32_t id)

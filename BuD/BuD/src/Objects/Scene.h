@@ -33,6 +33,8 @@ namespace BuD
 		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC2(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder);
 		virtual std::shared_ptr<SceneObject> CreateBezierSurfaceC2(const std::vector<BezierPatch*>& patches, int patchesU, int patchesV, bool asCylinder);
 
+		virtual std::shared_ptr<SceneObject> CreateGregoryPatch(const DX11Device& device, const std::vector<Point*>& cycleFirstLine, const std::vector<Point*>& cycleSecondLine);
+
 		virtual std::shared_ptr<SceneObject> GetSceneObject(uint32_t id);
 
 		virtual std::map<uint32_t, std::shared_ptr<SceneObject>> GetAllSceneObjects();

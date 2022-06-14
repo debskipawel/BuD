@@ -14,6 +14,7 @@ namespace BuD
 	class BezierPatchC2;
 	class BezierPatchC2GPU;
 	class BezierSurfaceC2;
+	class GregoryPatch;
 
 	class AbstractVisitor
 	{
@@ -30,5 +31,6 @@ namespace BuD
 		virtual void Action(BezierPatchC2& patch) = 0;
 		//virtual void Action(BezierPatchC2GPU& patch) = 0;
 		virtual void Action(BezierSurfaceC2& surface) = 0;
+		virtual void Action(GregoryPatch& surface) = 0;
 	};
 }

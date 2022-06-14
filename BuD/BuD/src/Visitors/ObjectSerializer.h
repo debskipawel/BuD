@@ -16,5 +16,6 @@ namespace BuD
 		virtual void Action(BezierSurfaceC0& surface) override;
 		virtual void Action(BezierPatchC2& patch) override;
 		virtual void Action(BezierSurfaceC2& surface) override;
+		virtual void Action(GregoryPatch& surface) override;
 	};
 }

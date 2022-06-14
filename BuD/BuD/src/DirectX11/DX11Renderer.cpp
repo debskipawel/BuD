@@ -126,13 +126,18 @@ namespace BuD
 		m_device.Context()->ClearDepthStencilView(m_idDepthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
-	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> mesh, std::shared_ptr<AbstractCamera> camera, uint32_t id)
+	void BuD::DX11Renderer::Draw(std::shared_ptr<Mesh> mesh, std::shared_ptr<AbstractCamera> camera, uint32_t id, bool fill)
 	{
 		// draw to the backbuffer
 		m_device.Context()->OMSetRenderTargets(1, m_mainRTV.GetAddressOf(), m_depthBuffer.Get());
 		
 		SetupMesh(mesh, camera->GetViewMatrix(), camera->GetProjectionMatrix());
 		
+		if (fill)
+		{
+			m_device.Context()->RSSetState(m_noCullSolidState.Get());
+		}
+
 		while (!mesh->Finished())
 		{
 			mesh->OnRunUpdate();

@@ -208,6 +208,7 @@
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurveC0.cpp" />
     <ClCompile Include="src\Objects\PointBased\Curves\BezierCurveC2.cpp" />
     <ClCompile Include="src\Objects\PointBased\Curves\InterpolatedCurveC2.cpp" />
+    <ClCompile Include="src\Objects\PointBased\GregoryPatch.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatch.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="src\Objects\PointBased\Curves\BezierCurveC0.h" />
     <ClInclude Include="src\Objects\PointBased\Curves\BezierCurveC2.h" />
     <ClInclude Include="src\Objects\PointBased\Curves\InterpolatedCurveC2.h" />
+    <ClInclude Include="src\Objects\PointBased\GregoryPatch.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatch.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierPatchC0GPU.h" />

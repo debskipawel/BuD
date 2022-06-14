@@ -172,4 +172,8 @@ namespace BuD
 
 		scene.surfacesC2.push_back(s);
 	}
+	
+	void ObjectSerializer::Action(GregoryPatch& surface)
+	{
+	}
 }
