@@ -41,12 +41,12 @@ namespace BuD
 			
 			for (int j = 0; j < 4; j++)
 			{
-				gregoryPatches[i][4 + j] = 2 * gregoryPatches[i][sideIndicesU[j]] - prevSecondLine[3 + sideIndicesU[j]];
+				gregoryPatches[i][4 + j] = 1.33f * gregoryPatches[i][sideIndicesU[j]] - 0.33f * prevSecondLine[3 + sideIndicesU[j]];
 			}
 
 			for (int j = 0; j < 4; j++)
 			{
-				gregoryPatches[i][sideIndicesV[j]] = 2 * gregoryPatches[i][sideIndicesVPrev[j]] - nextSecondLine[sideIndicesU[j] + 1];
+				gregoryPatches[i][sideIndicesV[j]] = 1.33f * gregoryPatches[i][sideIndicesVPrev[j]] - 0.33f * nextSecondLine[sideIndicesU[j] + 1];
 			}
 		}
 
@@ -75,15 +75,7 @@ namespace BuD
 		// 5. Obliczyc dwa tycki - indeksy 11 i 12
 		for (int i = 0; i < patchesCount; i++)
 		{
-			std::vector<Vector3> prevFirstLine = firstLineSplit[i], prevSecondLine = secondLineSplit[i];
-			std::vector<Vector3> nextFirstLine = firstLineSplit[(i + 1) % patchesCount], nextSecondLine = secondLineSplit[(i + 1) % patchesCount];
-
-			auto dU1 = prevFirstLine[4] - prevFirstLine[3];
-			auto dU2 = prevSecondLine[4] - prevSecondLine[3];
-			auto dV1 = nextFirstLine[1] - nextFirstLine[0];
-			auto dV2 = nextSecondLine[1] - nextSecondLine[0];
-
-			gregoryPatches[i][11] = gregoryPatches[i][12] = gregoryPatches[i][1] + gregoryPatches[i][4] - centerOfMass;
+			gregoryPatches[i][11] = gregoryPatches[i][12] = (gregoryPatches[i][16] + gregoryPatches[i][10] + gregoryPatches[i][17]) / 3.0f;
 		}
 
 		return gregoryPatches;

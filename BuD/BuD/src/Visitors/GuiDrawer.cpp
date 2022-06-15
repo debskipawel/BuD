@@ -13,6 +13,8 @@
 #include <Objects/PointBased/Surfaces/BezierSurfaceC0.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC2.h>
 
+#include <Objects/PointBased/GregoryPatch.h>
+
 #include <imgui.h>
 
 namespace BuD
@@ -360,6 +362,34 @@ namespace BuD
 
 	void GuiDrawer::Action(GregoryPatch& surface)
 	{
-		
+		int samplesU = surface.m_samplesU;
+		int samplesV = surface.m_samplesV;
+
+		const int samplesMinU = 3;
+		const int samplesMinV = 3;
+
+		ImGui::Text("Samples count");
+		ImGui::DragInt("U", &samplesU, 1.0f, 1, 100);
+		ImGui::DragInt("V", &samplesV, 1.0f, 1, 100);
+
+		samplesU = samplesU < samplesMinU ? samplesMinU : samplesU;
+		samplesV = samplesV < samplesMinV ? samplesMinV : samplesV;
+
+		if (samplesU != surface.m_samplesU || samplesV != surface.m_samplesV)
+		{
+			surface.m_samplesU = samplesU;
+			surface.m_samplesV = samplesV;
+
+			surface.OnUpdate();
+		}
+
+		auto prevShowPolygon = surface.m_drawPolygon;
+
+		ImGui::Checkbox("Show polygon", &prevShowPolygon);
+
+		if (prevShowPolygon != surface.m_drawPolygon)
+		{
+			surface.TogglePolygonDisplay(prevShowPolygon);
+		}
 	}
 }
