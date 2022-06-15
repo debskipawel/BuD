@@ -444,7 +444,7 @@ namespace BuD
 
 			if (firstLine.size() > 0)
 			{
-				if (ImGui::Button("Glue it up!"))
+				if (ImGui::Button("Seal it!"))
 				{
 					m_scene.CreateGregoryPatch(device, firstLine, secondLine);
 				}

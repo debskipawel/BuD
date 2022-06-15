@@ -104,6 +104,39 @@ namespace BuD
 		PointBasedObject::OnUnselect();
 		m_color = { 1.0f, 1.0f, 1.0f };
 	}
+
+	float Get(const Vector3& v, int i)
+	{
+		switch (i)
+		{
+		case 0:
+			return v.x;
+		case 1:
+			return v.y;
+		case 2:
+			return v.z;
+		default:
+			throw std::exception("chujowo uzywasz");
+		}
+	}
+
+	void Set(Vector3& v, int i, float value)
+	{
+		switch (i)
+		{
+		case 0:
+			v.x = value;
+			return;
+		case 1:
+			v.y = value;
+			return;
+		case 2:
+			v.z = value;
+			return;
+		default:
+			throw std::exception("chujowo uzywasz");
+		}
+	}
 	
 	std::vector<Vector3> GregoryPatch::Meshify(const std::vector<Vector3>& cP)
 	{
@@ -130,20 +163,20 @@ namespace BuD
 				{
 					float F[4] = {};
 
-					F[0] = (u * cP[5][k] + v * cP[5][k]) / (u + v + 0.001);
-					F[1] = ((1 - u) * cP[11][k] + v * cP[12][k]) / (1 - u + v + 0.001);
-					F[2] = ((1 - u) * cP[14][k] + (1 - v) * cP[13][k]) / (2 - u - v + 0.001);
-					F[3] = (u * cP[8][k] + (1 - v) * cP[7][k]) / (1 + u - v + 0.001);
+					F[0] = (u * Get(cP[5], k) + v * Get(cP[5], k)) / (u + v + 0.001);
+					F[1] = ((1 - u) * Get(cP[11], k) + v * Get(cP[12], k)) / (1 - u + v + 0.001);
+					F[2] = ((1 - u) * Get(cP[14], k) + (1 - v) * Get(cP[13], k)) / (2 - u - v + 0.001);
+					F[3] = (u * Get(cP[8], k) + (1 - v) * Get(cP[7], k)) / (1 + u - v + 0.001);
 
 					Matrix G =
 					{
-						cP[0][k], cP[4][k], cP[10][k], cP[16][k],
-						cP[1][k], F[0], F[1], cP[17][k],
-						cP[2][k], F[3], F[2], cP[18][k],
-						cP[3][k], cP[9][k], cP[15][k], cP[19][k]
+						Get(cP[0], k), Get(cP[4], k), Get(cP[10], k), Get(cP[16], k),
+						Get(cP[1], k), F[0], F[1], Get(cP[17], k),
+						Get(cP[2], k), F[3], F[2], Get(cP[18], k),
+						Get(cP[3], k), Get(cP[9], k), Get(cP[15], k), Get(cP[19], k)
 					};
 
-					pointOnPatch.Set(k, Vector4::Transform(BV, G).Dot(BU));
+					Set(pointOnPatch, k, Vector4::Transform(BV, G).Dot(BU));
 				}
 
 				vertices.push_back(pointOnPatch);
