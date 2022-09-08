@@ -177,6 +177,21 @@
     <ClCompile Include="src\Objects\PointBased\GregoryPatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Ray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectX11\Shaders\DX11HullShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectX11\Shaders\DX11DomainShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\PointBased\Surface\TessellatedBezierSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\PointBased\Surface\TessellatedBezierSurfaceC0.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h">
@@ -377,6 +392,24 @@
     <ClInclude Include="src\Objects\PointBased\GregoryPatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\ApplicationSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectX11\Shaders\DX11HullShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectX11\Shaders\DX11DomainShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\PointBased\Surface\TessellatedBezierSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\PointBased\Surface\TessellatedBezierSurfaceC0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\pos_normal_vs.hlsl" />
@@ -395,5 +428,8 @@
     <FxCompile Include="shaders\two_tex_blend_ps.hlsl" />
     <FxCompile Include="shaders\bezier_patch_c0_gs.hlsl" />
     <FxCompile Include="shaders\bezier_patch_c0_vs.hlsl" />
+    <FxCompile Include="shaders\bezier_patch_hs.hlsl" />
+    <FxCompile Include="shaders\bezier_patch_c0_ds.hlsl" />
+    <FxCompile Include="shaders\local_to_view_vs.hlsl" />
   </ItemGroup>
 </Project>

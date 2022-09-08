@@ -3,6 +3,7 @@
 #include <imgui.h>
 
 #include <Objects/Scene.h>
+#include "BezierSurfaceC0.h"
 
 namespace BuD
 {

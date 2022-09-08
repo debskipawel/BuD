@@ -173,6 +173,30 @@ namespace BuD
 			m_device.Context()->PSSetConstantBuffers(0, count, rawBuffers);
 		}
 
+		if (auto& hs = mesh->m_hullShader)
+		{
+			m_device.Context()->HSSetShader(hs->Shader(), nullptr, 0);
+
+			auto count = hs->ConstantBuffers().size();
+			m_device.Context()->HSSetConstantBuffers(0, count, hs->RawConstantBuffers());
+		}
+		else
+		{
+			m_device.Context()->HSSetShader(nullptr, nullptr, 0);
+		}
+
+		if (auto& ds = mesh->m_domainShader)
+		{
+			m_device.Context()->DSSetShader(ds->Shader(), nullptr, 0);
+
+			auto count = ds->ConstantBuffers().size();
+			m_device.Context()->DSSetConstantBuffers(0, count, ds->RawConstantBuffers());
+		}
+		else
+		{
+			m_device.Context()->DSSetShader(nullptr, nullptr, 0);
+		}
+
 		if (auto& gs = mesh->m_geometryShader)
 		{
 			m_device.Context()->GSSetShader(gs->Shader(), nullptr, 0);

@@ -195,6 +195,16 @@ namespace BuD
 		return shader;
 	}
 
+	std::shared_ptr<DX11HullShader> DX11ShaderLoader::HSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants, std::string mainFunName)
+	{
+		return ShaderLoad(m_hullShaders, device, shaderPath, constants, mainFunName, "hs_4_0_level_9_1");
+	}
+
+	std::shared_ptr<DX11DomainShader> DX11ShaderLoader::DSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants, std::string mainFunName)
+	{
+		return ShaderLoad(m_domainShaders, device, shaderPath, constants, mainFunName, "ds_4_0_level_9_1");
+	}
+
 	std::shared_ptr<DX11GeometryShader> DX11ShaderLoader::GSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants, std::string mainFunName)
 	{
 		return ShaderLoad(m_geometryShaders, device, shaderPath, constants, mainFunName, "gs_4_0_level_9_1");

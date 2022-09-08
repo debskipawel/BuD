@@ -3,6 +3,8 @@
 #include "Camera/AbstractCamera.h"
 
 #include "DirectX11/Shaders/DX11VertexShader.h"
+#include "DirectX11/Shaders/DX11HullShader.h"
+#include "DirectX11/Shaders/DX11DomainShader.h"
 #include "DirectX11/Shaders/DX11GeometryShader.h"
 #include "DirectX11/Shaders/DX11PixelShader.h"
 
@@ -18,7 +20,6 @@ namespace BuD
 	public:
 		Mesh(
 			std::shared_ptr<DX11VertexShader> vertexShader,
-			std::shared_ptr<DX11GeometryShader> geometryShader,
 			std::shared_ptr<DX11PixelShader>  pixelShader,
 			std::shared_ptr<DX11VertexBuffer> vertexBuffer,
 			std::shared_ptr<DX11IndexBuffer>  indexBuffer,
@@ -27,11 +28,17 @@ namespace BuD
 		);
 
 		inline std::shared_ptr<DX11VertexShader> VertexShader() const { return m_vertexShader; }
+		inline std::shared_ptr<DX11HullShader> HullShader() const { return m_hullShader; }
+		inline std::shared_ptr<DX11DomainShader> DomainShader() const { return m_domainShader; }
 		inline std::shared_ptr<DX11GeometryShader> GeometryShader() const { return m_geometryShader; }
 		inline std::shared_ptr<DX11PixelShader> PixelShader() const { return m_pixelShader; }
 
 		inline std::shared_ptr<DX11VertexBuffer> VertexBuffer() const { return m_vertexBuffer; }
 		inline std::shared_ptr<DX11IndexBuffer> IndexBuffer() const { return m_indexBuffer; }
+
+		inline void SetHS(std::shared_ptr<DX11HullShader> hs) { m_hullShader = hs; }
+		inline void SetDS(std::shared_ptr<DX11DomainShader> ds) { m_domainShader = ds; }
+		inline void SetGS(std::shared_ptr<DX11GeometryShader> gs) { m_geometryShader = gs; }
 
 		inline virtual bool Finished() { return m_finished; }
 
@@ -50,6 +57,8 @@ namespace BuD
 		void OnRunUpdate();
 
 		std::shared_ptr<DX11VertexShader> m_vertexShader = nullptr;
+		std::shared_ptr<DX11HullShader> m_hullShader = nullptr;
+		std::shared_ptr<DX11DomainShader> m_domainShader = nullptr;
 		std::shared_ptr<DX11GeometryShader> m_geometryShader = nullptr;
 		std::shared_ptr<DX11PixelShader> m_pixelShader = nullptr;
 

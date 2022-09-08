@@ -17,6 +17,8 @@ namespace BuD
 		virtual void OnSelect() override;
 		virtual void OnUnselect() override;
 
+		virtual void RemoveControlPoint(int index) override;
+
 	protected:
 		void TogglePolygonDisplay(bool enable);
 

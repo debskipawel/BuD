@@ -33,16 +33,11 @@ void BuD::AbstractCamera::LookAt(const dxm::Vector3& target)
 void BuD::AbstractCamera::DrawGui()
 {
 	const float minFov = 45.0f, maxFov = 120.0f;
-	const float minNear = 0.001f, maxNear = 10.0f;
 
 	ImGui::Text("FOV:");
 	ImGui::DragFloat("##FOV", &m_fov, 1.0f, minFov, maxFov);
 
-	ImGui::Text("Near:");
-	ImGui::DragFloat("##Near", &m_projNear, 0.1f, minNear, maxNear);
-
 	m_fov = min(max(m_fov, minFov), maxFov);
-	m_projNear = min(max(m_projNear, minNear), maxNear);
 
 	UpdateProjectionMatrix();
 }

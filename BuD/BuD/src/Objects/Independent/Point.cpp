@@ -66,7 +66,7 @@ namespace BuD
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, GetVB(device), GetIB(device),
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * view * projection;
@@ -100,7 +100,7 @@ namespace BuD
 		{
 			auto& controlPoints = dependent->m_controlPoints;
 
-			while (true)
+			while (dependent)
 			{
 				auto position = std::find(controlPoints.begin(), controlPoints.end(), this);
 
@@ -109,10 +109,10 @@ namespace BuD
 					break;
 				}
 
-				controlPoints.erase(position);
-			}
+				int index = static_cast<int>(position - controlPoints.begin());
 
-			dependent->OnUpdate();
+				dependent->RemoveControlPoint(index);
+			}
 		}
 	}
 
@@ -143,7 +143,7 @@ namespace BuD
 		auto vertexShader = DX11ShaderLoader::Get()->VSLoad(device, L"../BuD/shaders/pos_transf_vs.hlsl", elements, { sizeof(Matrix) });
 		auto pixelShader = DX11ShaderLoader::Get()->PSLoad(device, L"../BuD/shaders/solid_color_ps.hlsl", { sizeof(Vector4) });
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, GetVB(device), GetIB(device),
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, GetVB(device), GetIB(device),
 			[](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				Vector3 color = { 1.0f, 1.0f, 1.0f };

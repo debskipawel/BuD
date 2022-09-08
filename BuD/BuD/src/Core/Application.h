@@ -62,17 +62,12 @@ namespace BuD
 
 		int m_prevX, m_prevY;
 
-		bool m_cameraMoving = false;
 		bool m_shouldRun = true;
 		
-		InteractionMode m_appMode = InteractionMode::NONE;
-		bool m_inAction = false;
 		Vector3 m_prevActionPoint;
 
 		bool m_in_sizemove = false;
 		bool m_minimized = false;
-
-		bool m_inPreviewMode = false;
 
 	public:
 		inline static std::shared_ptr<Application> Get()

@@ -35,7 +35,7 @@ namespace BuD
 		auto polygonVB = std::make_shared<DX11VertexBuffer>(device, m_controlPoints.size() * sizeof(Vector3), elements);
 		auto polygonIB = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, 2 * m_controlPoints.size() * sizeof(unsigned short), nullptr, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, vertexBuffer, indexBuffer,
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = view * projection;
@@ -45,7 +45,7 @@ namespace BuD
 			}
 		);
 
-		m_bezierPolygonMesh = std::make_shared<Mesh>(vertexShader, nullptr, deBoorPixelShader, polygonVB, polygonIB,
+		m_bezierPolygonMesh = std::make_shared<Mesh>(vertexShader, deBoorPixelShader, polygonVB, polygonIB,
 			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * view * projection;

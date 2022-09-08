@@ -10,7 +10,6 @@ namespace BuD
 {
 	Mesh::Mesh(
 		std::shared_ptr<DX11VertexShader> vertexShader,
-		std::shared_ptr<DX11GeometryShader> geometryShader,
 		std::shared_ptr<DX11PixelShader> pixelShader,
 		std::shared_ptr<DX11VertexBuffer> vertexBuffer,
 		std::shared_ptr<DX11IndexBuffer> indexBuffer,
@@ -18,7 +17,7 @@ namespace BuD
 		std::function<bool(int, Mesh*)> onRunUpdate
 	)
 		: m_vertexBuffer(vertexBuffer), m_indexBuffer(indexBuffer),
-		m_vertexShader(vertexShader), m_geometryShader(geometryShader), m_pixelShader(pixelShader),
+		m_vertexShader(vertexShader), m_pixelShader(pixelShader),
 		m_onStartRendering(onStartRendering), m_onRunUpdate(onRunUpdate),
 		m_finished(false), m_shaderRun(0)
 	{

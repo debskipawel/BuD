@@ -30,7 +30,7 @@ namespace BuD
 		auto vertexBuffer = std::make_shared<DX11VertexBuffer>(device, m_vertices.size() * sizeof(Vector3), elements, m_vertices.data());
 		auto indexBuffer = std::make_shared<DX11IndexBuffer>(device, DXGI_FORMAT_R16_UINT, m_indices.size() * sizeof(unsigned short), m_indices.data());
 
-		auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, vertexBuffer, indexBuffer,
+		auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vertexBuffer, indexBuffer,
 			[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 			{
 				auto matrix = entity->GetModelMatrix() * view * projection;

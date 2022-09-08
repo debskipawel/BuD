@@ -7,6 +7,7 @@
 #include <Objects/Scene.h>
 
 #include <Visitors/GuiDrawer.h>
+#include <GUI/ApplicationSettings.h>
 
 using namespace DirectX::SimpleMath;
 
@@ -20,6 +21,7 @@ namespace BuD
 		std::shared_ptr<AbstractCamera> GetCamera();
 
 		Scene& GetScene() { return m_scene; }
+		ApplicationSettings& GetSettings() { return m_settings; }
 
 		Vector3 CursorPosition() const { return m_cursorPosition; }
 		void DrawGui(const DX11Device& device);
@@ -48,6 +50,7 @@ namespace BuD
 		
 		Scene m_scene;
 		GuiDrawer m_guiDrawer;
+		ApplicationSettings m_settings;
 		
 		Vector3 m_cursorPosition;
 

@@ -3,6 +3,8 @@
 #include "DirectX11/Shaders/DX11VertexShader.h"
 #include "DirectX11/Shaders/DX11PixelShader.h"
 #include "DirectX11/Shaders/DX11GeometryShader.h"
+#include "DirectX11/Shaders/DX11HullShader.h"
+#include "DirectX11/Shaders/DX11DomainShader.h"
 
 #include <map>
 #include <string>
@@ -24,6 +26,8 @@ namespace BuD
 		}
 
 		std::shared_ptr<DX11VertexShader> VSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, const std::vector<size_t>& constants = {}, std::string mainFunName = "main");
+		std::shared_ptr<DX11HullShader> HSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants = {}, std::string mainFunName = "main");
+		std::shared_ptr<DX11DomainShader> DSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants = {}, std::string mainFunName = "main");
 		std::shared_ptr<DX11GeometryShader> GSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants = {}, std::string mainFunName = "main");
 		std::shared_ptr<DX11PixelShader> PSLoad(const DX11Device& device, std::wstring shaderPath, const std::vector<size_t>& constants = {}, std::string mainFunName = "main");
 
@@ -34,6 +38,8 @@ namespace BuD
 
 		std::map<std::wstring, std::shared_ptr<DX11VertexShader>> m_vertexShaders;
 		std::map<std::wstring, std::shared_ptr<DX11PixelShader>> m_pixelShaders;
+		std::map<std::wstring, std::shared_ptr<DX11HullShader>> m_hullShaders;
+		std::map<std::wstring, std::shared_ptr<DX11DomainShader>> m_domainShaders;
 		std::map<std::wstring, std::shared_ptr<DX11GeometryShader>> m_geometryShaders;
 	};
 }

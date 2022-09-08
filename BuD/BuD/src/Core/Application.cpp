@@ -108,12 +108,13 @@ namespace BuD
     {
         m_renderer->Begin();
         auto camera = m_guiEditor->GetCamera();
+        auto& settings = m_guiEditor->GetSettings();
 
         auto sceneObjects = m_guiEditor->GetScene().GetAllSceneObjects();
 
         for (auto& [id, object] : sceneObjects)
         {
-            if (m_inPreviewMode && object->GetFlags() == ObjectFlags::POINT)
+            if (settings.m_inPreviewMode && object->GetFlags() == ObjectFlags::POINT)
             {
                 continue;
             }
@@ -147,7 +148,7 @@ namespace BuD
 
         m_renderer->End();
 
-        if (!m_inPreviewMode)
+        if (!settings.m_inPreviewMode)
         {
             m_guiLayer->BeginFrame();
             m_guiEditor->DrawGui(m_renderer->Device());
@@ -193,6 +194,8 @@ namespace BuD
 
     void Application::OnConcreteEvent(KeyDownEvent& e)
     {
+        auto& settings = m_guiEditor->GetSettings();
+
         m_keyMap[e.m_key] = true;
 
         switch (e.m_key)
@@ -221,22 +224,22 @@ namespace BuD
             }
             case KeyboardKeys::D1:
             {
-                m_appMode = InteractionMode::TRANSLATION;
+                settings.m_appMode = InteractionMode::TRANSLATION;
                 break;
             }
             case KeyboardKeys::D2:
             {
-                m_appMode = InteractionMode::ROTATION;
+                settings.m_appMode = InteractionMode::ROTATION;
                 break;
             }
             case KeyboardKeys::D3:
             {
-                m_appMode = InteractionMode::SCALE;
+                settings.m_appMode = InteractionMode::SCALE;
                 break;
             }
             case KeyboardKeys::D0:
             {
-                m_inPreviewMode = !m_inPreviewMode;
+                settings.m_inPreviewMode = !settings.m_inPreviewMode;
                 break;
             }
         }
@@ -249,15 +252,17 @@ namespace BuD
 
     void Application::OnConcreteEvent(MouseButtonDownEvent& e)
     {
+        auto& settings = m_guiEditor->GetSettings();
+
         if (e.m_button == MouseCode::RIGHT)
         {
-            m_cameraMoving = true;
+            settings.m_cameraMoving = true;
         }
         else if (e.m_button == MouseCode::LEFT)
         {
             auto selected = SceneObjectsGroup(m_guiEditor->GetScene().GetAllSelected());
 
-            m_inAction = true;
+            settings.m_inAction = true;
 
             m_prevX = e.m_xPos;
             m_prevY = e.m_yPos;
@@ -282,29 +287,32 @@ namespace BuD
 
     void Application::OnConcreteEvent(MouseButtonReleasedEvent& e)
     {
+        auto& settings = m_guiEditor->GetSettings();
+
         if (e.m_button == MouseCode::RIGHT)
         {
-            m_cameraMoving = false;
+            settings.m_cameraMoving = false;
         }
         else if (e.m_button == MouseCode::LEFT)
         {
-            m_inAction = false;
+            settings.m_inAction = false;
         }
     }
 
     void Application::OnConcreteEvent(MouseMovedEvent& e)
     {
         auto camera = m_guiEditor->GetCamera();
+        auto& settings = m_guiEditor->GetSettings();
 
         m_prevX += e.m_xOffset;
         m_prevY += e.m_yOffset;
 
-        if (m_cameraMoving)
+        if (settings.m_cameraMoving)
         {
             camera->ProcessMouseMovement(e.m_xOffset, e.m_yOffset);
         }
 
-        if (m_inAction)
+        if (settings.m_inAction)
         {
             auto selected = SceneObjectsGroup(m_guiEditor->GetScene().GetAllSelected());
 
@@ -315,7 +323,7 @@ namespace BuD
                 return;
             }
 
-            switch (m_appMode)
+            switch (settings.m_appMode)
             {
                 case InteractionMode::ROTATION:
                 {
@@ -349,7 +357,9 @@ namespace BuD
 
     void Application::HandleControls(float deltatime)
     {
-        if (!m_cameraMoving)
+        auto& settings = m_guiEditor->GetSettings();
+
+        if (!settings.m_cameraMoving)
         {
             return;
         }

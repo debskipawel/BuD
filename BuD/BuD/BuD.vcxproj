@@ -180,6 +180,7 @@
     <ClCompile Include="src\Camera\StereoscopicCamera.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\GuiLayer.cpp" />
+    <ClCompile Include="src\Core\Ray.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11Buffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11ConstantBuffer.cpp" />
     <ClCompile Include="src\DirectX11\Buffers\DX11IndexBuffer.cpp" />
@@ -187,7 +188,9 @@
     <ClCompile Include="src\DirectX11\DX11Device.cpp" />
     <ClCompile Include="src\DirectX11\DX11StereoscopicRenderer.cpp" />
     <ClCompile Include="src\DirectX11\DX11Structures.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11DomainShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11GeometryShader.cpp" />
+    <ClCompile Include="src\DirectX11\Shaders\DX11HullShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11PixelShader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11Shader.cpp" />
     <ClCompile Include="src\DirectX11\Shaders\DX11VertexShader.cpp" />
@@ -216,6 +219,8 @@
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurface.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.cpp" />
     <ClCompile Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.cpp" />
+    <ClCompile Include="src\Objects\PointBased\Surface\TessellatedBezierSurface.cpp" />
+    <ClCompile Include="src\Objects\PointBased\Surface\TessellatedBezierSurfaceC0.cpp" />
     <ClCompile Include="src\Objects\Scene.cpp" />
     <ClCompile Include="src\Objects\SceneObjectGroup.cpp" />
     <ClCompile Include="src\Scene\Cursor.cpp" />
@@ -241,6 +246,7 @@
     <ClInclude Include="src\Core\InteractionMode.h" />
     <ClInclude Include="src\Core\KeyboardKeys.h" />
     <ClInclude Include="src\Core\MouseCode.h" />
+    <ClInclude Include="src\Core\Ray.h" />
     <ClInclude Include="src\Core\Renderer.h" />
     <ClInclude Include="src\Core\RenderingMode.h" />
     <ClInclude Include="src\DirectX11\Buffers\DX11Buffer.h" />
@@ -250,6 +256,8 @@
     <ClInclude Include="src\DirectX11\DX11Device.h" />
     <ClInclude Include="src\DirectX11\DX11StereoscopicRenderer.h" />
     <ClInclude Include="src\DirectX11\DX11Structures.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11DomainShader.h" />
+    <ClInclude Include="src\DirectX11\Shaders\DX11HullShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11PixelShader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11Shader.h" />
     <ClInclude Include="src\DirectX11\Shaders\DX11VertexShader.h" />
@@ -262,6 +270,7 @@
     <ClInclude Include="src\Event\MouseEvents.h" />
     <ClInclude Include="src\Event\WindowEvents.h" />
     <ClInclude Include="src\DirectX11\DX11Renderer.h" />
+    <ClInclude Include="src\GUI\ApplicationSettings.h" />
     <ClInclude Include="src\GUI\ObjectsEditor.h" />
     <ClInclude Include="src\MathObjects\Parameterized2DObjectCPU.h" />
     <ClInclude Include="src\MathObjects\ParameterizedObject.h" />
@@ -283,6 +292,8 @@
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurface.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC0.h" />
     <ClInclude Include="src\Objects\PointBased\Surfaces\BezierSurfaceC2.h" />
+    <ClInclude Include="src\Objects\PointBased\Surface\TessellatedBezierSurface.h" />
+    <ClInclude Include="src\Objects\PointBased\Surface\TessellatedBezierSurfaceC0.h" />
     <ClInclude Include="src\Objects\Scene.h" />
     <ClInclude Include="src\Objects\SceneObjectGroup.h" />
     <ClInclude Include="src\Scene\Cursor.h" />
@@ -319,6 +330,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="shaders\bezier_patch_c0_ds.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="shaders\bezier_patch_c0_gs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
@@ -328,6 +349,16 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\bezier_patch_hs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="shaders\bezier_with_polygon_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -356,6 +387,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="shaders\interpolated_bezier_c2_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\local_to_view_vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

@@ -40,7 +40,7 @@ namespace BuD
 		for (int i = 0; i < patchesCount; i++)
 		{
 			auto vb = std::make_shared<DX11VertexBuffer>(device, m_samplesU * m_samplesV * sizeof(Vector3), elements);
-			auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, vb, indexBuffer,
+			auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vb, indexBuffer,
 				[this](const Matrix& view, const Matrix& projection, Mesh* mesh)
 				{
 					auto matrix = view * projection;
@@ -56,7 +56,7 @@ namespace BuD
 		for (int i = 0; i < patchesCount; i++)
 		{
 			auto vb = std::make_shared<DX11VertexBuffer>(device, 20 * sizeof(Vector3), elements);
-			auto mesh = std::make_shared<Mesh>(vertexShader, nullptr, pixelShader, vb, polygonIndexBuffer,
+			auto mesh = std::make_shared<Mesh>(vertexShader, pixelShader, vb, polygonIndexBuffer,
 				[this](const dxm::Matrix& view, const dxm::Matrix& projection, Mesh* entity)
 				{
 					auto matrix = entity->GetModelMatrix() * view * projection;
@@ -103,6 +103,15 @@ namespace BuD
 	{
 		PointBasedObject::OnUnselect();
 		m_color = { 1.0f, 1.0f, 1.0f };
+	}
+
+	void GregoryPatch::RemoveControlPoint(int index)
+	{
+		if (index >= 0 && index < m_controlPoints.size())
+		{
+			PointBasedObject::RemoveControlPoint(index);
+			m_scene.RemoveSceneObject(m_id);
+		}
 	}
 
 	float Get(const Vector3& v, int i)
