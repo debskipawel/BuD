@@ -12,8 +12,12 @@ namespace BuD
 
 		virtual Vector3 GetPoint(Vector2 uv) override;
 
+		virtual void OnUpdate() override;
+
 	protected:
 		virtual void BuildCylinder(const DX11Device& device, Vector3 position, float surfaceWidth, float surfaceLength, int pointsU, int pointsV) override;
-		virtual void CreateMesh() override;
+		virtual void CreateMesh(const DX11Device& device) override;
+
+		virtual void Accept(AbstractVisitor& visitor) override;
 	};
 }

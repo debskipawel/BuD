@@ -19,6 +19,8 @@
 #include <Objects/PointBased/Surfaces/BezierPatchC2.h>
 #include <Objects/PointBased/Surfaces/BezierSurfaceC2.h>
 
+#include <Objects/PointBased/Surface/TessellatedBezierSurfaceC0.h>
+
 #include <Visitors/ObjectSerializer.h>
 #include <Serializer.h>
 
@@ -78,6 +80,14 @@ namespace BuD
 		AddSceneObject(patch);
 
 		return patch;
+	}
+
+	std::shared_ptr<SceneObject> Scene::CreateTessellatedBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)
+	{
+		auto surface = std::make_shared<TessellatedBezierSurfaceC0>(*this, device, position, patchWidth, patchLength, patchesU, patchesV, asCylinder);
+		AddSceneObject(surface);
+
+		return surface;
 	}
 
 	std::shared_ptr<SceneObject> Scene::CreateBezierSurfaceC0(const DX11Device& device, const Vector3& position, float patchWidth, float patchLength, int patchesU, int patchesV, int sampleU, int sampleV, bool asCylinder)

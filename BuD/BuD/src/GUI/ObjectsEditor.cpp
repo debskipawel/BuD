@@ -157,7 +157,7 @@ namespace BuD
 
 		if (DrawSurfacePopup("Add C0 surface ##new_surface"))
 		{
-			m_scene.CreateBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
+			m_scene.CreateTessellatedBezierSurfaceC0(device, patchPosition, patchWidth, patchLength, patchesU, patchesV, samplesU, samplesV, asCylinder);
 		}
 
 		if (DrawSurfacePopup("Add C2 surface ##new_surface"))

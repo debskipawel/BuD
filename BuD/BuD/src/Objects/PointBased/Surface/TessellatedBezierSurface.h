@@ -13,11 +13,11 @@ namespace BuD
 
 		virtual Vector3 GetPoint(Vector2 uv) = 0;
 
+		virtual void OnUpdate() = 0;
+
 	protected:
 		virtual void BuildCylinder(const DX11Device& device, Vector3 position, float surfaceWidth, float surfaceLength, int pointsU, int pointsV) = 0;
-		virtual void CreateMesh() = 0;
-
-		std::shared_ptr<Mesh> mesh;
+		virtual void CreateMesh(const DX11Device& device) = 0;
 
 		int m_patchesU, m_patchesV;
 		bool m_wrappedU, m_wrappedV;
